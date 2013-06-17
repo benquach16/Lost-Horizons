@@ -1,7 +1,8 @@
-﻿Lost Horizons - Space Game
+Lost Horizons - Space Game
 ==========================
 
 Written by Ben Quach and Derek Lee
+
 This is a rewrite of a project that pretty much flopped due to inexperience in programming.
 For the latest source code, see [our github page][losthorizons-repo]. You may also take a look at the [old project][losthorizons-old].
 
