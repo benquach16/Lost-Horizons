@@ -43,6 +43,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\irrlicht-1.8\include;$(IncludePath)</IncludePath>
     <ReferencePath>C:\irrlicht-1.8\lib\Win32-visualstudio;$(ReferencePath)</ReferencePath>
+    <LibraryPath>C:\irrlicht-1.8\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,9 +86,12 @@
   <ItemGroup>
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="gameloop.h" />
+    <ClInclude Include="keylistener.h" />
     <ClInclude Include="lib\ini_file.h" />
     <ClInclude Include="lib\ini_io.h" />
     <ClInclude Include="object.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetableobject.h" />
@@ -96,6 +100,7 @@
   <ItemGroup>
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="lib\ini_file.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\lib">
+      <UniqueIdentifier>{43843335-3527-445a-8d78-ab8c4c43288b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib">
+      <UniqueIdentifier>{3cb57017-9bc5-4340-9a49-e8a4ddc97f5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -36,14 +42,23 @@
     <ClInclude Include="baseapplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="keylistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameloop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\ini_file.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lib</Filter>
     </ClInclude>
     <ClInclude Include="lib\ini_io.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,11 +71,14 @@
     <ClCompile Include="baseapplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gameloop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\ini_file.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
