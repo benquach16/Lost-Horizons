@@ -1,0 +1,26 @@
+# For Visual Studio Project files
+*.lastcodeanalysissucceeded
+*.pdb
+*.ilk
+*.obj
+*.pch
+*.log
+*.dll
+*.rar
+*.exe
+*.map
+*.lib
+*.user
+*.sdf
+*.ncb
+*.opensdf
+*.suo
+*.aps
+*.exp
+Debug
+Release
+Windows/x64
+Windows/ipch
+
+# For ini, etc.
+*.ini
