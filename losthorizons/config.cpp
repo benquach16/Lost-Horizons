@@ -1,6 +1,6 @@
 //#include "base/display.h"
 #include "config.h"
-#include "file/ini_file.h"
+#include "lib/ini_file.h"
 
 Config gConfig;
 
