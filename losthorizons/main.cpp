@@ -5,7 +5,6 @@
 
 #include <string>
 
-#include "config.h"
 #include "baseapplication.h"
 
 void getCmdArgs(int argc, char *argv[], CommandLineArgs &args)
@@ -22,10 +21,8 @@ int main(int argc, char* argv[])
 {
 	//We can get command line arguments here
 	CommandLineArgs args;
-	gConfig.Load();
 
 	CBaseApplication app;
 
-	gConfig.Save();
 	return 0;
 }

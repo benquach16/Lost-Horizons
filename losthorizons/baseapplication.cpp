@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "baseapplication.h"
-
-#define DEFAULT_X 1024
-#define DEFAULT_Y 768
+#include "config.h"
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -10,40 +8,38 @@
 
 CBaseApplication::CBaseApplication()
 {
-	//set default values
-	config_args.fullscreen = true;
-	config_args.x = DEFAULT_X;
-	config_args.y = DEFAULT_Y;
+	// defaults set automatically during ini loading
+	gConfig.Load();
+	gConfig.bOverride = false;
 }
 
-CBaseApplication::CBaseApplication(ConfigArgs &config_args) : config_args(config_args)
+CBaseApplication::CBaseApplication(CommandLineArgs &args)
+: args(args)
 {
-}
-
-CBaseApplication::CBaseApplication(ConfigArgs &config_args, CommandLineArgs &args) : config_args(config_args),
-	args(args)
-{
+	gConfig.Load();
+	gConfig.bOverride = true;
 }
 
 CBaseApplication::~CBaseApplication()
 {
 	graphics->drop();
+	gConfig.Save();
 }
 
-void CBaseApplication::init()
-{
-	graphics = createDevice(EDT_DIRECT3D9,
-		dimension2du(config_args.x, config_args.y),
-		config_args.bits,
-		config_args.fullscreen,
-		false,
-		false,
-		0);
-
-	graphics->setWindowCaption(L"application");
-
-	run();
-}
+//void CBaseApplication::init()
+//{
+//	graphics = createDevice(EDT_DIRECT3D9,
+//		dimension2du(gConfig.iResolutionX, gConfig.iResolutionY),
+//		config_args.bits, // what is this for? we'll add it to the Config struct if it's needed
+//		config_args.fullscreen, // redundant stuff is bad, we'll talk about this later
+//		false,
+//		false,
+//		0);
+//
+//	graphics->setWindowCaption(L"application");
+//
+//	run();
+//}
 
 void CBaseApplication::run()
 {
