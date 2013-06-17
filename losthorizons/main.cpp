@@ -10,7 +10,7 @@
 
 void getCmdArgs(int argc, char *argv[], CommandLineArgs &args)
 {
-	for(unsigned i = 0; i < argc; i ++)
+	for(int i = 0; i < argc; ++i)
 	{
 		if(argv[i] == "-fullscreen")
 		{

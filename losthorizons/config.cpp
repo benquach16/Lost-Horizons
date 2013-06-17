@@ -1,6 +1,9 @@
+//#include "base/display.h"
 #include "config.h"
+#include "file/ini_file.h"
 
 Config gConfig;
+
 
 Config::Config()
 {
@@ -79,8 +82,8 @@ void Config::Save()
 
 		IniFile::Section *sound = iniFile.GetOrCreateSection("Sound");
 
-		sound->Set("Enable", bEnableSound);
-		sound->Set("EnableAtrac3plus", bEnableAtrac3plus);
+		sound->Set("Music", iMusic);
+		sound->Set("SFX", iSFX);
 
 		if (!iniFile.Save(iniFilename_.c_str())) {
 			return;

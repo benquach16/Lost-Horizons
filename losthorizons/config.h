@@ -1,6 +1,10 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
+
 // include this header file whenever you want to use the config
+
+#include <string>
+
 
 struct Config
 {

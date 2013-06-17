@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseapplication.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="stdafx.h" />
@@ -92,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="baseapplication.cpp" />
+    <ClCompile Include="config.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
