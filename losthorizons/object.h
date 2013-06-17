@@ -13,7 +13,10 @@ class CObject
 {
 public:
 	CObject();
+	//copy constructor
+	CObject(const CObject *obj);
 	virtual ~CObject();
+	virtual void run();
 
 	const vector3df getPosition() const;
 	const vector3df getRotation() const;
