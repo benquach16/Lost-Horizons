@@ -24,3 +24,7 @@ Windows/ipch
 
 # For ini, etc.
 *.ini
+local
+res
+saves
+shaders
