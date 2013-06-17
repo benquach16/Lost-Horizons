@@ -86,6 +86,7 @@
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="lib\ini_file.h" />
+    <ClInclude Include="lib\ini_io.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="stdafx.h" />
