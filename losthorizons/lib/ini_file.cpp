@@ -16,14 +16,25 @@
 #include <fstream>
 #include <algorithm>
 
-#include "base/stringutil.h"
-#include "file/ini_file.h"
-#include "file/vfs.h"
+//#include "base/stringutil.h"
+#include "ini_file.h"
+//#include "file/vfs.h"
 
 #ifdef _WIN32
 	// Function Cross-Compatibility
 #define strcasecmp _stricmp
 #endif
+
+// "\"hello\"" is turned to "hello"
+// This one assumes that the string has already been space stripped in both
+// ends, as done by StripSpaces above, for example.
+std::string StripQuotes(const std::string& s)
+{
+	if (s.size() && '\"' == s[0] && '\"' == *s.rbegin())
+		return s.substr(1, s.size() - 2);
+	else
+		return s;
+}
 
 // Ugh, this is ugly.
 static bool ParseLine(const std::string& line, std::string* keyOut, std::string* valueOut, std::string* commentOut)
@@ -56,6 +67,49 @@ static bool ParseLine(const std::string& line, std::string* keyOut, std::string*
 		return true;
 	}
 	return false;
+}
+
+bool TryParse(const std::string &str, int *const output)
+{
+	char *endptr = NULL;
+
+	// Holy crap this is ugly.
+
+	// Reset errno to a value other than ERANGE
+	errno = 0;
+
+	unsigned long value = strtoul(str.c_str(), &endptr, 0);
+
+	if (!endptr || *endptr)
+		return false;
+
+	if (errno == ERANGE)
+		return false;
+
+	if (ULONG_MAX > UINT_MAX) {
+#ifdef _MSC_VER
+#pragma warning (disable:4309)
+#endif
+		// Note: The typecasts avoid GCC warnings when long is 32 bits wide.
+		if (value >= static_cast<unsigned long>(0x100000000ull)
+			&& value <= static_cast<unsigned long>(0xFFFFFFFF00000000ull))
+			return false;
+	}
+
+	*output = static_cast<int>(value);
+	return true;
+}
+
+bool TryParse(const std::string &str, bool *const output)
+{
+	if ("1" == str || !strcasecmp("true", str.c_str()))
+		*output = true;
+	else if ("0" == str || !strcasecmp("false", str.c_str()))
+		*output = false;
+	else
+		return false;
+
+	return true;
 }
 
 std::string* IniFile::Section::GetLine(const char* key, std::string* valueOut, std::string* commentOut)
@@ -109,13 +163,13 @@ bool IniFile::Section::Get(const char* key, std::string* value, const char* defa
 	return true;
 }
 
-void IniFile::Section::Set(const char* key, const float newValue, const float defaultValue)
-{
-	if (newValue != defaultValue)
-		Set(key, newValue);
-	else
-		Delete(key);
-}
+//void IniFile::Section::Set(const char* key, const float newValue, const float defaultValue)
+//{
+//	if (newValue != defaultValue)
+//		Set(key, newValue);
+//	else
+//		Delete(key);
+//}
 
 void IniFile::Section::Set(const char* key, int newValue, int defaultValue)
 {
@@ -186,15 +240,15 @@ bool IniFile::Section::Get(const char* key, int* value, int defaultValue)
 	return false;
 }
 
-bool IniFile::Section::Get(const char* key, uint32_t* value, uint32_t defaultValue)
-{
-	std::string temp;
-	bool retval = Get(key, &temp, 0);
-	if (retval && TryParse(temp, value))
-		return true;
-	*value = defaultValue;
-	return false;
-}
+//bool IniFile::Section::Get(const char* key, uint32_t* value, uint32_t defaultValue)
+//{
+//	std::string temp;
+//	bool retval = Get(key, &temp, 0);
+//	if (retval && TryParse(temp, value))
+//		return true;
+//	*value = defaultValue;
+//	return false;
+//}
 
 bool IniFile::Section::Get(const char* key, bool* value, bool defaultValue)
 {
@@ -206,25 +260,25 @@ bool IniFile::Section::Get(const char* key, bool* value, bool defaultValue)
 	return false;
 }
 
-bool IniFile::Section::Get(const char* key, float* value, float defaultValue)
-{
-	std::string temp;
-	bool retval = Get(key, &temp, 0);
-	if (retval && TryParse(temp.c_str(), value))
-		return true;
-	*value = defaultValue;
-	return false;
-}
-
-bool IniFile::Section::Get(const char* key, double* value, double defaultValue)
-{
-	std::string temp;
-	bool retval = Get(key, &temp, 0);
-	if (retval && TryParse(temp.c_str(), value))
-		return true;
-	*value = defaultValue;
-	return false;
-}
+//bool IniFile::Section::Get(const char* key, float* value, float defaultValue)
+//{
+//	std::string temp;
+//	bool retval = Get(key, &temp, 0);
+//	if (retval && TryParse(temp.c_str(), value))
+//		return true;
+//	*value = defaultValue;
+//	return false;
+//}
+//
+//bool IniFile::Section::Get(const char* key, double* value, double defaultValue)
+//{
+//	std::string temp;
+//	bool retval = Get(key, &temp, 0);
+//	if (retval && TryParse(temp.c_str(), value))
+//		return true;
+//	*value = defaultValue;
+//	return false;
+//}
 
 bool IniFile::Section::Exists(const char *key) const
 {
@@ -417,17 +471,17 @@ bool IniFile::Load(const char* filename)
 	return success;
 }
 
-bool IniFile::LoadFromVFS(const std::string &filename) {
-	size_t size;
-	uint8_t *data = VFSReadFile(filename.c_str(), &size);
-	if (!data)
-		return false;
-	std::string str((const char*)data, size);
-	delete [] data;
-
-	std::stringstream sstream(str);
-	return Load(sstream);
-}
+//bool IniFile::LoadFromVFS(const std::string &filename) {
+//	size_t size;
+//	uint8_t *data = VFSReadFile(filename.c_str(), &size);
+//	if (!data)
+//		return false;
+//	std::string str((const char*)data, size);
+//	delete [] data;
+//
+//	std::stringstream sstream(str);
+//	return Load(sstream);
+//}
 
 bool IniFile::Load(std::istream &in) {
 	// Maximum number of letters in a line
@@ -551,16 +605,16 @@ bool IniFile::Get(const char* sectionName, const char* key, int* value, int defa
 	}
 }
 
-bool IniFile::Get(const char* sectionName, const char* key, uint32_t* value, uint32_t defaultValue)
-{
-	Section *section = GetSection(sectionName);
-	if (!section) {
-		*value = defaultValue;
-		return false;
-	} else {
-		return section->Get(key, value, defaultValue);
-	}
-}
+//bool IniFile::Get(const char* sectionName, const char* key, uint32_t* value, uint32_t defaultValue)
+//{
+//	Section *section = GetSection(sectionName);
+//	if (!section) {
+//		*value = defaultValue;
+//		return false;
+//	} else {
+//		return section->Get(key, value, defaultValue);
+//	}
+//}
 
 bool IniFile::Get(const char* sectionName, const char* key, bool* value, bool defaultValue)
 {

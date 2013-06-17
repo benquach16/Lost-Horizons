@@ -6,10 +6,33 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 #include <vector>
 #include <map>
 
-#include "base/stringutil.h"
+//#include "base/stringutil.h"
+std::string StringFromInt(int value)
+{
+	char temp[16];
+	sprintf_s(temp, "%i", value);
+	return temp;
+}
+
+std::string StringFromBool(bool value)
+{
+	return value ? "True" : "False";
+}
+
+// Turns "  hej " into "hej". Also handles tabs.
+std::string StripSpaces(const std::string &str)
+{
+	const size_t s = str.find_first_not_of(" \t\r\n");
+
+	if (str.npos != s)
+		return str.substr(s, str.find_last_not_of(" \t\r\n") - s + 1);
+	else
+		return "";
+}
 
 class IniFile
 {
@@ -36,16 +59,16 @@ public:
 		}
 		bool Get(const char* key, std::string* value, const char* defaultValue);
 
-		void Set(const char* key, uint32_t newValue) {
-			Set(key, StringFromFormat("0x%08x", newValue).c_str());
-		}
-		void Set(const char* key, float newValue) {
-			Set(key, StringFromFormat("%f", newValue).c_str());
-		}
-		void Set(const char* key, const float newValue, const float defaultValue);
-		void Set(const char* key, double newValue) {
-			Set(key, StringFromFormat("%f", newValue).c_str());
-		}
+		//void Set(const char* key, uint32_t newValue) {
+		//	Set(key, StringFromFormat("0x%08x", newValue).c_str());
+		//}
+		//void Set(const char* key, float newValue) {
+		//	Set(key, StringFromFormat("%f", newValue).c_str());
+		//}
+		//void Set(const char* key, const float newValue, const float defaultValue);
+		//void Set(const char* key, double newValue) {
+		//	Set(key, StringFromFormat("%f", newValue).c_str());
+		//}
 		
 		void Set(const char* key, int newValue, int defaultValue);
 		void Set(const char* key, int newValue) {
@@ -70,10 +93,10 @@ public:
 		}
 
 		bool Get(const char* key, int* value, int defaultValue = 0);
-		bool Get(const char* key, uint32_t* value, uint32_t defaultValue = 0);
+//		bool Get(const char* key, uint32_t* value, uint32_t defaultValue = 0);
 		bool Get(const char* key, bool* value, bool defaultValue = false);
-		bool Get(const char* key, float* value, float defaultValue = false);
-		bool Get(const char* key, double* value, double defaultValue = false);
+//		bool Get(const char* key, float* value, float defaultValue = false);
+//		bool Get(const char* key, double* value, double defaultValue = false);
 		bool Get(const char* key, std::vector<std::string>& values);
 		template<typename U, typename V>
 		bool Get(const char* key, std::map<U,V>& values)
@@ -118,7 +141,7 @@ public:
 	bool Load(const char* filename);
 	bool Load(const std::string &filename) { return Load(filename.c_str()); }
 	bool Load(std::istream &istream);
-	bool LoadFromVFS(const std::string &filename);
+	//bool LoadFromVFS(const std::string &filename);
 
 	bool Save(const char* filename);
 	bool Save(const std::string &filename) { return Save(filename.c_str()); }
@@ -136,9 +159,9 @@ public:
 	void Set(const char* sectionName, const char* key, int newValue) {
 		GetOrCreateSection(sectionName)->Set(key, newValue);
 	}
-	void Set(const char* sectionName, const char* key, uint32_t newValue) {
-		GetOrCreateSection(sectionName)->Set(key, newValue);
-	}
+	//void Set(const char* sectionName, const char* key, uint32_t newValue) {
+	//	GetOrCreateSection(sectionName)->Set(key, newValue);
+	//}
 	void Set(const char* sectionName, const char* key, bool newValue) {
 		GetOrCreateSection(sectionName)->Set(key, newValue);
 	}
@@ -149,7 +172,7 @@ public:
 	// TODO: Get rid of these, in favor of the Section ones.
 	bool Get(const char* sectionName, const char* key, std::string* value, const char* defaultValue = "");
 	bool Get(const char* sectionName, const char* key, int* value, int defaultValue = 0);
-	bool Get(const char* sectionName, const char* key, uint32_t* value, uint32_t defaultValue = 0);
+	//bool Get(const char* sectionName, const char* key, uint32_t* value, uint32_t defaultValue = 0);
 	bool Get(const char* sectionName, const char* key, bool* value, bool defaultValue = false);
 	bool Get(const char* sectionName, const char* key, std::vector<std::string>& values);
 

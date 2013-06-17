@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="lib\ini_file.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="stdafx.h" />
@@ -94,6 +95,7 @@
   <ItemGroup>
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="lib\ini_file.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
