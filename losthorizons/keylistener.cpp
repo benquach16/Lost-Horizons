@@ -19,11 +19,11 @@ bool KeyListener::OnEvent(const SEvent& event)
 	if(event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 	{
 		//mouse events
-		if(event.MouseInput.isLeftPressed)
+		if(event.MouseInput.isLeftPressed())
 		{
 			mouseL = true;
 		}
-		if(event.MouseInput.isRightPressed)
+		if(event.MouseInput.isRightPressed())
 		{
 			mouseR = true;
 		}
