@@ -3,14 +3,19 @@
 #pragma once
 
 #include <fstream>
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #ifdef _WIN32
 	// Function Cross-Compatibility
 #define strcasecmp _stricmp
 #endif
+
+std::string StringFromBool(bool value)
+{
+	return value ? "True" : "False";
+}
 
 std::string StringFromInt(int value)
 {
@@ -27,11 +32,6 @@ std::string StringFromDouble(double value)
 		value *= 10;
 	}
 	return temp + StringFromInt(static_cast<int>(value));
-}
-
-std::string StringFromBool(bool value)
-{
-	return value ? "True" : "False";
 }
 
 std::string StripSpaces(const std::string &str)

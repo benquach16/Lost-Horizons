@@ -2,7 +2,6 @@
 #define _SHIP_H_
 
 #include <list>
-
 #include "targetableobject.h"
 
 //contain the list inside ship class so all ships can access any other ship if needed
