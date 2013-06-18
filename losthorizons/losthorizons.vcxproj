@@ -88,7 +88,6 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="keylistener.h" />
-    <ClInclude Include="lib\ini_file.h" />
     <ClInclude Include="lib\ini_io.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
@@ -101,7 +100,6 @@
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="gameloop.cpp" />
-    <ClCompile Include="lib\ini_file.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

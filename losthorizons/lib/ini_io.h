@@ -18,7 +18,6 @@ std::string StringFromInt(int value)
 	format << value;
 	return format.str();
 }
-std::string StringFromInt(unsigned value) { return StringFromInt(static_cast<int>(value)); }
 
 std::string StringFromDouble(double value)
 {
@@ -60,8 +59,7 @@ static bool ParseLine(const std::string& line, std::string* keyOut, std::string*
 
 	// Comments
 	if (FirstCommentChar < 0)
-		FirstCommentChar =
-			(int)line.find("#", FirstEquals > 0 ? FirstEquals : 0);
+		FirstCommentChar = (int)line.find("#", FirstEquals > 0 ? FirstEquals : 0);
 	if (FirstCommentChar < 0 && line[0] == ';')
 		FirstCommentChar = 0;
 
@@ -85,10 +83,59 @@ static bool ParseLine(const std::string& line, std::string* keyOut, std::string*
 	return false;
 }
 
-bool numbersOnly(const std::string &str)
+bool validNumber(const std::string &str)
 {
-	for (unsigned i = 0; i < str.size(); ++i) {
+	if (str.find_first_of('.') != str.find_last_of('.') ||
+		str.find_last_of('-') > 0 ||
+		str.find_last_of('+') > 0) {
+		return false;
+	}
+	if (str[0] != '.' && str[0] != '-' && str[0] != '+' && !(str[0] > '0' && str[0] < '9')) {
+		return false;
+	}
+	for (unsigned i = 1; i < str.size(); ++i) {
+		if (str[i] != '.' && !(str[i] > '0' && str[i] < '9')) {
+			return false;
+		}
+	}
+	return true;
+}
 
+template <typename T>
+void format(const std::string &str, T *const output)
+{
+	std::stringstream format;
+	format << str;
+	format >> *output;
+}
+
+bool TryParse(const std::string &str, double *const output)
+{
+	if (validNumber(str)) {
+		format(str, output);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool TryParse(const std::string &str, int *const output)
+{
+	if (validNumber(str) && str.find('.') == -1) {
+		format(str, output);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool TryParse(const std::string &str, unsigned *const output)
+{
+	if (validNumber(str) && str.find('.') == -1 && str.find('-') == -1) {
+		format(str, output);
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -104,7 +151,7 @@ bool TryParse(const std::string &str, bool *const output)
 	return true;
 }
 
-// Support bool, unsigned, int, double, char, and string
+// Supports bool, unsigned, int, double, and string
 class IniFile
 {
 public:
@@ -115,9 +162,6 @@ public:
 	public:
 		Section() {}
 		Section(const std::string& name) : name_(name) {}
-
-		bool Exists(const char *key) const;
-		bool Delete(const char *key);
 
 		std::string* GetLine(const char* key, std::string* valueOut, std::string* commentOut)
 		{
@@ -131,10 +175,89 @@ public:
 			}
 			return 0;
 		}
-		// stuff
+		void Set(const char* key, const char* newValue)
+		{
+			std::string value, commented;
+			std::string* line = GetLine(key, &value, &commented);
+			if (line)
+			{
+				// Change the value - keep the key and comment
+				*line = StripSpaces(key) + " = " + newValue + commented;
+			}
+			else
+			{
+				// The key did not already exist in this section - let's add it.
+				lines.push_back(std::string(key) + " = " + newValue);
+			}
+		}
 
-		bool operator < (const Section& other) const {
-			return name_ < other.name_;
+		void Set(const std::string &key, const std::string &value) {
+			Set(key.c_str(), value.c_str());
+		}
+		bool Get(const char* key, std::string* value, const char* defaultValue)
+		{
+			std::string* line = GetLine(key, value, 0);
+			if (!line)
+			{
+				if (defaultValue)
+				{
+					*value = defaultValue;
+				}
+				return false;
+			}
+			return true;
+		}
+
+		void Set(const char* key, double newValue) {
+			Set(key, StringFromDouble(newValue).c_str());
+		}
+		bool Get(const char* key, double* value, double defaultValue = false)
+		{
+			std::string temp;
+			bool retval = Get(key, &temp, 0);
+			if (retval && TryParse(temp.c_str(), value))
+				return true;
+			*value = defaultValue;
+			return false;
+		}
+
+		void Set(const char* key, int newValue) {
+			Set(key, StringFromInt(newValue).c_str());
+		}
+		bool Get(const char* key, int* value, int defaultValue = 0)
+		{
+			std::string temp;
+			bool retval = Get(key, &temp, 0);
+			if (retval && TryParse(temp.c_str(), value))
+				return true;
+			*value = defaultValue;
+			return false;
+		}
+
+		void Set(const char* key, unsigned newValue) {
+			Set(key, StringFromInt(newValue).c_str());
+		}
+		bool Get(const char* key, unsigned* value, unsigned defaultValue = 0)
+		{
+			std::string temp;
+			bool retval = Get(key, &temp, 0);
+			if (retval && TryParse(temp.c_str(), value))
+				return true;
+			*value = defaultValue;
+			return false;
+		}
+
+		void Set(const char* key, bool newValue) {
+			Set(key, StringFromBool(newValue).c_str());
+		}
+		bool Get(const char* key, bool* value, bool defaultValue = false)
+		{
+			std::string temp;
+			bool retval = Get(key, &temp, 0);
+			if (retval && TryParse(temp.c_str(), value))
+				return true;
+			*value = defaultValue;
+			return false;
 		}
 
 		const std::string &name() const {
@@ -255,47 +378,6 @@ public:
 	}
 	bool Save(const std::string &filename) { return Save(filename.c_str()); }
 
-	bool Exists(const char* sectionName, const char* key) const;
-	// stuff
-
-	void SetLines(const char* sectionName, const std::vector<std::string> &lines);
-	bool GetLines(const char* sectionName, std::vector<std::string>& lines, const bool remove_comments = true) const;
-
-	bool DeleteKey(const char* sectionName, const char* key)
-	{
-		Section* section = GetSection(sectionName);
-		if (!section)
-			return false;
-		std::string* line = section->GetLine(key, 0, 0);
-		for (std::vector<std::string>::iterator liter = section->lines.begin(); liter != section->lines.end(); ++liter)
-		{
-			if (line == &(*liter))
-			{
-				section->lines.erase(liter);
-				return true;
-			}
-		}
-		return false; //shouldn't happen
-	}
-	bool DeleteSection(const char* sectionName)
-	{
-		Section* s = GetSection(sectionName);
-		if (!s)
-			return false;
-		for (std::vector<Section>::iterator iter = sections.begin(); iter != sections.end(); ++iter)
-		{
-			if (&(*iter) == s)
-			{
-				sections.erase(iter);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	void SortSections();
-	const std::vector<Section> &Sections() { return sections; }
-
 	Section* GetOrCreateSection(const char* sectionName)
 	{
 		Section* section = GetSection(sectionName);
@@ -324,6 +406,4 @@ private:
 				return (&(*iter));
 		return 0;
 	}
-	std::string* GetLine(const char* section, const char* key);
-	void CreateSection(const char* section);
 };

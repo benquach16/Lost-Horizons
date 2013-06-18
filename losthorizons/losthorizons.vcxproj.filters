@@ -54,9 +54,6 @@
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\ini_file.h">
-      <Filter>Header Files\lib</Filter>
-    </ClInclude>
     <ClInclude Include="lib\ini_io.h">
       <Filter>Header Files\lib</Filter>
     </ClInclude>
@@ -76,9 +73,6 @@
     </ClCompile>
     <ClCompile Include="config.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ini_file.cpp">
-      <Filter>Source Files\lib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
