@@ -8,7 +8,6 @@
 
 BaseApplication::BaseApplication() : receiver(new KeyListener)
 {
-	// defaults set automatically during ini loading
 	gConfig.Load();
 }
 
@@ -20,11 +19,10 @@ BaseApplication::~BaseApplication()
 
 void BaseApplication::init()
 {
-	
 	graphics = createDevice(EDT_DIRECT3D9,
 		dimension2du(gConfig.iResolutionX, gConfig.iResolutionY),
-		gConfig.bBits, // what is this for? we'll add it to the Config struct if it's needed
-		gConfig.bFullScreen, // redundant stuff is bad, we'll talk about this later
+		gConfig.bBits,
+		gConfig.bFullScreen,
 		false,
 		false,
 		receiver);
