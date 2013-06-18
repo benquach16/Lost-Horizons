@@ -4,21 +4,42 @@
 #include <list>
 #include "targetableobject.h"
 
-//contain the list inside ship class so all ships can access any other ship if needed
-static std::list<CShip*> all_ships;
+struct ShipTypes
+{
+	//define the stats of each ship
+	//hp, turret slots, etc etc
+	int hull;
+};
 
-class CShip : public CTargetableObject
+
+class Ship : public TargetableObject
 {
 public:
-	CShip();
+	Ship();
 	//copy constructor
-	CShip(const CShip &s);
+	Ship(const Ship &s);
 	//overloaded assignment operator
-	CShip& operator=(const CShip &s);
-	~CShip();
+	Ship& operator=(const Ship &s);
+	~Ship();
+
+	virtual void run();
+
+
 private:
 	//iterator to 'this'
-	std::list<CShip*>::iterator it;
+	std::list<Ship*>::iterator it;
+
+	//stats
+	//basic ship type
+	ShipTypes shipType;
+	int hull, armor, shield;
+	int velocity;
+
+	//other stats
+	Ship *shipTarget;
 };
+
+//contain the list inside ship class so all ships can access any other ship if needed
+static std::list<Ship*> allShips;
 
 #endif

@@ -5,6 +5,7 @@
 
 #include "irrlicht.h"
 #include "gameloop.h"
+#include "keylistener.h"
 
 
 using namespace irr;
@@ -14,13 +15,32 @@ using namespace video;
 using namespace gui;
 
 
-class CBaseApplication
+
+
+////this is read in from the config
+////command line arguments override configuration texts
+//struct ConfigArgs
+//{
+//	bool fullscreen;
+//	bool debug;
+//	bool shaders;
+//	unsigned x, y;
+//	unsigned bits;
+//
+//	bool sound;
+//	unsigned volume;
+//
+//};
+
+class BaseApplication
 {
 public:
 	//default constructor, generate default configs
-	CBaseApplication();
+	BaseApplication();
 
-	~CBaseApplication();
+
+
+	~BaseApplication();
 	//initialize renderer
 	void init();
 	//call everything from this function
@@ -28,8 +48,8 @@ public:
 
 private:
 	IrrlichtDevice *graphics;
-
-	CGameloop *game;
+	KeyListener *receiver;
+	Gameloop *game;
 };
 
 #endif

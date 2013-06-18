@@ -1,11 +1,15 @@
 #include "stdafx.h"
 #include "gameloop.h"
 
-CGameloop *createGameObject()
+Gameloop::Gameloop()
 {
-	return new CGameloop;
 }
 
-CGameloop::CGameloop()
+Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener receiver)
 {
+}
+
+void Gameloop::playerControl()
+{
+	//all actions the player can do are stored here
 }

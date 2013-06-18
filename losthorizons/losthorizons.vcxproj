@@ -95,11 +95,13 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetableobject.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="turret.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="gameloop.cpp" />
+    <ClCompile Include="keylistener.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

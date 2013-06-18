@@ -3,11 +3,11 @@
 
 #include "ship.h"
 
-class CPlayer : public CShip
+class Player : public Ship
 {
 public:
-	CPlayer();
-	~CPlayer();
+	Player();
+	~Player();
 };
 
 

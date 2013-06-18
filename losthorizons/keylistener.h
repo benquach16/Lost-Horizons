@@ -5,8 +5,21 @@
 
 using namespace irr;
 
-class CKeyListener : public IEventReceiver
+class KeyListener : public IEventReceiver
 {
+public:
+	KeyListener();
+	virtual bool OnEvent(const SEvent& event);
+	virtual bool isKeyDown(EKEY_CODE keyCode) const;
+	const int getMouseX() const;
+	const int getMouseY() const;
+
+private:
+	bool keys[irr::KEY_KEY_CODES_COUNT];
+	bool mouseL;
+	bool mouseR;
+	int mouseX, mouseY;
+	int mouseWheel;
 };
 
 #endif

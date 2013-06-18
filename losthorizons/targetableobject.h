@@ -5,10 +5,15 @@
 
 #include "object.h"
 
-class CTargetableObject : public CObject
+class TargetableObject : public Object
 {
 public:
-	CTargetableObject();
+	TargetableObject();
+	~TargetableObject();
+
+	virtual void run();
+private:
+
 };
 
 #endif
