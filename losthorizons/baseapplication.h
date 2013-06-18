@@ -13,14 +13,6 @@ using namespace scene;
 using namespace video;
 using namespace gui;
 
-struct CommandLineArgs
-{
-	bool fullscreen;
-	bool debug;
-	unsigned x, y;
-	CommandLineArgs() : fullscreen(false), debug(false), x(1024), y(768) {}
-};
-
 
 ////this is read in from the config
 ////command line arguments override configuration texts
@@ -42,11 +34,6 @@ class CBaseApplication
 public:
 	//default constructor, generate default configs
 	CBaseApplication();
-	//parameterized constructor
-	CBaseApplication(CommandLineArgs &args);
-//	CBaseApplication(ConfigArgs &config_args);
-//	CBaseApplication(ConfigArgs &config_args, CommandLineArgs &args);
-
 
 	~CBaseApplication();
 	//initialize renderer
@@ -55,7 +42,6 @@ public:
 	void run();
 
 private:
-	CommandLineArgs args;
 	IrrlichtDevice *graphics;
 
 	CGameloop *game;

@@ -4,23 +4,33 @@
 #include <string>
 #include "stdafx.h"
 #include "baseapplication.h"
+#include "config.h"
 
-void getCmdArgs(int argc, char *argv[], CommandLineArgs &args)
+void getCmdArgs(int argc, char *argv[])
 {
+	bool args = false;
 	for (int i = 0; i < argc; ++i) {
 		if (argv[i] == "-fullscreen") {
-			args.fullscreen = true;
+			gConfig.bFullScreen = true;
+			args = true;
 		}
 		if (argv[i] == "-debug") {
-			args.debug = true;
+			gConfig.bConfirmOnQuit = false;
+			gConfig.bTopMost = false;
+			gConfig.bShowFPSCounter = true;
+			gConfig.bShowDebugStats = true;
+			args = true;
 		}
+	}
+	if (args) {
+		gConfig.bSaveSettings = false;
 	}
 }
 
 int main(int argc, char* argv[])
 {
 	//We can get command line arguments here
-	CommandLineArgs args;
+	getCmdArgs(argc, argv);
 
 	CBaseApplication app;
 

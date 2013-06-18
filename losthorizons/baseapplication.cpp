@@ -10,14 +10,6 @@ CBaseApplication::CBaseApplication()
 {
 	// defaults set automatically during ini loading
 	gConfig.Load();
-	gConfig.bOverride = false;
-}
-
-CBaseApplication::CBaseApplication(CommandLineArgs &args)
-: args(args)
-{
-	gConfig.Load();
-	gConfig.bOverride = true;
 }
 
 CBaseApplication::~CBaseApplication()
