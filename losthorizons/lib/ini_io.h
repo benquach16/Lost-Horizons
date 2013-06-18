@@ -19,9 +19,9 @@ std::string StringFromBool(bool value)
 
 std::string StringFromInt(int value)
 {
-	std::stringstream format;
-	format << value;
-	return format.str();
+	std::stringstream convert;
+	convert << value;
+	return convert.str();
 }
 
 std::string StringFromDouble(double value)
@@ -85,34 +85,29 @@ static bool ParseLine(const std::string& line, std::string* keyOut, std::string*
 
 bool validNumber(const std::string &str)
 {
-	if (str.find_first_of('.') != str.find_last_of('.') ||
-		str.find_last_of('-') > 0 ||
-		str.find_last_of('+') > 0) {
+	if (str.find_first_of('.') != str.find_last_of('.') || str.find_last_of('-') > 0 || str.find_last_of('+') > 0)
 		return false;
-	}
-	if (str[0] != '.' && str[0] != '-' && str[0] != '+' && !(str[0] > '0' && str[0] < '9')) {
+	if (str[0] != '.' && str[0] != '-' && str[0] != '+' && !(str[0] > '0' && str[0] < '9'))
 		return false;
-	}
 	for (unsigned i = 1; i < str.size(); ++i) {
-		if (str[i] != '.' && !(str[i] > '0' && str[i] < '9')) {
+		if (str[i] != '.' && !(str[i] > '0' && str[i] < '9'))
 			return false;
-		}
 	}
 	return true;
 }
 
 template <typename T>
-void format(const std::string &str, T *const output)
+void convert(const std::string &str, T *const output)
 {
-	std::stringstream format;
-	format << str;
-	format >> *output;
+	std::stringstream convert;
+	convert << str;
+	convert >> *output;
 }
 
 bool TryParse(const std::string &str, double *const output)
 {
 	if (validNumber(str)) {
-		format(str, output);
+		convert(str, output);
 		return true;
 	} else {
 		return false;
@@ -122,7 +117,7 @@ bool TryParse(const std::string &str, double *const output)
 bool TryParse(const std::string &str, int *const output)
 {
 	if (validNumber(str) && str.find('.') == -1) {
-		format(str, output);
+		convert(str, output);
 		return true;
 	} else {
 		return false;
@@ -132,7 +127,7 @@ bool TryParse(const std::string &str, int *const output)
 bool TryParse(const std::string &str, unsigned *const output)
 {
 	if (validNumber(str) && str.find('.') == -1 && str.find('-') == -1) {
-		format(str, output);
+		convert(str, output);
 		return true;
 	} else {
 		return false;
