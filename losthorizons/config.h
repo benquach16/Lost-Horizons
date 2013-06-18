@@ -21,21 +21,21 @@ struct Config
 		// General
 		bool bAutoLoadLast;
 		bool bConfirmOnQuit;
-		int iWindowX;
-		int iWindowY;
+		unsigned iWindowX;
+		unsigned iWindowY;
 		bool bTopMost;
 
 		// Video
-		int iResolutionX;
-		int iResolutionY;
+		unsigned iResolutionX;
+		unsigned iResolutionY;
+		unsigned bBits;
 		bool bFullScreen;
 		bool bVsync;
-		bool bQuality;
-		char cDriver;
+		//bool bShaders;
 
 		// Audio
-		int iMusic;
-		int iSFX;
+		unsigned iMusic;
+		unsigned iSFX;
 		
 		// UI
 		bool bShowFPSCounter;

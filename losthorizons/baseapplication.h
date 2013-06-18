@@ -18,6 +18,7 @@ struct CommandLineArgs
 	bool fullscreen;
 	bool debug;
 	unsigned x, y;
+	CommandLineArgs() : fullscreen(false), debug(false), x(1024), y(768) {}
 };
 
 

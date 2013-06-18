@@ -37,10 +37,10 @@ void Config::Load(const char *iniFileName)
 	graphics->Get("ShowFPSCounter", &bShowFPSCounter, false);
 	graphics->Get("ResolutionX", &iResolutionX, 1024);
 	graphics->Get("ResolutionY", &iResolutionY, 768);
+	graphics->Get("Bits", &bBits, 32);
 	graphics->Get("FullScreen", &bFullScreen, false);
 	graphics->Get("Vsync", &bVsync, false);
-//	graphics->Get("Quality", &bQuality, true);
-//	graphics->Get("Driver", &cDriver);
+//	graphics->Get("Shaders", &bShaders, true);
 
 	IniFile::Section *sound = iniFile.GetOrCreateSection("Sound");
 
@@ -76,8 +76,7 @@ void Config::Save()
 		graphics->Set("ResolutionY", iResolutionY);
 		graphics->Set("FullScreen", bFullScreen);
 		graphics->Set("Vsync", bVsync);
-//		graphics->Set("Quality", bQuality);
-//		graphics->Set("Driver", cDriver);
+//		graphics->Set("Shaders", bShaders);
 
 		IniFile::Section *sound = iniFile.GetOrCreateSection("Sound");
 

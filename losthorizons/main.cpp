@@ -7,10 +7,12 @@
 
 void getCmdArgs(int argc, char *argv[], CommandLineArgs &args)
 {
-	for(int i = 0; i < argc; ++i)
-	{
-		if(argv[i] == "-fullscreen")
-		{
+	for (int i = 0; i < argc; ++i) {
+		if (argv[i] == "-fullscreen") {
+			args.fullscreen = true;
+		}
+		if (argv[i] == "-debug") {
+			args.debug = true;
 		}
 	}
 }
