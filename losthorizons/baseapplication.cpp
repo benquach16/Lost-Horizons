@@ -8,7 +8,6 @@
 
 CBaseApplication::CBaseApplication()
 {
-	// defaults set automatically during ini loading
 	gConfig.Load();
 }
 
