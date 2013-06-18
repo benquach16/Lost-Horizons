@@ -10,7 +10,6 @@ BaseApplication::BaseApplication() : receiver(new KeyListener)
 {
 	// defaults set automatically during ini loading
 	gConfig.Load();
-	gConfig.bOverride = false;
 }
 
 BaseApplication::~BaseApplication()
