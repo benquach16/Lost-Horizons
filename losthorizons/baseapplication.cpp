@@ -39,6 +39,8 @@ void BaseApplication::run()
 	{
 		graphics->getVideoDriver()->beginScene(true, true, SColor(255,100,101,140));
 
+		//run game
+		game->run();
 		graphics->getSceneManager()->drawAll();
 		graphics->getGUIEnvironment()->drawAll();
 

@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "keylistener.h"
+#include "gamescene.h"
 
 class Gameloop
 {
@@ -16,12 +17,17 @@ public:
 	~Gameloop();
 	//having an independant function to loop through everything makes pausing much easier
 	void run();
-	void playerControl();
 
 private:
+	void playerControl();
+	void cameraControl();
+
 	IrrlichtDevice *graphics;
+	ICameraSceneNode *playerCam;
 	KeyListener *receiver;
 	Player *player;
+
+	GameScene *currentScene;
 };
 
 #endif

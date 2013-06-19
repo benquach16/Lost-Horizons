@@ -34,6 +34,9 @@ private:
 	ShipTypes shipType;
 	int hull, armor, shield;
 	int velocity;
+	int maxVelocity;
+
+
 
 	//other stats
 	Ship *shipTarget;

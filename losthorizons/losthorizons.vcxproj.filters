@@ -60,6 +60,9 @@
     <ClInclude Include="turret.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gamescene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -78,6 +81,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="keylistener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamescene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

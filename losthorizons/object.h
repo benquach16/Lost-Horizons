@@ -12,7 +12,13 @@ using namespace scene;
 class Object
 {
 public:
+
+	//default constructor
 	Object();
+	//parametrized constructors
+	//instantiate with position, rotation, etc
+	Object(IAnimatedMesh *mesh, vector3df position = vector3df(0,0,0),
+		vector3df rotation = vector3df(0,0,0), vector3df scale = vector3df(1,1,1));
 	//copy constructor
 	Object(const Object *obj);
 	virtual ~Object();
@@ -23,9 +29,15 @@ public:
 	const vector3df getScale() const;
 
 private:
+
+	//basic info about object
 	vector3df position;
 	vector3df rotation;
 	vector3df scale;
+
+	//3d infomation
+	IAnimatedMesh *mesh;
+
 };
 
 #endif

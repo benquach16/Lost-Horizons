@@ -15,11 +15,30 @@ using namespace video;
 using namespace gui;
 
 
+
+
+////this is read in from the config
+////command line arguments override configuration texts
+//struct ConfigArgs
+//{
+//	bool fullscreen;
+//	bool debug;
+//	bool shaders;
+//	unsigned x, y;
+//	unsigned bits;
+//
+//	bool sound;
+//	unsigned volume;
+//
+//};
+
 class BaseApplication
 {
 public:
 	//default constructor, generate default configs
 	BaseApplication();
+
+
 
 	~BaseApplication();
 	//initialize renderer

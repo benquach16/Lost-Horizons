@@ -87,6 +87,7 @@
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="gameloop.h" />
+    <ClInclude Include="gamescene.h" />
     <ClInclude Include="keylistener.h" />
     <ClInclude Include="lib\ini_io.h" />
     <ClInclude Include="object.h" />
@@ -101,8 +102,10 @@
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="gameloop.cpp" />
+    <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="keylistener.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
