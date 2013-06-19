@@ -5,7 +5,8 @@ Gameloop::Gameloop()
 {
 }
 
-Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener receiver) : currentScene(new GameScene)
+Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver) : currentScene(new GameScene), 
+	graphics(graphics), receiver(receiver)
 {
 	//create player and camera
 	playerCam = graphics->getSceneManager()->addCameraSceneNode();
@@ -13,7 +14,6 @@ Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener receiver) : currentScen
 
 void Gameloop::run()
 {
-	currentScene->run();
 	playerControl();
 	cameraControl();
 }

@@ -35,7 +35,7 @@ void BaseApplication::init()
 		std::cerr << "Error creating device";
 		std::exit(1);
 	}
-
+	game = new Gameloop(graphics, receiver);
 	graphics->setWindowCaption(L"application");
 	
 	run();

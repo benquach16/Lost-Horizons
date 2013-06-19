@@ -12,7 +12,7 @@ public:
 
 	//parameterized constructor
 	//really though, not using this is bad news bears
-	Gameloop(IrrlichtDevice *graphics, KeyListener receiver);
+	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver);
 	//might want this to be a singleton
 	~Gameloop();
 	//having an independant function to loop through everything makes pausing much easier
@@ -29,5 +29,7 @@ private:
 
 	GameScene *currentScene;
 };
+
+
 
 #endif
