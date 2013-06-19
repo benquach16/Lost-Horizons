@@ -2,17 +2,24 @@
 #define _SHIP_H_
 
 #include <list>
-#include "targetableobject.h"
+#include <string>
+#include "object.h"
 
 struct ShipTypes
 {
 	//define the stats of each ship
 	//hp, turret slots, etc etc
 	int hull;
+
+	std::string filename;
+	std::string diffuseMap;
+	std::string normalMap;
+
+	vector3df scale;
 };
 
 
-class Ship : public TargetableObject
+class Ship : public Object
 {
 public:
 	Ship();
@@ -33,6 +40,8 @@ private:
 	//basic ship type
 	ShipTypes shipType;
 	int hull, armor, shield;
+	int maxHull, maxArmor, maxShield;
+
 	int velocity;
 	int maxVelocity;
 

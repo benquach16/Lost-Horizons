@@ -33,9 +33,6 @@
     <ClInclude Include="object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetableobject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ship.h">
       <Filter>Header Files</Filter>
     </ClInclude>
