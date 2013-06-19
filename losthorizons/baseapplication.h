@@ -3,7 +3,7 @@
 
 //run all the main loops from the base point
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "irrlicht.h"
 #include "gameloop.h"
 #include "keylistener.h"

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "baseapplication.h"
 #include "config.h"
 #include <iostream>
@@ -91,6 +91,7 @@ void BaseApplication::buildGraphics()
 	//} else {
 	//	std::cerr << "no cheese" << std::endl;
 	//} ///////////////////////////////////////////////////////////doesn't work (sad face)
+	// //probably doesn't work because this is not a normal win32 window
 	
 	resolutionX = gConfig.iResolutionX;
 	resolutionY = gConfig.iResolutionY;
