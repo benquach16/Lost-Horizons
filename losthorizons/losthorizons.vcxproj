@@ -92,6 +92,7 @@
     <ClInclude Include="lib\ini_io.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetableobject.h" />
@@ -107,6 +108,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="losthorizons.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="losthorizons.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
