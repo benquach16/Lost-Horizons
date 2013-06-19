@@ -42,9 +42,11 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 	std::wstring x(temp.begin(), temp.end());
 	std::wstring option;
 	for (unsigned i = 1; i < 8; ++i) {
-		resX[i] = static_cast<int>(ceil(resY[i] * monitorRatio));
-		option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
-		resolution->addItem(option.c_str());
+		if (resY[i] < resY[0]) {
+			resX[i] = static_cast<int>(ceil(resY[i] * monitorRatio));
+			option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
+			resolution->addItem(option.c_str());
+		}
 	}
 
 	graphics->getGUIEnvironment()->addStaticText(L"Fullscreen",rect<s32>(50,320,150,340),false,true,window);
