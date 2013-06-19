@@ -30,11 +30,11 @@ void getCmdArgs(int argc, char *argv[])
 
 int main(int argc, char* argv[])
 {
-
+	BaseApplication app;
 
 	//We can get command line arguments here
 	getCmdArgs(argc, argv);
-	BaseApplication app;
+	
 	app.init();
 	return 0;
 }

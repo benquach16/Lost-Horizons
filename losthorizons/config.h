@@ -14,7 +14,6 @@ struct Config
 
 		// Whether to save the config on close.
 		bool bSaveSettings;
-		bool bOverride;
 
 		bool bFirstRun;
 

@@ -10,7 +10,6 @@
 BaseApplication::BaseApplication() : receiver(new KeyListener)
 {
 	gConfig.Load();
-
 }
 
 BaseApplication::~BaseApplication()
@@ -21,7 +20,6 @@ BaseApplication::~BaseApplication()
 
 void BaseApplication::init()
 {
-	
 	graphics = createDevice(EDT_DIRECT3D9,
 		dimension2du(gConfig.iResolutionX, gConfig.iResolutionY),
 		gConfig.bBits,
