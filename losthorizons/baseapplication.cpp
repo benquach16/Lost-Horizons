@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "baseapplication.h"
+#include <iostream>
 #include "config.h"
 
 #ifdef _IRR_WINDOWS_
@@ -9,6 +10,7 @@
 BaseApplication::BaseApplication() : receiver(new KeyListener)
 {
 	gConfig.Load();
+
 }
 
 BaseApplication::~BaseApplication()
@@ -19,6 +21,7 @@ BaseApplication::~BaseApplication()
 
 void BaseApplication::init()
 {
+	
 	graphics = createDevice(EDT_DIRECT3D9,
 		dimension2du(gConfig.iResolutionX, gConfig.iResolutionY),
 		gConfig.bBits,
@@ -26,6 +29,12 @@ void BaseApplication::init()
 		false,
 		false,
 		receiver);
+		
+	if(!graphics)
+	{
+		std::cerr << "Error creating device";
+		std::exit(1);
+	}
 
 	graphics->setWindowCaption(L"application");
 	
