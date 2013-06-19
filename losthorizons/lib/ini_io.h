@@ -85,12 +85,12 @@ static bool ParseLine(const std::string& line, std::string* keyOut, std::string*
 
 bool validNumber(const std::string &str)
 {
-	if (str.find_first_of('.') != str.find_last_of('.') || str.find_last_of('-') > 0 || str.find_last_of('+') > 0)
+	if (str.find_first_of('.') != str.find_last_of('.') || str.find("-+", 1) != -1)
 		return false;
-	if (str[0] != '.' && str[0] != '-' && str[0] != '+' && !(str[0] > '0' && str[0] < '9'))
+	if (str[0] != '.' && str[0] != '-' && str[0] != '+' && !(str[0] >= '0' && str[0] <= '9'))
 		return false;
 	for (unsigned i = 1; i < str.size(); ++i) {
-		if (str[i] != '.' && !(str[i] > '0' && str[i] < '9'))
+		if (str[i] != '.' && !(str[i] >= '0' && str[i] <= '9'))
 			return false;
 	}
 	return true;

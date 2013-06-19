@@ -3,6 +3,7 @@
 
 //run all the main loops from the base point
 
+#include "stdafx.h"
 #include "irrlicht.h"
 #include "gameloop.h"
 #include "keylistener.h"
@@ -31,11 +32,12 @@ private:
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
 	Gameloop *game;
+	//HWND hwnd;
 
 	void buildGraphics();
 
 	unsigned resolutionX, resolutionY;
-	bool fullscreen;
+	bool fullScreen, vSync;
 };
 
 #endif

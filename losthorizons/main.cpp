@@ -1,10 +1,10 @@
 // losthorizons.cpp : Defines the entry point for the console application.
 //
 
-#include <string>
 #include "stdafx.h"
 #include "baseapplication.h"
 #include "config.h"
+#include <string>
 
 void getCmdArgs(int argc, char *argv[])
 {

@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "baseapplication.h"
-#include <iostream>
 #include "config.h"
+#include <iostream>
+//#include <SExposedVideoData.h>
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-BaseApplication::BaseApplication() : receiver(new KeyListener)
+BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), game(0)
 {
 	gConfig.Load();
 }
@@ -48,7 +49,8 @@ void BaseApplication::run()
 
 		if (resolutionX != gConfig.iResolutionX ||
 			resolutionY != gConfig.iResolutionY ||
-			fullscreen != gConfig.bFullScreen) {
+			fullScreen != gConfig.bFullScreen ||
+			vSync != gConfig.bVsync) {
 			restart();
 		}
 	}
@@ -61,7 +63,7 @@ void BaseApplication::buildGraphics()
 		gConfig.iBits,
 		gConfig.bFullScreen,
 		false,
-		false,
+		gConfig.bVsync,
 		receiver);
 		
 	if(!graphics)
@@ -70,7 +72,28 @@ void BaseApplication::buildGraphics()
 		std::exit(1);
 	}
 
+	//SExposedVideoData InternalData = graphics->getVideoDriver()->getExposedVideoData();;
+	//switch(EDT_DIRECT3D9) { //use variable if we ever implement using the other drivers
+ //           case EDT_OPENGL:
+	//			hwnd  = (HWND) InternalData.OpenGLWin32.HWnd;
+ //               break;
+
+ //           case EDT_DIRECT3D8:
+ //               hwnd  = (HWND) InternalData.D3D8.HWnd;
+ //               break;
+
+ //           case EDT_DIRECT3D9:
+ //               hwnd  = (HWND) InternalData.D3D9.HWnd; std::cerr << hwnd << " is the handle?" << std::endl;
+ //               break;
+	//}
+	//if (MoveWindow(hwnd, gConfig.iWindowX, gConfig.iWindowY, gConfig.iResolutionX, gConfig.iResolutionY, true)) {
+	//	std::cerr << "moved it like a boss" << std::endl;
+	//} else {
+	//	std::cerr << "no cheese" << std::endl;
+	//} ///////////////////////////////////////////////////////////doesn't work (sad face)
+	
 	resolutionX = gConfig.iResolutionX;
 	resolutionY = gConfig.iResolutionY;
-	fullscreen = gConfig.bFullScreen;
+	fullScreen = gConfig.bFullScreen;
+	vSync = gConfig.bVsync;
 }

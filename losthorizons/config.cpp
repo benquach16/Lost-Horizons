@@ -1,4 +1,4 @@
-#include "windows.h"
+#include "stdafx.h"
 #include "config.h"
 #include "lib/ini_io.h"
 Config gConfig;
@@ -30,8 +30,8 @@ void Config::Load(const char *iniFileName)
 	general->Get("FirstRun", &bFirstRun, true);
 	general->Get("AutoLoadLast", &bAutoLoadLast, false);
 	general->Get("ConfirmOnQuit", &bConfirmOnQuit, false);
-	general->Get("WindowPositionX", &iWindowX, 40);
-	general->Get("WindowPositionY", &iWindowY, 20);
+	general->Get("WindowPositionX", &iWindowX, 150);
+	general->Get("WindowPositionY", &iWindowY, 50);
 	general->Get("TopMost", &bTopMost, false);
 
 	IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");
@@ -40,7 +40,7 @@ void Config::Load(const char *iniFileName)
 	graphics->Get("ResolutionX", &iResolutionX, 1024);
 	graphics->Get("ResolutionY", &iResolutionY, 768);
 	graphics->Get("FullScreen", &bFullScreen, false);
-//	graphics->Get("Vsync", &bVsync, false);
+	graphics->Get("Vsync", &bVsync, false);
 //	graphics->Get("Shaders", &bShaders, true);
 
 	IniFile::Section *sound = iniFile.GetOrCreateSection("Sound");
@@ -74,7 +74,7 @@ void Config::Save()
 		graphics->Set("ResolutionX", iResolutionX);
 		graphics->Set("ResolutionY", iResolutionY);
 		graphics->Set("FullScreen", bFullScreen);
-//		graphics->Set("Vsync", bVsync);
+		graphics->Set("Vsync", bVsync);
 //		graphics->Set("Shaders", bShaders);
 
 		IniFile::Section *sound = iniFile.GetOrCreateSection("Sound");

@@ -29,7 +29,7 @@ struct Config
 		unsigned iResolutionY;
 		unsigned iBits;
 		bool bFullScreen;
-		//bool bVsync;
+		bool bVsync;
 		//bool bShaders;
 
 		// Audio
