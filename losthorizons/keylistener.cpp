@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "keylistener.h"
 
 KeyListener::KeyListener() : mouseL(false), mouseR(false), mouseX(0), mouseY(0),
