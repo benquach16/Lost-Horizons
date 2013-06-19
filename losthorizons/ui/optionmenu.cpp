@@ -56,8 +56,7 @@ bool OptionMenu::get(gui::IGUICheckBox *item)
 	return item->isChecked() ? true : false;
 }
 
-template <typename T>
-T OptionMenu::get(gui::IGUIComboBox *item, const T* val)
+int OptionMenu::get(gui::IGUIComboBox *item, const int* val)
 {
 	return val[item->getSelected()];
 }
