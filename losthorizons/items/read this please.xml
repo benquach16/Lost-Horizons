@@ -24,24 +24,27 @@ It should be possible to have it all in one file too.
 				<scaleY>0.3</scaleY>
 				<scaleZ>0.3</scaleZ>
 			</modelStats>
-			<shipStats hull="2000">
-				<base>
+			<shipStats>
+        <hull>2000</hull>
+        <base>
 					<!--
 					I was thinking we could put information about what it starts out with here
-					excluded elements also means 0 for those values
+					excluded elements also means 0 or default for those values
 					-->
 				</base>
 				<limit>
 					<velocity>118</velocity>
 					<turn>10</turn>
-					<turrets>
-						<medium>4</medium>
-						<light>4</light>
-						<PD>4</PD>
-					</turrets>
-					<energy>1000</energy>
-					<crew>800</crew>
-					<fighters>10</fighters>
+          <crew>800</crew>
+          <energy>1000</energy>
+          <weapons>
+            <turrets>
+              <medium>4</medium>
+              <light>4</light>
+              <PD>4</PD>
+            </turrets>
+            <fighters>10</fighters>
+          </weapons>
 				</limit>
 			</shipStats>
 		</itemStats>
