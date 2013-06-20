@@ -10,7 +10,6 @@
 class Ship : public Object
 {
 public:
-
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
 
@@ -22,7 +21,6 @@ public:
 	~Ship();
 
 	virtual void run();
-
 
 private:
 	//iterator to 'this'
@@ -41,7 +39,4 @@ private:
 	//other stats
 	Ship *shipTarget;
 };
-
-
-
 #endif

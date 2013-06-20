@@ -7,6 +7,7 @@
 #include "irrlicht.h"
 #include "gameloop.h"
 #include "keylistener.h"
+#include "startmenu.h"
 
 using namespace irr;
 using namespace core;
@@ -30,6 +31,7 @@ private:
 	KeyListener *receiver;
 	Gameloop *game;
 	HWND hwnd;
+	StartMenu *menu;
 
 	void buildGraphics();
 	void getBits();

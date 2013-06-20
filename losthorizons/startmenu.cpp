@@ -1,6 +1,5 @@
 //#include "stdafx.h"
 #include "startmenu.h"
-#include "optionmenu.h"
 
 
 StartMenu::StartMenu(irr::IrrlichtDevice *graphics)

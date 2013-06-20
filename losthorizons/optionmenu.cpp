@@ -61,14 +61,15 @@ OptionMenu::~OptionMenu()
 {
 }
 
-bool OptionMenu::get(gui::IGUICheckBox *item)
+void OptionMenu::restart()
 {
-	return item->isChecked() ? true : false;
-}
-
-int OptionMenu::get(gui::IGUIComboBox *item, const int* val)
-{
-	return val[item->getSelected()];
+	for (unsigned i = 1; i < 8; ++i) {
+		if (gConfig.iResolutionY == resY[i]) {
+			resolution->setSelected(i);
+		}
+	}
+	fullscreen->setChecked(gConfig.bFullScreen);
+	vsync->setChecked(gConfig.bVsync);
 }
 
 void OptionMenu::run()
@@ -76,6 +77,7 @@ void OptionMenu::run()
 	//ensure menu is hidden or not hidden
 	MenuWindow::run();
 	if (quit->isPressed()) {
+		restart();
 		window->setVisible(false);
 	}
 	if (apply->isPressed()) {
@@ -85,4 +87,14 @@ void OptionMenu::run()
 		gConfig.bVsync = get(vsync);
 		window->setVisible(false);
 	}
+}
+
+bool OptionMenu::get(gui::IGUICheckBox *item)
+{
+	return item->isChecked() ? true : false;
+}
+
+int OptionMenu::get(gui::IGUIComboBox *item, const int* val)
+{
+	return val[item->getSelected()];
 }

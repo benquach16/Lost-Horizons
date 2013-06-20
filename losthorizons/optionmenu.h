@@ -14,6 +14,8 @@ public:
 	OptionMenu(irr::IrrlichtDevice *graphics);
 	~OptionMenu();
 
+	void restart();
+
 	void run();
 
 	bool get(gui::IGUICheckBox *item);
