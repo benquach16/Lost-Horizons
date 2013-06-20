@@ -94,6 +94,7 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 //delete everything
 StartMenu::~StartMenu()
 {
+	delete config;
 	cam->drop();
 	corona->drop();
 	nebula->drop();
@@ -108,6 +109,6 @@ StartMenu::~StartMenu()
 void StartMenu::run()
 {
 	if (options->isPressed()) {
-		window->setVisible(false);
+		config->run();
 	}
 }
