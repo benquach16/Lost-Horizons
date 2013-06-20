@@ -25,23 +25,17 @@
     <Filter Include="Source Files\ui">
       <UniqueIdentifier>{395d101f-0f23-48cd-a3fa-027584ce4b53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\objects">
+      <UniqueIdentifier>{f9283b73-8e3c-4ca2-b460-e64317953a70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects">
+      <UniqueIdentifier>{3234acec-f988-4063-ba7b-8dd0493cbf33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="baseapplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,29 +45,14 @@
     <ClInclude Include="gameloop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\ini_io.h">
       <Filter>Header Files\lib</Filter>
     </ClInclude>
-    <ClInclude Include="turret.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gamescene.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\optionmenu.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\menuwindow.h">
-      <Filter>Header Files\ui</Filter>
     </ClInclude>
     <ClInclude Include="itemproperties.h">
       <Filter>Header Files</Filter>
@@ -84,11 +63,35 @@
     <ClInclude Include="shipproperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="optionmenu.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="menuwindow.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ship.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="turret.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -104,14 +107,8 @@
     <ClCompile Include="keylistener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gamescene.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\optionmenu.cpp">
-      <Filter>Source Files\ui</Filter>
     </ClCompile>
     <ClCompile Include="itemproperties.cpp">
       <Filter>Source Files</Filter>
@@ -121,6 +118,15 @@
     </ClCompile>
     <ClCompile Include="shipproperties.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="optionmenu.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

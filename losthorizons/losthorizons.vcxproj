@@ -91,8 +91,10 @@
     <ClInclude Include="itemproperties.h" />
     <ClInclude Include="keylistener.h" />
     <ClInclude Include="lib\ini_io.h" />
+    <ClInclude Include="menuwindow.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="objectmanager.h" />
+    <ClInclude Include="optionmenu.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ship.h" />
@@ -100,8 +102,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="turret.h" />
-    <ClInclude Include="ui\menuwindow.h" />
-    <ClInclude Include="ui\optionmenu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="baseapplication.cpp" />
@@ -113,9 +113,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectmanager.cpp" />
+    <ClCompile Include="optionmenu.cpp" />
     <ClCompile Include="shipproperties.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="ui\optionmenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc" />
