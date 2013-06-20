@@ -2,10 +2,10 @@
 #include "itemproperties.h"
 #include <iostream>
 
-ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string &filename)
+ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string &f)
 {
 	//read in the xml file
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(filename.c_str());
+	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 
 	while(file)
 	{

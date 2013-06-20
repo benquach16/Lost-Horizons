@@ -115,6 +115,7 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectmanager.cpp" />
     <ClCompile Include="optionmenu.cpp" />
+    <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />

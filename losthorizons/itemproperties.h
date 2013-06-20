@@ -19,7 +19,7 @@ enum E_ITEM_TYPES
 class ItemProperties
 {
 public:
-	ItemProperties(irr::IrrlichtDevice *graphics, const std::string &filename);
+	ItemProperties(irr::IrrlichtDevice *graphics, const std::string &f);
 	~ItemProperties();
 
 private:

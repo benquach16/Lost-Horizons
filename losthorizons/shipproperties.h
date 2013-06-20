@@ -9,13 +9,16 @@
 class ShipProperties : public ItemProperties
 {
 public:
-	ShipProperties(IrrlichtDevice *graphics, const std::string &filename);
+	ShipProperties(IrrlichtDevice *graphics, const std::string &f);
 	~ShipProperties();
 
 private:
 	int hull;
 	int maxTurn;
 	int maxVelocity;
+
+	int maxEnergy;
+	int maxCrew;
 
 	int maxTurrets;
 	int maxPDTurrets;
@@ -26,7 +29,7 @@ private:
 	std::wstring diffuseMap;
 	std::wstring normalMap;
 
-
+	core::vector3df scale;
 };
 
 #endif
