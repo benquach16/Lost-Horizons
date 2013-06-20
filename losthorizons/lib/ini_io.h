@@ -126,7 +126,7 @@ bool TryParse(const std::string &str, int *const output)
 
 bool TryParse(const std::string &str, unsigned *const output)
 {
-	if (validNumber(str) && str.find('.') == -1 && str.find('-') == -1) {
+	if (validNumber(str) && str.find(".-") == -1) {
 		convert(str, output);
 		return true;
 	} else {

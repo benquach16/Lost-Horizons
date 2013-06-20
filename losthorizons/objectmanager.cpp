@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "objectmanager.h"
 
 ObjectManager::ObjectManager(IrrlichtDevice *graphics)

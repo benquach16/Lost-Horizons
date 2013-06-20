@@ -6,7 +6,6 @@
 //only for the implementation of multiple solar systems
 //so for now, keep the design as a singleton
 #include <list>
-
 #include "player.h"
 #include "ship.h"
 #include "object.h"

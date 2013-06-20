@@ -36,7 +36,7 @@ void BaseApplication::restart()
 void BaseApplication::run()
 {
 	//graphics loop
-	while(graphics->run())
+	while (graphics->run())
 	{
 		graphics->getVideoDriver()->beginScene(true, true, SColor(255,100,101,140));
 

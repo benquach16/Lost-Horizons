@@ -2,7 +2,6 @@
 #define _ITEMPROPERTIES_H_
 
 #include <string>
-
 #include "irrlicht.h"
 
 using namespace irr;

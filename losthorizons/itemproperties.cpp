@@ -1,6 +1,5 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "itemproperties.h"
-
 #include <iostream>
 
 ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string &filename)

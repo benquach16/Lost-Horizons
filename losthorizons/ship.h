@@ -7,7 +7,6 @@
 #include "shipproperties.h"
 
 
-
 class Ship : public Object
 {
 public:

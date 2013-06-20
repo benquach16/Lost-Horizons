@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "shipproperties.h"
 
 ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &filename) : ItemProperties(graphics, filename)

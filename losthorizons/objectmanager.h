@@ -2,7 +2,6 @@
 #define _OBJECTMANAGER_H_
 
 #include <vector>
-
 #include "irrlicht.h"
 #include "itemproperties.h"
 #include "shipproperties.h"

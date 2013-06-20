@@ -1,6 +1,6 @@
-#include "../stdafx.h"
+#include "stdafx.h"
 #include "optionmenu.h"
-#include "../config.h"
+#include "config.h"
 #include <string>
 #include <cmath>
 
