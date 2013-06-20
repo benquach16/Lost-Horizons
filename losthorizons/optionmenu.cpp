@@ -57,6 +57,10 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 	vsync = graphics->getGUIEnvironment()->addCheckBox(gConfig.bVsync, rect<s32>(170,320,190,340), window);
 }
 
+OptionMenu::~OptionMenu()
+{
+}
+
 bool OptionMenu::get(gui::IGUICheckBox *item)
 {
 	return item->isChecked() ? true : false;
@@ -71,10 +75,10 @@ void OptionMenu::run()
 {
 	//ensure menu is hidden or not hidden
 	MenuWindow::run();
-	if(quit->isPressed()) {
+	if (quit->isPressed()) {
 		window->setVisible(false);
 	}
-	if(apply->isPressed()) {
+	if (apply->isPressed()) {
 		gConfig.iResolutionX = get(resolution, resX);
 		gConfig.iResolutionY = get(resolution, resY);
 		gConfig.bFullScreen = get(fullscreen);

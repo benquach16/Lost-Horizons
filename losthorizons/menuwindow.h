@@ -3,6 +3,10 @@
 
 #include "irrlicht.h"
 
+using namespace irr;
+using namespace core;
+
+
 //This is the base class of menus in the game
 
 class MenuWindow

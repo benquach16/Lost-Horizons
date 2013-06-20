@@ -1,9 +1,10 @@
 //#include "stdafx.h"
 #include "startmenu.h"
+#include "optionmenu.h"
 
 
 StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
-	: MenuWindow()
+	: MenuWindow(), config(new OptionMenu(graphics))
 {
 	//setup GUI font and other stuff
 	graphics->getGUIEnvironment()->setSkin(graphics->getGUIEnvironment()->createSkin(gui::EGST_WINDOWS_METALLIC));
@@ -71,7 +72,7 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	graphics->getSceneManager()->setAmbientLight(SColor(64,64,64,64));	
 
 	nebula = graphics->getSceneManager()->addParticleSystemSceneNode(false, cam);
-	scene::IParticleSphereEmitter *em = nebula->createSphereEmitter(vector3df(-800,0,100), 10, vector3df(0.02,0,0), 1, 1,
+	scene::IParticleSphereEmitter *em = nebula->createSphereEmitter(vector3df(-800,0,100), 10, vector3df(0.02f,0,0), 1, 1,
 																	SColor(255,200,220,225), SColor(255,200,220,225), 15000, 25000, 0,
 																	dimension2d<f32>(500,500), dimension2d<f32>(2000,2000));
 	nebula->setEmitter(em);
@@ -102,4 +103,11 @@ StartMenu::~StartMenu()
 	loadgame->drop();
 	options->drop();
 	quit->drop();
+}
+
+void StartMenu::run()
+{
+	if (options->isPressed()) {
+		window->setVisible(false);
+	}
 }

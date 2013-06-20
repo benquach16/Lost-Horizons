@@ -3,6 +3,7 @@
 
 #include "menuwindow.h"
 #include "irrlicht.h"
+#include "optionmenu.h"
 
 using namespace irr;
 using namespace core;
@@ -15,7 +16,10 @@ public:
 	StartMenu(irr::IrrlichtDevice *graphics);
 	~StartMenu();
 
+	void run();
+
 private:
+	OptionMenu *config;
 	scene::ICameraSceneNode *cam;
 	scene::ISceneNode *corona;
 	scene::IParticleSystemSceneNode *nebula;
@@ -26,6 +30,5 @@ private:
 	gui::IGUIButton *loadgame;
 	gui::IGUIButton *options;
 	gui::IGUIButton *quit;
-
 };
 #endif
