@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<itemStats type="ship" name="Praetorian Class Cruiser" description="Terran Federation Cruiser" cost="75000" weight="1200000"/>
+<modelStats filename="resources/ships/praetorian.X" diffuseMap="resources/ships/shiphull.png" normalMap="resources/ships/shiphull_normal.png"
+scaleX="0.3" scaleY="0.3" scaleZ="0.3"/>
+<shipStats maxVelocity="118" maxTurn="10" maxMediumTurrets="4" maxLightTurrets="4" maxPDTurrets="4" maxEnergy="1000" maxCrew="800" maxFighters="10"/>

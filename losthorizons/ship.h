@@ -4,24 +4,17 @@
 #include <list>
 #include <string>
 #include "object.h"
+#include "shipproperties.h"
 
-struct ShipTypes
-{
-	//define the stats of each ship
-	//hp, turret slots, etc etc
-	int hull;
-
-	std::string filename;
-	std::string diffuseMap;
-	std::string normalMap;
-
-	vector3df scale;
-};
 
 
 class Ship : public Object
 {
 public:
+
+	//contain the list inside ship class so all ships can access any other ship if needed
+	static std::list<Ship*> allShips;
+
 	Ship();
 	//copy constructor
 	Ship(const Ship &s);
@@ -38,20 +31,18 @@ private:
 
 	//stats
 	//basic ship type
-	ShipTypes shipType;
 	int hull, armor, shield;
 	int maxHull, maxArmor, maxShield;
 
 	int velocity;
 	int maxVelocity;
 
-
+	int maxTurn;
 
 	//other stats
 	Ship *shipTarget;
 };
 
-//contain the list inside ship class so all ships can access any other ship if needed
-static std::list<Ship*> allShips;
+
 
 #endif

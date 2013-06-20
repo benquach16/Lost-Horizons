@@ -8,6 +8,8 @@
 #include <list>
 
 #include "player.h"
+#include "ship.h"
+#include "object.h"
 
 class GameScene
 {
@@ -20,9 +22,11 @@ public:
 	void saveScene();
 
 	void run();
+
+	
 private:
 	IrrlichtDevice *graphics;
-
+	std::list<Object*> objectsList;
 };
 
 #endif
