@@ -24,7 +24,7 @@ Windows/ipch
 
 # For ini, etc.
 *.ini
-local
-res
-saves
-shaders
+losthorizons/local
+losthorizons/res
+losthorizons/saves
+losthorizons/shaders
