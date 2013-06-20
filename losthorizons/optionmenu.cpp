@@ -7,9 +7,9 @@
 
 //setup GUI and initialize variables
 OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
-	: MenuWindow(graphics)
+	: MenuWindow()
 {
-	core::dimension2d<u32> t;
+	dimension2d<u32> t;
 	t = graphics->getVideoDriver()->getScreenSize();
 	//create window
 	window = graphics->getGUIEnvironment()->addWindow(rect<s32>(t.Width/2-300, t.Height/2-200, t.Width/2+300, t.Height/2+200), true, L"Options");

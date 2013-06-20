@@ -6,24 +6,22 @@
 
 using namespace irr;
 using namespace core;
-using namespace video;
-using namespace gui;
 
 //displays options to change config
 class OptionMenu : public MenuWindow
 {
 public:
 	OptionMenu(irr::IrrlichtDevice *graphics);
+	~OptionMenu();
 
 	void run();
 
-	bool OptionMenu::get(gui::IGUICheckBox *item);
-	int OptionMenu::get(gui::IGUIComboBox *item, const int* val);
+	bool get(gui::IGUICheckBox *item);
+	int get(gui::IGUIComboBox *item, const int* val);
 
 private:
 	int resY[8];
 	int resX[8];
-	gui::IGUIElement *control;
 	gui::IGUIComboBox *resolution;
 	//gui::IGUIComboBox *dynamicLighting;		to implement
 	gui::IGUICheckBox *fullscreen;
