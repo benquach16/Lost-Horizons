@@ -20,14 +20,14 @@ struct Config
 		// General
 		bool bAutoLoadLast;
 		bool bConfirmOnQuit;
+		bool bTopMost;
 		unsigned iWindowX;
 		unsigned iWindowY;
-		bool bTopMost;
 
 		// Video
+		unsigned iBits;
 		unsigned iResolutionX;
 		unsigned iResolutionY;
-		unsigned iBits;
 		bool bFullScreen;
 		bool bVsync;
 		//bool bShaders;

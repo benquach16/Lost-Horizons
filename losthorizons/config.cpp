@@ -21,27 +21,23 @@ void Config::Load(const char *iniFileName)
 	if (!iniFile.Load(iniFileName)) {
 	}
 
-	HDC dc = GetDC(NULL);
-	iBits = GetDeviceCaps(dc, BITSPIXEL);
-	ReleaseDC(NULL, dc);
-
 	IniFile::Section *general = iniFile.GetOrCreateSection("General");
 
 	general->Get("FirstRun", &bFirstRun, true);
 	general->Get("AutoLoadLast", &bAutoLoadLast, false);
 	general->Get("ConfirmOnQuit", &bConfirmOnQuit, false);
+	general->Get("TopMost", &bTopMost, false);
 	general->Get("WindowPositionX", &iWindowX, 150);
 	general->Get("WindowPositionY", &iWindowY, 50);
-	general->Get("TopMost", &bTopMost, false);
 
 	IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");
 
-	graphics->Get("ShowFPSCounter", &bShowFPSCounter, false);
 	graphics->Get("ResolutionX", &iResolutionX, 1024);
 	graphics->Get("ResolutionY", &iResolutionY, 768);
 	graphics->Get("FullScreen", &bFullScreen, false);
 	graphics->Get("Vsync", &bVsync, false);
 //	graphics->Get("Shaders", &bShaders, true);
+	graphics->Get("ShowFPSCounter", &bShowFPSCounter, false);
 
 	IniFile::Section *sound = iniFile.GetOrCreateSection("Sound");
 
@@ -64,18 +60,18 @@ void Config::Save()
 
 		general->Set("AutoLoadLast", bAutoLoadLast);
 		general->Set("ConfirmOnQuit", bConfirmOnQuit);
+		general->Set("TopMost", bTopMost);
 		general->Set("WindowPositionX", iWindowX);
 		general->Set("WindowPositionY", iWindowY);
-		general->Set("TopMost", bTopMost);
 
 		IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");
 
-		graphics->Set("ShowFPSCounter", bShowFPSCounter);
 		graphics->Set("ResolutionX", iResolutionX);
 		graphics->Set("ResolutionY", iResolutionY);
 		graphics->Set("FullScreen", bFullScreen);
 		graphics->Set("Vsync", bVsync);
 //		graphics->Set("Shaders", bShaders);
+		graphics->Set("ShowFPSCounter", bShowFPSCounter);
 
 		IniFile::Section *sound = iniFile.GetOrCreateSection("Sound");
 

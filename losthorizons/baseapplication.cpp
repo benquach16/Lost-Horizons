@@ -1,8 +1,8 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "baseapplication.h"
 #include "config.h"
 #include <iostream>
-//#include <SExposedVideoData.h>
+#include <SExposedVideoData.h>
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -10,13 +10,14 @@
 
 BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), game(0)
 {
+	getBits();
 	gConfig.Load();
 }
 
 BaseApplication::~BaseApplication()
 {
-	graphics->drop();
 	gConfig.Save();
+	graphics->drop();
 }
 
 void BaseApplication::init()
@@ -59,7 +60,7 @@ void BaseApplication::run()
 void BaseApplication::buildGraphics()
 {
 	graphics = createDevice(EDT_DIRECT3D9,
-		dimension2du(gConfig.iResolutionX, gConfig.iResolutionY),
+		dimension2d<u32>(gConfig.iResolutionX, gConfig.iResolutionY),
 		gConfig.iBits,
 		gConfig.bFullScreen,
 		false,
@@ -72,29 +73,48 @@ void BaseApplication::buildGraphics()
 		std::exit(1);
 	}
 
-	//SExposedVideoData InternalData = graphics->getVideoDriver()->getExposedVideoData();;
-	//switch(EDT_DIRECT3D9) { //use variable if we ever implement using the other drivers
- //           case EDT_OPENGL:
-	//			hwnd  = (HWND) InternalData.OpenGLWin32.HWnd;
- //               break;
-
- //           case EDT_DIRECT3D8:
- //               hwnd  = (HWND) InternalData.D3D8.HWnd;
- //               break;
-
- //           case EDT_DIRECT3D9:
- //               hwnd  = (HWND) InternalData.D3D9.HWnd; std::cerr << hwnd << " is the handle?" << std::endl;
- //               break;
-	//}
-	//if (MoveWindow(hwnd, gConfig.iWindowX, gConfig.iWindowY, gConfig.iResolutionX, gConfig.iResolutionY, true)) {
-	//	std::cerr << "moved it like a boss" << std::endl;
-	//} else {
-	//	std::cerr << "no cheese" << std::endl;
-	//} ///////////////////////////////////////////////////////////doesn't work (sad face)
-	// //probably doesn't work because this is not a normal win32 window
+	graphics->setWindowCaption(L"Lost Horizons");
+	SExposedVideoData InternalData = graphics->getVideoDriver()->getExposedVideoData();;
+	switch(EDT_DIRECT3D9) { //use variable if we ever implement using the other drivers
+            case EDT_OPENGL:
+				hwnd  = (HWND) InternalData.OpenGLWin32.HWnd;
+                break;
+            case EDT_DIRECT3D8:
+                hwnd  = (HWND) InternalData.D3D8.HWnd;
+                break;
+            case EDT_DIRECT3D9:
+                hwnd  = (HWND) InternalData.D3D9.HWnd;
+                break;
+	}
+	if (gConfig.bFullScreen) {
+		//don't change anything
+	} else if (gConfig.bTopMost) {
+		SetWindowPos(hwnd, HWND_TOPMOST, gConfig.iWindowX, gConfig.iWindowY, 0, 0, SWP_NOSIZE);
+	} else {
+		SetWindowPos(hwnd, HWND_TOP, gConfig.iWindowX, gConfig.iWindowY, 0, 0, SWP_NOSIZE);
+	}
 	
 	resolutionX = gConfig.iResolutionX;
 	resolutionY = gConfig.iResolutionY;
 	fullScreen = gConfig.bFullScreen;
 	vSync = gConfig.bVsync;
+}
+
+void BaseApplication::getBits()
+{
+	HDC dc = GetDC(NULL);
+	gConfig.iBits = GetDeviceCaps(dc, BITSPIXEL);
+	ReleaseDC(NULL, dc);
+}
+
+void BaseApplication::setPosition()
+{
+	WINDOWPLACEMENT placement;
+	GetWindowPlacement(hwnd, &placement);
+	if (placement.showCmd == SW_SHOWNORMAL) {
+		RECT rc;
+		GetWindowRect(hwnd, &rc);
+		gConfig.iWindowX = rc.left;
+		gConfig.iWindowY = rc.top;
+	}
 }
