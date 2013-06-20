@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+Your formatting looks kind of weird. Don't you think it should be more like a tree?
+It should be possible to have it all in one file too.
+-->
+<items>
+	<itemStats name="water">
+	  <type>item</type>
+		<description>Essential to all life in the known galaxy</description>
+		<cost>25</cost>
+		<weight>2</weight>
+	</itemStats>
+	<ships>
+		<itemStats name="Praetorian Class Cruiser">
+			<type>ship</type>
+			<description>Terran Federation Cruiser</description>
+			<cost>75000</cost>
+			<weight>1200000</weight>
+			<modelStats>
+				<path>res/models/ships/praetorian.X</path>
+				<diffuseMap>res/models/shiphull.png</diffuseMap>
+				<normalMap>res/models/shiphull_normal.png</normalMap>
+				<scaleX>0.3</scaleX>
+				<scaleY>0.3</scaleY>
+				<scaleZ>0.3</scaleZ>
+			</modelStats>
+			<shipStats hull="2000">
+				<base>
+					<!--
+					I was thinking we could put information about what it starts out with here
+					excluded elements also means 0 for those values
+					-->
+				</base>
+				<limit>
+					<velocity>118</velocity>
+					<turn>10</turn>
+					<turrets>
+						<medium>4</medium>
+						<light>4</light>
+						<PD>4</PD>
+					</turrets>
+					<energy>1000</energy>
+					<crew>800</crew>
+					<fighters>10</fighters>
+				</limit>
+			</shipStats>
+		</itemStats>
+	</ships>
+</items>
