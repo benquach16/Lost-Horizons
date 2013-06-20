@@ -33,9 +33,11 @@ private:
 	HWND hwnd;
 	StartMenu *menu;
 
+	bool menuOpen;
+
 	void buildGraphics();
 	void getBits();
-	void setPosition();
+	void getPosition();
 
 	unsigned resolutionX, resolutionY;
 	bool fullScreen, vSync;

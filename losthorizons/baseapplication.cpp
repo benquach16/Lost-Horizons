@@ -8,7 +8,7 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), game(0)
+BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), game(0), hwnd(0), menu(0), menuOpen(false)
 {
 	getBits();
 	gConfig.Load();
@@ -16,8 +16,9 @@ BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), gam
 
 BaseApplication::~BaseApplication()
 {
-	gConfig.Save();
+	delete menu;
 	graphics->drop();
+	gConfig.Save();
 }
 
 void BaseApplication::init()
@@ -107,7 +108,7 @@ void BaseApplication::getBits()
 	ReleaseDC(NULL, dc);
 }
 
-void BaseApplication::setPosition()
+void BaseApplication::getPosition()
 {
 	WINDOWPLACEMENT placement;
 	GetWindowPlacement(hwnd, &placement);
