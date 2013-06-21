@@ -91,6 +91,7 @@
     <ClInclude Include="itemproperties.h" />
     <ClInclude Include="keylistener.h" />
     <ClInclude Include="lib\ini_io.h" />
+    <ClInclude Include="lib\string_util.h" />
     <ClInclude Include="menuwindow.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="objectmanager.h" />

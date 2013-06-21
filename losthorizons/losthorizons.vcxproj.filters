@@ -93,6 +93,9 @@
     <ClInclude Include="startmenu.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="lib\string_util.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
