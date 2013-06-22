@@ -5,11 +5,12 @@ Gameloop::Gameloop()
 {
 }
 
-Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver) : currentScene(new GameScene), 
+Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver) : 
+	currentScene(new GameScene(graphics)), objectManager(new ObjectManager(graphics)),
 	graphics(graphics), receiver(receiver)
 {
 	//create player and camera
-	playerCam = graphics->getSceneManager()->addCameraSceneNode();
+	
 }
 
 Gameloop::~Gameloop()
@@ -19,7 +20,7 @@ Gameloop::~Gameloop()
 void Gameloop::run()
 {
 	playerControl();
-	cameraControl();
+	currentScene->run();
 }
 
 void Gameloop::playerControl()
@@ -30,9 +31,9 @@ void Gameloop::playerControl()
 		//accelerate
 
 	}
+	else if(receiver->isKeyDown(irr::KEY_KEY_Z))
+	{
+		//decelerate
+	}
 }
 
-void Gameloop::cameraControl()
-{
-	
-}

@@ -9,6 +9,8 @@
 #include "player.h"
 #include "ship.h"
 #include "object.h"
+#include "objectmanager.h"
+#include "playercamera.h"
 
 class GameScene
 {
@@ -22,6 +24,10 @@ public:
 
 	void run();
 
+	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f),
+		const vector3df &rotation = vector3df(0.f,0.f,0.f));
+	Player *createPlayer(const vector3df &position, const vector3df &rotation,
+		const ShipProperties &shipProps);
 	
 private:
 	IrrlichtDevice *graphics;

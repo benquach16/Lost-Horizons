@@ -20,9 +20,15 @@ class ItemProperties
 {
 public:
 	ItemProperties(irr::IrrlichtDevice *graphics, const std::string &f);
-	~ItemProperties();
+	virtual ~ItemProperties();
 
-private:
+	const std::wstring& getName() const;
+	const std::wstring& getDesc() const;
+	const int& getPrice() const;
+	const int& getWeight() const;
+	const E_ITEM_TYPES& getItemType() const;
+
+protected:
 	//converter function
 	E_ITEM_TYPES getItemType(const std::wstring &str);
 	std::wstring name;

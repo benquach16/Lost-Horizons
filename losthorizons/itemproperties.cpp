@@ -7,10 +7,10 @@ ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string 
 	//read in the xml file
 	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 
-	while(file)
+	while(file->read())
 	{
 		//from itemstats block
-		if(file->getNodeName() == L"itemStats")
+		if(core::stringw(L"itemStats").equals_ignore_case(file->getNodeName()))
 		{
 			itemType = getItemType(file->getAttributeValue(L"type"));
 
@@ -30,12 +30,42 @@ ItemProperties::~ItemProperties()
 {
 }
 
+
+const std::wstring& ItemProperties::getName() const
+{
+	return name;
+}
+
+const std::wstring& ItemProperties::getDesc() const
+{
+	return description;
+}
+
+const int& ItemProperties::getPrice() const
+{
+	return price;
+}
+
+const int& ItemProperties::getWeight() const
+{
+	return weight;
+}
+
+//private function
 E_ITEM_TYPES ItemProperties::getItemType(const std::wstring &str)
 {
 	//private conversion function
 	if(str == L"item")
 	{
 		return E_ITEM;
+	}
+	else if(str == L"turret")
+	{
+		return E_ITEM_TURRET;
+	}
+	else if(str == L"module")
+	{
+		return E_ITEM_MODULE;
 	}
 	else if(str == L"ship")
 	{

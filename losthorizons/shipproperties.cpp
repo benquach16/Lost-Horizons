@@ -1,5 +1,6 @@
 //#include "stdafx.h"
 #include "shipproperties.h"
+#include <iostream>
 
 ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) : ItemProperties(graphics, f)
 {
@@ -8,11 +9,11 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 
 
-	while(file)
+	while(file->read())
 	{
 
 
-		if(file->getNodeName() == L"modelStats")
+		if(core::stringw(L"modelStats").equals_ignore_case(file->getNodeName()))
 		{
 			filename = file->getAttributeValue(L"filename");
 			diffuseMap = file->getAttributeValue(L"diffuseMap");
@@ -26,7 +27,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 		}
 
 		//ship stats now
-		if(file->getNodeName() == L"shipStats")
+		if(core::stringw(L"shipStats").equals_ignore_case(file->getNodeName()))
 		{
 			hull = file->getAttributeValueAsInt(L"hull");
 			maxVelocity = file->getAttributeValueAsInt(L"maxVelocity");
@@ -37,4 +38,67 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 	}
 
 	file->drop();
+}
+
+ShipProperties::~ShipProperties()
+{
+}
+
+//accessors
+const int& ShipProperties::getHull() const
+{
+	return hull;
+}
+const int& ShipProperties::getMaxTurn() const
+{
+	return maxTurn;
+}
+
+const int& ShipProperties::getMaxVel() const
+{
+	return maxVelocity;
+}
+
+const int& ShipProperties::getMaxEnergy() const
+{
+	return maxEnergy;
+}
+const int& ShipProperties::getMaxCrew() const
+{
+	return maxCrew;
+}
+
+const int& ShipProperties::getMaxLTurrets() const
+{
+	return maxLightTurrets;
+}
+const int& ShipProperties::getMaxMTurrets() const
+{
+	return maxMediumTurrets;
+}
+const int& ShipProperties::getMaxHTurrets() const
+{
+	return maxHeavyTurrets;
+}
+const int& ShipProperties::getMaxPTurrets() const
+{
+	return maxPDTurrets;
+}
+
+const std::wstring& ShipProperties::getFilename() const
+{
+	return filename;
+}
+const std::wstring& ShipProperties::getDiffuseMap() const
+{
+	return diffuseMap;
+}
+const std::wstring& ShipProperties::getNormalMap() const
+{
+	return normalMap;
+}
+
+const core::vector3df& ShipProperties::getScale() const
+{
+	return scale;
 }

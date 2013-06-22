@@ -96,6 +96,9 @@
     <ClInclude Include="lib\string_util.h">
       <Filter>Header Files\lib</Filter>
     </ClInclude>
+    <ClInclude Include="playercamera.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,6 +141,9 @@
       <Filter>Source Files\ui</Filter>
     </ClCompile>
     <ClCompile Include="ship.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="playercamera.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>

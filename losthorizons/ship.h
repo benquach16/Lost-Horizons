@@ -6,7 +6,17 @@
 #include "object.h"
 #include "shipproperties.h"
 
+//for finite state machine implementation
+enum E_AI_STATES
+{
+	STATE_PATROLLING,
+	STATE_FLEEING,
+	STATE_ATTACKING,
+	STATE_DEFENDING,
+	STATE_ASSAULTING
+};
 
+//basic ship class
 class Ship : public Object
 {
 public:
@@ -14,6 +24,8 @@ public:
 	static std::list<Ship*> allShips;
 
 	Ship();
+	Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props,
+		const vector3df &position, const vector3df &rotation, bool isPlayer);
 	//copy constructor
 	Ship(const Ship &s);
 	//overloaded assignment operator
@@ -22,7 +34,8 @@ public:
 
 	virtual void run();
 
-private:
+protected:
+	bool isPlayer;
 	//iterator to 'this'
 	std::list<Ship*>::iterator it;
 

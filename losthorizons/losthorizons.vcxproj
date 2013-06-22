@@ -97,6 +97,7 @@
     <ClInclude Include="objectmanager.h" />
     <ClInclude Include="optionmenu.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="playercamera.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="shipproperties.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectmanager.cpp" />
     <ClCompile Include="optionmenu.cpp" />
+    <ClCompile Include="playercamera.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />

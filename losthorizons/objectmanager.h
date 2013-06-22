@@ -24,10 +24,15 @@ public:
 	enum E_ITEM_LIST
 	{
 		WATER = 0,
-		PRAE_CRUISER = 1,
 	};	
+	enum E_SHIP_LIST
+	{
+		PRAE_CRUISER = 0,
+	};
 	
-	static std::vector<ItemProperties*> itemList;
+	static std::vector<ItemProperties> itemList;
+	static std::vector<ShipProperties> shipList;
+	
 	
 };
 

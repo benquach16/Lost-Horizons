@@ -4,6 +4,7 @@
 #include "player.h"
 #include "keylistener.h"
 #include "gamescene.h"
+#include "objectmanager.h"
 
 class Gameloop
 {
@@ -20,10 +21,10 @@ public:
 
 private:
 	void playerControl();
-	void cameraControl();
 
 	IrrlichtDevice *graphics;
 	ICameraSceneNode *playerCam;
+	ObjectManager *objectManager;
 	KeyListener *receiver;
 	Player *player;
 

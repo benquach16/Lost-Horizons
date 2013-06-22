@@ -12,19 +12,43 @@ public:
 	ShipProperties(IrrlichtDevice *graphics, const std::string &f);
 	~ShipProperties();
 
-private:
+	//accessors because visual studio is a douchebag
+	const int& getHull() const;
+	const int& getMaxTurn() const;
+	const int& getMaxVel() const;
+
+	const int& getMaxEnergy() const;
+	const int& getMaxCrew() const;
+
+	const int& getMaxLTurrets() const;
+	const int& getMaxMTurrets() const;
+	const int& getMaxHTurrets() const;
+	const int& getMaxPTurrets() const;
+
+	const std::wstring& getFilename() const;
+	const std::wstring& getDiffuseMap() const;
+	const std::wstring& getNormalMap() const;
+
+	const core::vector3df& getScale() const;
+	
+protected:
+	//performance statistics
 	int hull;
 	int maxTurn;
 	int maxVelocity;
 
+	//logistic statistics
 	int maxEnergy;
 	int maxCrew;
 
-	int maxTurrets;
+	//combat statistics
+	int maxLightTurrets;
+	int maxMediumTurrets;
+	int maxHeavyTurrets;
 	int maxPDTurrets;
-	int turretClass;	//1 light 2 medium 3 heavy
 	int maxFighters;
 
+	//model information
 	std::wstring filename;
 	std::wstring diffuseMap;
 	std::wstring normalMap;

@@ -1,23 +1,22 @@
 //#include "stdafx.h"
 #include "objectmanager.h"
+#include <iostream>
 
-std::vector<ItemProperties*> ObjectManager::itemList;
+std::vector<ItemProperties> ObjectManager::itemList;
+std::vector<ShipProperties> ObjectManager::shipList;
 
 ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 {
 	//read in items and ships
 	//heres the list of items and ships so far
-	ItemProperties *water = new ItemProperties(graphics, "items/water.xml");
-	itemList.push_back(water);
-	ShipProperties *cruiser = new ShipProperties(graphics, "items/ships/praetorian_cruiser.xml");
-	itemList.push_back(cruiser);
+	//would prefer not to use pointers but since there are inherited classes we have to
+	std::cout << "Loading item properties...." << std::endl;
+	itemList.push_back(ItemProperties(graphics, "items/water.xml"));
+	shipList.push_back(ShipProperties(graphics, "items/ships/praetorian_cruiser.xml"));
+
 }
 
 ObjectManager::~ObjectManager()
 {
-	for(unsigned i = 0; i < itemList.size(); i++)
-	{
-		delete itemList[i];
-		itemList.erase(itemList.begin()+i);
-	}
+
 }
