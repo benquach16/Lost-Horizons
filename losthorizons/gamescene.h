@@ -24,10 +24,11 @@ public:
 
 	void run();
 
-	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f),
-		const vector3df &rotation = vector3df(0.f,0.f,0.f));
-	Player *createPlayer(const vector3df &position, const vector3df &rotation,
-		const ShipProperties &shipProps);
+	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
+	Player *createPlayer(const ShipProperties &shipProps, 
+		const vector3df &position, const vector3df &rotation);
+	Ship *createShip(const vector3df &position, const vector3df &rotation,
+		const ShipProperties &shipProps, const E_GAME_FACTIONS &faction);
 	
 private:
 	IrrlichtDevice *graphics;

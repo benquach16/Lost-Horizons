@@ -6,8 +6,16 @@
 class Player : public Ship
 {
 public:
+	//default constructor
 	Player();
-	~Player();
+	//parameterized constructor
+	Player(irr::IrrlichtDevice *graphics, const ShipProperties &props,
+		const vector3df &position, const vector3df &rotation);
+	virtual ~Player();
+	virtual void run();
+
+protected:
+
 };
 
 

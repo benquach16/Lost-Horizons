@@ -21,8 +21,7 @@ public:
 		E_CAMERA_TOP = 2
 	};
 
-	PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position = vector3df(0,0,0),
-		const vector3df &rotation = vector3df(0,0,0));
+	PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position = vector3df(0,0,0));
 	~PlayerCamera();
 	void run(const vector3df &pos);
 	void orbit(const vector3df &pos);

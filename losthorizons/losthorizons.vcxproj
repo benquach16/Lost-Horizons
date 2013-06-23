@@ -88,6 +88,7 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="gamescene.h" />
+    <ClInclude Include="item.h" />
     <ClInclude Include="itemproperties.h" />
     <ClInclude Include="keylistener.h" />
     <ClInclude Include="lib\ini_io.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectmanager.cpp" />
     <ClCompile Include="optionmenu.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="playercamera.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />

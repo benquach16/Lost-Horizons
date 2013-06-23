@@ -3,7 +3,7 @@
 
 std::list<Ship*> Ship::allShips;
 
-Ship::Ship() : Object(0, vector3df(0,0,0), vector3df(0,0,0))
+Ship::Ship() : Object(0,L"", vector3df(0,0,0), vector3df(0,0,0))
 {
 }
 
@@ -27,6 +27,12 @@ void Ship::run()
 	if(hull > 0)
 	{
 		//make sure its alive to do anything
+		//make it rotate to its targetted rotation first
 	}
+
+}
+
+void Ship::rotate()
+{
 
 }

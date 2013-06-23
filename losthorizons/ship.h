@@ -3,6 +3,8 @@
 
 #include <list>
 #include <string>
+#include <vector>
+
 #include "object.h"
 #include "shipproperties.h"
 
@@ -14,6 +16,13 @@ enum E_AI_STATES
 	STATE_ATTACKING,
 	STATE_DEFENDING,
 	STATE_ASSAULTING
+};
+
+//each ship has several subsystems
+struct Subsystem
+{
+	int health;
+	Subsystem() { health = 100; };
 };
 
 //basic ship class
@@ -30,11 +39,14 @@ public:
 	Ship(const Ship &s);
 	//overloaded assignment operator
 	Ship& operator=(const Ship &s);
-	~Ship();
+	virtual ~Ship();
 
 	virtual void run();
 
 protected:
+	//protected functions
+	void rotate();
+
 	bool isPlayer;
 	//iterator to 'this'
 	std::list<Ship*>::iterator it;
@@ -46,10 +58,17 @@ protected:
 
 	int velocity;
 	int maxVelocity;
-
 	int maxTurn;
+	int crew;
+	int maxCrew;
 
-	//other stats
+	//for that big ship feel
+	vector3df targetRotation;
+
+	//important misc variables
 	Ship *shipTarget;
+	//inventory of ship
+	
+	
 };
 #endif

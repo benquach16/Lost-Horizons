@@ -1,6 +1,7 @@
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
+
 #include "irrlicht.h"
 
 using namespace irr;
@@ -25,7 +26,7 @@ public:
 	Object();
 	//parametrized constructors
 	//instantiate with position, rotation, etc
-	Object(IAnimatedMesh *mesh, const vector3df &position = vector3df(0,0,0),
+	Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3df &position = vector3df(0,0,0),
 		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
 	//instantiate with filename
 	Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position = vector3df(0,0,0),
@@ -56,7 +57,7 @@ protected:
 	vector3df scale;
 
 	//3d infomation
-	IAnimatedMesh *mesh;
+	IAnimatedMeshSceneNode *mesh;
 
 };
 

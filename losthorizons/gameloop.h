@@ -29,6 +29,9 @@ private:
 	Player *player;
 
 	GameScene *currentScene;
+
+	//for delta time calculation
+	float then;
 };
 
 

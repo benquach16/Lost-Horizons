@@ -7,16 +7,17 @@ Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0
 
 }
 
-Object::Object(IAnimatedMesh *mesh, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: mesh(mesh), position(position), rotation(rotation), scale(scale)
+Object::Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3df &position, const vector3df &rotation, const vector3df &scale)
+	: mesh(graphics->getSceneManager()->addAnimatedMeshSceneNode(mesh)), position(position), rotation(rotation), scale(scale)
 {
+
 }
 
 Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position, const vector3df &rotation,
 			   const vector3df &scale)
 	: position(position), rotation(rotation), scale(scale)
 {
-	mesh = graphics->getSceneManager()->getMesh(filename);
+	graphics->getSceneManager()->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh(filename));
 }
 
 //copy constructor
