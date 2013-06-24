@@ -12,15 +12,20 @@ using namespace core;
 class MenuWindow
 {
 public:
-	MenuWindow() : visible(false), window(0) {}
+	MenuWindow() : window(0), visible(false) {}
 	virtual ~MenuWindow()
 	{
-		window->drop();
+		window->remove();
 	}
 
 	void run()
 	{
 		window->setVisible(visible);
+	}
+
+	void setVisible(bool show)
+	{
+		visible = show;
 	}
 
 	bool getVisible()

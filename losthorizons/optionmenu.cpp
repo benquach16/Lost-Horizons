@@ -34,20 +34,20 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 
 	resY[0] = GetSystemMetrics(SM_CYSCREEN);
 	resX[0] = GetSystemMetrics(SM_CXSCREEN);
-	double monitorRatio = resX[0] / resY[0];
+	double monitorRatio = static_cast<double>(resX[0]) / resY[0];
 	resolution->addItem(L"native");
 
 	std::string temp(" x ");
 	std::wstring x(temp.begin(), temp.end());
 	std::wstring option;
 	for (unsigned i = 1; i < 8; ++i) {
-		if (gConfig.iResolutionY == resY[i]) {
-			resolution->setSelected(i);
-		}
 		if (resY[i] < resY[0]) {
 			resX[i] = static_cast<int>(ceil(resY[i] * monitorRatio));
-			option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
+			option = std::to_wstring(resY[i]) + x + std::to_wstring(resX[i]);
 			resolution->addItem(option.c_str());
+		}
+		if (gConfig.iResolutionY == resY[i]) {
+			resolution->setSelected(i);
 		}
 	}
 
@@ -63,7 +63,7 @@ OptionMenu::~OptionMenu()
 
 void OptionMenu::restart()
 {
-	for (unsigned i = 1; i < 8; ++i) {
+	for (unsigned i = 0; i < 8; ++i) {
 		if (gConfig.iResolutionY == resY[i]) {
 			resolution->setSelected(i);
 		}
@@ -78,14 +78,14 @@ void OptionMenu::run()
 	MenuWindow::run();
 	if (quit->isPressed()) {
 		restart();
-		window->setVisible(false);
+		setVisible(false);
 	}
 	if (apply->isPressed()) {
 		gConfig.iResolutionX = get(resolution, resX);
 		gConfig.iResolutionY = get(resolution, resY);
 		gConfig.bFullScreen = get(fullscreen);
 		gConfig.bVsync = get(vsync);
-		window->setVisible(false);
+		setVisible(false);
 	}
 }
 

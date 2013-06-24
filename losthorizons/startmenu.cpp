@@ -3,7 +3,7 @@
 
 
 StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
-	: MenuWindow(), config(new OptionMenu(graphics))
+	: MenuWindow(), config(0)
 {
 	//setup GUI font and other stuff
 	graphics->getGUIEnvironment()->setSkin(graphics->getGUIEnvironment()->createSkin(gui::EGST_WINDOWS_METALLIC));
@@ -88,26 +88,29 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	asteroids->setMaterialTexture(0, graphics->getVideoDriver()->getTexture("res/roid.jpg"));
 	asteroids->setPosition(vector3df(-20000,0,60000));
 	asteroids->setScale(vector3df(8,8,8));
+
+	config = new OptionMenu(graphics);
 }
 
 //delete everything
 StartMenu::~StartMenu()
 {
 	delete config;
-	cam->drop();
-	corona->drop();
-	nebula->drop();
-	asteroids->drop();
-	logo->drop();
-	newgame->drop();
-	loadgame->drop();
-	options->drop();
-	quit->drop();
+	cam->remove();
+	corona->remove();
+	nebula->remove();
+	asteroids->remove();
+	logo->remove();
+	newgame->remove();
+	loadgame->remove();
+	options->remove();
+	quit->remove();
 }
 
 void StartMenu::run()
 {
 	if (options->isPressed()) {
-		config->run();
+		config->setVisible(true);
 	}
+	config->run();
 }

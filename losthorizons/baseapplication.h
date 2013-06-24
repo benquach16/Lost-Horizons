@@ -29,9 +29,9 @@ public:
 private:
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
+	StartMenu *menu;
 	Gameloop *game;
 	HWND hwnd;
-	StartMenu *menu;
 
 	bool menuOpen;
 

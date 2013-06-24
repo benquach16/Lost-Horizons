@@ -8,7 +8,7 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver) : 
 	currentScene(new GameScene(graphics)), objectManager(new ObjectManager(graphics)),
-	graphics(graphics), receiver(receiver), then(graphics->getTimer()->getTime())
+	graphics(graphics), receiver(receiver), then(static_cast<float>(graphics->getTimer()->getTime()))
 {
 	//create player and camera
 	currentScene->createPlayerCam();
@@ -23,7 +23,7 @@ Gameloop::~Gameloop()
 void Gameloop::run()
 {
 	//calculate the delta time
-	const float now = graphics->getTimer()->getTime();
+	const float now = static_cast<float>(graphics->getTimer()->getTime());
 	const float frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
 	then = now;
 

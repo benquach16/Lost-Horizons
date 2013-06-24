@@ -8,7 +8,7 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), game(0), hwnd(0), menu(0), menuOpen(false)
+BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), menu(0), game(0), hwnd(0), menuOpen(true)
 {
 	getBits();
 	gConfig.Load();
@@ -17,22 +17,27 @@ BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), gam
 BaseApplication::~BaseApplication()
 {
 	delete menu;
-	graphics->drop();
+	delete game;
+	delete receiver;
+	getPosition();
+	graphics->closeDevice();
 	gConfig.Save();
 }
 
 void BaseApplication::init()
 {
 	buildGraphics();
+	menu = new StartMenu(graphics);
 	game = new Gameloop(graphics, receiver);
-	run();
 }
 
 void BaseApplication::restart()
 {
-	IrrlichtDevice *oldGraphics = graphics;
-	buildGraphics();
-	oldGraphics->drop();
+	delete menu;
+	delete game;
+	getPosition();
+	graphics->closeDevice();
+	init();
 }
 
 void BaseApplication::run()
@@ -42,12 +47,12 @@ void BaseApplication::run()
 	{
 		graphics->getVideoDriver()->beginScene(true, true, SColor(255,100,101,140));
 
-		//run game
-		game->run();
-		graphics->getSceneManager()->drawAll();
-		graphics->getGUIEnvironment()->drawAll();
-
-		graphics->getVideoDriver()->endScene();
+		//run menu or game
+		if (menuOpen) {
+			menu->run();
+		} else {
+			game->run();
+		}
 
 		if (resolutionX != gConfig.iResolutionX ||
 			resolutionY != gConfig.iResolutionY ||
@@ -55,6 +60,11 @@ void BaseApplication::run()
 			vSync != gConfig.bVsync) {
 			restart();
 		}
+
+		graphics->getSceneManager()->drawAll();
+		graphics->getGUIEnvironment()->drawAll();
+
+		graphics->getVideoDriver()->endScene();
 	}
 }
 
