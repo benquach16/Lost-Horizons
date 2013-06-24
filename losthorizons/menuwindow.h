@@ -15,7 +15,8 @@ public:
 	MenuWindow() : window(0), visible(false) {}
 	virtual ~MenuWindow()
 	{
-		window->remove();
+		if (window)
+			window->remove();
 	}
 
 	void run()

@@ -20,16 +20,13 @@ ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string 
 			price = file->getAttributeValueAsInt(L"cost");
 			weight = file->getAttributeValueAsInt(L"weight");
 		}
-		
 	}
-
 	file->drop();
 }
 
 ItemProperties::~ItemProperties()
 {
 }
-
 
 const std::wstring& ItemProperties::getName() const
 {

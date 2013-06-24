@@ -11,8 +11,6 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 
 	while(file->read())
 	{
-
-
 		if(core::stringw(L"modelStats").equals_ignore_case(file->getNodeName()))
 		{
 			filename = file->getAttributeValue(L"filename");
@@ -22,8 +20,6 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 			scale.X = file->getAttributeValueAsFloat(L"scaleX");
 			scale.Y = file->getAttributeValueAsFloat(L"scaleY");
 			scale.Z = file->getAttributeValueAsFloat(L"scaleZ");
-
-
 		}
 
 		//ship stats now
@@ -36,7 +32,6 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 			maxFighters = file->getAttributeValueAsInt(L"maxFighters");
 		}
 	}
-
 	file->drop();
 }
 

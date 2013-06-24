@@ -5,9 +5,9 @@
 
 #include "stdafx.h"
 #include "irrlicht.h"
+#include "startmenu.h"
 #include "gameloop.h"
 #include "keylistener.h"
-#include "startmenu.h"
 
 using namespace irr;
 using namespace core;
@@ -38,9 +38,6 @@ private:
 	void buildGraphics();
 	void getBits();
 	void getPosition();
-
-	unsigned resolutionX, resolutionY;
-	bool fullScreen, vSync;
 };
 
 #endif

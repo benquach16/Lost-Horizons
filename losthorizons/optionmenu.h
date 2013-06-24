@@ -15,7 +15,6 @@ public:
 	~OptionMenu();
 
 	void restart();
-
 	void run();
 
 	bool get(gui::IGUICheckBox *item);

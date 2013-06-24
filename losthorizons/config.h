@@ -12,10 +12,10 @@ struct Config
 		Config();
 		~Config();
 
-		// Whether to save the config on close.
+		// Special Use
 		bool bSaveSettings;
-
 		bool bFirstRun;
+		bool bRestart;
 
 		// General
 		bool bAutoLoadLast;

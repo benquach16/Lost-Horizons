@@ -1,14 +1,13 @@
 //#include "stdafx.h"
 #include "keylistener.h"
 
-KeyListener::KeyListener() : mouseL(false), mouseR(false), mouseX(0), mouseY(0),
-	mouseWheel(0)
+KeyListener::KeyListener()
+	: mouseL(false), mouseR(false), mouseX(0), mouseY(0), mouseWheel(0)
 {
 	for(unsigned i = 0; i < irr::KEY_KEY_CODES_COUNT; i++)
 	{
 		keys[i] = false;
 	}
-
 }
 
 bool KeyListener::OnEvent(const SEvent& event)

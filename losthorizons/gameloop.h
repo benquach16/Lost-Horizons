@@ -17,7 +17,7 @@ public:
 	//might want this to be a singleton
 	~Gameloop();
 	//having an independant function to loop through everything makes pausing much easier
-	void run();
+	bool run();
 
 private:
 	void playerControl();

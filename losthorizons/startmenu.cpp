@@ -40,10 +40,10 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	logo = graphics->getGUIEnvironment()->addImage(graphics->getVideoDriver()->getTexture("res/menu/lost_horizons_logo.png"), position2d<s32>(t.Width/2-256,0));
 
 	//create menu buttons
-	newgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), control ,0, L"New Game");
-	loadgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+60,t.Width/2+50,t.Height/2+80), control, 0, L"Load Game");
-	options = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+100,t.Width/2+50,t.Height/2+120), control, 0, L"Options");
-	quit = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), control, 0, L"Quit");
+	newgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window,0, L"New Game");
+	loadgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+60,t.Width/2+50,t.Height/2+80), window, 0, L"Load Game");
+	options = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+100,t.Width/2+50,t.Height/2+120), window, 0, L"Options");
+	quit = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), window, 0, L"Quit");
 
 	//setup camera for menu scene
 	cam = graphics->getSceneManager()->addCameraSceneNode();
@@ -56,9 +56,9 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	corona->setMaterialFlag(EMF_LIGHTING, false);
 	corona->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 
-	scene::IBillboardSceneNode *corona2 = graphics->getSceneManager()->addBillboardSceneNode(corona, dimension2d<f32>(130000,110000), vector3df(0,0,0));
+	/*scene::IBillboardSceneNode *corona2 = graphics->getSceneManager()->addBillboardSceneNode(corona, dimension2d<f32>(130000,110000), vector3df(0,0,0));
 	corona2->setMaterialTexture(0,graphics->getVideoDriver()->getTexture("res/textures/engine_corona.png"));
-	corona2->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+	corona2->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);*/
 
 	//setup menu background
 	scene::ISceneNode *skybox = graphics->getSceneManager()->addSkyBoxSceneNode(
@@ -83,7 +83,7 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	scene::IParticleAffector *af = nebula->createFadeOutParticleAffector();
 	nebula->addAffector(af);
 	af->drop();
-
+	
 	asteroids = graphics->getSceneManager()->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh("res/models/planets/asteroid.x"));
 	asteroids->setMaterialTexture(0, graphics->getVideoDriver()->getTexture("res/roid.jpg"));
 	asteroids->setPosition(vector3df(-20000,0,60000));
@@ -98,7 +98,6 @@ StartMenu::~StartMenu()
 	delete config;
 	cam->remove();
 	corona->remove();
-	nebula->remove();
 	asteroids->remove();
 	logo->remove();
 	newgame->remove();
@@ -107,10 +106,15 @@ StartMenu::~StartMenu()
 	quit->remove();
 }
 
-void StartMenu::run()
+bool StartMenu::run()
 {
 	if (options->isPressed()) {
 		config->setVisible(true);
 	}
+	if (quit->isPressed()) {
+		return false;
+	}
 	config->run();
+
+	return true;
 }

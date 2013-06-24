@@ -16,7 +16,7 @@ public:
 	StartMenu(irr::IrrlichtDevice *graphics);
 	~StartMenu();
 
-	void run();
+	bool run();
 
 private:
 	OptionMenu *config;
@@ -25,7 +25,6 @@ private:
 	scene::IParticleSystemSceneNode *nebula;
 	scene::IAnimatedMeshSceneNode *asteroids;
 	gui::IGUIImage *logo;
-	gui::IGUIElement *control;
 	gui::IGUIButton *newgame;
 	gui::IGUIButton *loadgame;
 	gui::IGUIButton *options;

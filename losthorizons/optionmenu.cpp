@@ -3,7 +3,7 @@
 #include "config.h"
 #include <string>
 #include <cmath>
-
+#include <iostream>
 
 //setup GUI and initialize variables
 OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
@@ -42,8 +42,8 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 	std::wstring option;
 	for (unsigned i = 1; i < 8; ++i) {
 		if (resY[i] < resY[0]) {
-			resX[i] = static_cast<int>(ceil(resY[i] * monitorRatio));
-			option = std::to_wstring(resY[i]) + x + std::to_wstring(resX[i]);
+			resX[i] = static_cast<int>(floor(resY[i] * monitorRatio));
+			option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
 			resolution->addItem(option.c_str());
 		}
 		if (gConfig.iResolutionY == resY[i]) {
@@ -55,6 +55,8 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 	fullscreen = graphics->getGUIEnvironment()->addCheckBox(gConfig.bFullScreen, rect<s32>(20,320,40,340), window);
 	graphics->getGUIEnvironment()->addStaticText(L"V-sync", rect<s32>(200,320,260,340), false, true, window);
 	vsync = graphics->getGUIEnvironment()->addCheckBox(gConfig.bVsync, rect<s32>(170,320,190,340), window);
+
+	setVisible(gConfig.bFirstRun);
 }
 
 OptionMenu::~OptionMenu()
@@ -85,6 +87,7 @@ void OptionMenu::run()
 		gConfig.iResolutionY = get(resolution, resY);
 		gConfig.bFullScreen = get(fullscreen);
 		gConfig.bVsync = get(vsync);
+		gConfig.bRestart = true;
 		setVisible(false);
 	}
 }

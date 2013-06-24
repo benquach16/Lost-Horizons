@@ -19,8 +19,6 @@ public:
 protected:
 	std::wstring name;
 	std::wstring description;
-
-
 };
 
 #endif

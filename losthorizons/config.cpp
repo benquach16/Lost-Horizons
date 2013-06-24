@@ -16,6 +16,7 @@ void Config::Load(const char *iniFileName)
 {
 	iniFilename_ = iniFileName;
 	bSaveSettings = true;
+	bRestart = false;
 
 	IniFile iniFile;
 	if (!iniFile.Load(iniFileName)) {
@@ -54,10 +55,7 @@ void Config::Save()
 		
 		IniFile::Section *general = iniFile.GetOrCreateSection("General");
 		
-		// Next time won't be the first run
-		bFirstRun = false;
 		general->Set("FirstRun", bFirstRun);
-
 		general->Set("AutoLoadLast", bAutoLoadLast);
 		general->Set("ConfirmOnQuit", bConfirmOnQuit);
 		general->Set("TopMost", bTopMost);

@@ -8,7 +8,8 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-BaseApplication::BaseApplication() : graphics(0), receiver(new KeyListener), menu(0), game(0), hwnd(0), menuOpen(true)
+BaseApplication::BaseApplication()
+	: graphics(0), receiver(new KeyListener), menu(0), game(0), hwnd(0), menuOpen(true)
 {
 	getBits();
 	gConfig.Load();
@@ -19,7 +20,6 @@ BaseApplication::~BaseApplication()
 	delete menu;
 	delete game;
 	delete receiver;
-	getPosition();
 	graphics->closeDevice();
 	gConfig.Save();
 }
@@ -29,6 +29,7 @@ void BaseApplication::init()
 	buildGraphics();
 	menu = new StartMenu(graphics);
 	game = new Gameloop(graphics, receiver);
+	gConfig.bFirstRun = false;
 }
 
 void BaseApplication::restart()
@@ -36,8 +37,11 @@ void BaseApplication::restart()
 	delete menu;
 	delete game;
 	getPosition();
-	graphics->closeDevice();
+	graphics->drop();
+	SetParent(hwnd, HWND_MESSAGE);
 	init();
+	graphics->getVideoDriver()->beginScene(true, true, SColor(255,100,101,140));
+	menu->run();
 }
 
 void BaseApplication::run()
@@ -49,15 +53,25 @@ void BaseApplication::run()
 
 		//run menu or game
 		if (menuOpen) {
-			menu->run();
+			if (!menu->run()) {
+				bool quit = true;
+				if (gConfig.bConfirmOnQuit)
+					if (IDNO == MessageBox(hwnd, L"Are you sure you want to exit?", L"Are you sure?", MB_YESNO | MB_ICONQUESTION))
+						quit = false;
+				if (quit) {
+					graphics->getVideoDriver()->endScene();
+					getPosition();
+					return;
+				}
+			}
 		} else {
-			game->run();
+			if (!game->run()) {
+				menuOpen = true;
+			}
 		}
 
-		if (resolutionX != gConfig.iResolutionX ||
-			resolutionY != gConfig.iResolutionY ||
-			fullScreen != gConfig.bFullScreen ||
-			vSync != gConfig.bVsync) {
+		if (gConfig.bRestart) {
+			gConfig.bRestart = false;
 			restart();
 		}
 
@@ -104,11 +118,6 @@ void BaseApplication::buildGraphics()
 	} else {
 		SetWindowPos(hwnd, HWND_TOP, gConfig.iWindowX, gConfig.iWindowY, 0, 0, SWP_NOSIZE);
 	}
-	
-	resolutionX = gConfig.iResolutionX;
-	resolutionY = gConfig.iResolutionY;
-	fullScreen = gConfig.bFullScreen;
-	vSync = gConfig.bVsync;
 }
 
 void BaseApplication::getBits()
