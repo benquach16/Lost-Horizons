@@ -112,6 +112,7 @@ bool StartMenu::run()
 		config->setVisible(true);
 	}
 	if (quit->isPressed()) {
+		quit->setPressed(false);
 		return false;
 	}
 	config->run();

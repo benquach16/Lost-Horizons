@@ -53,21 +53,19 @@ void BaseApplication::run()
 
 		//run menu or game
 		if (menuOpen) {
-			if (!menu->run()) {
-				bool quit = true;
+			menuOpen = menu->run();
+			if (!menuOpen) {
 				if (gConfig.bConfirmOnQuit)
 					if (IDNO == MessageBox(hwnd, L"Are you sure you want to exit?", L"Are you sure?", MB_YESNO | MB_ICONQUESTION))
-						quit = false;
-				if (quit) {
+						menuOpen = true;
+				if (!menuOpen) {
 					graphics->getVideoDriver()->endScene();
 					getPosition();
 					return;
 				}
 			}
 		} else {
-			if (!game->run()) {
-				menuOpen = true;
-			}
+			menuOpen = !game->run();
 		}
 
 		if (gConfig.bRestart) {
