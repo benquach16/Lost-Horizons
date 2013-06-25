@@ -13,6 +13,6 @@ Player::~Player()
 {
 }
 
-void Player::run()
+void Player::run(float frameDeltaTime)
 {
 }

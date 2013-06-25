@@ -11,6 +11,7 @@
 #include "object.h"
 #include "objectmanager.h"
 #include "playercamera.h"
+#include "keylistener.h"
 
 class GameScene
 {
@@ -22,7 +23,7 @@ public:
 	void loadScene();
 	void saveScene();
 
-	void run();
+	void run(float frameDeltaTime);
 
 	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
 	Player *createPlayer(const ShipProperties &shipProps, 

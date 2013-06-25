@@ -1,13 +1,14 @@
 //#include "stdafx.h"
 #include "keylistener.h"
 
-KeyListener::KeyListener()
-	: mouseL(false), mouseR(false), mouseX(0), mouseY(0), mouseWheel(0)
+KeyListener::KeyListener() : 
+	mouseL(false), mouseR(false), mouseX(0), mouseY(0), mouseWheel(0)
 {
 	for(unsigned i = 0; i < irr::KEY_KEY_CODES_COUNT; i++)
 	{
 		keys[i] = false;
 	}
+
 }
 
 bool KeyListener::OnEvent(const SEvent& event)
@@ -22,15 +23,28 @@ bool KeyListener::OnEvent(const SEvent& event)
 		{
 			mouseL = true;
 		}
+		if(event.MouseInput.Event == irr::EMIE_LMOUSE_LEFT_UP)
+		{
+			mouseL = false;
+		}
 		if(event.MouseInput.Event == irr::EMIE_RMOUSE_PRESSED_DOWN)
 		{
 			mouseR = true;
+		}
+		if(event.MouseInput.Event == irr::EMIE_RMOUSE_LEFT_UP)
+		{
+			mouseR = false;
 		}
 		if(event.MouseInput.Event==irr::EMIE_MOUSE_MOVED)
 		{
 			// check the mouse coords
 			mouseX = event.MouseInput.X;
 			mouseY = event.MouseInput.Y;
+		}
+		if(event.MouseInput.Event==irr::EMIE_MOUSE_WHEEL)
+		{
+			// how do i make it work?
+			mouseWheel += event.MouseInput.Wheel;
 		}
 	}
     return false;
@@ -49,4 +63,19 @@ const int KeyListener::getMouseX() const
 const int KeyListener::getMouseY() const
 {
 	return mouseY;
+}
+
+const int KeyListener::getMouseWheel() const
+{
+	return mouseWheel;
+}
+
+bool KeyListener::getLeftMouseButton() const
+{
+	return mouseL;
+}
+
+bool KeyListener::getRightMouseButton() const
+{
+	return mouseR;
 }

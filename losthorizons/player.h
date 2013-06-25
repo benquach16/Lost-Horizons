@@ -12,7 +12,7 @@ public:
 	Player(irr::IrrlichtDevice *graphics, const ShipProperties &props,
 		const vector3df &position, const vector3df &rotation);
 	virtual ~Player();
-	virtual void run();
+	virtual void run(float frameDeltaTime);
 
 protected:
 

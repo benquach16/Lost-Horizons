@@ -11,8 +11,8 @@ Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver)
 	  currentScene(new GameScene(graphics)), then(static_cast<float>(graphics->getTimer()->getTime()))
 {
 	//create player and camera
-	currentScene->createPlayerCam();
-	currentScene->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));
+	playerCam = currentScene->createPlayerCam();
+	player = currentScene->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));
 }
 
 Gameloop::~Gameloop()
@@ -29,7 +29,7 @@ bool Gameloop::run()
 	then = now;
 
 	playerControl();
-	currentScene->run();
+	currentScene->run(frameDeltaTime);
 
 	if (receiver->isKeyDown(irr::KEY_ESCAPE)) {
 		return false;
@@ -49,4 +49,15 @@ void Gameloop::playerControl()
 	{
 		//decelerate
 	}
+}
+
+void Gameloop::cameraControl()
+{
+	if(receiver->getRightMouseButton())
+	{
+		//we can rotate the camera around this way
+		playerCam->rotateX(receiver->getMouseX());
+		playerCam->rotateY(receiver->getMouseY());
+	}
+	
 }

@@ -22,7 +22,7 @@ Ship::~Ship()
 	allShips.erase(it);
 }
 
-void Ship::run()
+void Ship::run(float frameDeltaTime)
 {
 	if(hull > 0)
 	{

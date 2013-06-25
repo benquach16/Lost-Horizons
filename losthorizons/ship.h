@@ -41,7 +41,7 @@ public:
 	Ship& operator=(const Ship &s);
 	virtual ~Ship();
 
-	virtual void run();
+	virtual void run(float frameDeltaTime);
 
 protected:
 	//protected functions

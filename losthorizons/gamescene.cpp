@@ -21,12 +21,12 @@ GameScene::~GameScene()
 {
 }
 
-void GameScene::run()
+void GameScene::run(float frameDeltaTime)
 {
 	//run through all the objects in the scene
 	for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); i++)
 	{
-		(*i)->run();
+		(*i)->run(frameDeltaTime);
 	}
 }
 

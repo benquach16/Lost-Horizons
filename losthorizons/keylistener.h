@@ -13,6 +13,9 @@ public:
 	virtual bool isKeyDown(EKEY_CODE keyCode) const;
 	const int getMouseX() const;
 	const int getMouseY() const;
+	const int getMouseWheel() const;
+	bool getLeftMouseButton() const;
+	bool getRightMouseButton() const;
 
 private:
 	bool keys[irr::KEY_KEY_CODES_COUNT];

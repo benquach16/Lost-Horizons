@@ -21,9 +21,10 @@ public:
 
 private:
 	void playerControl();
+	void cameraControl();
 
 	IrrlichtDevice *graphics;
-	ICameraSceneNode *playerCam;
+	PlayerCamera *playerCam;
 	ObjectManager *objectManager;
 	KeyListener *receiver;
 	Player *player;
