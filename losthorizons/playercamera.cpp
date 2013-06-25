@@ -1,7 +1,7 @@
 #include "playercamera.h"
 
 PlayerCamera::PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position) : cameraMode(E_CAMERA_ORBIT),
-	angle(0), angleY(0), distance(200)
+	angle(0), angleY(0), distance(2000), mouseX(0), mouseY(0)
 {
 	cam = graphics->getSceneManager()->addCameraSceneNode(0, position);
 }
@@ -20,7 +20,7 @@ void PlayerCamera::run(const vector3df &pos, float frameDeltaTime)
 
 	if(angleY>360)
 		angle-=360;
-	if(angleY<0)
+	else if(angleY<0)
 		angleY+=360;
 
 	if(cameraMode == E_CAMERA_ORBIT)
@@ -62,14 +62,14 @@ void PlayerCamera::orbit(const vector3df &pos, float frameDeltaTime)
 
 void PlayerCamera::rotateX(int x)
 {
-	int i=x-this->x;
-	this->x=x;
+	int i=x-mouseX;
+	mouseX=x;
 	angle+=i;
 }
 
 void PlayerCamera::rotateY(int y)
 {
-	int i=y-this->y;
-	this->y = y;
+	int i=y-mouseY;
+	mouseY = y;
 	angleY+=i;
 }

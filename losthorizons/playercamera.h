@@ -36,7 +36,7 @@ private:
 	//we need two angles cause there are two circles
 	float angle, angleY;
 
-	int x, y;
+	int mouseX, mouseY;
 	int oldMouseWheel;
 };
 

@@ -29,6 +29,8 @@ bool Gameloop::run()
 	then = now;
 
 	playerControl();
+	cameraControl();
+	playerCam->run(player->getPosition(), frameDeltaTime);
 	currentScene->run(frameDeltaTime);
 
 	if (receiver->isKeyDown(irr::KEY_ESCAPE)) {
