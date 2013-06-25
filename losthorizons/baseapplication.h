@@ -21,8 +21,10 @@ public:
 	~BaseApplication();
 	//initialize renderer
 	void init();
+	//destroy the device cleanly
+	void killDevice();
 	//create new device
-	void restart();
+	void restartDevice();
 	//call everything from this function
 	void run();
 

@@ -17,10 +17,8 @@ BaseApplication::BaseApplication()
 
 BaseApplication::~BaseApplication()
 {
-	delete menu;
-	delete game;
 	delete receiver;
-	graphics->closeDevice();
+	killDevice();
 	gConfig.Save();
 }
 
@@ -32,12 +30,19 @@ void BaseApplication::init()
 	gConfig.bFirstRun = false;
 }
 
-void BaseApplication::restart()
+void BaseApplication::killDevice()
 {
 	delete menu;
 	delete game;
-	graphics->drop();
-	SetParent(hwnd, HWND_MESSAGE);
+	graphics->getVideoDriver()->removeAllTextures();
+	graphics->closeDevice();
+	graphics->run();
+    graphics->drop();
+}
+
+void BaseApplication::restartDevice()
+{
+	killDevice();
 	init();
 	graphics->getVideoDriver()->beginScene(true, true, SColor(255,100,101,140));
 	menu->run();
@@ -68,7 +73,7 @@ void BaseApplication::run()
 
 		if (gConfig.bRestart) {
 			gConfig.bRestart = false;
-			restart();
+			restartDevice();
 		}
 
 		graphics->getSceneManager()->drawAll();
@@ -80,20 +85,28 @@ void BaseApplication::run()
 
 void BaseApplication::buildGraphics()
 {
-	graphics = createDevice(EDT_DIRECT3D9,
-		dimension2d<u32>(gConfig.iResolutionX, gConfig.iResolutionY),
-		gConfig.iBits,
-		gConfig.bFullScreen,
-		false,
-		gConfig.bVsync,
-		receiver);
+	if (gConfig.bFullScreen)
+		graphics = createDevice(EDT_DIRECT3D9,
+			dimension2d<u32>(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)),
+			gConfig.iBits,
+			gConfig.bFullScreen,
+			false,
+			gConfig.bVsync,
+			receiver);
+	else
+		graphics = createDevice(EDT_DIRECT3D9,
+			dimension2d<u32>(gConfig.iResolutionX, gConfig.iResolutionY),
+			gConfig.iBits,
+			gConfig.bFullScreen,
+			false,
+			gConfig.bVsync,
+			receiver);
 		
 	if(!graphics)
 	{
-		std::cerr << "Error creating device";
 		std::exit(1);
 	}
-
+	
 	graphics->setWindowCaption(L"Lost Horizons");
 	SExposedVideoData InternalData = graphics->getVideoDriver()->getExposedVideoData();;
 	switch(EDT_DIRECT3D9) { //use variable if we ever implement using the other drivers

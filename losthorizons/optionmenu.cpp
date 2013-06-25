@@ -20,13 +20,14 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 	quit = graphics->getGUIEnvironment()->addButton(rect<s32>(480,360,580,380), window,-1, L"Close");
 	apply = graphics->getGUIEnvironment()->addButton(rect<s32>(360,360,460,380), window,-1, L"Apply");
 
-	resY[1] = 720;
-	resY[2] = 768;
-	resY[3] = 900;
-	resY[4] = 960;
-	resY[5] = 1024;
-	resY[6] = 1050;
-	resY[7] = 1080;
+	resY[1] = 576;
+	resY[2] = 648;
+	resY[3] = 720;
+	resY[4] = 768;
+	resY[5] = 900;
+	resY[6] = 1080;
+	resY[7] = 1440;
+	resY[8] = 2160;
 
 	//create resolution menu
 	graphics->getGUIEnvironment()->addStaticText(L"Resolution", rect<s32>(20,20,120,40), false ,true, window);
@@ -37,17 +38,19 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 	double monitorRatio = static_cast<double>(resX[0]) / resY[0];
 	resolution->addItem(L"native");
 
-	std::string temp(" x ");
-	std::wstring x(temp.begin(), temp.end());
-	std::wstring option;
-	for (unsigned i = 1; i < 8; ++i) {
-		if (resY[i] < resY[0]) {
-			resX[i] = static_cast<int>(floor(resY[i] * monitorRatio));
-			option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
-			resolution->addItem(option.c_str());
-		}
-		if (gConfig.iResolutionY == resY[i]) {
-			resolution->setSelected(i);
+	if (!gConfig.bFullScreen) {
+		std::string temp(" x ");
+		std::wstring x(temp.begin(), temp.end());
+		std::wstring option;
+		for (unsigned i = 1; i < 9; ++i) {
+			if (resY[i] < resY[0]) {
+				resX[i] = static_cast<int>(floor(resY[i] * monitorRatio));
+				option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
+				resolution->addItem(option.c_str());
+			}
+			if (gConfig.iResolutionY == resY[i]) {
+				resolution->setSelected(i);
+			}
 		}
 	}
 
@@ -83,11 +86,20 @@ void OptionMenu::run()
 		setVisible(false);
 	}
 	if (apply->isPressed()) {
-		gConfig.iResolutionX = get(resolution, resX);
-		gConfig.iResolutionY = get(resolution, resY);
-		gConfig.bFullScreen = get(fullscreen);
-		gConfig.bVsync = get(vsync);
-		gConfig.bRestart = true;
+		if (!gConfig.bFullScreen && gConfig.iResolutionX != get(resolution, resX)) {
+			gConfig.iResolutionX = get(resolution, resX);
+			gConfig.iResolutionY = get(resolution, resY);
+			gConfig.bRestart = true;
+		}
+		if (gConfig.bFullScreen != get(fullscreen)) {
+			gConfig.bFullScreen = get(fullscreen);
+			gConfig.bRestart = true;
+		}
+		if (gConfig.bVsync != get(vsync)) {
+			gConfig.bVsync = get(vsync);
+			gConfig.bRestart = true;
+		}
+		
 		setVisible(false);
 	}
 }

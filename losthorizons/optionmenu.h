@@ -21,8 +21,8 @@ public:
 	int get(gui::IGUIComboBox *item, const int* val);
 
 private:
-	int resY[8];
-	int resX[8];
+	int resY[9];
+	int resX[9];
 	gui::IGUIComboBox *resolution;
 	//gui::IGUIComboBox *dynamicLighting;		to implement
 	gui::IGUICheckBox *fullscreen;

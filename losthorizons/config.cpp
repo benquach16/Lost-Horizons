@@ -31,8 +31,8 @@ void Config::Load(const char *iniFileName)
 
 	IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");
 
-	graphics->Get("ResolutionX", &iResolutionX, 1024);
-	graphics->Get("ResolutionY", &iResolutionY, 768);
+	graphics->Get("ResolutionX", &iResolutionX, 1280);
+	graphics->Get("ResolutionY", &iResolutionY, 720);
 	graphics->Get("FullScreen", &bFullScreen, false);
 	graphics->Get("Vsync", &bVsync, false);
 //	graphics->Get("Shaders", &bShaders, true);
