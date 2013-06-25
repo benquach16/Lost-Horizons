@@ -8,8 +8,8 @@
 OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
 	: MenuWindow()
 {
-	dimension2d<u32> t;
-	t = graphics->getVideoDriver()->getScreenSize();
+	dimension2d<u32> t = graphics->getVideoDriver()->getScreenSize();
+
 	//create window
 	window = graphics->getGUIEnvironment()->addWindow(rect<s32>(t.Width/2-300, t.Height/2-200, t.Width/2+300, t.Height/2+200), true, L"Options");
 	window->setDraggable(false);

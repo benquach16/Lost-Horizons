@@ -3,8 +3,10 @@
 
 
 StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
-	: MenuWindow(), config(0)
+	: MenuWindow(), flip(false), config(0)
 {
+	dimension2d<u32> t = graphics->getVideoDriver()->getScreenSize();
+
 	//setup GUI font and other stuff
 	graphics->getGUIEnvironment()->setSkin(graphics->getGUIEnvironment()->createSkin(gui::EGST_WINDOWS_METALLIC));
 	/*gui::IGUIFont *micro = graphics->getGUIEnvironment()->getFont("res/font/verdana_micro.xml");
@@ -31,19 +33,22 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	graphics->getGUIEnvironment()->getSkin()->setColor(gui::EGDC_GRAY_TEXT, SColor(128,40,50,60));
 	graphics->getGUIEnvironment()->getSkin()->setColor(gui::EGDC_WINDOW_SYMBOL, SColor(255,255,255,255));
 	graphics->getGUIEnvironment()->getSkin()->setColor(gui::EGDC_INACTIVE_CAPTION, SColor(255,200,200,200));
-	graphics->getGUIEnvironment()->getSkin()->setColor(gui::EGDC_ACTIVE_CAPTION, SColor(255,250,250,250));	
-
-	//important to set up menu
-	dimension2d<u32> t = graphics->getVideoDriver()->getScreenSize();
+	graphics->getGUIEnvironment()->getSkin()->setColor(gui::EGDC_ACTIVE_CAPTION, SColor(255,250,250,250));
 
 	//Create logo
 	logo = graphics->getGUIEnvironment()->addImage(graphics->getVideoDriver()->getTexture("res/menu/lost_horizons_logo.png"), position2d<s32>(t.Width/2-256,0));
 
 	//create menu buttons
-	newgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window,0, L"New Game");
+	resume = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window, 0, L"Resume");
+	newgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window, 0, L"New Game");
 	loadgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+60,t.Width/2+50,t.Height/2+80), window, 0, L"Load Game");
+	savegame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2+10,t.Height/2+60,t.Width/2+110,t.Height/2+80), window, 0, L"Save Game");
+	closegame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), window, 0, L"Main Menu");
 	options = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+100,t.Width/2+50,t.Height/2+120), window, 0, L"Options");
 	quit = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), window, 0, L"Quit");
+
+	//set button visibility
+	savegame->setVisible(false);
 
 	//setup camera for menu scene
 	cam = graphics->getSceneManager()->addCameraSceneNode();
@@ -100,21 +105,35 @@ StartMenu::~StartMenu()
 	corona->remove();
 	asteroids->remove();
 	logo->remove();
-	//resume->remove();
+	resume->remove();
 	newgame->remove();
 	loadgame->remove();
-	//savegame->remove();
-	//closegame->remove();
+	savegame->remove();
+	closegame->remove();
 	options->remove();
 	quit->remove();
 }
 
 bool StartMenu::run()
 {
-	/*if (resume->isPressed()) {
+	if (flip != gConfig.bPlay) {
+		flip = gConfig.bPlay;
+		if (gConfig.bPlay) {
+			newgame->setVisible(false);
+			loadgame->move(position2d<s32>(-60,0));
+			savegame->setVisible(true);
+			quit->setVisible(false);
+		} else {
+			newgame->setVisible(true);
+			loadgame->move(position2d<s32>(60,0));
+			savegame->setVisible(false);
+			quit->setVisible(true);
+		}
+	}
+	if (resume->isPressed()) {
 		gConfig.bPlay = true;
 		return false;
-	}*/
+	}
 	if (newgame->isPressed()) {
 		gConfig.bPlay = true;
 		return false;
@@ -124,15 +143,15 @@ bool StartMenu::run()
 		gConfig.bLoad = true;
 		return false;
 	}
-	/*if (savegame->isPressed()) {
+	if (savegame->isPressed()) {
 		gConfig.bPlay = true;
 		gConfig.bSave = true;
 		return false;
-	}*/
-	/*if (closegame->isPressed()) {
+	}
+	if (closegame->isPressed()) {
 		gConfig.bPlay = false;
 		return true;
-	}*/
+	}
 	if (options->isPressed()) {
 		config->setVisible(true);
 	}

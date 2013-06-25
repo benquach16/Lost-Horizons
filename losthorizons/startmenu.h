@@ -19,6 +19,7 @@ public:
 	bool run();
 
 private:
+	bool flip;
 	OptionMenu *config;
 	scene::ICameraSceneNode *cam;
 	scene::ISceneNode *corona;
