@@ -56,9 +56,9 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	corona->setMaterialFlag(EMF_LIGHTING, false);
 	corona->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 
-	/*scene::IBillboardSceneNode *corona2 = graphics->getSceneManager()->addBillboardSceneNode(corona, dimension2d<f32>(130000,110000), vector3df(0,0,0));
-	corona2->setMaterialTexture(0,graphics->getVideoDriver()->getTexture("res/textures/engine_corona.png"));
-	corona2->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);*/
+	scene::IBillboardSceneNode *corona2 = graphics->getSceneManager()->addBillboardSceneNode(corona, dimension2d<f32>(130000,110000), vector3df(0,0,0));
+	corona2->setMaterialTexture(0, graphics->getVideoDriver()->getTexture("res/textures/engine_corona.png"));
+	corona2->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
 	//setup menu background
 	scene::ISceneNode *skybox = graphics->getSceneManager()->addSkyBoxSceneNode(

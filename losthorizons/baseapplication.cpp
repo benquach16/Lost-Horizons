@@ -36,7 +36,6 @@ void BaseApplication::restart()
 {
 	delete menu;
 	delete game;
-	getPosition();
 	graphics->drop();
 	SetParent(hwnd, HWND_MESSAGE);
 	init();
@@ -60,7 +59,6 @@ void BaseApplication::run()
 						menuOpen = true;
 				if (!menuOpen) {
 					graphics->getVideoDriver()->endScene();
-					getPosition();
 					return;
 				}
 			}
@@ -109,13 +107,8 @@ void BaseApplication::buildGraphics()
                 hwnd  = (HWND) InternalData.D3D9.HWnd;
                 break;
 	}
-	if (gConfig.bFullScreen) {
-		//don't change anything
-	} else if (gConfig.bTopMost) {
-		SetWindowPos(hwnd, HWND_TOPMOST, gConfig.iWindowX, gConfig.iWindowY, 0, 0, SWP_NOSIZE);
-	} else {
-		SetWindowPos(hwnd, HWND_TOP, gConfig.iWindowX, gConfig.iWindowY, 0, 0, SWP_NOSIZE);
-	}
+	if (gConfig.bTopMost && !gConfig.bFullScreen)
+		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 
 void BaseApplication::getBits()
@@ -125,14 +118,3 @@ void BaseApplication::getBits()
 	ReleaseDC(NULL, dc);
 }
 
-void BaseApplication::getPosition()
-{
-	WINDOWPLACEMENT placement;
-	GetWindowPlacement(hwnd, &placement);
-	if (placement.showCmd == SW_SHOWNORMAL) {
-		RECT rc;
-		GetWindowRect(hwnd, &rc);
-		gConfig.iWindowX = rc.left;
-		gConfig.iWindowY = rc.top;
-	}
-}

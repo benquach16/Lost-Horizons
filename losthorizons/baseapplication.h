@@ -37,7 +37,6 @@ private:
 
 	void buildGraphics();
 	void getBits();
-	void getPosition();
 };
 
 #endif

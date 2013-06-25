@@ -28,8 +28,6 @@ void Config::Load(const char *iniFileName)
 	general->Get("AutoLoadLast", &bAutoLoadLast, false);
 	general->Get("ConfirmOnQuit", &bConfirmOnQuit, false);
 	general->Get("TopMost", &bTopMost, false);
-	general->Get("WindowPositionX", &iWindowX, 150);
-	general->Get("WindowPositionY", &iWindowY, 50);
 
 	IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");
 
@@ -59,8 +57,6 @@ void Config::Save()
 		general->Set("AutoLoadLast", bAutoLoadLast);
 		general->Set("ConfirmOnQuit", bConfirmOnQuit);
 		general->Set("TopMost", bTopMost);
-		general->Set("WindowPositionX", iWindowX);
-		general->Set("WindowPositionY", iWindowY);
 
 		IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");
 

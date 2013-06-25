@@ -21,8 +21,6 @@ struct Config
 		bool bAutoLoadLast;
 		bool bConfirmOnQuit;
 		bool bTopMost;
-		unsigned iWindowX;
-		unsigned iWindowY;
 
 		// Video
 		unsigned iBits;
