@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "baseapplication.h"
-#include "config.h"
 #include <iostream>
 #include <SExposedVideoData.h>
 
@@ -58,7 +57,7 @@ void BaseApplication::run()
 		//run menu or game
 		if (menuOpen) {
 			menuOpen = menu->run();
-			if (!menuOpen) {
+			if (!menuOpen && !gConfig.bPlay) {
 				if (gConfig.bConfirmOnQuit)
 					if (IDNO == MessageBox(hwnd, L"Are you sure you want to exit?", L"Are you sure?", MB_YESNO | MB_ICONQUESTION))
 						menuOpen = true;

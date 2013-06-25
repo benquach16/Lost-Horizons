@@ -36,27 +36,27 @@ void PlayerCamera::orbit(const vector3df &pos, float frameDeltaTime)
 
 	//3d trig
 	//this math is to determine the location of orbiting camera
-	playerCameraPos.Y = sin(angleY*3.14/180)*distance;
+	playerCameraPos.Y = (f32)sin(angleY*3.14/180)*distance;
 	playerCameraPos.Y += pos.Y;
 
 	float temp;
-	temp=cos(angleY*3.14/180);
+	temp = (float)cos(angleY*3.14/180);
 
 
 	//some code to calculate position
 	core::vector3df old;
-	playerCameraPos.X = (sin((angle) * 3.141 / 180) * (distance));
+	playerCameraPos.X = (f32)(sin((angle) * 3.141 / 180) * (distance));
 	playerCameraPos.X = playerCameraPos.X*temp;
-	playerCameraPos.X  += pos.X;
+	playerCameraPos.X += pos.X;
 
-	playerCameraPos.Z  = (cos((angle) * 3.141/ 180) * (distance)); 
+	playerCameraPos.Z = (f32)(cos((angle) * 3.141/ 180) * (distance)); 
 	playerCameraPos.Z = playerCameraPos.Z*temp;
 	playerCameraPos.Z += pos.Z;
 
 
 	//smooth out camera motion
 	old = cam->getPosition();
-	old=old*0.8+playerCameraPos*0.2f;
+	old = old*0.8f+playerCameraPos*0.2f;
 	cam->setPosition(old);
 }
 

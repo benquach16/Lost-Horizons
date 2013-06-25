@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "startmenu.h"
 
 
@@ -100,19 +100,45 @@ StartMenu::~StartMenu()
 	corona->remove();
 	asteroids->remove();
 	logo->remove();
+	//resume->remove();
 	newgame->remove();
 	loadgame->remove();
+	//savegame->remove();
+	//closegame->remove();
 	options->remove();
 	quit->remove();
 }
 
 bool StartMenu::run()
 {
+	/*if (resume->isPressed()) {
+		gConfig.bPlay = true;
+		return false;
+	}*/
+	if (newgame->isPressed()) {
+		gConfig.bPlay = true;
+		return false;
+	}
+	if (loadgame->isPressed()) {
+		gConfig.bPlay = true;
+		gConfig.bLoad = true;
+		return false;
+	}
+	/*if (savegame->isPressed()) {
+		gConfig.bPlay = true;
+		gConfig.bSave = true;
+		return false;
+	}*/
+	/*if (closegame->isPressed()) {
+		gConfig.bPlay = false;
+		return true;
+	}*/
 	if (options->isPressed()) {
 		config->setVisible(true);
 	}
 	if (quit->isPressed()) {
 		quit->setPressed(false);
+		gConfig.bPlay = false;
 		return false;
 	}
 	config->run();

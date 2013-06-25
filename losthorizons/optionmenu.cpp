@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "optionmenu.h"
-#include "config.h"
 #include <string>
 #include <cmath>
 #include <iostream>
@@ -106,7 +105,7 @@ void OptionMenu::run()
 
 bool OptionMenu::get(gui::IGUICheckBox *item)
 {
-	return item->isChecked() ? true : false;
+	return item->isChecked();
 }
 
 int OptionMenu::get(gui::IGUIComboBox *item, const int* val)

@@ -1,5 +1,4 @@
-//#include "stdafx.h"
-#include "config.h"
+#include "stdafx.h"
 #include "lib/ini_io.h"
 Config gConfig;
 
@@ -17,6 +16,9 @@ void Config::Load(const char *iniFileName)
 	iniFilename_ = iniFileName;
 	bSaveSettings = true;
 	bRestart = false;
+	bPlay = false;
+	bLoad = false;
+	bSave = false;
 
 	IniFile iniFile;
 	if (!iniFile.Load(iniFileName)) {

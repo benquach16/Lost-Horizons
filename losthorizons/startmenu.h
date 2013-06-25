@@ -25,8 +25,11 @@ private:
 	scene::IParticleSystemSceneNode *nebula;
 	scene::IAnimatedMeshSceneNode *asteroids;
 	gui::IGUIImage *logo;
+	gui::IGUIButton *resume;
 	gui::IGUIButton *newgame;
 	gui::IGUIButton *loadgame;
+	gui::IGUIButton *savegame;
+	gui::IGUIButton *closegame;
 	gui::IGUIButton *options;
 	gui::IGUIButton *quit;
 };

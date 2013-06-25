@@ -44,7 +44,7 @@ bool KeyListener::OnEvent(const SEvent& event)
 		if(event.MouseInput.Event==irr::EMIE_MOUSE_WHEEL)
 		{
 			// how do i make it work?
-			mouseWheel += event.MouseInput.Wheel;
+			mouseWheel += (int)event.MouseInput.Wheel;
 		}
 	}
     return false;
