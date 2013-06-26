@@ -24,7 +24,7 @@ BaseApplication::~BaseApplication()
 void BaseApplication::init()
 {
 	buildGraphics();
-	menu = new StartMenu(graphics);
+	menu = new StartMenu();
 	game = new Gameloop(graphics, receiver);
 	gConfig.bFirstRun = false;
 }
@@ -33,18 +33,10 @@ void BaseApplication::killDevice()
 {
 	delete menu;
 	delete game;
-	graphics->getVideoDriver()->removeAllTextures();
+	vdriver->removeAllTextures();
 	graphics->closeDevice();
 	graphics->run();
     graphics->drop();
-}
-
-void BaseApplication::restartDevice()
-{
-	killDevice();
-	init();
-	graphics->getVideoDriver()->beginScene(true, true, SColor(255,100,101,140));
-	menu->run();
 }
 
 void BaseApplication::run()
@@ -52,7 +44,13 @@ void BaseApplication::run()
 	//graphics loop
 	while (graphics->run())
 	{
-		graphics->getVideoDriver()->beginScene(true, true, SColor(255,100,101,140));
+		if (gConfig.bRestart) {
+			gConfig.bRestart = false;
+			killDevice();
+			init();
+		}
+
+		vdriver->beginScene(true, true, SColor(255,100,101,140));
 
 		//run menu or game
 		if (menuOpen) {
@@ -63,7 +61,7 @@ void BaseApplication::run()
 					if (IDNO == MessageBox(hwnd, L"Are you sure you want to exit?", L"Are you sure?", MB_YESNO | MB_ICONQUESTION))
 						menuOpen = true;
 				if (!menuOpen) {
-					graphics->getVideoDriver()->endScene();
+					vdriver->endScene();
 					return;
 				}
 			}
@@ -72,16 +70,11 @@ void BaseApplication::run()
 			menu->run();
 			menuOpen = !game->run();
 		}
-
-		if (gConfig.bRestart) {
-			gConfig.bRestart = false;
-			restartDevice();
-		}
 		
-		graphics->getSceneManager()->drawAll();
-		graphics->getGUIEnvironment()->drawAll();
+		scenemngr->drawAll();
+		guienv->drawAll();
 
-		graphics->getVideoDriver()->endScene();
+		vdriver->endScene();
 	}
 }
 
@@ -108,9 +101,14 @@ void BaseApplication::buildGraphics()
 	{
 		std::exit(1);
 	}
+
+	vdriver = graphics->getVideoDriver();
+	scenemngr = graphics->getSceneManager();
+	guienv = graphics->getGUIEnvironment();
+	gConfig.screen = vdriver->getScreenSize();
 	
 	graphics->setWindowCaption(L"Lost Horizons");
-	SExposedVideoData InternalData = graphics->getVideoDriver()->getExposedVideoData();;
+	SExposedVideoData InternalData = vdriver->getExposedVideoData();;
 	switch(EDT_DIRECT3D9) { //use variable if we ever implement using the other drivers
             case EDT_OPENGL:
 				hwnd  = (HWND) InternalData.OpenGLWin32.HWnd;
@@ -132,4 +130,3 @@ void BaseApplication::getBits()
 	gConfig.iBits = GetDeviceCaps(dc, BITSPIXEL);
 	ReleaseDC(NULL, dc);
 }
-

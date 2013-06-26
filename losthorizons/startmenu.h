@@ -2,8 +2,8 @@
 #define _STARTMENU_H_
 
 #include "menuwindow.h"
-#include "irrlicht.h"
 #include "optionmenu.h"
+#include "irrlicht.h"
 
 using namespace irr;
 using namespace core;
@@ -13,7 +13,7 @@ using namespace video;
 class StartMenu : public MenuWindow
 {
 public:
-	StartMenu(irr::IrrlichtDevice *graphics);
+	StartMenu();
 	~StartMenu();
 
 	bool run();
@@ -26,6 +26,7 @@ private:
 	scene::IParticleSystemSceneNode *nebula;
 	scene::IAnimatedMeshSceneNode *asteroids;
 	gui::IGUIImage *logo;
+	gui::IGUIImage *menuback;
 	gui::IGUIButton *resume;
 	gui::IGUIButton *newgame;
 	gui::IGUIButton *loadgame;

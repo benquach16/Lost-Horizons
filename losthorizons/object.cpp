@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "object.h"
 
 //the constructors of this class
@@ -8,7 +8,7 @@ Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0
 }
 
 Object::Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: mesh(graphics->getSceneManager()->addAnimatedMeshSceneNode(mesh)), position(position), rotation(rotation), scale(scale)
+	: mesh(scenemngr->addAnimatedMeshSceneNode(mesh)), position(position), rotation(rotation), scale(scale)
 {
 
 }
@@ -17,7 +17,7 @@ Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vec
 			   const vector3df &scale)
 	: position(position), rotation(rotation), scale(scale)
 {
-	graphics->getSceneManager()->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh(filename));
+	scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 }
 
 //copy constructor

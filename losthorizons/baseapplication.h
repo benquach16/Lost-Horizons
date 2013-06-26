@@ -23,8 +23,6 @@ public:
 	void init();
 	//destroy the device cleanly
 	void killDevice();
-	//create new device
-	void restartDevice();
 	//call everything from this function
 	void run();
 

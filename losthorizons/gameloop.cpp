@@ -24,8 +24,8 @@ Gameloop::~Gameloop()
 bool Gameloop::run()
 {
 	//calculate the delta time
-	const float now = static_cast<float>(graphics->getTimer()->getTime());
-	const float frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
+	const float now = (float)(graphics->getTimer()->getTime());
+	const float frameDeltaTime = (float)(now - then) / 1000.f; // Time in seconds
 	then = now;
 
 	playerControl();

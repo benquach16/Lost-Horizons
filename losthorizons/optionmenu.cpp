@@ -1,23 +1,20 @@
 #include "stdafx.h"
 #include "optionmenu.h"
-#include <string>
 #include <cmath>
 #include <iostream>
 
 //setup GUI and initialize variables
-OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics, gui::IGUIWindow *menu)
+OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	: MenuWindow()
 {
-	dimension2d<u32> t = graphics->getVideoDriver()->getScreenSize();
-
 	//create window
-	window = graphics->getGUIEnvironment()->addWindow(rect<s32>(t.Width/2-300,t.Height/2-200,t.Width/2+300,t.Height/2+200), true, L"Options", menu);
+	window = guienv->addWindow(rect<s32>(iWidth/2-300,iHeight/2-200,iWidth/2+300,iHeight/2+200), true, L"Options", menu);
 	window->setDraggable(false);
 	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
 
-	quit = graphics->getGUIEnvironment()->addButton(rect<s32>(480,360,580,380), window, -1, L"Close");
-	apply = graphics->getGUIEnvironment()->addButton(rect<s32>(360,360,460,380), window, -1, L"Apply");
+	quit = guienv->addButton(rect<s32>(480,360,580,380), window, -1, L"Close");
+	apply = guienv->addButton(rect<s32>(360,360,460,380), window, -1, L"Apply");
 
 	resY[1] = 576;
 	resY[2] = 648;
@@ -29,8 +26,8 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics, gui::IGUIWindow *menu)
 	resY[8] = 2160;
 
 	//create resolution menu
-	graphics->getGUIEnvironment()->addStaticText(L"Resolution", rect<s32>(20,20,120,40), false ,true, window);
-	resolution = graphics->getGUIEnvironment()->addComboBox(rect<s32>(20,40,120,60), window);
+	guienv->addStaticText(L"Resolution", rect<s32>(20,20,120,40), false ,true, window);
+	resolution = guienv->addComboBox(rect<s32>(20,40,120,60), window);
 
 	resY[0] = GetSystemMetrics(SM_CYSCREEN);
 	resX[0] = GetSystemMetrics(SM_CXSCREEN);
@@ -53,10 +50,10 @@ OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics, gui::IGUIWindow *menu)
 		}
 	}
 
-	graphics->getGUIEnvironment()->addStaticText(L"Fullscreen", rect<s32>(50,320,150,340), false, true, window);
-	fullscreen = graphics->getGUIEnvironment()->addCheckBox(gConfig.bFullScreen, rect<s32>(20,320,40,340), window);
-	graphics->getGUIEnvironment()->addStaticText(L"V-sync", rect<s32>(200,320,260,340), false, true, window);
-	vsync = graphics->getGUIEnvironment()->addCheckBox(gConfig.bVsync, rect<s32>(170,320,190,340), window);
+	guienv->addStaticText(L"Fullscreen", rect<s32>(50,320,150,340), false, true, window);
+	fullscreen = guienv->addCheckBox(gConfig.bFullScreen, rect<s32>(20,320,40,340), window);
+	guienv->addStaticText(L"V-sync", rect<s32>(200,320,260,340), false, true, window);
+	vsync = guienv->addCheckBox(gConfig.bVsync, rect<s32>(170,320,190,340), window);
 
 	setVisible(gConfig.bFirstRun);
 }

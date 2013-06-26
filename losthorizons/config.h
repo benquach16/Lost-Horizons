@@ -1,9 +1,15 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
+#define vdriver gConfig.VideoDriver
+#define scenemngr gConfig.SceneManager
+#define guienv gConfig.GUIEnvironment
+#define iWidth gConfig.screen.Width
+#define iHeight gConfig.screen.Height
 
 // include this header file whenever you want to use the config
 
 #include <string>
+#include "irrlicht.h"
 
 
 struct Config
@@ -45,6 +51,12 @@ struct Config
 	void Save();
 
 	std::string iniFilename_;
+
+	// Irrlicht
+	irr::video::IVideoDriver* VideoDriver;
+	irr::scene::ISceneManager* SceneManager;
+	irr::gui::IGUIEnvironment* GUIEnvironment;
+	irr::core::dimension2d<unsigned> screen;
 };
 extern Config gConfig;
 

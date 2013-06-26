@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "gamescene.h"
 
 GameScene::GameScene()
@@ -8,13 +8,13 @@ GameScene::GameScene()
 GameScene::GameScene(IrrlichtDevice *graphics) : graphics(graphics)
 {
 	//create scene
-	scene::ISceneNode *skybox = graphics->getSceneManager()->addSkyBoxSceneNode(
-			graphics->getVideoDriver()->getTexture("res/textures/skyboxes/1/space_top3.jpg"),
-			graphics->getVideoDriver()->getTexture("res/textures/skyboxes/1/space_bottom4.jpg"),
-			graphics->getVideoDriver()->getTexture("res/textures/skyboxes/1/space_left2.jpg"),
-			graphics->getVideoDriver()->getTexture("res/textures/skyboxes/1/space_right1.jpg"),
-			graphics->getVideoDriver()->getTexture("res/textures/skyboxes/1/space_front5.jpg"),
-			graphics->getVideoDriver()->getTexture("res/textures/skyboxes/1/space_back6.jpg"));
+	scene::ISceneNode *skybox = scenemngr->addSkyBoxSceneNode(
+			vdriver->getTexture("res/textures/skyboxes/1/space_top3.jpg"),
+			vdriver->getTexture("res/textures/skyboxes/1/space_bottom4.jpg"),
+			vdriver->getTexture("res/textures/skyboxes/1/space_left2.jpg"),
+			vdriver->getTexture("res/textures/skyboxes/1/space_right1.jpg"),
+			vdriver->getTexture("res/textures/skyboxes/1/space_front5.jpg"),
+			vdriver->getTexture("res/textures/skyboxes/1/space_back6.jpg"));
 }
 
 GameScene::~GameScene()
