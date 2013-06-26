@@ -5,19 +5,19 @@
 #include <iostream>
 
 //setup GUI and initialize variables
-OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics)
+OptionMenu::OptionMenu(irr::IrrlichtDevice *graphics, gui::IGUIWindow *menu)
 	: MenuWindow()
 {
 	dimension2d<u32> t = graphics->getVideoDriver()->getScreenSize();
 
 	//create window
-	window = graphics->getGUIEnvironment()->addWindow(rect<s32>(t.Width/2-300, t.Height/2-200, t.Width/2+300, t.Height/2+200), true, L"Options");
+	window = graphics->getGUIEnvironment()->addWindow(rect<s32>(t.Width/2-300,t.Height/2-200,t.Width/2+300,t.Height/2+200), true, L"Options", menu);
 	window->setDraggable(false);
 	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
 
-	quit = graphics->getGUIEnvironment()->addButton(rect<s32>(480,360,580,380), window,-1, L"Close");
-	apply = graphics->getGUIEnvironment()->addButton(rect<s32>(360,360,460,380), window,-1, L"Apply");
+	quit = graphics->getGUIEnvironment()->addButton(rect<s32>(480,360,580,380), window, -1, L"Close");
+	apply = graphics->getGUIEnvironment()->addButton(rect<s32>(360,360,460,380), window, -1, L"Apply");
 
 	resY[1] = 576;
 	resY[2] = 648;
@@ -78,28 +78,29 @@ void OptionMenu::restart()
 
 void OptionMenu::run()
 {
-	//ensure menu is hidden or not hidden
 	MenuWindow::run();
-	if (quit->isPressed()) {
-		restart();
-		setVisible(false);
-	}
-	if (apply->isPressed()) {
-		if (!gConfig.bFullScreen && gConfig.iResolutionX != get(resolution, resX)) {
-			gConfig.iResolutionX = get(resolution, resX);
-			gConfig.iResolutionY = get(resolution, resY);
-			gConfig.bRestart = true;
+	if (getVisible()) {
+		if (quit->isPressed()) {
+			restart();
+			setVisible(false);
 		}
-		if (gConfig.bFullScreen != get(fullscreen)) {
-			gConfig.bFullScreen = get(fullscreen);
-			gConfig.bRestart = true;
-		}
-		if (gConfig.bVsync != get(vsync)) {
-			gConfig.bVsync = get(vsync);
-			gConfig.bRestart = true;
-		}
+		if (apply->isPressed()) {
+			if (!gConfig.bFullScreen && gConfig.iResolutionX != get(resolution, resX)) {
+				gConfig.iResolutionX = get(resolution, resX);
+				gConfig.iResolutionY = get(resolution, resY);
+				gConfig.bRestart = true;
+			}
+			if (gConfig.bFullScreen != get(fullscreen)) {
+				gConfig.bFullScreen = get(fullscreen);
+				gConfig.bRestart = true;
+			}
+			if (gConfig.bVsync != get(vsync)) {
+				gConfig.bVsync = get(vsync);
+				gConfig.bRestart = true;
+			}
 		
-		setVisible(false);
+			setVisible(false);
+		}
 	}
 }
 

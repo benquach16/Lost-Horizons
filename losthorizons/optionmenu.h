@@ -11,7 +11,7 @@ using namespace core;
 class OptionMenu : public MenuWindow
 {
 public:
-	OptionMenu(irr::IrrlichtDevice *graphics);
+	OptionMenu(irr::IrrlichtDevice *graphics, gui::IGUIWindow *menu);
 	~OptionMenu();
 
 	void restart();

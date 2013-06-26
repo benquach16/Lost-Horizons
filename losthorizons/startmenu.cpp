@@ -7,6 +7,13 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 {
 	dimension2d<u32> t = graphics->getVideoDriver()->getScreenSize();
 
+	//create window
+	window = graphics->getGUIEnvironment()->addWindow(rect<s32>(0,0,t.Width,t.Height), true);
+	window->setDrawBackground(false);
+	window->setDraggable(false);
+	window->setDrawTitlebar(false);
+	window->getCloseButton()->setVisible(false);
+
 	//setup GUI font and other stuff
 	graphics->getGUIEnvironment()->setSkin(graphics->getGUIEnvironment()->createSkin(gui::EGST_WINDOWS_METALLIC));
 	/*gui::IGUIFont *micro = graphics->getGUIEnvironment()->getFont("res/font/verdana_micro.xml");
@@ -36,16 +43,16 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	graphics->getGUIEnvironment()->getSkin()->setColor(gui::EGDC_ACTIVE_CAPTION, SColor(255,250,250,250));
 
 	//Create logo
-	logo = graphics->getGUIEnvironment()->addImage(graphics->getVideoDriver()->getTexture("res/menu/lost_horizons_logo.png"), position2d<s32>(t.Width/2-256,0));
+	logo = graphics->getGUIEnvironment()->addImage(graphics->getVideoDriver()->getTexture("res/menu/lost_horizons_logo.png"), position2d<s32>(t.Width/2-256,0), true, window);
 
 	//create menu buttons
-	resume = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window, 0, L"Resume");
-	newgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window, 0, L"New Game");
-	loadgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+60,t.Width/2+50,t.Height/2+80), window, 0, L"Load Game");
-	savegame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2+10,t.Height/2+60,t.Width/2+110,t.Height/2+80), window, 0, L"Save Game");
-	closegame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), window, 0, L"Main Menu");
-	options = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+100,t.Width/2+50,t.Height/2+120), window, 0, L"Options");
-	quit = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), window, 0, L"Quit");
+	resume = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window, -1, L"Resume");
+	newgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+20,t.Width/2+50,t.Height/2+40), window, -1, L"New Game");
+	loadgame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+60,t.Width/2+50,t.Height/2+80), window, -1, L"Load Game");
+	savegame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2+10,t.Height/2+60,t.Width/2+110,t.Height/2+80), window, -1, L"Save Game");
+	closegame = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), window, -1, L"Main Menu");
+	options = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+100,t.Width/2+50,t.Height/2+120), window, -1, L"Options");
+	quit = graphics->getGUIEnvironment()->addButton(rect<int>(t.Width/2-50,t.Height/2+140,t.Width/2+50,t.Height/2+160), window, -1, L"Quit");
 
 	//set button visibility
 	savegame->setVisible(false);
@@ -94,7 +101,7 @@ StartMenu::StartMenu(irr::IrrlichtDevice *graphics)
 	asteroids->setPosition(vector3df(-20000,0,60000));
 	asteroids->setScale(vector3df(8,8,8));
 
-	config = new OptionMenu(graphics);
+	config = new OptionMenu(graphics, window);
 }
 
 //delete everything
@@ -130,37 +137,41 @@ bool StartMenu::run()
 			quit->setVisible(true);
 		}
 	}
-	if (resume->isPressed()) {
-		gConfig.bPlay = true;
-		return false;
+	MenuWindow::run();
+	if (getVisible()) {
+		if (resume->isPressed()) {
+			gConfig.bPlay = true;
+			return false;
+		}
+		if (newgame->isPressed()) {
+			gConfig.bPlay = true;
+			return false;
+		}
+		if (loadgame->isPressed()) {
+			gConfig.bPlay = true;
+			gConfig.bLoad = true;
+			return false;
+		}
+		if (savegame->isPressed()) {
+			gConfig.bPlay = true;
+			gConfig.bSave = true;
+			return false;
+		}
+		if (closegame->isPressed()) {
+			gConfig.bPlay = false;
+			return true;
+		}
+		if (options->isPressed()) {
+			options->setPressed(false);
+			config->setVisible(true);
+		}
+		if (quit->isPressed()) {
+			quit->setPressed(false);
+			gConfig.bPlay = false;
+			return false;
+		}
+		config->run();
 	}
-	if (newgame->isPressed()) {
-		gConfig.bPlay = true;
-		return false;
-	}
-	if (loadgame->isPressed()) {
-		gConfig.bPlay = true;
-		gConfig.bLoad = true;
-		return false;
-	}
-	if (savegame->isPressed()) {
-		gConfig.bPlay = true;
-		gConfig.bSave = true;
-		return false;
-	}
-	if (closegame->isPressed()) {
-		gConfig.bPlay = false;
-		return true;
-	}
-	if (options->isPressed()) {
-		config->setVisible(true);
-	}
-	if (quit->isPressed()) {
-		quit->setPressed(false);
-		gConfig.bPlay = false;
-		return false;
-	}
-	config->run();
 
 	return true;
 }

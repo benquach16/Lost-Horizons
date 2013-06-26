@@ -8,45 +8,43 @@
 
 struct Config
 {
-	public:
-		Config();
-		~Config();
+	Config();
+	~Config();
 
-		// Special Use
-		bool bSaveSettings;
-		bool bFirstRun;
-		bool bRestart;
-		bool bPlay;
-		bool bLoad;
-		bool bSave;
+	// Special Use
+	bool bSaveSettings;
+	bool bFirstRun;
+	bool bRestart;
+	bool bPlay;
+	bool bLoad;
+	bool bSave;
 
-		// General
-		bool bAutoLoadLast;
-		bool bConfirmOnQuit;
-		bool bTopMost;
+	// General
+	bool bAutoLoadLast;
+	bool bConfirmOnQuit;
+	bool bTopMost;
 
-		// Video
-		unsigned iBits;
-		unsigned iResolutionX;
-		unsigned iResolutionY;
-		bool bFullScreen;
-		bool bVsync;
-		//bool bShaders;
+	// Video
+	unsigned iBits;
+	unsigned iResolutionX;
+	unsigned iResolutionY;
+	bool bFullScreen;
+	bool bVsync;
+	//bool bShaders;
 
-		// Audio
-		unsigned iMusic;
-		unsigned iSFX;
+	// Audio
+	unsigned iMusic;
+	unsigned iSFX;
 		
-		// UI
-		bool bShowFPSCounter;
-		bool bShowDebugStats;
+	// UI
+	bool bShowFPSCounter;
+	bool bShowDebugStats;
 
-		// functions
-		void Load(const char *iniFileName = "config.ini");
-		void Save();
+	// functions
+	void Load(const char *iniFileName = "config.ini");
+	void Save();
 
-	private:
-		std::string iniFilename_;
+	std::string iniFilename_;
 };
 extern Config gConfig;
 

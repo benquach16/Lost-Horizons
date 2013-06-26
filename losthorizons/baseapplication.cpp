@@ -56,6 +56,7 @@ void BaseApplication::run()
 
 		//run menu or game
 		if (menuOpen) {
+			menu->setVisible(true);
 			menuOpen = menu->run();
 			if (!menuOpen && !gConfig.bPlay) {
 				if (gConfig.bConfirmOnQuit)
@@ -67,6 +68,8 @@ void BaseApplication::run()
 				}
 			}
 		} else {
+			menu->setVisible(false);
+			menu->run();
 			menuOpen = !game->run();
 		}
 
@@ -74,7 +77,7 @@ void BaseApplication::run()
 			gConfig.bRestart = false;
 			restartDevice();
 		}
-
+		
 		graphics->getSceneManager()->drawAll();
 		graphics->getGUIEnvironment()->drawAll();
 
