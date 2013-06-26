@@ -13,16 +13,24 @@
 #include "playercamera.h"
 #include "keylistener.h"
 
+enum E_GAMESCENES
+{
+	E_MAINMENU_SCENE,
+	E_TAU_CETI_SCENE,
+};
+
 class GameScene
 {
 public:
 	GameScene();
 	//parameterized constructor
 	GameScene(IrrlichtDevice *graphics);
+	//for creating a specific scene
+	GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene);
 	~GameScene();
 	void loadScene();
 	void saveScene();
-
+	void changeToScene(E_GAMESCENES scene);
 	void run(float frameDeltaTime);
 
 	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
@@ -33,7 +41,6 @@ public:
 	
 private:
 	IrrlichtDevice *graphics;
-	std::list<Object*> objectsList;
 };
 
 #endif

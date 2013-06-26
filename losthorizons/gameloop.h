@@ -14,13 +14,18 @@ public:
 	//parameterized constructor
 	//really though, not using this is bad news bears
 	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver);
+	
+	//newgame or loadgame instances
+	void createNewGame();
+	void createLoadedGame();
+
 	//might want this to be a singleton
 	~Gameloop();
 	//having an independant function to loop through everything makes pausing much easier
 	bool run();
 
 private:
-	void playerControl();
+	void playerControl(float frameDeltaTime);
 	void cameraControl();
 
 	IrrlichtDevice *graphics;

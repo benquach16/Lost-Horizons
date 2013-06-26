@@ -15,4 +15,5 @@ Player::~Player()
 
 void Player::run(float frameDeltaTime)
 {
+	Ship::run(frameDeltaTime);
 }

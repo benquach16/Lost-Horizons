@@ -36,16 +36,24 @@ public:
 	Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props,
 		const vector3df &position, const vector3df &rotation, bool isPlayer);
 	//copy constructor
-	Ship(const Ship &s);
+	Ship(const Ship *s);
 	//overloaded assignment operator
-	Ship& operator=(const Ship &s);
+	Ship& operator=(const Ship *s);
 	virtual ~Ship();
 
 	virtual void run(float frameDeltaTime);
 
+	void increaseVelocity(float frameDeltaTime);
+	void decreaseVelocity(float frameDeltaTime);
+
+	//rotate ship to specific angle
+	void setTargetRotationTo(const vector3df &newTargetRotation);
+	const vector3df &getTargetRotation() const;
+
 protected:
 	//protected functions
-	void rotate();
+	void rotate(float frameDeltaTime);
+	void movement(float frameDeltaTime);
 
 	bool isPlayer;
 	//iterator to 'this'
@@ -53,11 +61,12 @@ protected:
 
 	//stats
 	//basic ship type
+	ShipProperties props;
 	int hull, armor, shield;
 	int maxHull, maxArmor, maxShield;
 
-	int velocity;
-	int maxVelocity;
+	float velocity;
+	float maxVelocity;
 	int maxTurn;
 	int crew;
 	int maxCrew;
@@ -66,6 +75,7 @@ protected:
 	vector3df targetRotation;
 
 	//important misc variables
+	E_AI_STATES currentAIState;
 	Ship *shipTarget;
 	//inventory of ship
 	

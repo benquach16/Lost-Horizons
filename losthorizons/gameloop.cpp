@@ -10,9 +10,20 @@ Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver)
 	: graphics(graphics), objectManager(new ObjectManager(graphics)), receiver(receiver),
 	  currentScene(new GameScene(graphics)), then(static_cast<float>(graphics->getTimer()->getTime()))
 {
+	playerCam = currentScene->createPlayerCam();
+	player = currentScene->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
+}
+
+void Gameloop::createNewGame()
+{
 	//create player and camera
 	playerCam = currentScene->createPlayerCam();
 	player = currentScene->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));
+}
+
+void Gameloop::createLoadedGame()
+{
+	playerCam = currentScene->createPlayerCam();
 }
 
 Gameloop::~Gameloop()
@@ -28,7 +39,7 @@ bool Gameloop::run()
 	const float frameDeltaTime = (float)(now - then) / 1000.f; // Time in seconds
 	then = now;
 
-	playerControl();
+	playerControl(frameDeltaTime);
 	cameraControl();
 	playerCam->run(player->getPosition(), frameDeltaTime);
 	currentScene->run(frameDeltaTime);
@@ -40,16 +51,46 @@ bool Gameloop::run()
 	}
 }
 
-void Gameloop::playerControl()
+void Gameloop::playerControl(float frameDeltaTime)
 {
 	//all actions the player can do are stored here
 	if(receiver->isKeyDown(irr::KEY_KEY_X))
 	{
 		//accelerate
+		player->increaseVelocity(frameDeltaTime);
 	}
 	else if(receiver->isKeyDown(irr::KEY_KEY_Z))
 	{
 		//decelerate
+		player->decreaseVelocity(frameDeltaTime);
+	}
+	if(receiver->isKeyDown(irr::KEY_KEY_A))
+	{
+		//rotate left
+		vector3df rot = player->getTargetRotation();
+		rot.Y -= 35*frameDeltaTime;
+		player->setTargetRotationTo(rot);
+	}
+	if(receiver->isKeyDown(irr::KEY_KEY_D))
+	{
+		//rotate right
+		vector3df rot = player->getTargetRotation();
+		rot.Y += 35*frameDeltaTime;
+		player->setTargetRotationTo(rot);
+	}
+	if(receiver->isKeyDown(irr::KEY_KEY_W))
+	{
+		//rotate right
+		vector3df rot = player->getTargetRotation();
+		rot.X -= 35*frameDeltaTime;
+		player->setTargetRotationTo(rot);
+	}
+	if(receiver->isKeyDown(irr::KEY_KEY_S))
+	{
+		//rotate right
+		vector3df rot = player->getTargetRotation();
+		rot.X += 35*frameDeltaTime;
+		player->setTargetRotationTo(rot);
 	}
 }
 
