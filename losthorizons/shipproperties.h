@@ -9,13 +9,15 @@
 class ShipProperties : public ItemProperties
 {
 public:
+	//default constructor
+	ShipProperties();
 	ShipProperties(IrrlichtDevice *graphics, const std::string &f);
 	~ShipProperties();
 
 	//accessors because visual studio is a douchebag
 	const int& getHull() const;
 	const int& getMaxTurn() const;
-	const int& getMaxVel() const;
+	const float& getMaxVel() const;
 
 	const int& getMaxEnergy() const;
 	const int& getMaxCrew() const;
@@ -35,7 +37,7 @@ protected:
 	//performance statistics
 	int hull;
 	int maxTurn;
-	int maxVelocity;
+	float maxVelocity;
 
 	//logistic statistics
 	int maxEnergy;

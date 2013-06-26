@@ -2,6 +2,10 @@
 #include "itemproperties.h"
 #include <iostream>
 
+ItemProperties::ItemProperties()
+{
+}
+
 ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string &f)
 {
 	//read in the xml file

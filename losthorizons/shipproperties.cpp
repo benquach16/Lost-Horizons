@@ -2,6 +2,10 @@
 #include "shipproperties.h"
 #include <iostream>
 
+ShipProperties::ShipProperties() : ItemProperties()
+{
+}
+
 ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) : ItemProperties(graphics, f)
 {
 	//only read the ship values here since the item one will already be read in from
@@ -26,7 +30,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 		if(core::stringw(L"shipStats").equals_ignore_case(file->getNodeName()))
 		{
 			hull = file->getAttributeValueAsInt(L"hull");
-			maxVelocity = file->getAttributeValueAsInt(L"maxVelocity");
+			maxVelocity = file->getAttributeValueAsFloat(L"maxVelocity");
 			maxTurn = file->getAttributeValueAsInt(L"maxTurn");
 
 			maxFighters = file->getAttributeValueAsInt(L"maxFighters");
@@ -49,7 +53,7 @@ const int& ShipProperties::getMaxTurn() const
 	return maxTurn;
 }
 
-const int& ShipProperties::getMaxVel() const
+const float& ShipProperties::getMaxVel() const
 {
 	return maxVelocity;
 }
