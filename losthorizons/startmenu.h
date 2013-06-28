@@ -22,7 +22,6 @@ private:
 	bool flip;
 	OptionMenu *config;
 	MessageMenu *confirmQuit;
-	scene::ICameraSceneNode *cam;
 	scene::ISceneNode *corona;
 	scene::IParticleSystemSceneNode *nebula;
 	scene::IAnimatedMeshSceneNode *asteroids;

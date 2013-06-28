@@ -41,6 +41,7 @@ public:
 	
 private:
 	IrrlichtDevice *graphics;
+	scene::ISceneNode *skybox;
 };
 
 #endif

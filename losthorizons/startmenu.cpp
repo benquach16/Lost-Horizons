@@ -62,11 +62,6 @@ StartMenu::StartMenu()
 	confirmQuit->moveButtons(position2d<s32>(0,-5));
 	confirmQuit->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"Are you sure you want to exit?");
 
-	//setup camera for menu scene
-	cam = scenemngr->addCameraSceneNode();
-	cam->setPosition(vector3df(0,0,0));
-	cam->setFarValue(5000000);
-
 	//create sun for menu background
 	corona = scenemngr->addBillboardSceneNode(0, dimension2d<f32>(50000,50000), vector3df(-20000,500,70000));
 	corona->setMaterialTexture(0, vdriver->getTexture("res/particlewhite.bmp"));
@@ -78,16 +73,9 @@ StartMenu::StartMenu()
 	corona2->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
 	//setup menu background
-	scene::ISceneNode *skybox = scenemngr->addSkyBoxSceneNode(
-		vdriver->getTexture("res/textures/skyboxes/3/space_top3.jpg"),
-		vdriver->getTexture("res/textures/skyboxes/3/space_bottom4.jpg"),
-		vdriver->getTexture("res/textures/skyboxes/3/space_left2.jpg"),
-		vdriver->getTexture("res/textures/skyboxes/3/space_right1.jpg"),
-		vdriver->getTexture("res/textures/skyboxes/3/space_front5.jpg"),
-		vdriver->getTexture("res/textures/skyboxes/3/space_back6.jpg"));
 	scenemngr->setAmbientLight(SColor(64,64,64,64));	
 
-	nebula = scenemngr->addParticleSystemSceneNode(false, cam);
+	nebula = scenemngr->addParticleSystemSceneNode(false);
 	scene::IParticleSphereEmitter *em = nebula->createSphereEmitter(vector3df(-800,0,100), 10, vector3df(0.02f,0,0), 1, 1,
 																	SColor(255,200,220,225), SColor(255,200,220,225), 15000, 25000, 0,
 																	dimension2d<f32>(500,500), dimension2d<f32>(2000,2000));
@@ -112,8 +100,8 @@ StartMenu::~StartMenu()
 {
 	delete config;
 	delete confirmQuit;
-	cam->remove();
 	corona->remove();
+	nebula->remove();
 	asteroids->remove();
 }
 

@@ -8,7 +8,7 @@ GameScene::GameScene()
 GameScene::GameScene(IrrlichtDevice *graphics) : graphics(graphics)
 {
 	//create scene
-	scene::ISceneNode *skybox = graphics->getSceneManager()->addSkyBoxSceneNode(
+	skybox = graphics->getSceneManager()->addSkyBoxSceneNode(
 			vdriver->getTexture("res/textures/skyboxes/1/space_top3.jpg"),
 			vdriver->getTexture("res/textures/skyboxes/1/space_bottom4.jpg"),
 			vdriver->getTexture("res/textures/skyboxes/1/space_left2.jpg"),
@@ -27,6 +27,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 
 GameScene::~GameScene()
 {
+	skybox->remove();
 }
 
 void GameScene::run(float frameDeltaTime)
