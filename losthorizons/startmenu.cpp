@@ -3,7 +3,7 @@
 
 
 StartMenu::StartMenu()
-	: MenuWindow(), flip(false), config(0)
+	: MenuWindow(), flip(false), config(0), confirmQuit(0)
 {
 	//create window
 	window = guienv->addWindow(rect<s32>(0,0,iWidth,iHeight), true);
@@ -13,12 +13,14 @@ StartMenu::StartMenu()
 	window->getCloseButton()->setVisible(false);
 
 	//setup GUI font and other stuff
-	guienv->setSkin(guienv->createSkin(gui::EGST_WINDOWS_METALLIC));
+	gui::IGUISkin* metallic = guienv->createSkin(gui::EGST_WINDOWS_METALLIC);
+	guienv->setSkin(metallic);
+	metallic->drop();
 	/*gui::IGUIFont *micro = guienv->getFont("res/font/verdana_micro.xml");
 	gui::IGUIFont *menu_font = guienv->getFont("res/font/large.xml");*/
 	gui::IGUIFont *astro = guienv->getFont("res/font/system.xml");
 	guienv->getSkin()->setFont(astro);
-
+	
 	//setup colors for gui
 	for (s32 i = 0; i < gui::EGDC_COUNT; ++i) {
 		SColor col = guienv->getSkin()->getColor((gui::EGUI_DEFAULT_COLOR)i);
@@ -40,9 +42,8 @@ StartMenu::StartMenu()
 	guienv->getSkin()->setColor(gui::EGDC_INACTIVE_CAPTION, SColor(255,200,200,200));
 	guienv->getSkin()->setColor(gui::EGDC_ACTIVE_CAPTION, SColor(255,250,250,250));
 
-	//Create images
-	logo = guienv->addImage(vdriver->getTexture("res/menu/lost_horizons_logo.png"), position2d<s32>(iWidth/2-256,0), true, window);
-	menuback = guienv->addImage(vdriver->getTexture("res/menu/background.png"), position2d<s32>(iWidth/2-128,iHeight/2), true, window);
+	//create logo
+	guienv->addImage(vdriver->getTexture("res/menu/lost_horizons_logo.png"), position2d<s32>(iWidth/2-256,0), true, window);
 
 	//create menu buttons
 	resume = guienv->addButton(rect<s32>(iWidth/2-50,iHeight/2+20,iWidth/2+50,iHeight/2+40), window, -1, L"Resume");
@@ -55,6 +56,12 @@ StartMenu::StartMenu()
 
 	//set button visibility
 	savegame->setVisible(false);
+
+	//create child windows
+	config = new OptionMenu(window);
+	confirmQuit = new MessageMenu(rect<s32>(iWidth/2-100,iHeight/2-30,iWidth/2+100,iHeight/2+60), L"Are you sure?", MessageMenu::MM_YESNO, window);
+	confirmQuit->setDraggable(false);
+	confirmQuit->addText(rect<s32>(iWidth/2-30,iHeight/2+20,iWidth/2+30,iHeight/2+40), L"Are you sure you want to exit?");
 
 	//setup camera for menu scene
 	cam = scenemngr->addCameraSceneNode();
@@ -99,26 +106,16 @@ StartMenu::StartMenu()
 	asteroids->setMaterialTexture(0, vdriver->getTexture("res/roid.jpg"));
 	asteroids->setPosition(vector3df(-20000,0,60000));
 	asteroids->setScale(vector3df(8,8,8));
-
-	config = new OptionMenu(window);
 }
 
 //delete everything
 StartMenu::~StartMenu()
 {
 	delete config;
+	delete confirmQuit;
 	cam->remove();
 	corona->remove();
 	asteroids->remove();
-	logo->remove();
-	menuback->remove();
-	resume->remove();
-	newgame->remove();
-	loadgame->remove();
-	savegame->remove();
-	closegame->remove();
-	options->remove();
-	quit->remove();
 }
 
 bool StartMenu::run()
@@ -162,16 +159,15 @@ bool StartMenu::run()
 			return true;
 		}
 		if (options->isPressed()) {
-			options->setPressed(false);
 			config->setVisible(true);
 		}
 		if (quit->isPressed()) {
-			quit->setPressed(false);
-			gConfig.bPlay = false;
-			return false;
+			if (gConfig.bConfirmOnQuit) {
+				confirmQuit->setVisible(true);
+			}
 		}
 		config->run();
 	}
 
-	return true;
+	return !(MessageMenu::MM_OKAY == confirmQuit->run());
 }

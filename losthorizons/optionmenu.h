@@ -2,7 +2,6 @@
 #define _OPTIONMENU_H_
 
 #include "menuwindow.h"
-#include "irrlicht.h"
 
 using namespace irr;
 using namespace core;

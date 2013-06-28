@@ -57,13 +57,8 @@ void BaseApplication::run()
 			menu->setVisible(true);
 			menuOpen = menu->run();
 			if (!menuOpen && !gConfig.bPlay) {
-				if (gConfig.bConfirmOnQuit)
-					if (IDNO == MessageBox(hwnd, L"Are you sure you want to exit?", L"Are you sure?", MB_YESNO | MB_ICONQUESTION))
-						menuOpen = true;
-				if (!menuOpen) {
-					vdriver->endScene();
-					return;
-				}
+				vdriver->endScene();
+				return;
 			}
 		} else {
 			menu->setVisible(false);
@@ -108,7 +103,7 @@ void BaseApplication::buildGraphics()
 	gConfig.screen = vdriver->getScreenSize();
 	
 	graphics->setWindowCaption(L"Lost Horizons");
-	SExposedVideoData InternalData = vdriver->getExposedVideoData();;
+	SExposedVideoData InternalData = vdriver->getExposedVideoData();
 	switch(EDT_DIRECT3D9) { //use variable if we ever implement using the other drivers
             case EDT_OPENGL:
 				hwnd  = (HWND) InternalData.OpenGLWin32.HWnd;

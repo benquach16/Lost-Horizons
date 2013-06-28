@@ -94,6 +94,7 @@
     <ClInclude Include="lib\ini_io.h" />
     <ClInclude Include="lib\string_util.h" />
     <ClInclude Include="menuwindow.h" />
+    <ClInclude Include="messagemenu.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="objectmanager.h" />
     <ClInclude Include="optionmenu.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="itemproperties.cpp" />
     <ClCompile Include="keylistener.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="messagemenu.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectmanager.cpp" />
     <ClCompile Include="optionmenu.cpp" />

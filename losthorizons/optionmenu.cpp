@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "optionmenu.h"
 #include <cmath>
-#include <iostream>
 
-//setup GUI and initialize variables
+
 OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	: MenuWindow()
 {
@@ -50,6 +49,7 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 		}
 	}
 
+	//create checkboxes
 	guienv->addStaticText(L"Fullscreen", rect<s32>(50,320,150,340), false, true, window);
 	fullscreen = guienv->addCheckBox(gConfig.bFullScreen, rect<s32>(20,320,40,340), window);
 	guienv->addStaticText(L"V-sync", rect<s32>(200,320,260,340), false, true, window);

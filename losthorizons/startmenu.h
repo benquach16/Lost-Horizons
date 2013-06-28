@@ -3,7 +3,7 @@
 
 #include "menuwindow.h"
 #include "optionmenu.h"
-#include "irrlicht.h"
+#include "messagemenu.h"
 
 using namespace irr;
 using namespace core;
@@ -21,12 +21,11 @@ public:
 private:
 	bool flip;
 	OptionMenu *config;
+	MessageMenu *confirmQuit;
 	scene::ICameraSceneNode *cam;
 	scene::ISceneNode *corona;
 	scene::IParticleSystemSceneNode *nebula;
 	scene::IAnimatedMeshSceneNode *asteroids;
-	gui::IGUIImage *logo;
-	gui::IGUIImage *menuback;
 	gui::IGUIButton *resume;
 	gui::IGUIButton *newgame;
 	gui::IGUIButton *loadgame;
