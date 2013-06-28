@@ -12,28 +12,21 @@ class MessageMenu : public MenuWindow
 public:
 	enum FLAGS
 	{
-		MM_NULL,
-		MM_CLOSE,
-		MM_OKAY,
-		MM_YES = MM_OKAY,
-		MM_NO = 4,
-		MM_YESNO = MM_NO
+		CLOSE = 1,
+		OKAY,
+		YES = OKAY,
+		NO = 4,
+		YESNO = NO
 	};
 
-	MessageMenu(const rect<s32> &rectangle, const wchar_t *caption = 0, FLAGS flags = MM_OKAY, gui::IGUIElement *parent = 0, bool modal = true, s32 id = -1);
+	MessageMenu(const rect<s32> &rectangle, gui::IGUIElement *parent = 0, const wchar_t *caption = 0, unsigned flags = OKAY, bool draggable = true, bool drawTitleBar = true, bool modal = true, s32 id = -1);
 	~MessageMenu();
 
 	int run();
 	
-	void setDraggable(bool draggable) { window->setDraggable(draggable); }
-	void setDrawTitlebar(bool draw) { window->setDrawTitlebar(draw); }
-	void addText(position2d<s32> &pos, dimension2d<u32> &size, const wchar_t *text = 0) { guienv->addStaticText(text, rect<s32>(UpperLeft+pos,size), false, true, window); }
-	void addText(rect<s32> &rectangle, const wchar_t *text = 0) { guienv->addStaticText(text, rectangle, false, true, window); }
-	void addImage(video::ITexture *image, position2d<s32>& pos, bool useAlphaChannel = true) { guienv->addImage(image, UpperLeft+pos, useAlphaChannel, window); }
-
-protected:
-	position2d<s32> UpperLeft;
-	position2d<s32> LowerRight;
+	void moveButtons(position2d<s32> &offset) { if (yes) yes->move(offset); if (no) no->move(offset); }
+	void addText(position2d<s32> &pos, dimension2d<u32> &size, const wchar_t *text = 0, bool border = false) { guienv->addStaticText(text, rect<s32>(pos,size), border, true, window); }
+	void addImage(video::ITexture *image, position2d<s32>& pos, bool useAlphaChannel = true) { guienv->addImage(image, pos, useAlphaChannel, window); }
 
 private:
 	gui::IGUIButton *close;

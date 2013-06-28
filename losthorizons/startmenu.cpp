@@ -9,7 +9,6 @@ StartMenu::StartMenu()
 	window = guienv->addWindow(rect<s32>(0,0,iWidth,iHeight), true);
 	window->setDrawBackground(false);
 	window->setDraggable(false);
-	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
 
 	//setup GUI font and other stuff
@@ -59,9 +58,9 @@ StartMenu::StartMenu()
 
 	//create child windows
 	config = new OptionMenu(window);
-	confirmQuit = new MessageMenu(rect<s32>(iWidth/2-100,iHeight/2-30,iWidth/2+100,iHeight/2+60), L"Are you sure?", MessageMenu::MM_YESNO, window);
-	confirmQuit->setDraggable(false);
-	confirmQuit->addText(rect<s32>(iWidth/2-30,iHeight/2+20,iWidth/2+30,iHeight/2+40), L"Are you sure you want to exit?");
+	confirmQuit = new MessageMenu(rect<s32>(iWidth/2-120,iHeight/2-40,iWidth/2+120,iHeight/2+40), window, 0, MessageMenu::YESNO, false, false);
+	confirmQuit->moveButtons(position2d<s32>(0,-5));
+	confirmQuit->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"Are you sure you want to exit?");
 
 	//setup camera for menu scene
 	cam = scenemngr->addCameraSceneNode();
@@ -164,10 +163,12 @@ bool StartMenu::run()
 		if (quit->isPressed()) {
 			if (gConfig.bConfirmOnQuit) {
 				confirmQuit->setVisible(true);
+			} else {
+				return false;
 			}
 		}
 		config->run();
 	}
 
-	return !(MessageMenu::MM_OKAY == confirmQuit->run());
+	return !(MessageMenu::YES == confirmQuit->run());
 }
