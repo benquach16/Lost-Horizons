@@ -15,8 +15,7 @@ Object::Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3
 	this->mesh->setScale(scale);
 }
 
-Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position, const vector3df &rotation,
-			   const vector3df &scale)
+Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: position(position), rotation(rotation), scale(scale)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh(filename));
@@ -40,14 +39,14 @@ Object& Object::operator=(const Object *obj)
 	position = obj->position;
 	rotation = obj->rotation;
 	scale = obj->scale;
-	mesh->drop();
+	mesh->remove();
 	mesh = obj->mesh;
 	return *this;
 }
 
 Object::~Object()
 {
-	mesh->drop();
+	mesh->remove();
 }
 
 void Object::run()

@@ -12,8 +12,11 @@ MessageMenu::MessageMenu(const rect<s32> &rectangle, gui::IGUIElement *parent, c
 	window->setDrawTitlebar(drawTitleBar);
 
 	//create buttons
-	if (flags % 2 == CLOSE)
+	if (flags % 2 == CLOSE) {
 		close = guienv->addButton(rect<s32>(position2d<s32>(rectangle.getWidth()-17,4),dimension2d<s32>(14,14)), window, -1, L"x");
+		if (!drawTitleBar)
+			close->move(position2d<s32>(0,-2));
+	}
 	if (flags > CLOSE && flags < YESNO)
 		yes = guienv->addButton(rect<s32>(position2d<s32>(rectangle.getWidth()/2-25,rectangle.getHeight()-50),dimension2d<s32>(50,30)), window, -1, L"OK");
 	if (flags > OKAY) {
