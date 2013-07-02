@@ -22,9 +22,6 @@ private:
 	bool flip;
 	OptionMenu *config;
 	MessageMenu *confirmQuit;
-	scene::ISceneNode *corona;
-	scene::IParticleSystemSceneNode *nebula;
-	scene::IAnimatedMeshSceneNode *asteroids;
 	gui::IGUIButton *resume;
 	gui::IGUIButton *newgame;
 	gui::IGUIButton *loadgame;

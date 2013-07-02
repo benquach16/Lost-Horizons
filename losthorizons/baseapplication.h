@@ -34,6 +34,7 @@ private:
 	HWND hwnd;
 
 	bool menuOpen;
+	bool loadedGameScene;
 
 	void buildGraphics();
 	void getBits();

@@ -4,6 +4,7 @@
 #include "player.h"
 #include "keylistener.h"
 #include "gamescene.h"
+#include "gamescenemanager.h"
 #include "objectmanager.h"
 
 class Gameloop
@@ -34,7 +35,7 @@ private:
 	KeyListener *receiver;
 	Player *player;
 
-	GameScene *currentScene;
+	GameSceneManager *gameSceneManager;
 
 	//for delta time calculation
 	float then;

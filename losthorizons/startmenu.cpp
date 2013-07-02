@@ -62,37 +62,7 @@ StartMenu::StartMenu()
 	confirmQuit->moveButtons(position2d<s32>(0,-5));
 	confirmQuit->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"Are you sure you want to exit?");
 
-	//create sun for menu background
-	corona = scenemngr->addBillboardSceneNode(0, dimension2d<f32>(50000,50000), vector3df(-20000,500,70000));
-	corona->setMaterialTexture(0, vdriver->getTexture("res/particlewhite.bmp"));
-	corona->setMaterialFlag(EMF_LIGHTING, false);
-	corona->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 
-	scene::IBillboardSceneNode *corona2 = scenemngr->addBillboardSceneNode(corona, dimension2d<f32>(130000,110000), vector3df(0,0,0));
-	corona2->setMaterialTexture(0, vdriver->getTexture("res/textures/engine_corona.png"));
-	corona2->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-
-	//setup menu background
-	scenemngr->setAmbientLight(SColor(64,64,64,64));	
-
-	nebula = scenemngr->addParticleSystemSceneNode(false);
-	scene::IParticleSphereEmitter *em = nebula->createSphereEmitter(vector3df(-800,0,100), 10, vector3df(0.02f,0,0), 1, 1,
-																	SColor(255,200,220,225), SColor(255,200,220,225), 15000, 25000, 0,
-																	dimension2d<f32>(500,500), dimension2d<f32>(2000,2000));
-	nebula->setEmitter(em);
-	em->drop();
-	nebula->setMaterialFlag(EMF_LIGHTING, false);
-	nebula->setMaterialTexture(0, vdriver->getTexture("res/textures/fog.pcx"));
-	nebula->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
-
-	scene::IParticleAffector *af = nebula->createFadeOutParticleAffector();
-	nebula->addAffector(af);
-	af->drop();
-	
-	asteroids = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/planets/asteroid.x"));
-	asteroids->setMaterialTexture(0, vdriver->getTexture("res/roid.jpg"));
-	asteroids->setPosition(vector3df(-20000,0,60000));
-	asteroids->setScale(vector3df(8,8,8));
 }
 
 //delete everything
@@ -100,9 +70,7 @@ StartMenu::~StartMenu()
 {
 	delete config;
 	delete confirmQuit;
-	corona->remove();
-	nebula->remove();
-	asteroids->remove();
+
 }
 
 bool StartMenu::run()

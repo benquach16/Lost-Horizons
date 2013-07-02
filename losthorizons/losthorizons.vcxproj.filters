@@ -105,6 +105,9 @@
     <ClInclude Include="messagemenu.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="gamescenemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="messagemenu.cpp">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="gamescenemanager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

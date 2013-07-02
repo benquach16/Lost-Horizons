@@ -88,6 +88,7 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="gamescene.h" />
+    <ClInclude Include="gamescenemanager.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="itemproperties.h" />
     <ClInclude Include="keylistener.h" />
@@ -113,6 +114,7 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="gamescene.cpp" />
+    <ClCompile Include="gamescenemanager.cpp" />
     <ClCompile Include="itemproperties.cpp" />
     <ClCompile Include="keylistener.cpp" />
     <ClCompile Include="main.cpp" />

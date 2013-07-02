@@ -8,7 +8,7 @@
 #endif
 
 BaseApplication::BaseApplication()
-	: graphics(0), receiver(new KeyListener), menu(0), game(0), hwnd(0), menuOpen(true)
+	: graphics(0), receiver(new KeyListener), menu(0), game(0), hwnd(0), menuOpen(true), loadedGameScene(false)
 {
 	getBits();
 	gConfig.Load();
@@ -61,6 +61,14 @@ void BaseApplication::run()
 				return;
 			}
 		} else {
+			if(!loadedGameScene)
+			{
+				if(gConfig.bPlay && !gConfig.bLoad)
+					game->createNewGame();
+				else if(gConfig.bPlay && gConfig.bLoad)
+					game->createLoadedGame();
+				loadedGameScene = true;
+			}
 			menu->setVisible(false);
 			menu->run();
 			menuOpen = !game->run();

@@ -8,28 +8,27 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver)
 	: graphics(graphics), objectManager(new ObjectManager(graphics)), receiver(receiver),
-	  currentScene(new GameScene(graphics)), then(static_cast<float>(graphics->getTimer()->getTime()))
+	  gameSceneManager(new GameSceneManager(graphics)), then(static_cast<float>(graphics->getTimer()->getTime()))
 {
-	playerCam = currentScene->createPlayerCam();
-	player = currentScene->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
+	//player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
 }
 
 void Gameloop::createNewGame()
 {
 	//create player and camera
-	playerCam = currentScene->createPlayerCam();
-	player = currentScene->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));
+	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
+	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
+	player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));
 }
 
 void Gameloop::createLoadedGame()
 {
-	playerCam = currentScene->createPlayerCam();
 }
 
 Gameloop::~Gameloop()
 {
 	delete objectManager;
-	delete currentScene;
+	delete gameSceneManager;
 }
 
 bool Gameloop::run()
@@ -42,7 +41,7 @@ bool Gameloop::run()
 	playerControl(frameDeltaTime);
 	cameraControl();
 	playerCam->run(player->getPosition(), frameDeltaTime);
-	currentScene->run(frameDeltaTime);
+	gameSceneManager->runCurrentScene(frameDeltaTime);
 
 	if (receiver->isKeyDown(irr::KEY_ESCAPE)) {
 		return false;
