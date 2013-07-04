@@ -4,6 +4,7 @@
 #include "menuwindow.h"
 #include "optionmenu.h"
 #include "messagemenu.h"
+#include "keylistener.h"
 
 using namespace irr;
 using namespace core;
@@ -13,12 +14,14 @@ using namespace video;
 class StartMenu : public MenuWindow
 {
 public:
-	StartMenu();
+	StartMenu(IrrlichtDevice *graphics, KeyListener *receiver);
 	~StartMenu();
 
 	bool run();
 
 private:
+	IrrlichtDevice *graphics;
+	KeyListener *receiver;
 	bool flip;
 	OptionMenu *config;
 	MessageMenu *confirmQuit;

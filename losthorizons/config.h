@@ -5,12 +5,13 @@
 #define guienv gConfig.GUIEnvironment
 #define iWidth gConfig.screen.Width
 #define iHeight gConfig.screen.Height
+#define game gConfig.gGame
 
 // include this header file whenever you want to use the config
 
 #include <string>
 #include "irrlicht.h"
-
+#include "gameloop.h"
 
 struct Config
 {
@@ -22,8 +23,6 @@ struct Config
 	bool bFirstRun;
 	bool bRestart;
 	bool bPlay;
-	bool bLoad;
-	bool bSave;
 
 	// General
 	bool bAutoLoadLast;
@@ -52,11 +51,12 @@ struct Config
 
 	std::string iniFilename_;
 
-	// Irrlicht
+	// pseudo global objects
 	irr::video::IVideoDriver* VideoDriver;
 	irr::scene::ISceneManager* SceneManager;
 	irr::gui::IGUIEnvironment* GUIEnvironment;
 	irr::core::dimension2d<unsigned> screen;
+	Gameloop* gGame;
 };
 extern Config gConfig;
 

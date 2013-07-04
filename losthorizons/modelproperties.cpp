@@ -48,4 +48,3 @@ const core::vector3df& ModelProperties::getScale() const
 {
 	return scale;
 }
-

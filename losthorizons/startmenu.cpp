@@ -2,8 +2,8 @@
 #include "startmenu.h"
 
 
-StartMenu::StartMenu()
-	: MenuWindow(), flip(false), config(0), confirmQuit(0)
+StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver)
+	: MenuWindow(), graphics(graphics), receiver(receiver), flip(false), config(0), confirmQuit(0)
 {
 	//create window
 	window = guienv->addWindow(rect<s32>(0,0,iWidth,iHeight), true);
@@ -61,8 +61,6 @@ StartMenu::StartMenu()
 	confirmQuit = new MessageMenu(rect<s32>(iWidth/2-120,iHeight/2-40,iWidth/2+120,iHeight/2+40), window, 0, MessageMenu::YESNO, false, false);
 	confirmQuit->moveButtons(position2d<s32>(0,-5));
 	confirmQuit->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"Are you sure you want to exit?");
-
-
 }
 
 //delete everything
@@ -70,7 +68,6 @@ StartMenu::~StartMenu()
 {
 	delete config;
 	delete confirmQuit;
-
 }
 
 bool StartMenu::run()
@@ -97,20 +94,23 @@ bool StartMenu::run()
 		}
 		if (newgame->isPressed()) {
 			gConfig.bPlay = true;
+			game->createNewGame();
 			return false;
 		}
 		if (loadgame->isPressed()) {
 			gConfig.bPlay = true;
-			gConfig.bLoad = true;
+			game->createLoadedGame();
 			return false;
 		}
 		if (savegame->isPressed()) {
 			gConfig.bPlay = true;
-			gConfig.bSave = true;
+			//function for saving
 			return false;
 		}
 		if (closegame->isPressed()) {
 			gConfig.bPlay = false;
+			delete game;
+			game = new Gameloop(graphics, receiver);
 			return true;
 		}
 		if (options->isPressed()) {
@@ -126,5 +126,5 @@ bool StartMenu::run()
 		config->run();
 	}
 
-	return !(MessageMenu::YES == confirmQuit->run());
+	return MessageMenu::YES != confirmQuit->run();
 }

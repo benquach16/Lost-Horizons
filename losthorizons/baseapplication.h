@@ -3,10 +3,8 @@
 
 //run all the main loops from the base point
 
-#include "stdafx.h"
 #include "irrlicht.h"
 #include "startmenu.h"
-#include "gameloop.h"
 #include "keylistener.h"
 
 using namespace irr;
@@ -30,11 +28,9 @@ private:
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
 	StartMenu *menu;
-	Gameloop *game;
 	HWND hwnd;
 
 	bool menuOpen;
-	bool loadedGameScene;
 
 	void buildGraphics();
 	void getBits();

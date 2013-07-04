@@ -8,7 +8,7 @@
 #endif
 
 BaseApplication::BaseApplication()
-	: graphics(0), receiver(new KeyListener), menu(0), game(0), hwnd(0), menuOpen(true), loadedGameScene(false)
+	: graphics(0), receiver(new KeyListener), menu(0), hwnd(0), menuOpen(true)
 {
 	getBits();
 	gConfig.Load();
@@ -24,7 +24,7 @@ BaseApplication::~BaseApplication()
 void BaseApplication::init()
 {
 	buildGraphics();
-	menu = new StartMenu();
+	menu = new StartMenu(graphics, receiver);
 	game = new Gameloop(graphics, receiver);
 	gConfig.bFirstRun = false;
 }
@@ -33,7 +33,6 @@ void BaseApplication::killDevice()
 {
 	delete menu;
 	delete game;
-	vdriver->removeAllTextures();
 	graphics->closeDevice();
 	graphics->run();
     graphics->drop();
@@ -61,14 +60,6 @@ void BaseApplication::run()
 				return;
 			}
 		} else {
-			if(!loadedGameScene)
-			{
-				if(gConfig.bPlay && !gConfig.bLoad)
-					game->createNewGame();
-				else if(gConfig.bPlay && gConfig.bLoad)
-					game->createLoadedGame();
-				loadedGameScene = true;
-			}
 			menu->setVisible(false);
 			menu->run();
 			menuOpen = !game->run();
