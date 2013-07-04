@@ -7,13 +7,14 @@ Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0
 
 }
 
+/*
 Object::Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: mesh(graphics->getSceneManager()->addAnimatedMeshSceneNode(mesh)), position(position), rotation(rotation), scale(scale)
 {
 	this->mesh->setPosition(position);
 	this->mesh->setRotation(rotation);
 	this->mesh->setScale(scale);
-}
+} */
 
 Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: position(position), rotation(rotation), scale(scale), filename(filename)
@@ -30,7 +31,7 @@ Object::Object(const Object *obj)
 	position = obj->position;
 	rotation = obj->rotation;
 	scale = obj->scale;
-	mesh = obj->mesh;
+	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(obj->filename.c_str()));
 }
 
 //assignment operator

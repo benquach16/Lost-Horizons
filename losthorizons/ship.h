@@ -7,6 +7,7 @@
 
 #include "object.h"
 #include "turret.h"
+#include "item.h"
 #include "shipproperties.h"
 
 //for finite state machine implementation
@@ -41,6 +42,8 @@ public:
 	//overloaded assignment operator
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();
+	//for deleting non player ships easily
+	void removeAI();
 
 	virtual void run(float frameDeltaTime);
 
@@ -71,6 +74,9 @@ protected:
 	int maxTurn;
 	int crew;
 	int maxCrew;
+
+	//data containers for the turrets of the ship
+	
 
 	//for that big ship feel
 	vector3df targetRotation;

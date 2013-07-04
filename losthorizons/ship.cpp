@@ -4,6 +4,7 @@
 
 std::list<Ship*> Ship::allShips;
 
+
 Ship::Ship() : Object(0,L"", vector3df(0,0,0), vector3df(0,0,0))
 {
 }
@@ -16,14 +17,20 @@ Ship::Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props, const vec
 		maxTurn(props.getMaxTurn())
 {
 	//add it to the ships list
-	allShips.push_back(this);
-	it = allShips.end();
+	allShips.push_front(this);
+	it = allShips.begin();
+
+	//set up the ship turrets
+	//!!!!!PLACEHOLDER TURRETS!!!!!
+
 }
 
 //copy constructor
-Ship::Ship(const Ship *s)
+Ship::Ship(const Ship *s) : isPlayer(s->isPlayer),  props(s->props), currentAIState(s->currentAIState),
+		maxHull(s->maxHull), hull(s->hull), maxVelocity(s->maxVelocity), velocity(s->velocity), maxTurn(s->maxTurn)
 {
-
+	allShips.push_front(this);
+	it = allShips.begin();
 }
 
 Ship& Ship::operator=(const Ship *s)
@@ -36,6 +43,13 @@ Ship::~Ship()
 {
 	//destructor
 	allShips.erase(it);
+}
+
+void Ship::removeAI()
+{
+	//deletes itself if it is an AI
+	if(!isPlayer)
+		delete this;
 }
 
 void Ship::run(float frameDeltaTime)

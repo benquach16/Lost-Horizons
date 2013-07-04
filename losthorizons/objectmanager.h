@@ -5,6 +5,7 @@
 #include "irrlicht.h"
 #include "itemproperties.h"
 #include "shipproperties.h"
+#include "turretproperties.h"
 
 
 //load all objects from xml files
@@ -32,7 +33,7 @@ public:
 	
 	static std::vector<ItemProperties> itemList;
 	static std::vector<ShipProperties> shipList;
-	
+	static std::vector<TurretProperties> turretList;
 	
 };
 

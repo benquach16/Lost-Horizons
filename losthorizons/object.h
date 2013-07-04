@@ -27,8 +27,10 @@ public:
 	Object();
 	//parametrized constructors
 	//instantiate with position, rotation, etc
+	/*
 	Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3df &position = vector3df(0,0,0),
-		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
+		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1)); */
+	//create 3d object
 	//instantiate with filename
 	Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position = vector3df(0,0,0),
 		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
@@ -55,6 +57,7 @@ public:
 	void setScale(const vector3df &newScale);
 
 protected:
+	irr::IrrlichtDevice *graphics;
 
 	//basic info about object
 	vector3df position;

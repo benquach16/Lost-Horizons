@@ -23,7 +23,16 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 			maxVelocity = file->getAttributeValueAsFloat(L"maxVelocity");
 			maxTurn = file->getAttributeValueAsInt(L"maxTurn");
 
+			maxEnergy = file->getAttributeValueAsInt(L"maxEnergy");
+			maxCrew = file->getAttributeValueAsInt(L"maxCrew");
+
+			maxHeavyTurrets = file->getAttributeValueAsInt(L"maxHeavyTurrets");
+			maxMediumTurrets = file->getAttributeValueAsInt(L"maxMediumTurrets");
+			maxLightTurrets = file->getAttributeValueAsInt(L"maxLightTurrets");
+			maxPDTurrets = file->getAttributeValueAsInt(L"maxPDTurrets");
+
 			maxFighters = file->getAttributeValueAsInt(L"maxFighters");
+
 		}
 	}
 	file->drop();

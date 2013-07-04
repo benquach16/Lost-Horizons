@@ -27,6 +27,8 @@ public:
 	const int& getMaxHTurrets() const;
 	const int& getMaxPTurrets() const;
 
+	const int& getMaxFighters() const;
+
 
 	
 protected:
