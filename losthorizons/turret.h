@@ -15,6 +15,11 @@ class TurretGun
 class Turret : public Object
 {
 public:
+	//default constructor
+	Turret();
+	~Turret();
+
+protected:
 
 };
 

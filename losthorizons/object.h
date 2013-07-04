@@ -1,6 +1,7 @@
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
+#include <string>
 
 #include "irrlicht.h"
 
@@ -36,9 +37,13 @@ public:
 	//overloaded assignment operator
 	Object& operator=(const Object *obj);
 
+
 	//desctructor
 	virtual ~Object();
 	virtual void run();
+	//needed for changing resolution ingame
+	//reloads the mesh
+	void reloadMesh();
 
 	//returns an rvalue
 	const vector3df getPosition() const;
@@ -58,6 +63,7 @@ protected:
 
 	//3d infomation
 	IAnimatedMeshSceneNode *mesh;
+	std::wstring filename;
 
 };
 

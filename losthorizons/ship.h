@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "object.h"
+#include "turret.h"
 #include "shipproperties.h"
 
 //for finite state machine implementation

@@ -2,11 +2,11 @@
 #include "shipproperties.h"
 #include <iostream>
 
-ShipProperties::ShipProperties() : ItemProperties()
+ShipProperties::ShipProperties() : ModelProperties()
 {
 }
 
-ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) : ItemProperties(graphics, f)
+ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
 {
 	//only read the ship values here since the item one will already be read in from
 	//read in the xml file
@@ -15,16 +15,6 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 
 	while(file->read())
 	{
-		if(core::stringw(L"modelStats").equals_ignore_case(file->getNodeName()))
-		{
-			filename = file->getAttributeValue(L"filename");
-			diffuseMap = file->getAttributeValue(L"diffuseMap");
-			normalMap = file->getAttributeValue(L"normalMap");
-
-			scale.X = file->getAttributeValueAsFloat(L"scaleX");
-			scale.Y = file->getAttributeValueAsFloat(L"scaleY");
-			scale.Z = file->getAttributeValueAsFloat(L"scaleZ");
-		}
 
 		//ship stats now
 		if(core::stringw(L"shipStats").equals_ignore_case(file->getNodeName()))
@@ -84,20 +74,3 @@ const int& ShipProperties::getMaxPTurrets() const
 	return maxPDTurrets;
 }
 
-const std::wstring& ShipProperties::getFilename() const
-{
-	return filename;
-}
-const std::wstring& ShipProperties::getDiffuseMap() const
-{
-	return diffuseMap;
-}
-const std::wstring& ShipProperties::getNormalMap() const
-{
-	return normalMap;
-}
-
-const core::vector3df& ShipProperties::getScale() const
-{
-	return scale;
-}

@@ -1,12 +1,12 @@
 #ifndef _SHIPPROPERTIES_H_
 #define _SHIPPROPERTIES_H_
 
-#include "itemproperties.h"
+#include "modelproperties.h"
 
 //ship properties class
 //all ships should be items
 
-class ShipProperties : public ItemProperties
+class ShipProperties : public ModelProperties
 {
 public:
 	//default constructor
@@ -27,11 +27,7 @@ public:
 	const int& getMaxHTurrets() const;
 	const int& getMaxPTurrets() const;
 
-	const std::wstring& getFilename() const;
-	const std::wstring& getDiffuseMap() const;
-	const std::wstring& getNormalMap() const;
 
-	const core::vector3df& getScale() const;
 	
 protected:
 	//performance statistics
@@ -50,12 +46,7 @@ protected:
 	int maxPDTurrets;
 	int maxFighters;
 
-	//model information
-	std::wstring filename;
-	std::wstring diffuseMap;
-	std::wstring normalMap;
 
-	core::vector3df scale;
 };
 
 #endif
