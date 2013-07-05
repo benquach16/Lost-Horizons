@@ -89,7 +89,6 @@ bool StartMenu::run()
 	MenuWindow::run();
 	if (getVisible()) {
 		if (resume->isPressed()) {
-			gConfig.bPlay = true;
 			return false;
 		}
 		if (newgame->isPressed()) {
@@ -103,7 +102,6 @@ bool StartMenu::run()
 			return false;
 		}
 		if (savegame->isPressed()) {
-			gConfig.bPlay = true;
 			//function for saving
 			return false;
 		}

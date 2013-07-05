@@ -14,7 +14,7 @@ Ship::Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props, const vec
 	Object(graphics, props.getFilename().c_str(), position, rotation, props.getScale()), 
 		isPlayer(isPlayer), props(props), currentAIState(STATE_PATROLLING),
 		maxHull(props.getHull()), hull(props.getHull()), maxVelocity(props.getMaxVel()), velocity(0.0f),
-		maxTurn(props.getMaxTurn())
+		maxTurn((f32)props.getMaxTurn())
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -101,22 +101,22 @@ void Ship::rotate(float frameDeltaTime)
 	vector3df rotSlow = getRotation();
 	if(getRotation().Y<targetRotation.Y)	//ship wants to rotate right
 	{
-		rotSlow.Y=(f32)0.5*(abs(getRotation().Y-targetRotation.Y));	//simulate inertia
-		rotSlow.Z=(f32)0.5*(abs(getRotation().Y-targetRotation.Y));
+		rotSlow.Y=0.5f*(abs(getRotation().Y-targetRotation.Y));	//simulate inertia
+		rotSlow.Z=0.5f*(abs(getRotation().Y-targetRotation.Y));
 		if(rotSlow.Z>4)
 			rotSlow.Z=4.f;
 		if(rotSlow.X>4)
 			rotSlow.X=4.f;
 		if(rotSlow.Y>maxTurn)
-			rotSlow.Y=(f32)maxTurn;
+			rotSlow.Y=maxTurn;
 		sRot.Y+=rotSlow.Y*frameDeltaTime;
 		sRot.Z=-rotSlow.Z;
 		setRotation(sRot);
 	}
 	if(getRotation().Y>targetRotation.Y)	//ship wants to rotate left
 	{
-		rotSlow.Y=(f32)0.5*(abs(getRotation().Y-targetRotation.Y));	//simulate inertia
-		rotSlow.Z=0.5*(abs(getRotation().Y-targetRotation.Y));
+		rotSlow.Y=0.5f*(abs(getRotation().Y-targetRotation.Y));	//simulate inertia
+		rotSlow.Z=0.5f*(abs(getRotation().Y-targetRotation.Y));
 		if(rotSlow.Z>4)
 			rotSlow.Z=4;
 		if(rotSlow.Y>maxTurn)
@@ -128,7 +128,7 @@ void Ship::rotate(float frameDeltaTime)
 	if(getRotation().X>targetRotation.X)	//turn up
 	{
 		sRot=getRotation();
-		rotSlow.X=0.5*(abs(getRotation().X-targetRotation.X));
+		rotSlow.X=0.5f*(abs(getRotation().X-targetRotation.X));
 		if(rotSlow.X>maxTurn)
 			rotSlow.X=maxTurn;
 		sRot.X-=rotSlow.X*frameDeltaTime;
@@ -137,7 +137,7 @@ void Ship::rotate(float frameDeltaTime)
 	if(getRotation().X<targetRotation.X)	//turn down
 	{
 		sRot=getRotation();
-		rotSlow.X=0.5*(abs(getRotation().X-targetRotation.X));
+		rotSlow.X=0.5f*(abs(getRotation().X-targetRotation.X));
 		if(rotSlow.X>maxTurn)
 			rotSlow.X=maxTurn;
 		sRot.X+=rotSlow.X*frameDeltaTime;

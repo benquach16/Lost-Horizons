@@ -71,7 +71,7 @@ protected:
 
 	float velocity;
 	float maxVelocity;
-	int maxTurn;
+	float maxTurn;
 	int crew;
 	int maxCrew;
 
