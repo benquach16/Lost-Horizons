@@ -9,6 +9,7 @@
 #include "turret.h"
 #include "item.h"
 #include "shipproperties.h"
+#include "objectmanager.h"
 
 //for finite state machine implementation
 enum E_AI_STATES
@@ -76,7 +77,7 @@ protected:
 	int maxCrew;
 
 	//data containers for the turrets of the ship
-	
+	std::vector<Turret*> MediumTurrets;
 
 	//for that big ship feel
 	vector3df targetRotation;

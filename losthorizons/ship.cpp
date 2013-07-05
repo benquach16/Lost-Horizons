@@ -5,6 +5,7 @@
 std::list<Ship*> Ship::allShips;
 
 
+
 Ship::Ship() : Object(0,L"", vector3df(0,0,0), vector3df(0,0,0))
 {
 }
@@ -22,7 +23,8 @@ Ship::Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props, const vec
 
 	//set up the ship turrets
 	//!!!!!PLACEHOLDER TURRETS!!!!!
-
+	IBoneSceneNode *tmp = mesh->getJointNode("turret_01");
+	Turret *t = new Turret(graphics, ObjectManager::turretList[0], tmp);
 }
 
 //copy constructor

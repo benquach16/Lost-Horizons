@@ -5,7 +5,7 @@ TurretProperties::TurretProperties() : turnSpeed(0), reloadSpeed(0), range(0), d
 	//default constructor
 }
 
-TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::string &f) 
+TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
 {
 	//only read the turret values
 	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());

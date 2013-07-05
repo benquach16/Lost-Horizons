@@ -7,7 +7,9 @@
 class TurretProperties : public ModelProperties
 {
 public:
+	//default constructor
 	TurretProperties();
+	//load from file
 	TurretProperties(irr::IrrlichtDevice *graphics, const std::string &f);
 	~TurretProperties();
 
