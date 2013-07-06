@@ -7,19 +7,31 @@ Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0
 
 }
 
-/*
-Object::Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: mesh(graphics->getSceneManager()->addAnimatedMeshSceneNode(mesh)), position(position), rotation(rotation), scale(scale)
+Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale, bool targetable) :
+	position(position), rotation(rotation), scale(scale), targetable(targetable)
 {
-	this->mesh->setPosition(position);
-	this->mesh->setRotation(rotation);
-	this->mesh->setScale(scale);
-} */
+	mesh = scenemngr->addAnimatedMeshSceneNode(m);
+	mesh->setPosition(position);
+	mesh->setRotation(rotation);
+	mesh->setScale(scale);
+}
 
-Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: position(position), rotation(rotation), scale(scale), filename(filename)
+Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
+			   bool targetable)
+	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh(filename));
+	mesh->setPosition(position);
+	mesh->setRotation(rotation);
+	mesh->setScale(scale);
+}
+
+Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
+			   bool targetable)
+	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
+{
+	mesh = scenemngr->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh(filename));
+	mesh->setMaterialTexture(0, graphics->getVideoDriver()->getTexture(tfilename));
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
@@ -37,11 +49,14 @@ Object::Object(const Object *obj)
 //assignment operator
 Object& Object::operator=(const Object *obj)
 {
-	position = obj->position;
-	rotation = obj->rotation;
-	scale = obj->scale;
-	mesh->remove();
-	mesh = obj->mesh;
+	if(this != obj)
+	{
+		position = obj->position;
+		rotation = obj->rotation;
+		scale = obj->scale;
+		mesh->remove();
+		mesh = obj->mesh;
+	}
 	return *this;
 }
 

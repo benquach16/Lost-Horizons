@@ -10,6 +10,7 @@
 #include "player.h"
 #include "ship.h"
 #include "object.h"
+#include "sun.h"
 #include "objectmanager.h"
 #include "playercamera.h"
 #include "keylistener.h"
@@ -42,6 +43,7 @@ public:
 		const vector3df &position, const vector3df &rotation);
 	Ship *createShip(const vector3df &position, const vector3df &rotation,
 		const ShipProperties &shipProps, const E_GAME_FACTIONS &faction);
+	Sun *createSun(const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &scale = vector3df(1.f,1.f,1.f));
 	PlayerCamera* getCurrentSceneCamera();
 	
 	
@@ -51,6 +53,7 @@ private:
 	IrrlichtDevice *graphics;
 	ISceneNode *skybox;
 	std::stack<ISceneNode*> sceneObjects;		//stores static scene node objects
+	std::stack<Object*> dynamicObjects;			//stores the stuff with more complexity
 };
 
 #endif

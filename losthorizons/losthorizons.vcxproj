@@ -133,6 +133,8 @@
     <ClCompile Include="shipproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="sun.cpp" />
+    <ClCompile Include="turret.cpp" />
     <ClCompile Include="turretproperties.cpp" />
   </ItemGroup>
   <ItemGroup>

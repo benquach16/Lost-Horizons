@@ -68,7 +68,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 			vdriver->getTexture("res/textures/skyboxes/1/space_front5.jpg"),
 			vdriver->getTexture("res/textures/skyboxes/1/space_back6.jpg"));
 		scenemngr->setAmbientLight(SColor(64,64,64,64));
-
+		dynamicObjects.push(createSun(vector3df(5000,0,5000)));
 
 	}
 }
@@ -80,6 +80,17 @@ GameScene::~GameScene()
 	{
 		sceneObjects.top()->remove();
 		sceneObjects.pop();
+	}
+	while(!dynamicObjects.empty())
+	{
+		Object *tmp = dynamicObjects.top();
+		dynamicObjects.pop();
+		delete tmp;
+	}
+	//delete all ships currently in the scene except for the player
+	for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); i++)
+	{
+		(*i)->removeAI();
 	}
 }
 
@@ -94,13 +105,21 @@ void GameScene::run(float frameDeltaTime)
 
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 {
+	//simple creation function
 	PlayerCamera *ret = new PlayerCamera(graphics, position);
 	return ret;
 }
 
 Player *GameScene::createPlayer(const ShipProperties &shipProps, const vector3df &position, const vector3df &rotation)
 {
+	//simple creation func
 	Player *ret = new Player(graphics, shipProps, position, rotation);
+	return ret;
+}
+
+Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)
+{
+	Sun *ret = new Sun(graphics, position, scale);
 	return ret;
 }
 

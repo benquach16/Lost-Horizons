@@ -25,15 +25,22 @@ public:
 
 	//default constructor
 	Object();
+
 	//parametrized constructors
 	//instantiate with position, rotation, etc
-	/*
-	Object(irr::IrrlichtDevice *graphics, IAnimatedMesh *mesh, const vector3df &position = vector3df(0,0,0),
-		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1)); */
-	//create 3d object
+	Object(scene::IAnimatedMesh *m, const vector3df &position = vector3df(0,0,0), const vector3df &rotation = vector3df(0,0,0),
+		const vector3df &scale = vector3df(1,1,1), bool targetable = false);
+
 	//instantiate with filename
+	//irr::IrrlichtDevice *graphics = irrlicht device
+	//const wchar_t *filename = filepath of the mesh
 	Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position = vector3df(0,0,0),
-		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
+		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1), bool targetable = false);
+
+	//parameterized constructor with texture overloading
+	Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const wchar_t *tfilename, const vector3df &position = vector3df(0,0,0),
+		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1), bool targetable = false);
+
 	//copy constructor
 	Object(const Object *obj);
 	//overloaded assignment operator
@@ -42,10 +49,15 @@ public:
 
 	//desctructor
 	virtual ~Object();
+	//meant to be overridden
 	virtual void run();
+	//meant for use by planets and ships to show ingame info
+	virtual void information() {}
 	//needed for changing resolution ingame
 	//reloads the mesh
 	void reloadMesh();
+	//set the diffuse map of the mesh
+	void setTexture(video::ITexture *tex);
 
 	//returns an rvalue
 	const vector3df getPosition() const;
@@ -57,6 +69,8 @@ public:
 	void setScale(const vector3df &newScale);
 
 protected:
+	//if player can select this object
+	bool targetable;
 	irr::IrrlichtDevice *graphics;
 
 	//basic info about object

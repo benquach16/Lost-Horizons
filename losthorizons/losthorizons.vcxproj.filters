@@ -182,6 +182,12 @@
     <ClCompile Include="modelproperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="turret.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="sun.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">
