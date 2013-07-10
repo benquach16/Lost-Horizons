@@ -31,6 +31,12 @@
     <Filter Include="Source Files\objects">
       <UniqueIdentifier>{3234acec-f988-4063-ba7b-8dd0493cbf33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\properties">
+      <UniqueIdentifier>{1d6ec552-b800-4613-b383-44e253419125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\properties">
+      <UniqueIdentifier>{f1108e4e-893a-430e-9a19-8ef0155fb8a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -52,15 +58,6 @@
       <Filter>Header Files\lib</Filter>
     </ClInclude>
     <ClInclude Include="gamescene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="itemproperties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="objectmanager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shipproperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="optionmenu.h">
@@ -114,11 +111,20 @@
     <ClInclude Include="sun.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
-    <ClInclude Include="turretproperties.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="itemproperties.h">
+      <Filter>Header Files\properties</Filter>
     </ClInclude>
     <ClInclude Include="modelproperties.h">
+      <Filter>Header Files\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="objectmanager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="turretproperties.h">
+      <Filter>Header Files\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="shipproperties.h">
+      <Filter>Header Files\properties</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,13 +146,7 @@
     <ClCompile Include="gamescene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="itemproperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="objectmanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shipproperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="optionmenu.cpp">
@@ -176,17 +176,23 @@
     <ClCompile Include="gamescenemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="turretproperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="modelproperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="turret.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="sun.cpp">
       <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="shipproperties.cpp">
+      <Filter>Source Files\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="turretproperties.cpp">
+      <Filter>Source Files\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="modelproperties.cpp">
+      <Filter>Source Files\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="itemproperties.cpp">
+      <Filter>Source Files\properties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <itemStats type="item" name="Railgun Mk I" description="The standard type railgun for Terran Federation Cruisers" cost="2500" weight="20"/>
 <modelStats filename="res/models/equipment/primary_rail.X" diffuseMap="res/models/shiphull.png" normalMap="res/models/shiphull_normal.png"
-scaleX="0.15" scaleY="0.15" scaleZ="0.15"/>
+scaleX="3" scaleY="3" scaleZ="3"/>
 <turretStats turnSpeed="5" damage="27" range="2000" reloadSpeed="1.5"/>

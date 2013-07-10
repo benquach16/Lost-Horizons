@@ -27,6 +27,7 @@ void Gameloop::createLoadedGame()
 
 Gameloop::~Gameloop()
 {
+	delete player;
 	delete objectManager;
 	delete gameSceneManager;
 }

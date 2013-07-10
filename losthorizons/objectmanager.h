@@ -21,6 +21,7 @@ class ObjectManager
 public:
 	ObjectManager(IrrlichtDevice *graphics);
 	~ObjectManager();
+	
 
 	enum E_ITEM_LIST
 	{
@@ -29,6 +30,10 @@ public:
 	enum E_SHIP_LIST
 	{
 		PRAE_CRUISER = 0,
+	};
+	enum E_TURRET_LIST
+	{
+		RAILGUNI = 0,
 	};
 	
 	static std::vector<ItemProperties> itemList;

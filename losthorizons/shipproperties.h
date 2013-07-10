@@ -2,6 +2,14 @@
 #define _SHIPPROPERTIES_H_
 
 #include "modelproperties.h"
+#include <vector>
+
+
+struct turretInformation
+{
+	core::vector3df rotation;
+	int arc;
+};
 
 //ship properties class
 //all ships should be items
@@ -9,6 +17,8 @@
 class ShipProperties : public ModelProperties
 {
 public:
+
+
 	//default constructor
 	ShipProperties();
 	ShipProperties(IrrlichtDevice *graphics, const std::string &f);
@@ -29,9 +39,14 @@ public:
 
 	const int& getMaxFighters() const;
 
+	std::vector<turretInformation> heavyTurrets;
+	std::vector<turretInformation> mediumTurrets;	
+	std::vector<turretInformation> lightTurrets;
 
 	
 protected:
+	void loadTurretInformation(io::IXMLReader *file);
+
 	//performance statistics
 	int hull;
 	int maxTurn;
@@ -47,7 +62,6 @@ protected:
 	int maxHeavyTurrets;
 	int maxPDTurrets;
 	int maxFighters;
-
 
 };
 

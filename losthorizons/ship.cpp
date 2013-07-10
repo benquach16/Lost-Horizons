@@ -22,9 +22,7 @@ Ship::Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props, const vec
 	it = allShips.begin();
 
 	//set up the ship turrets
-	//!!!!!PLACEHOLDER TURRETS!!!!!
-	IBoneSceneNode *tmp = mesh->getJointNode("turret_01");
-	Turret *t = new Turret(graphics, ObjectManager::turretList[0], tmp);
+	initTurrets();
 }
 
 //copy constructor
@@ -37,7 +35,9 @@ Ship::Ship(const Ship *s) : isPlayer(s->isPlayer),  props(s->props), currentAISt
 
 Ship& Ship::operator=(const Ship *s)
 {
-
+	if(this != s)
+	{
+	}
 	return *this;
 }
 
@@ -64,6 +64,8 @@ void Ship::run(float frameDeltaTime)
 		//and movement
 		rotate(frameDeltaTime);
 		movement(frameDeltaTime);
+
+		//aim turrets
 	}
 
 }
@@ -93,6 +95,11 @@ void Ship::setTargetRotationTo(const vector3df &newTargetRotation)
 const vector3df &Ship::getTargetRotation() const
 {
 	return targetRotation;
+}
+
+void Ship::setMediumTurret(const TurretProperties &props, int slot)
+{
+	mediumTurrets[slot]->assignTurret(props);
 }
 
 //protected function
@@ -168,4 +175,21 @@ void Ship::movement(float frameDeltaTime)
 	//smooth out ship movement
 	vector3df finalPos = sPos*0.8f + getPosition() *0.2f;
 	setPosition(finalPos);
+}
+
+//protected function
+//initialises the turret slot classes for each ship
+void Ship::initTurrets()
+{
+	//we create new turret slots and assign them tot he ship
+	for(unsigned i = 0; i < props.getMaxMTurrets(); i++)
+	{
+		//get the bone name and set it to the string
+		std::string jointName("turret_0");
+		std::string tmp = std::to_string(i+1);
+		jointName+=tmp;
+		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
+		TurretSlot *t = new TurretSlot(graphics, props.mediumTurrets[i], joint);
+		mediumTurrets.push_back(t);
+	}
 }

@@ -68,7 +68,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 			vdriver->getTexture("res/textures/skyboxes/1/space_front5.jpg"),
 			vdriver->getTexture("res/textures/skyboxes/1/space_back6.jpg"));
 		scenemngr->setAmbientLight(SColor(64,64,64,64));
-		dynamicObjects.push(createSun(vector3df(5000,0,5000)));
+		dynamicObjects.push(createSun(vector3df(-20000,0,20000)));
 
 	}
 }

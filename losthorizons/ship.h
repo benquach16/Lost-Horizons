@@ -55,10 +55,14 @@ public:
 	void setTargetRotationTo(const vector3df &newTargetRotation);
 	const vector3df &getTargetRotation() const;
 
+	//equip funcs
+	void setMediumTurret(const TurretProperties& props, int slot);
+
 protected:
 	//protected functions
 	void rotate(float frameDeltaTime);
 	void movement(float frameDeltaTime);
+	void initTurrets();
 
 	bool isPlayer;
 	//iterator to 'this'
@@ -77,13 +81,14 @@ protected:
 	int maxCrew;
 
 	//data containers for the turrets of the ship
-	std::vector<Turret*> MediumTurrets;
+	std::vector<TurretSlot*> mediumTurrets;
 
 	//for that big ship feel
 	vector3df targetRotation;
 
 	//important misc variables
 	E_AI_STATES currentAIState;
+	E_GAME_FACTIONS currentFaction;
 	Ship *shipTarget;
 	//inventory of ship
 	
