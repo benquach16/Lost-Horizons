@@ -17,12 +17,15 @@ public:
 	StartMenu(IrrlichtDevice *graphics, KeyListener *receiver);
 	~StartMenu();
 
-	bool run();
+	void run();
 
 private:
+	void shift();
+
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
-	bool flip;
+	bool exit;
+	bool play;
 	OptionMenu *config;
 	MessageMenu *confirmQuit;
 	gui::IGUIButton *resume;

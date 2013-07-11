@@ -32,7 +32,7 @@ Gameloop::~Gameloop()
 	delete gameSceneManager;
 }
 
-bool Gameloop::run()
+void Gameloop::run()
 {
 	//calculate the delta time
 	const float now = (float)(graphics->getTimer()->getTime());
@@ -43,12 +43,6 @@ bool Gameloop::run()
 	cameraControl();
 	playerCam->run(player->getPosition(), frameDeltaTime);
 	gameSceneManager->runCurrentScene(frameDeltaTime);
-
-	if (receiver->isKeyDown(irr::KEY_ESCAPE)) {
-		return false;
-	} else {
-		return true;
-	}
 }
 
 void Gameloop::playerControl(float frameDeltaTime)

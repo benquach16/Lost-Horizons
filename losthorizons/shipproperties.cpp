@@ -41,7 +41,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 				else if(currentSection.equals_ignore_case(L"heavyTurret"))
 				{
 					//load heavy turret information
-					for(unsigned i = 0; i < maxHeavyTurrets; i++)
+					for(int i = 0; i < maxHeavyTurrets; i++)
 					{
 						//gotta convert the i to a string for this
 						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
@@ -51,7 +51,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 							tmp.rotation.X = file->getAttributeValueAsFloat(L"rotationX");
 							tmp.rotation.Y = file->getAttributeValueAsFloat(L"rotationY");
 							tmp.rotation.Z = file->getAttributeValueAsFloat(L"rotationZ");
-							tmp.arc = file->getAttributeValueAsFloat(L"arc");
+							tmp.arc = file->getAttributeValueAsInt(L"arc");
 							heavyTurrets.push_back(tmp);
 						}
 					}
@@ -63,7 +63,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 				}
 				else if(currentSection.equals_ignore_case(L"mediumTurret"))
 				{
-					for(unsigned i = 0; i < maxMediumTurrets; i++)
+					for(int i = 0; i < maxMediumTurrets; i++)
 					{
 						//gotta convert the i to a string for this
 						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
@@ -73,7 +73,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 							tmp.rotation.X = file->getAttributeValueAsFloat(L"rotationX");
 							tmp.rotation.Y = file->getAttributeValueAsFloat(L"rotationY");
 							tmp.rotation.Z = file->getAttributeValueAsFloat(L"rotationZ");
-							tmp.arc = file->getAttributeValueAsFloat(L"arc");
+							tmp.arc = file->getAttributeValueAsInt(L"arc");
 							mediumTurrets.push_back(tmp);
 						}
 					}		
@@ -85,7 +85,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 				}
 				else if(currentSection.equals_ignore_case(L"lightTurret"))
 				{
-					for(unsigned i = 0; i < maxLightTurrets; i++)
+					for(int i = 0; i < maxLightTurrets; i++)
 					{
 						//gotta convert the i to a string for this
 						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
@@ -95,7 +95,7 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 							tmp.rotation.X = file->getAttributeValueAsFloat(L"rotationX");
 							tmp.rotation.Y = file->getAttributeValueAsFloat(L"rotationY");
 							tmp.rotation.Z = file->getAttributeValueAsFloat(L"rotationZ");
-							tmp.arc = file->getAttributeValueAsFloat(L"arc");
+							tmp.arc = file->getAttributeValueAsInt(L"arc");
 							lightTurrets.push_back(tmp);
 						}
 					}		

@@ -30,8 +30,6 @@ private:
 	StartMenu *menu;
 	HWND hwnd;
 
-	bool menuOpen;
-
 	void buildGraphics();
 	void getBits();
 };

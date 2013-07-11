@@ -8,7 +8,7 @@
 #endif
 
 BaseApplication::BaseApplication()
-	: graphics(0), receiver(new KeyListener), menu(0), hwnd(0), menuOpen(true)
+	: graphics(0), receiver(new KeyListener), menu(0), hwnd(0)
 {
 	getBits();
 	gConfig.Load();
@@ -49,20 +49,14 @@ void BaseApplication::run()
 			init();
 		}
 
-		vdriver->beginScene(true, true, SColor(255,100,101,140));
+		vdriver->beginScene(true, true, SColor(255,0,0,0));
 
 		//run menu or game
-		if (menuOpen) {
-			menu->setVisible(true);
-			menuOpen = menu->run();
-			if (!menuOpen && !gConfig.bPlay) {
-				vdriver->endScene();
-				return;
-			}
-		} else {
-			menu->setVisible(false);
-			menu->run();
-			menuOpen = !game->run();
+		menu->run();
+		if (!menu->getVisible()) {
+			game->run();
+			if (receiver->isKeyDown(irr::KEY_ESCAPE))
+				menu->setVisible(true);
 		}
 		
 		scenemngr->drawAll();

@@ -23,7 +23,7 @@ public:
 	//might want this to be a singleton
 	~Gameloop();
 	//having an independant function to loop through everything makes pausing much easier
-	bool run();
+	void run();
 
 private:
 	void playerControl(float frameDeltaTime);

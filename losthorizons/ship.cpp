@@ -182,7 +182,7 @@ void Ship::movement(float frameDeltaTime)
 void Ship::initTurrets()
 {
 	//we create new turret slots and assign them tot he ship
-	for(unsigned i = 0; i < props.getMaxMTurrets(); i++)
+	for(int i = 0; i < props.getMaxMTurrets(); i++)
 	{
 		//get the bone name and set it to the string
 		std::string jointName("turret_0");
