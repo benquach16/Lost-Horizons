@@ -36,7 +36,7 @@ public:
 	static std::list<Ship*> allShips;
 
 	Ship();
-	Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props,
+	Ship(const ShipProperties &props,
 		const vector3df &position, const vector3df &rotation, bool isPlayer);
 	//copy constructor
 	Ship(const Ship *s);

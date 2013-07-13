@@ -1,6 +1,7 @@
 //#include "stdafx.h"
 #include "shipproperties.h"
 #include <iostream>
+#include <sstream>
 
 ShipProperties::ShipProperties() : ModelProperties()
 {
@@ -17,33 +18,84 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 	{
 		switch(file->getNodeType())
 		{
+		case io::EXN_TEXT:
+			{
+				if(currentSection.equals_ignore_case(L"hull"))
+				{
+					//read hull
+					std::wstringstream iss(file->getNodeData());
+					iss >> hull;
+				}
+				if(currentSection.equals_ignore_case(L"maxVelocity"))
+				{
+					//read velocity
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxVelocity;
+				}
+				if(currentSection.equals_ignore_case(L"maxTurn"))
+				{
+					//read turn
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxTurn;
+				}
+				if(currentSection.equals_ignore_case(L"maxEnergy"))
+				{
+					//read ernergy
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxEnergy;
+				}
+				if(currentSection.equals_ignore_case(L"maxCrew"))
+				{
+					//read crew
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxCrew;
+				}
+				if(currentSection.equals_ignore_case(L"maxFighters"))
+				{
+					//read fighters
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxFighters;
+				}
+
+				break;
+			}
 		case io::EXN_ELEMENT:
 			{
-				if(core::stringw(L"shipStats").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"hull").equals_ignore_case(file->getNodeName()))
 				{
-					hull = file->getAttributeValueAsInt(L"hull");
-					maxVelocity = file->getAttributeValueAsFloat(L"maxVelocity");
-					maxTurn = file->getAttributeValueAsInt(L"maxTurn");
-
-					maxEnergy = file->getAttributeValueAsInt(L"maxEnergy");
-					maxCrew = file->getAttributeValueAsInt(L"maxCrew");
-
-					maxPDTurrets = file->getAttributeValueAsInt(L"maxPDTurrets");
-
-					maxFighters = file->getAttributeValueAsInt(L"maxFighters");
+					currentSection=L"hull";
 				}
-				//we have some turret loading crap here
-				if(currentSection==L"" && core::stringw(L"heavyTurret").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"maxVelocity").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxVelocity";
+				}
+				if(core::stringw(L"maxTurn").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxTurn";
+				}
+				if(core::stringw(L"maxEnergy").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxEnergy";
+				}
+				if(core::stringw(L"maxCrew").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxCrew";
+				}
+				if(core::stringw(L"maxFighters").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxFighters";
+				}
+				if(core::stringw(L"heavyTurret").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"heavyTurret";
 					maxHeavyTurrets = file->getAttributeValueAsInt(L"num");
 				}
 				else if(currentSection.equals_ignore_case(L"heavyTurret"))
 				{
-					//load heavy turret information
+					//read turrets
+					//prepare for da loopz
 					for(int i = 0; i < maxHeavyTurrets; i++)
 					{
-						//gotta convert the i to a string for this
 						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
 						{
 							//load turret information
@@ -56,16 +108,17 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 						}
 					}
 				}
-				if(currentSection==L"" && core::stringw(L"mediumTurret").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"mediumTurret").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"mediumTurret";
 					maxMediumTurrets = file->getAttributeValueAsInt(L"num");
 				}
 				else if(currentSection.equals_ignore_case(L"mediumTurret"))
 				{
+					//read turrets
+					//prepare for da loopz
 					for(int i = 0; i < maxMediumTurrets; i++)
 					{
-						//gotta convert the i to a string for this
 						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
 						{
 							//load turret information
@@ -76,18 +129,19 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 							tmp.arc = file->getAttributeValueAsInt(L"arc");
 							mediumTurrets.push_back(tmp);
 						}
-					}		
+					}
 				}
-				if(currentSection==L"" && core::stringw(L"lightTurret").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"lightTurret").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"lightTurret";
 					maxLightTurrets = file->getAttributeValueAsInt(L"num");
 				}
 				else if(currentSection.equals_ignore_case(L"lightTurret"))
 				{
+					//read turrets
+					//prepare for da loopz
 					for(int i = 0; i < maxLightTurrets; i++)
 					{
-						//gotta convert the i to a string for this
 						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
 						{
 							//load turret information
@@ -98,14 +152,19 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 							tmp.arc = file->getAttributeValueAsInt(L"arc");
 							lightTurrets.push_back(tmp);
 						}
-					}		
+					}
+				}
+				if(core::stringw(L"pdTurret").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"pdTurret";
+					maxPDTurrets = file->getAttributeValueAsInt(L"num");
 				}
 				break;
-			case io::EXN_ELEMENT_END:
-				{
-					currentSection=L"";
-					break;
-				}
+			}
+		case io::EXN_ELEMENT_END:
+			{
+				currentSection=L"";
+				break;
 			}
 		}
 	}

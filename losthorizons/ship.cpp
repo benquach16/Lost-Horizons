@@ -10,9 +10,9 @@ Ship::Ship() : Object(0,L"", vector3df(0,0,0), vector3df(0,0,0))
 {
 }
 
-Ship::Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props, const vector3df &position, const vector3df &rotation,
+Ship::Ship(const ShipProperties &props, const vector3df &position, const vector3df &rotation,
 		   bool isPlayer) : 
-	Object(graphics, props.getFilename().c_str(), position, rotation, props.getScale()), 
+	Object(props.getFilename().c_str(), position, rotation, props.getScale()), 
 		isPlayer(isPlayer), props(props), currentAIState(STATE_PATROLLING),
 		maxHull(props.getHull()), hull(props.getHull()), maxVelocity(props.getMaxVel()), velocity(0.0f),
 		maxTurn((f32)props.getMaxTurn())
@@ -23,6 +23,7 @@ Ship::Ship(irr::IrrlichtDevice *graphics, const ShipProperties &props, const vec
 
 	//set up the ship turrets
 	initTurrets();
+	setMediumTurret(ObjectManager::turretList[0],3);
 }
 
 //copy constructor
@@ -66,6 +67,7 @@ void Ship::run(float frameDeltaTime)
 		movement(frameDeltaTime);
 
 		//aim turrets
+		//mediumTurrets[3]->drawArc();
 	}
 
 }
@@ -189,7 +191,7 @@ void Ship::initTurrets()
 		std::string tmp = std::to_string(i+1);
 		jointName+=tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(graphics, props.mediumTurrets[i], joint);
+		TurretSlot *t = new TurretSlot(props.mediumTurrets[i], joint);
 		mediumTurrets.push_back(t);
 	}
 }

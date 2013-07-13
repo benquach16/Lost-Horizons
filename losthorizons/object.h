@@ -34,11 +34,11 @@ public:
 	//instantiate with filename
 	//irr::IrrlichtDevice *graphics = irrlicht device
 	//const wchar_t *filename = filepath of the mesh
-	Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position = vector3df(0,0,0),
+	Object(const wchar_t *filename, const vector3df &position = vector3df(0,0,0),
 		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1), bool targetable = false);
 
 	//parameterized constructor with texture overloading
-	Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const wchar_t *tfilename, const vector3df &position = vector3df(0,0,0),
+	Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position = vector3df(0,0,0),
 		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1), bool targetable = false);
 
 	//copy constructor
@@ -71,7 +71,6 @@ public:
 protected:
 	//if player can select this object
 	bool targetable;
-	irr::IrrlichtDevice *graphics;
 
 	//basic info about object
 	vector3df position;

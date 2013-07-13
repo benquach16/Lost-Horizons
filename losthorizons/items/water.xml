@@ -1,2 +1,7 @@
 <?xml version="1.0"?>
-<itemStats type="item" name="Water" description="Essential to all life in the known galaxy." cost="25" weight="2"/>
+<itemStats type="item">
+	<name>Water</name>
+	<description>Essential to all life in the known galaxy. Sells well in arid planets.</description>
+	<cost>25</cost>
+	<weight>2</weight>
+</itemStats>

@@ -1,19 +1,39 @@
 <?xml version="1.0"?>
-<itemStats type="ship" name="Praetorian Class Cruiser" description="Terran Federation Cruiser" cost="75000" weight="1200000"/>
-<modelStats filename="res/models/ships/praetorian.X" diffuseMap="res/models/shiphull.png" normalMap="res/models/shiphull_normal.png"
-scaleX="0.15" scaleY="0.15" scaleZ="0.15"/>
-<shipStats hull="2000" maxVelocity="59" maxTurn="10" maxPDTurrets="4" maxEnergy="1000" maxCrew="800" maxFighters="10"/>
-<heavyTurret num="0">
-</heavyTurret>
-<mediumTurret num="4">
-<0 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
-<1 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
-<2 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
-<3 rotationX="180" rotationY="0" rotationZ="0" arc="270"/>
-</mediumTurret>
-<lightTurret num="4">
-<0 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
-<1 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
-<2 rotationX="180" rotationY="0" rotationZ="0" arc="270"/>
-<3 rotationX="180" rotationY="0" rotationZ="0" arc="270"/>
-</lightTurret>
+<itemStats type="ship"> 
+	<name>Praetorian Class Cruiser</name>
+	<description>Terran Federation Cruiser. A mainstay of the Terran Fleet, it as established a reputation as one of the most verstile ships in the Navy.</description> 
+	<cost>75000</cost> 
+	<weight>1200000</weight>
+	<modelStats>
+		<filename>res/models/ships/praetorian.X</filename>
+		<diffuseMap>res/models/shiphull.png</diffuseMap>
+		<normalMap>res/models/shiphull_normal.png</normalMap>
+		<scaleX>0.15</scaleX>
+		<scaleY>0.15</scaleY>
+		<scaleZ>0.15</scaleZ>
+	</modelStats>
+	<shipStats>
+		<hull>2000</hull>
+		<maxVelocity>59</maxVelocity>
+		<maxTurn>10</maxTurn>
+		<maxEnergy>1000</maxEnergy>
+		<maxCrew>800</maxCrew>
+		<maxFighters>10</maxFighters>
+		<heavyTurret num="0">
+		</heavyTurret>
+		<mediumTurret num="4">
+			<0 rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
+			<1 rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
+			<2 rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
+			<3 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+		</mediumTurret>
+		<lightTurret num="4">
+			<0 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<1 rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<2 rotationX="180" rotationY="0" rotationZ="0" arc="270"/>
+			<3 rotationX="180" rotationY="0" rotationZ="0" arc="270"/>
+		</lightTurret>
+		<pdTurret num="4">
+	</shipStats>
+</itemStats>
+

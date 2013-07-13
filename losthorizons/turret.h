@@ -13,9 +13,12 @@ class TurretSlot
 {
 public:
 	TurretSlot();
-	TurretSlot(irr::IrrlichtDevice *graphics, const turretInformation &properties, IBoneSceneNode *joint);
+	TurretSlot(const turretInformation &properties, IBoneSceneNode *joint);
 	void assignTurret(const TurretProperties &props);
 	void removeTurret();
+	//to see which direction the turret arc is facing and covers
+	//good for debug purposes and players
+	void drawArc();
 	~TurretSlot();
 
 protected:
@@ -41,7 +44,7 @@ public:
 	//default constructor
 	Turret();
 	//if you actually want to create a 3d model
-	Turret(irr::IrrlichtDevice *graphics, const TurretProperties &props, IBoneSceneNode *joint);
+	Turret(const TurretProperties &props, ISceneNode *parent);
 	~Turret();
 
 protected:

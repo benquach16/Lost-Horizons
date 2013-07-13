@@ -1,6 +1,7 @@
 //#include "stdafx.h"
 #include "itemproperties.h"
 #include <iostream>
+#include <sstream>
 
 ItemProperties::ItemProperties()
 {
@@ -10,19 +11,64 @@ ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string 
 {
 	//read in the xml file
 	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
-
+	core::stringw currentSection(L"");
 	while(file->read())
 	{
-		//from itemstats block
-		if(core::stringw(L"itemStats").equals_ignore_case(file->getNodeName()))
+		switch(file->getNodeType())
 		{
-			itemType = getItemType(file->getAttributeValue(L"type"));
-
-			name = file->getAttributeValue(L"name");
-			description = file->getAttributeValue(L"description");
-
-			price = file->getAttributeValueAsInt(L"cost");
-			weight = file->getAttributeValueAsInt(L"weight");
+		case io::EXN_TEXT:
+			{
+				//reading stuff that has node data
+				if(currentSection.equals_ignore_case(L"name"))
+				{
+					name = file->getNodeData();
+				}
+				if(currentSection.equals_ignore_case(L"description"))
+				{
+					description = file->getNodeData();
+				}
+				if(currentSection.equals_ignore_case(L"cost"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> price;
+				}
+				if(currentSection.equals_ignore_case(L"weight"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> weight;
+				}
+				break;
+			}
+		case io::EXN_ELEMENT:
+			{
+				//grab the item type
+				if(core::stringw(L"itemStats").equals_ignore_case(file->getNodeName()))
+				{
+					itemType = getItemType(file->getAttributeValue(L"type"));
+				}
+				if(core::stringw(L"name").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"name";
+				}
+				if(core::stringw(L"description").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"description";
+				}
+				if(core::stringw(L"cost").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"cost";
+				}
+				if(core::stringw(L"weight").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"weight";
+				}
+				break;
+			}
+		case io::EXN_ELEMENT_END:
+			{
+				currentSection=L"";
+				break;
+			}
 		}
 	}
 	file->drop();

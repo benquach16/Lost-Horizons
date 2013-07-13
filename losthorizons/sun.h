@@ -9,11 +9,11 @@ class Sun : public Object
 {
 public:
 
+
 	//default constructor
 	Sun();
-
 	//parameterized constructor
-	Sun(irr::IrrlichtDevice *graphics, const vector3df &position = vector3df(1,1,1), const vector3df &scale = vector3df(1,1,1));
+	Sun(const vector3df &position, const vector3df &scale);
 
 	//deconstructor
 	~Sun();

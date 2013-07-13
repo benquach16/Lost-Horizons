@@ -16,22 +16,22 @@ Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3
 	mesh->setScale(scale);
 }
 
-Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
+Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
 			   bool targetable)
 	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
 {
-	mesh = scenemngr->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh(filename));
+	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
 }
 
-Object::Object(irr::IrrlichtDevice *graphics, const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
+Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
 			   bool targetable)
 	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
 {
-	mesh = scenemngr->addAnimatedMeshSceneNode(graphics->getSceneManager()->getMesh(filename));
-	mesh->setMaterialTexture(0, graphics->getVideoDriver()->getTexture(tfilename));
+	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
+	mesh->setMaterialTexture(0, vdriver->getTexture(tfilename));
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
