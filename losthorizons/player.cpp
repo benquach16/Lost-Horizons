@@ -13,7 +13,7 @@ Player::~Player()
 {
 }
 
-void Player::run(float frameDeltaTime)
+void Player::run(f32 frameDeltaTime)
 {
 	Ship::run(frameDeltaTime);
 }

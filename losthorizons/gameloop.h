@@ -26,7 +26,7 @@ public:
 	void run();
 
 private:
-	void playerControl(float frameDeltaTime);
+	void playerControl(f32 frameDeltaTime);
 	void cameraControl();
 
 	IrrlichtDevice *graphics;
@@ -38,7 +38,7 @@ private:
 	GameSceneManager *gameSceneManager;
 
 	//for delta time calculation
-	float then;
+	f32 then;
 };
 
 

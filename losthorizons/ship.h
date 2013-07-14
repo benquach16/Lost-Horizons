@@ -46,10 +46,10 @@ public:
 	//for deleting non player ships easily
 	void removeAI();
 
-	virtual void run(float frameDeltaTime);
+	virtual void run(f32 frameDeltaTime);
 
-	void increaseVelocity(float frameDeltaTime);
-	void decreaseVelocity(float frameDeltaTime);
+	void increaseVelocity(f32 frameDeltaTime);
+	void decreaseVelocity(f32 frameDeltaTime);
 
 	//rotate ship to specific angle
 	void setTargetRotationTo(const vector3df &newTargetRotation);
@@ -60,8 +60,8 @@ public:
 
 protected:
 	//protected functions
-	void rotate(float frameDeltaTime);
-	void movement(float frameDeltaTime);
+	void rotate(f32 frameDeltaTime);
+	void movement(f32 frameDeltaTime);
 	void initTurrets();
 
 	bool isPlayer;
@@ -74,9 +74,9 @@ protected:
 	int hull, armor, shield;
 	int maxHull, maxArmor, maxShield;
 
-	float velocity;
-	float maxVelocity;
-	float maxTurn;
+	f32 velocity;
+	f32 maxVelocity;
+	f32 maxTurn;
 	int crew;
 	int maxCrew;
 

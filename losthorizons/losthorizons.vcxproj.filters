@@ -126,6 +126,9 @@
     <ClInclude Include="shipproperties.h">
       <Filter>Header Files\properties</Filter>
     </ClInclude>
+    <ClInclude Include="hud.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -193,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="itemproperties.cpp">
       <Filter>Source Files\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="datamanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hud.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

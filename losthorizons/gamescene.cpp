@@ -94,7 +94,7 @@ GameScene::~GameScene()
 	}
 }
 
-void GameScene::run(float frameDeltaTime)
+void GameScene::run(f32 frameDeltaTime)
 {
 	//run through all the objects in the scene
 	for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); i++)

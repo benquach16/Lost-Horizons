@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "startmenu.h"
 
-
 StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver)
 	: MenuWindow(), graphics(graphics), receiver(receiver), exit(false), play(false), config(0), confirmQuit(0)
 {
@@ -80,10 +79,8 @@ void StartMenu::run()
 			setVisible(false);
 		}
 		if (newgame->isPressed()) {
-			if (!play) {
-				play = true;
-				shift();
-			}
+			play = true;
+			shift();
 			game->createNewGame();
 			setVisible(false);
 		}
@@ -99,11 +96,9 @@ void StartMenu::run()
 			//function for saving
 			setVisible(false);
 		}
-		if (closegame->isPressed()) {
-			if (play) {
-				play = false;
-				shift();
-			}
+		if (closegame->isPressed() && play) {
+			play = false;
+			shift();
 			delete game;
 			game = new Gameloop(graphics, receiver);
 		}

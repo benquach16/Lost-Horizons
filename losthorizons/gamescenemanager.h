@@ -13,7 +13,7 @@ public:
 	GameSceneManager(irr::IrrlichtDevice *graphics, E_GAMESCENES scene);
 	~GameSceneManager();
 
-	void runCurrentScene(float frameDeltaTime);
+	void runCurrentScene(f32 frameDeltaTime);
 	void changeCurrentScene(E_GAMESCENES scene);
 	GameScene *getCurrentScene();
 

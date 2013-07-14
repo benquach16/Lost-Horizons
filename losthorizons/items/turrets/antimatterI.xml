@@ -4,19 +4,19 @@
 	<description>Produced by Titan Heavy Industries, Antimatter Cannons are light, fast firing weapons that use antimatter ammunition to rip apart ship hulls.</description>
 	<cost>2500</cost>
 	<weight>20</weight>
+  <modelStats>
+    <filename>res/models/equipment/primary_rail.X</filename>
+    <diffuseMap>res/models/shiphull.png</diffuseMap>
+    <normalMap>res/models/shiphull_normal.png</normalMap>
+    <scaleX>3</scaleX>
+    <scaleY>3</scaleY>
+    <scaleZ>3</scaleZ>
+  </modelStats>
+  <turretStats class="light">
+    <turnSpeed>10</turnSpeed>
+    <damage>13</damage>
+    <range>1500</range>
+    <reloadSpeed>1</reloadSpeed>
+    <projectileSpeed>80</projectileSpeed>
+  </turretStats>
 </itemStats>
-<modelStats>
-	<filename>res/models/equipment/primary_rail.X</filename>
-	<diffuseMap>res/models/shiphull.png</diffuseMap>
-	<normalMap>res/models/shiphull_normal.png</normalMap>
-	<scaleX>3</scaleX>
-	<scaleY>3</scaleY>
-	<scaleZ>3</scaleZ>
-</modelStats>
-<turretStats class="light">
-	<turnSpeed>10</turnSpeed>
-	<damage>13</damage>
-	<range>1500</range>
-	<reloadSpeed>1</reloadSpeed>
-	<projectileSpeed>80</projectileSpeed>
-</turretStats>

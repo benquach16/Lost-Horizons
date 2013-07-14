@@ -27,7 +27,7 @@ public:
 	//accessors because visual studio is a douchebag
 	const int& getHull() const;
 	const int& getMaxTurn() const;
-	const float& getMaxVel() const;
+	const f32& getMaxVel() const;
 
 	const int& getMaxEnergy() const;
 	const int& getMaxCrew() const;
@@ -50,7 +50,7 @@ protected:
 	//performance statistics
 	int hull;
 	int maxTurn;
-	float maxVelocity;
+	f32 maxVelocity;
 
 	//logistic statistics
 	int maxEnergy;

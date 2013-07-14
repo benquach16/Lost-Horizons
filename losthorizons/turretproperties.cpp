@@ -121,7 +121,7 @@ const int& TurretProperties::getMaxTurn() const
 	return turnSpeed;
 }
 
-const float& TurretProperties::getReloadSpeed() const
+const f32& TurretProperties::getReloadSpeed() const
 {
 	return reloadSpeed;
 }

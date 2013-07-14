@@ -12,7 +12,7 @@ PlayerCamera::~PlayerCamera()
 	cam->remove();
 }
 
-void PlayerCamera::run(const vector3df &pos, float frameDeltaTime)
+void PlayerCamera::run(const vector3df &pos, f32 frameDeltaTime)
 {
 	//constantly look at player position
 	//and rotate around it
@@ -35,7 +35,7 @@ void PlayerCamera::run(const vector3df &pos, float frameDeltaTime)
 	}
 }
 
-void PlayerCamera::orbit(const vector3df &pos, float frameDeltaTime)
+void PlayerCamera::orbit(const vector3df &pos, f32 frameDeltaTime)
 {
 
 	core::vector3df playerCameraPos;
@@ -45,8 +45,8 @@ void PlayerCamera::orbit(const vector3df &pos, float frameDeltaTime)
 	playerCameraPos.Y = (f32)sin(angleY*3.14/180)*distance;
 	playerCameraPos.Y += pos.Y;
 
-	float temp;
-	temp = (float)cos(angleY*3.14/180);
+	f32 temp;
+	temp = (f32)cos(angleY*3.14/180);
 
 
 	//some code to calculate position

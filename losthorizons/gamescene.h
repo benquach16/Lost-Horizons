@@ -36,7 +36,7 @@ public:
 	~GameScene();
 	void loadScene();
 	void saveScene();
-	void run(float frameDeltaTime);
+	void run(f32 frameDeltaTime);
 
 	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
 	Player *createPlayer(const ShipProperties &shipProps, 

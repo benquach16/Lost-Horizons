@@ -22,7 +22,7 @@ GameSceneManager::~GameSceneManager()
 	delete currentScene;
 }
 
-void GameSceneManager::runCurrentScene(float frameDeltaTime)
+void GameSceneManager::runCurrentScene(f32 frameDeltaTime)
 {
 	if(currentScene)
 		currentScene->run(frameDeltaTime);

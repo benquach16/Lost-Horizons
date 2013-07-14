@@ -55,7 +55,7 @@ void Ship::removeAI()
 		delete this;
 }
 
-void Ship::run(float frameDeltaTime)
+void Ship::run(f32 frameDeltaTime)
 {
 	Object::run();
 	if(hull > 0)
@@ -73,7 +73,7 @@ void Ship::run(float frameDeltaTime)
 }
 
 //increases velocity based on how fast the ship is going
-void Ship::increaseVelocity(float frameDeltaTime)
+void Ship::increaseVelocity(f32 frameDeltaTime)
 {
 	if(velocity < maxVelocity)
 	{
@@ -81,7 +81,7 @@ void Ship::increaseVelocity(float frameDeltaTime)
 	}
 }
 
-void Ship::decreaseVelocity(float frameDeltaTime)
+void Ship::decreaseVelocity(f32 frameDeltaTime)
 {
 	if(velocity > -maxVelocity)
 	{
@@ -106,7 +106,7 @@ void Ship::setMediumTurret(const TurretProperties &props, int slot)
 
 //protected function
 //rotates ship to point
-void Ship::rotate(float frameDeltaTime)
+void Ship::rotate(f32 frameDeltaTime)
 {
 	vector3df sRot = getRotation();
 	vector3df rotSlow = getRotation();
@@ -158,20 +158,20 @@ void Ship::rotate(float frameDeltaTime)
 }
 
 //protected function
-void Ship::movement(float frameDeltaTime)
+void Ship::movement(f32 frameDeltaTime)
 {
 	vector3df sPos = getPosition();
-	float i = getRotation().Y;
-	float z = -(getRotation().X);	//if i dont do this the ship doesnt rotate right
+	f32 i = getRotation().Y;
+	f32 z = -(getRotation().X);	//if i dont do this the ship doesnt rotate right
 
 
-	sPos.Y=static_cast<f32>(frameDeltaTime*velocity*(sin(z * 3.14/180)));
+	sPos.Y = (f32)(frameDeltaTime*velocity*(sin(z * 3.14/180)));
 	sPos.Y+=getPosition().Y;
 
-	sPos.X=static_cast<f32>(frameDeltaTime*velocity*(sin(i * 3.14/180)));
+	sPos.X = (f32)(frameDeltaTime*velocity*(sin(i * 3.14/180)));
 	sPos.X+=getPosition().X;
 
-	sPos.Z=static_cast<f32>(frameDeltaTime*velocity*(cos(i * 3.14/180)));
+	sPos.Z = (f32)(frameDeltaTime*velocity*(cos(i * 3.14/180)));
 	sPos.Z+=getPosition().Z;
 
 	//smooth out ship movement

@@ -23,18 +23,18 @@ public:
 
 	PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position = vector3df(0,0,0));
 	~PlayerCamera();
-	void run(const vector3df &pos, float frameDeltaTime);
-	void orbit(const vector3df &pos, float frameDeltaTime);
+	void run(const vector3df &pos, f32 frameDeltaTime);
+	void orbit(const vector3df &pos, f32 frameDeltaTime);
 	void rotateX(int x);
 	void rotateY(int y);
 	void zoom(int z);
 private:
 	scene::ICameraSceneNode *cam; 
-	float distance;		//distance from camera to player
+	f32 distance;		//distance from camera to player
 	E_CAMERA_MODES cameraMode;
 
 	//we need two angles cause there are two circles
-	float angle, angleY;
+	f32 angle, angleY;
 
 	int mouseX, mouseY;
 	int oldMouseWheel;

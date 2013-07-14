@@ -23,7 +23,7 @@ public:
 
 	const int& getMaxTurn() const;
 	const int& getDamage() const;
-	const float& getReloadSpeed() const;
+	const f32& getReloadSpeed() const;
 	const int& getRange() const;
 protected:
 	E_TURRET_CLASS getTurretClass(const std::wstring &str);
@@ -32,7 +32,7 @@ protected:
 	int damage;
 	int range;
 	int projectileSpeed;
-	float reloadSpeed;
+	f32 reloadSpeed;
 };
 
 

@@ -96,7 +96,9 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 					//prepare for da loopz
 					for(int i = 0; i < maxHeavyTurrets; i++)
 					{
-						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
+						char temp[2] = {0};
+						temp[0] = (i+'A');
+						if(core::stringw(temp).equals_ignore_case(file->getNodeName()))
 						{
 							//load turret information
 							turretInformation tmp;
@@ -119,7 +121,9 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 					//prepare for da loopz
 					for(int i = 0; i < maxMediumTurrets; i++)
 					{
-						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
+						char temp[2] = {0};
+						temp[0] = (i+'A');
+						if(core::stringw(temp).equals_ignore_case(file->getNodeName()))
 						{
 							//load turret information
 							turretInformation tmp;
@@ -142,7 +146,9 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 					//prepare for da loopz
 					for(int i = 0; i < maxLightTurrets; i++)
 					{
-						if(core::stringw(i).equals_ignore_case(file->getNodeName()))
+						char temp[2] = {0};
+						temp[0] = (i+'A');
+						if(core::stringw(temp).equals_ignore_case(file->getNodeName()))
 						{
 							//load turret information
 							turretInformation tmp;
@@ -188,7 +194,7 @@ const int& ShipProperties::getMaxTurn() const
 	return maxTurn;
 }
 
-const float& ShipProperties::getMaxVel() const
+const f32& ShipProperties::getMaxVel() const
 {
 	return maxVelocity;
 }

@@ -23,23 +23,23 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	resY[6] = 1080;
 	resY[7] = 1440;
 	resY[8] = 2160;
-
+	
 	//create resolution menu
 	guienv->addStaticText(L"Resolution", rect<s32>(20,20,120,40), false ,true, window);
 	resolution = guienv->addComboBox(rect<s32>(20,40,120,60), window);
 
 	resY[0] = GetSystemMetrics(SM_CYSCREEN);
 	resX[0] = GetSystemMetrics(SM_CXSCREEN);
-	double monitorRatio = static_cast<double>(resX[0]) / resY[0];
+	f64 monitorRatio = (f64)(resX[0]) / resY[0];
 	resolution->addItem(L"native");
-
+	
 	if (!gConfig.bFullScreen) {
 		std::string temp(" x ");
 		std::wstring x(temp.begin(), temp.end());
 		std::wstring option;
 		for (unsigned i = 1; i < 9; ++i) {
 			if (resY[i] < resY[0]) {
-				resX[i] = static_cast<int>(floor(resY[i] * monitorRatio));
+				resX[i] = (int)(floor(resY[i] * monitorRatio));
 				option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
 				resolution->addItem(option.c_str());
 			}

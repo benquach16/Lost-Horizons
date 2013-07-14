@@ -8,7 +8,7 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver)
 	: graphics(graphics), objectManager(new ObjectManager(graphics)), receiver(receiver),
-	  gameSceneManager(new GameSceneManager(graphics)), then(static_cast<float>(graphics->getTimer()->getTime()))
+	  gameSceneManager(new GameSceneManager(graphics)), then((f32)(graphics->getTimer()->getTime()))
 {
 	//player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
 }
@@ -35,8 +35,8 @@ Gameloop::~Gameloop()
 void Gameloop::run()
 {
 	//calculate the delta time
-	const float now = (float)(graphics->getTimer()->getTime());
-	const float frameDeltaTime = (float)(now - then) / 1000.f; // Time in seconds
+	const f32 now = (f32)(graphics->getTimer()->getTime());
+	const f32 frameDeltaTime = (now - then) / 1000.f; // Time in seconds
 	then = now;
 
 	playerControl(frameDeltaTime);
@@ -45,7 +45,7 @@ void Gameloop::run()
 	gameSceneManager->runCurrentScene(frameDeltaTime);
 }
 
-void Gameloop::playerControl(float frameDeltaTime)
+void Gameloop::playerControl(f32 frameDeltaTime)
 {
 	//all actions the player can do are stored here
 	if(receiver->isKeyDown(irr::KEY_KEY_X))
