@@ -26,7 +26,7 @@ private:
 	//gui::IGUIComboBox *dynamicLighting;		to implement
 	gui::IGUICheckBox *fullscreen;
 	gui::IGUICheckBox *vsync;
-	gui::IGUIButton *quit;
-	gui::IGUIButton *apply;
+	gui::IGUIButton *close;
+	gui::IGUIButton *confirm;
 };
 #endif

@@ -129,6 +129,12 @@
     <ClInclude Include="hud.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="datamanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="savemenu.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -201,6 +207,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="hud.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="savemenu.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>

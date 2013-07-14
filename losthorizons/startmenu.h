@@ -2,6 +2,7 @@
 #define _STARTMENU_H_
 
 #include "menuwindow.h"
+#include "savemenu.h"
 #include "optionmenu.h"
 #include "messagemenu.h"
 #include "keylistener.h"

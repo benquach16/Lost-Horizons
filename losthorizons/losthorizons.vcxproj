@@ -87,6 +87,7 @@
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="callback.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="datamanager.h" />
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="gamescene.h" />
     <ClInclude Include="gamescenemanager.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="playercamera.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="savemenu.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="shipproperties.h" />
     <ClInclude Include="startmenu.h" />
@@ -132,6 +134,7 @@
     <ClCompile Include="optionmenu.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playercamera.cpp" />
+    <ClCompile Include="savemenu.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />

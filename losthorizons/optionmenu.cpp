@@ -12,8 +12,8 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
 
-	quit = guienv->addButton(rect<s32>(480,360,580,380), window, -1, L"Close");
-	apply = guienv->addButton(rect<s32>(360,360,460,380), window, -1, L"Apply");
+	close = guienv->addButton(rect<s32>(480,360,580,380), window, -1, L"Close");
+	confirm = guienv->addButton(rect<s32>(360,360,460,380), window, -1, L"Apply");
 
 	resY[1] = 576;
 	resY[2] = 648;
@@ -77,11 +77,11 @@ void OptionMenu::run()
 {
 	MenuWindow::run();
 	if (getVisible()) {
-		if (quit->isPressed()) {
+		if (close->isPressed()) {
 			restart();
 			setVisible(false);
 		}
-		if (apply->isPressed()) {
+		if (confirm->isPressed()) {
 			if (!gConfig.bFullScreen && gConfig.iResolutionX != get(resolution, resX)) {
 				gConfig.iResolutionX = get(resolution, resX);
 				gConfig.iResolutionY = get(resolution, resY);
