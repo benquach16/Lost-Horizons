@@ -6,6 +6,7 @@
 #include "optionmenu.h"
 #include "messagemenu.h"
 #include "keylistener.h"
+#include "datamanager.h"
 
 using namespace irr;
 using namespace core;
@@ -15,7 +16,7 @@ using namespace video;
 class StartMenu : public MenuWindow
 {
 public:
-	StartMenu(IrrlichtDevice *graphics, KeyListener *receiver);
+	StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
 	~StartMenu();
 
 	void run();
@@ -25,6 +26,7 @@ private:
 
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
+	DataManager *data;
 	bool exit;
 	bool play;
 	OptionMenu *config;

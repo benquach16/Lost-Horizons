@@ -8,7 +8,7 @@
 #endif
 
 BaseApplication::BaseApplication()
-	: graphics(0), receiver(new KeyListener), menu(0), hwnd(0)
+	: graphics(0), receiver(new KeyListener), data(new DataManager), menu(0), hwnd(0)
 {
 	getBits();
 	gConfig.Load();
@@ -17,6 +17,7 @@ BaseApplication::BaseApplication()
 BaseApplication::~BaseApplication()
 {
 	delete receiver;
+	delete data;
 	killDevice();
 	gConfig.Save();
 }
@@ -24,8 +25,8 @@ BaseApplication::~BaseApplication()
 void BaseApplication::init()
 {
 	buildGraphics();
-	menu = new StartMenu(graphics, receiver);
-	game = new Gameloop(graphics, receiver);
+	menu = new StartMenu(graphics, receiver, data);
+	game = new Gameloop(graphics, receiver, data);
 	gConfig.bFirstRun = false;
 }
 
@@ -45,8 +46,10 @@ void BaseApplication::run()
 	{
 		if (gConfig.bRestart) {
 			gConfig.bRestart = false;
+			data->pull();
 			killDevice();
 			init();
+			data->push();
 		}
 
 		vdriver->beginScene(true, true, SColor(255,0,0,0));

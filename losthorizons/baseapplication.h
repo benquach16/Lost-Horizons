@@ -6,6 +6,7 @@
 #include "irrlicht.h"
 #include "startmenu.h"
 #include "keylistener.h"
+#include "datamanager.h"
 
 using namespace irr;
 using namespace core;
@@ -27,6 +28,7 @@ public:
 private:
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
+	DataManager *data;
 	StartMenu *menu;
 	HWND hwnd;
 

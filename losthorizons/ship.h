@@ -28,6 +28,17 @@ struct Subsystem
 	Subsystem() { health = 100; };
 };
 
+struct ShipData
+{
+	s32 hull, armor, shield, maxHull, maxArmor, maxShield, crew, maxCrew;
+	f32 velocity, maxVelocity, maxTurn;
+	vector3df position, rotation, targetRotation;
+	//std::vector<TurretData> mediumTurrets;
+	E_AI_STATES currentAIState;
+	E_GAME_FACTIONS currentFaction;
+	//u32 shipTarget;
+};
+
 //basic ship class
 class Ship : public Object
 {
@@ -57,6 +68,8 @@ public:
 
 	//equip funcs
 	void setMediumTurret(const TurretProperties& props, int slot);
+
+	ShipData getShipData();
 
 protected:
 	//protected functions

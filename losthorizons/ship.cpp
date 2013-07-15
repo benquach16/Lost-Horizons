@@ -27,7 +27,7 @@ Ship::Ship(const ShipProperties &props, const vector3df &position, const vector3
 }
 
 //copy constructor
-Ship::Ship(const Ship *s) : isPlayer(s->isPlayer),  props(s->props), currentAIState(s->currentAIState),
+Ship::Ship(const Ship *s) : isPlayer(s->isPlayer), props(s->props), currentAIState(s->currentAIState),
 		maxHull(s->maxHull), hull(s->hull), maxVelocity(s->maxVelocity), velocity(s->velocity), maxTurn(s->maxTurn)
 {
 	allShips.push_front(this);
@@ -102,6 +102,28 @@ const vector3df &Ship::getTargetRotation() const
 void Ship::setMediumTurret(const TurretProperties &props, int slot)
 {
 	mediumTurrets[slot]->assignTurret(props);
+}
+
+ShipData Ship::getShipData()
+{
+	ShipData tmp;
+	tmp.hull = hull;
+	tmp.armor = armor;
+	tmp.shield = shield;
+	tmp.maxHull = maxHull;
+	tmp.maxArmor = maxArmor;
+	tmp.maxShield = maxShield;
+	tmp.crew = crew;
+	tmp.maxCrew = maxCrew;
+	tmp.velocity = velocity;
+	tmp.maxVelocity = maxVelocity;
+	tmp.maxTurn = maxTurn;
+	tmp.position = getPosition();
+	tmp.rotation = getRotation();
+	tmp.targetRotation = targetRotation;
+	tmp.currentAIState = currentAIState;
+	tmp.currentFaction = currentFaction;
+	return tmp;
 }
 
 //protected function

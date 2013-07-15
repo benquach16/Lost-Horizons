@@ -83,9 +83,8 @@ GameScene::~GameScene()
 	}
 	while(!dynamicObjects.empty())
 	{
-		Object *tmp = dynamicObjects.top();
+		delete dynamicObjects.top();
 		dynamicObjects.pop();
-		delete tmp;
 	}
 	//delete all ships currently in the scene except for the player
 	for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); i++)
@@ -126,4 +125,9 @@ Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)
 PlayerCamera *GameScene::getCurrentSceneCamera()
 {
 	return playerCam;
+}
+
+E_GAMESCENES GameScene::getScene()
+{
+	return scene;
 }

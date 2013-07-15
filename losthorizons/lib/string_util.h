@@ -44,11 +44,16 @@ bool validNumber(const std::string &str)
 {
 	if (str[0] != '.' && str[0] != '-' && str[0] != '+' && !(str[0] >= '0' && str[0] <= '9'))
 		return false;
-	if (str.find_first_of('.') != str.find_last_of('.'))
-		return false;
+	bool decimal(false);
 	for (unsigned i = 1; i < str.size(); ++i) {
 		if (str[i] != '.' && !(str[i] >= '0' && str[i] <= '9') || str[i] == '-' || str[i] == '+')
 			return false;
+		if (str[i] == '.') {
+			if (decimal)
+				return false;
+			else
+				decimal = true;
+		}
 	}
 	return true;
 }

@@ -45,7 +45,7 @@ public:
 		const ShipProperties &shipProps, const E_GAME_FACTIONS &faction);
 	Sun *createSun(const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &scale = vector3df(1.f,1.f,1.f));
 	PlayerCamera* getCurrentSceneCamera();
-	
+	E_GAMESCENES getScene();
 	
 private:
 	E_GAMESCENES scene;

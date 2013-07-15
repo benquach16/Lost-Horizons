@@ -1,21 +1,28 @@
 #ifndef _DATAMANAGER_H_
 #define _DATAMANAGER_H_
 
-//includes
-/*
-old project called these
-CPlayer->saveObject(writer);
-CPlayer->saveCargo(writer);
-Manager->saveObjects(writer);
-missionM->saveMissions(writer);
-*/
+#include "gamescenemanager.h"
+#include "turret.h"
+#include "ship.h"
 
 class DataManager
 {
 public:
+	struct TurretData
+	{
+		E_TURRET_CLASS turretClass;
+		s32 turnSpeed, damage, range, projectileSpeed;
+		f32 reloadSpeed;
+	}; // will move this later
+
+	void pull();
+	void push();
+	void save(const std::string &filename);
+	void load(const std::string &filename);
 
 private:
-	//f32 time;
+	E_GAMESCENES scene;
+	std::vector<ShipData> ships;
 };
 
 #endif

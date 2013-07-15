@@ -6,9 +6,9 @@ Gameloop::Gameloop()
 {
 }
 
-Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver)
-	: graphics(graphics), objectManager(new ObjectManager(graphics)), receiver(receiver),
-	  gameSceneManager(new GameSceneManager(graphics)), then((f32)(graphics->getTimer()->getTime()))
+Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
+	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
+	  objectManager(new ObjectManager(graphics)), then((f32)(graphics->getTimer()->getTime()))
 {
 	//player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
 }
@@ -21,8 +21,9 @@ void Gameloop::createNewGame()
 	player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));
 }
 
-void Gameloop::createLoadedGame()
+void Gameloop::createLoadedGame(const std::string &filename)
 {
+	data->load(filename);
 }
 
 Gameloop::~Gameloop()

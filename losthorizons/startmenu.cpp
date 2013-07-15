@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "startmenu.h"
 
-StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver)
-	: MenuWindow(), graphics(graphics), receiver(receiver), exit(false), play(false), config(0), confirmQuit(0)
+StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
+	: MenuWindow(), graphics(graphics), receiver(receiver), data(data), exit(false), play(false), config(0), confirmQuit(0)
 {
 	//create window
 	window = guienv->addWindow(rect<s32>(0,0,iWidth,iHeight), true);
@@ -89,7 +89,7 @@ void StartMenu::run()
 				play = true;
 				shift();
 			}
-			game->createLoadedGame();
+			//game->createLoadedGame();
 			setVisible(false);
 		}
 		if (savegame->isPressed()) {
@@ -100,7 +100,7 @@ void StartMenu::run()
 			play = false;
 			shift();
 			delete game;
-			game = new Gameloop(graphics, receiver);
+			game = new Gameloop(graphics, receiver, data);
 		}
 		if (options->isPressed()) {
 			config->setVisible(true);

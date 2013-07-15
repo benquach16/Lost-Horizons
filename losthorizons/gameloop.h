@@ -1,9 +1,10 @@
 #ifndef _GAMELOOP_H_
 #define _GAMELOOP_H_
 
-#include "player.h"
 #include "keylistener.h"
+#include "player.h"
 #include "gamescene.h"
+#include "datamanager.h"
 #include "gamescenemanager.h"
 #include "objectmanager.h"
 
@@ -14,11 +15,14 @@ public:
 
 	//parameterized constructor
 	//really though, not using this is bad news bears
-	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver);
+	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
 	
 	//newgame or loadgame instances
 	void createNewGame();
-	void createLoadedGame();
+	void createLoadedGame(const std::string &filename);
+
+	GameSceneManager* getGameSceneManager() { return gameSceneManager; }
+	Player* getPlayer() { return player; }
 
 	//might want this to be a singleton
 	~Gameloop();
@@ -30,17 +34,15 @@ private:
 	void cameraControl();
 
 	IrrlichtDevice *graphics;
-	PlayerCamera *playerCam;
-	ObjectManager *objectManager;
 	KeyListener *receiver;
-	Player *player;
-
+	DataManager *data;
 	GameSceneManager *gameSceneManager;
+	ObjectManager *objectManager;
+	PlayerCamera *playerCam;
+	Player *player;
 
 	//for delta time calculation
 	f32 then;
 };
-
-
 
 #endif
