@@ -4,8 +4,8 @@ Player::Player()
 {
 }
 
-Player::Player(const ShipProperties &props, const vector3df &position, const vector3df &rotation) :
-	Ship(props, position, rotation, true)
+Player::Player(const vector3df &position, const vector3df &rotation, const ShipProperties &props)
+	: Ship(position, rotation, true, props)
 {
 }
 

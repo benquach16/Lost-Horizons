@@ -10,11 +10,22 @@ Ship::Ship() : Object(0,L"", vector3df(0,0,0), vector3df(0,0,0))
 {
 }
 
-Ship::Ship(const ShipProperties &props, const vector3df &position, const vector3df &rotation,
-		   bool isPlayer) : 
-	Object(props.getFilename().c_str(), position, rotation, props.getScale()), 
-		isPlayer(isPlayer), props(props), info(STATE_PATROLLING, props.getHull(), props.getHull(),
-		0.0f, props.getMaxVel(), (f32)props.getMaxTurn())
+Ship::Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props)
+	: Object(props.getFilename().c_str(), position, rotation, props.getScale()), isPlayer(isPlayer),
+	  props(props), info(props)
+{
+	//add it to the ships list
+	allShips.push_front(this);
+	it = allShips.begin();
+
+	//set up the ship turrets
+	initTurrets();
+	setMediumTurret(ObjectManager::turretList[0],3);
+}
+
+Ship::Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props, const ShipInformation &info)
+	: Object(props.getFilename().c_str(), position, rotation, props.getScale()), isPlayer(isPlayer),
+	  props(props), info(info)
 {
 	//add it to the ships list
 	allShips.push_front(this);

@@ -36,9 +36,9 @@ struct ShipInformation
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	ShipInformation() {}
-	ShipInformation(E_AI_STATES currentAIState, s32 hull, s32 maxHull, f32 velocity, f32 maxVelocity, f32 maxTurn)
-		: currentAIState(currentAIState), hull(hull), maxHull(maxHull), velocity(velocity), maxVelocity(maxVelocity),
-		  maxTurn(maxTurn) {}
+	ShipInformation(const ShipProperties &props)
+		: currentAIState(STATE_PATROLLING), hull(props.getHull()), maxHull(hull), velocity(0.f),
+		  maxVelocity(props.getMaxVel()), maxTurn((f32)props.getMaxTurn()) {}
 };
 
 //basic ship class
@@ -49,7 +49,8 @@ public:
 	static std::list<Ship*> allShips;
 
 	Ship();
-	Ship(const ShipProperties &props, const vector3df &position, const vector3df &rotation, bool isPlayer);
+	Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props);
+	Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props, const ShipInformation &info);
 	//copy constructor
 	Ship(const Ship *s);
 	//overloaded assignment operator

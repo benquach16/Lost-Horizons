@@ -18,13 +18,13 @@ void Gameloop::createNewGame()
 	//create player and camera
 	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
-	player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));
+	player = gameSceneManager->getCurrentScene()->createPlayer(vector3df(0,0,0), vector3df(0,0,0), ObjectManager::shipList[0]);
 }
 
 void Gameloop::createLoadedGame(const std::string &filename)
 {
 	data->load(filename);
-}
+}// plan to get rid of this and just do things from the savemenu class
 
 Gameloop::~Gameloop()
 {

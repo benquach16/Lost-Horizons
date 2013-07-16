@@ -9,7 +9,7 @@ public:
 	//default constructor
 	Player();
 	//parameterized constructor
-	Player(const ShipProperties &props, const vector3df &position, const vector3df &rotation);
+	Player(const vector3df &position, const vector3df &rotation, const ShipProperties &props);
 	virtual ~Player();
 	virtual void run(f32 frameDeltaTime);
 

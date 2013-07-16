@@ -39,10 +39,9 @@ public:
 	void run(f32 frameDeltaTime);
 
 	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
-	Player *createPlayer(const ShipProperties &shipProps, 
-		const vector3df &position, const vector3df &rotation);
-	Ship *createShip(const vector3df &position, const vector3df &rotation,
-		const ShipProperties &shipProps, const E_GAME_FACTIONS &faction);
+	Player *createPlayer(const vector3df &position, const vector3df &rotation, const ShipProperties &shipProps);
+	Ship *createShip(const vector3df &position, const vector3df &rotation, const ShipProperties &shipProps,
+		const E_GAME_FACTIONS &faction);
 	Sun *createSun(const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &scale = vector3df(1.f,1.f,1.f));
 	PlayerCamera* getCurrentSceneCamera();
 	E_GAMESCENES getScene();

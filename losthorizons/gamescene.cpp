@@ -109,10 +109,10 @@ PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 	return ret;
 }
 
-Player *GameScene::createPlayer(const ShipProperties &shipProps, const vector3df &position, const vector3df &rotation)
+Player *GameScene::createPlayer(const vector3df &position, const vector3df &rotation, const ShipProperties &shipProps)
 {
 	//simple creation func
-	Player *ret = new Player(shipProps, position, rotation);
+	Player *ret = new Player(position, rotation, shipProps);
 	return ret;
 }
 
