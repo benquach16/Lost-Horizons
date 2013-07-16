@@ -2,6 +2,14 @@
 #include "datamanager.h"
 #include <fstream>
 
+DataManager::ShipData& operator<<(DataManager::ShipData& shipData, const Ship *s)
+{
+	shipData.position = s->getPosition();
+	shipData.rotation = s->getRotation();
+	shipData.info = s->getShipInfo();
+	return shipData;
+}
+
 /*
 // if i have a string, change it into a size and a char array
 string mystr = "hello world!";
@@ -56,8 +64,8 @@ std::ifstream& operator>>(std::ifstream& ifs, std::vector<T>& v)
 {
 	u32 size;
 	ifs >> size;
+	T tmp;
     for (unsigned i = 0; i < size; ++i) {
-		T tmp;
 		ifs >> tmp;
 		v.push_back(tmp);
 	}
@@ -67,9 +75,10 @@ std::ifstream& operator>>(std::ifstream& ifs, std::vector<T>& v)
 void DataManager::pull()
 {
 	scene = game->getGameSceneManager()->getCurrentScene()->getScene();
-	ships.push_back(game->getPlayer()->getShipData());
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); i++)
-		ships.push_back((*i)->getShipData());
+	ShipData tmp;
+	ships.push_back(tmp << game->getPlayer());
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); ++i)
+		ships.push_back(tmp << *i);
 }
 
 void DataManager::push()

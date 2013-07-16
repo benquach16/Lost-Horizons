@@ -178,11 +178,9 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 }
 
 
-
 ShipProperties::~ShipProperties()
 {
 }
-
 
 //accessors
 const int& ShipProperties::getHull() const
@@ -224,4 +222,3 @@ const int& ShipProperties::getMaxPTurrets() const
 {
 	return maxPDTurrets;
 }
-

@@ -8,6 +8,13 @@
 class DataManager
 {
 public:
+	struct ShipData
+	{
+		vector3df position, rotation;
+		ShipInformation info;
+		//std::vector<TurretData> mediumTurrets;
+		//u32 shipTarget;
+	};
 	struct TurretData
 	{
 		E_TURRET_CLASS turretClass;

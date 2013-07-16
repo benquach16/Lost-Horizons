@@ -28,15 +28,17 @@ struct Subsystem
 	Subsystem() { health = 100; };
 };
 
-struct ShipData
+struct ShipInformation
 {
-	s32 hull, armor, shield, maxHull, maxArmor, maxShield, crew, maxCrew;
-	f32 velocity, maxVelocity, maxTurn;
-	vector3df position, rotation, targetRotation;
-	//std::vector<TurretData> mediumTurrets;
 	E_AI_STATES currentAIState;
 	E_GAME_FACTIONS currentFaction;
-	//u32 shipTarget;
+	s32 hull, maxHull, armor, maxArmor, shield, maxShield, crew, maxCrew;
+	f32 velocity, maxVelocity, maxTurn;
+	vector3df targetRotation;
+	ShipInformation() {}
+	ShipInformation(E_AI_STATES currentAIState, s32 hull, s32 maxHull, f32 velocity, f32 maxVelocity, f32 maxTurn)
+		: currentAIState(currentAIState), hull(hull), maxHull(maxHull), velocity(velocity), maxVelocity(maxVelocity),
+		  maxTurn(maxTurn) {}
 };
 
 //basic ship class
@@ -47,8 +49,7 @@ public:
 	static std::list<Ship*> allShips;
 
 	Ship();
-	Ship(const ShipProperties &props,
-		const vector3df &position, const vector3df &rotation, bool isPlayer);
+	Ship(const ShipProperties &props, const vector3df &position, const vector3df &rotation, bool isPlayer);
 	//copy constructor
 	Ship(const Ship *s);
 	//overloaded assignment operator
@@ -69,7 +70,7 @@ public:
 	//equip funcs
 	void setMediumTurret(const TurretProperties& props, int slot);
 
-	ShipData getShipData();
+	const ShipInformation& getShipInfo() const;
 
 protected:
 	//protected functions
@@ -84,27 +85,15 @@ protected:
 	//stats
 	//basic ship type
 	ShipProperties props;
-	int hull, armor, shield;
-	int maxHull, maxArmor, maxShield;
-
-	f32 velocity;
-	f32 maxVelocity;
-	f32 maxTurn;
-	int crew;
-	int maxCrew;
+	ShipInformation info;
 
 	//data containers for the turrets of the ship
 	std::vector<TurretSlot*> mediumTurrets;
 
-	//for that big ship feel
-	vector3df targetRotation;
-
 	//important misc variables
-	E_AI_STATES currentAIState;
-	E_GAME_FACTIONS currentFaction;
 	Ship *shipTarget;
+
 	//inventory of ship
-	
 	
 };
 #endif
