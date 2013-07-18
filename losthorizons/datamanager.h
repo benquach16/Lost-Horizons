@@ -29,7 +29,7 @@ public:
 
 private:
 	E_GAMESCENES scene;
-	std::vector<ShipData> ships;
+	std::stack<ShipData> ships;
 };
 
 #endif

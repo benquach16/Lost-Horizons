@@ -98,9 +98,8 @@ protected:
 	std::vector<TurretSlot*> lightTurrets;
 
 	//important misc variables
-	E_AI_STATES currentAIState;
-	E_GAME_FACTIONS currentFaction;
 	Ship *shipTarget;
+
 	//inventory of ship
 	
 	

@@ -44,11 +44,13 @@ std::ofstream& operator<<(std::ofstream& ofs, const T& t)
 }
 
 template <typename T>
-std::ofstream& operator<<(std::ofstream& ofs, const std::vector<T>& v)
+std::ofstream& operator<<(std::ofstream& ofs, std::stack<T>& s)
 {
-	ofs << u32(v.size());
-    for (unsigned i = 0; i < v.size(); ++i)
-		ofs << v[i];
+	ofs << u32(s.size());
+    while (!s.empty()) {
+		ofs << s.top();
+		s.pop();
+	}
     return ofs;
 }
 
@@ -60,14 +62,14 @@ std::ifstream& operator>>(std::ifstream& ifs, T& t)
 }
 
 template <typename T>
-std::ifstream& operator>>(std::ifstream& ifs, std::vector<T>& v)
+std::ifstream& operator>>(std::ifstream& ifs, std::stack<T>& s)
 {
 	u32 size;
 	ifs >> size;
 	T tmp;
     for (unsigned i = 0; i < size; ++i) {
 		ifs >> tmp;
-		v.push_back(tmp);
+		s.push(tmp);
 	}
     return ifs;
 }
@@ -76,16 +78,16 @@ void DataManager::pull()
 {
 	scene = game->getGameSceneManager()->getCurrentScene()->getScene();
 	ShipData tmp;
-	ships.push_back(tmp << game->getPlayer());
+	ships.push(tmp << game->getPlayer());
 	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); ++i)
-		ships.push_back(tmp << *i);
+		ships.push(tmp << *i);
 }
 
 void DataManager::push()
 {
 	game->getGameSceneManager()->changeCurrentScene(scene);
 	//construct ships
-	ships.clear();
+	//pop ships
 }
 
 void DataManager::save(const std::string &filename)
@@ -94,7 +96,6 @@ void DataManager::save(const std::string &filename)
 	std::ofstream ofs(filename.c_str(), std::ios::binary);
 	ofs << scene << ships;
 	ofs.close();
-	ships.clear();
 }
 
 void DataManager::load(const std::string &filename)

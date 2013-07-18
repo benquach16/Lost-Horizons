@@ -45,7 +45,7 @@ Ship::Ship(const Ship *s) : isPlayer(s->isPlayer), props(s->props), info(s->info
 
 Ship& Ship::operator=(const Ship *s)
 {
-	if(this != s)
+	if (this != s)
 	{
 
 	}
@@ -66,7 +66,7 @@ bool Ship::getIsPlayer()
 void Ship::run(f32 frameDeltaTime)
 {
 	Object::run();
-	if(info.hull > 0)
+	if (info.hull > 0)
 	{
 		//make sure its alive to do anything
 		//if the crew is 0 the ship is effectively dead
@@ -81,7 +81,6 @@ void Ship::run(f32 frameDeltaTime)
 		//aim turrets
 		//mediumTurrets[3]->drawArc();
 	}
-
 }
 
 //increases velocity based on how fast the ship is going
@@ -187,17 +186,17 @@ void Ship::movement(f32 frameDeltaTime)
 	f32 z = -(getRotation().X);	//if i dont do this the ship doesnt rotate right
 
 
-	sPos.Y = (f32)(frameDeltaTime*info.velocity*(sin(z * 3.14/180)));
+	sPos.Y = (f32)(frameDeltaTime*info.velocity*(sin(z*3.14/180)));
 	sPos.Y += getPosition().Y;
 
-	sPos.X = (f32)(frameDeltaTime*info.velocity*(sin(i * 3.14/180)));
+	sPos.X = (f32)(frameDeltaTime*info.velocity*(sin(i*3.14/180)));
 	sPos.X += getPosition().X;
 
-	sPos.Z = (f32)(frameDeltaTime*info.velocity*(cos(i * 3.14/180)));
+	sPos.Z = (f32)(frameDeltaTime*info.velocity*(cos(i*3.14/180)));
 	sPos.Z += getPosition().Z;
 
 	//smooth out ship movement
-	vector3df finalPos = sPos*0.8f + getPosition() *0.2f;
+	vector3df finalPos = sPos*0.8f+getPosition()*0.2f;
 	setPosition(finalPos);
 }
 //protected function
@@ -205,20 +204,20 @@ void Ship::movement(f32 frameDeltaTime)
 void Ship::initTurrets()
 {
 	//we create new turret slots and assign them tot he ship
-	for(int i = 0; i < props.getMaxHTurrets(); i++)
+	for (int i = 0; i < props.getMaxHTurrets(); ++i)
 	{
 	}
-	for(int i = 0; i < props.getMaxMTurrets(); i++)
+	for (int i = 0; i < props.getMaxMTurrets(); ++i)
 	{
 		//get the bone name and set it to the string
 		std::string jointName("turret_0");
 		std::string tmp = std::to_string(i+1);
-		jointName+=tmp;
+		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
 		TurretSlot *t = new TurretSlot(props.mediumTurrets[i], joint, E_CLASS_MEDIUM, this);
 		mediumTurrets.push_back(t);
 	}
-	for(int i = 0; i < props.getMaxLTurrets(); i++)
+	for (int i = 0; i < props.getMaxLTurrets(); ++i)
 	{
 	}
 }
@@ -227,10 +226,10 @@ void Ship::initTurrets()
 //aims turrets at current target
 void Ship::aimTurrets(float frameDeltaTime)
 {
-	if(shipTarget)
+	if (shipTarget)
 	{
 		//if has target
-		for(unsigned i = 0; i < mediumTurrets.size(); i++)
+		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
 		{
 			mediumTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
 		}

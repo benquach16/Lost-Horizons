@@ -40,17 +40,17 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 	if(childTurret)
 	{
 		//ensure if the point is inside firing arc
-		const float x = (point.X - offset->getAbsolutePosition().X);
-		const float y = (point.Y - offset->getAbsolutePosition().Y);
-		const float z = (point.Z - offset->getAbsolutePosition().Z);
+		const float x = (point.X-offset->getAbsolutePosition().X);
+		const float y = (point.Y-offset->getAbsolutePosition().Y);
+		const float z = (point.Z-offset->getAbsolutePosition().Z);
 		float angleY = std::atan2(x,z)*static_cast<float>(180/3.1415);
 
 		float tmp  = sqrt(x*x+z*z);
 		float angleX = std::atan2(tmp,y)*static_cast<float>(180/3.1415);
 
-		angleX-=90;
+		angleX -= 90;
 		int difference = properties.arc/2;
-		angleY-=parent->getRotation().Y;
+		angleY -= parent->getRotation().Y;
 		angleY += 180;
 
 		//if(angleToTarget.Y + difference < offset->getRotation().Y && angleToTarget.Y - difference > offset->getRotation().Y)
