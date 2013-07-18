@@ -56,8 +56,7 @@ public:
 	//overloaded assignment operator
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();
-	//for deleting non player ships easily
-	void removeAI();
+	bool getIsPlayer();
 
 	virtual void run(f32 frameDeltaTime);
 
@@ -67,6 +66,10 @@ public:
 	//rotate ship to specific angle
 	void setTargetRotationTo(const vector3df &newTargetRotation);
 	const vector3df &getTargetRotation() const;
+
+	//target functions
+	void setTarget(Ship *newTarget);
+	void removeTarget();
 
 	//equip funcs
 	void setMediumTurret(const TurretProperties& props, int slot);
@@ -78,6 +81,7 @@ protected:
 	void rotate(f32 frameDeltaTime);
 	void movement(f32 frameDeltaTime);
 	void initTurrets();
+	void aimTurrets(f32 frameDeltaTime);
 
 	bool isPlayer;
 	//iterator to 'this'
@@ -89,12 +93,16 @@ protected:
 	ShipInformation info;
 
 	//data containers for the turrets of the ship
+	std::vector<TurretSlot*> heavyTurrets;
 	std::vector<TurretSlot*> mediumTurrets;
+	std::vector<TurretSlot*> lightTurrets;
 
 	//important misc variables
+	E_AI_STATES currentAIState;
+	E_GAME_FACTIONS currentFaction;
 	Ship *shipTarget;
-
 	//inventory of ship
+	
 	
 };
 #endif

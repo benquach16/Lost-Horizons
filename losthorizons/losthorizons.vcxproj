@@ -107,6 +107,7 @@
     <ClInclude Include="playercamera.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="savemenu.h" />
+    <ClInclude Include="sceneloader.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="shipproperties.h" />
     <ClInclude Include="startmenu.h" />

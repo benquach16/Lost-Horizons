@@ -135,6 +135,9 @@
     <ClInclude Include="savemenu.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="sceneloader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

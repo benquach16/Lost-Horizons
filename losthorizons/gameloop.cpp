@@ -19,6 +19,9 @@ void Gameloop::createNewGame()
 	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
 	player = gameSceneManager->getCurrentScene()->createPlayer(vector3df(0,0,0), vector3df(0,0,0), ObjectManager::shipList[0]);
+	//temporary for testing purposes only
+	player->setTarget(gameSceneManager->getCurrentScene()->createShip(vector3df(500,0,0), vector3df(0,0,0), ObjectManager::shipList[0],
+		E_FACTION_NEUTRAL));
 }
 
 void Gameloop::createLoadedGame(const std::string &filename)
@@ -28,9 +31,10 @@ void Gameloop::createLoadedGame(const std::string &filename)
 
 Gameloop::~Gameloop()
 {
-	delete player;
+
 	delete objectManager;
 	delete gameSceneManager;
+	delete player;
 }
 
 void Gameloop::run()
