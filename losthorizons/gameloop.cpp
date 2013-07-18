@@ -101,5 +101,5 @@ void Gameloop::cameraControl()
 		playerCam->rotateX(receiver->getMouseX());
 		playerCam->rotateY(receiver->getMouseY());
 	}
-	
+	playerCam->zoom(receiver->getMouseWheel());
 }

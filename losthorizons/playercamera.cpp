@@ -1,7 +1,7 @@
 #include "playercamera.h"
 
 PlayerCamera::PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position) : cameraMode(E_CAMERA_ORBIT),
-	angle(0), angleY(0), distance(200), mouseX(0), mouseY(0)
+	angle(0), angleY(0), distance(200), mouseX(0), mouseY(0), oldMouseWheel(0)
 {
 	cam = graphics->getSceneManager()->addCameraSceneNode(0, position);
 	cam->setFarValue(500000);
@@ -78,4 +78,14 @@ void PlayerCamera::rotateY(int y)
 	int i=y-mouseY;
 	mouseY = y;
 	angleY+=i;
+}
+
+void PlayerCamera::zoom(int z)
+{
+	if(z != oldMouseWheel)
+	{
+		distance+= (z - oldMouseWheel) * 50;
+		oldMouseWheel = z;
+	}
+
 }
