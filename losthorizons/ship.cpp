@@ -5,14 +5,9 @@
 std::list<Ship*> Ship::allShips;
 
 
-
-Ship::Ship() : Object(0,L"", vector3df(0,0,0), vector3df(0,0,0))
-{
-}
-
-Ship::Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props)
-	: Object(props.getFilename().c_str(), position, rotation, props.getScale()), isPlayer(isPlayer),
-	  props(props), info(props)
+Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer)
+	: Object(ObjectManager::shipList[shipType].getFilename().c_str(), position, rotation,
+	  ObjectManager::shipList[shipType].getScale()), isPlayer(isPlayer), info(shipType, faction)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -23,9 +18,9 @@ Ship::Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, 
 	setMediumTurret(ObjectManager::turretList[0],3);
 }
 
-Ship::Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props, const ShipInformation &info)
-	: Object(props.getFilename().c_str(), position, rotation, props.getScale()), isPlayer(isPlayer),
-	  props(props), info(info)
+Ship::Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer)
+	: Object(ObjectManager::shipList[info.shipType].getFilename().c_str(), position, rotation,
+	  ObjectManager::shipList[info.shipType].getScale()), isPlayer(isPlayer), info(info)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -37,7 +32,7 @@ Ship::Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, 
 }
 
 //copy constructor
-Ship::Ship(const Ship *s) : isPlayer(s->isPlayer), props(s->props), info(s->info)
+Ship::Ship(const Ship *s) : isPlayer(s->isPlayer), info(s->info)
 {
 	allShips.push_front(this);
 	it = allShips.begin();
@@ -61,6 +56,11 @@ Ship::~Ship()
 bool Ship::getIsPlayer()
 {
 	return isPlayer;
+}
+
+const ShipInformation& Ship::getInfo() const
+{
+	return info;
 }
 
 void Ship::run(f32 frameDeltaTime)
@@ -121,9 +121,9 @@ void Ship::setMediumTurret(const TurretProperties &props, int slot)
 	mediumTurrets[slot]->assignTurret(props);
 }
 
-const ShipInformation& Ship::getShipInfo() const
+void Ship::setFaction(E_GAME_FACTIONS newFaction)
 {
-	return info;
+	info.currentFaction = newFaction;
 }
 
 //protected function
@@ -203,21 +203,21 @@ void Ship::movement(f32 frameDeltaTime)
 //initialises the turret slot classes for each ship
 void Ship::initTurrets()
 {
-	//we create new turret slots and assign them tot he ship
-	for (int i = 0; i < props.getMaxHTurrets(); ++i)
+	//we create new turret slots and assign them to the ship
+	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxHTurrets(); ++i)
 	{
 	}
-	for (int i = 0; i < props.getMaxMTurrets(); ++i)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxMTurrets(); ++i)
 	{
 		//get the bone name and set it to the string
 		std::string jointName("turret_0");
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(props.mediumTurrets[i], joint, E_CLASS_MEDIUM, this);
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].mediumTurrets[i], joint, E_CLASS_MEDIUM, this);
 		mediumTurrets.push_back(t);
 	}
-	for (int i = 0; i < props.getMaxLTurrets(); ++i)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxLTurrets(); ++i)
 	{
 	}
 }

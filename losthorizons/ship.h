@@ -30,15 +30,23 @@ struct Subsystem
 
 struct ShipInformation
 {
-	E_AI_STATES currentAIState;
+	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTIONS currentFaction;
-	s32 hull, maxHull, armor, maxArmor, shield, maxShield, crew, maxCrew;
+	E_AI_STATES currentAIState;
+	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	ShipInformation() {}
-	ShipInformation(const ShipProperties &props)
-		: currentAIState(STATE_PATROLLING), hull(props.getHull()), maxHull(hull), velocity(0.f),
-		  maxVelocity(props.getMaxVel()), maxTurn((f32)props.getMaxTurn()) {}
+	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
+		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
+		  hull(ObjectManager::shipList[shipType].getMaxHull()), maxHull(hull),
+		  armor(ObjectManager::shipList[shipType].getMaxArmor()), maxArmor(armor),
+		  shield(ObjectManager::shipList[shipType].getMaxShield()), maxShield(shield),
+		  energy(ObjectManager::shipList[shipType].getMaxEnergy()), maxEnergy(energy),
+		  crew(1), maxCrew(ObjectManager::shipList[shipType].getMaxCrew()),
+		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType].getMaxVel()),
+		  maxTurn((f32)ObjectManager::shipList[shipType].getMaxTurn()),
+		  targetRotation(vector3df(0.f,0.f,0.f)) {}
 };
 
 //basic ship class
@@ -48,15 +56,16 @@ public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
 
-	Ship();
-	Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props);
-	Ship(const vector3df &position, const vector3df &rotation, bool isPlayer, const ShipProperties &props, const ShipInformation &info);
+	Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
+	Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
 	//copy constructor
 	Ship(const Ship *s);
 	//overloaded assignment operator
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();
+
 	bool getIsPlayer();
+	const ShipInformation& getInfo() const;
 
 	virtual void run(f32 frameDeltaTime);
 
@@ -74,7 +83,8 @@ public:
 	//equip funcs
 	void setMediumTurret(const TurretProperties& props, int slot);
 
-	const ShipInformation& getShipInfo() const;
+	//some setters
+	void setFaction(E_GAME_FACTIONS currentFaction);
 
 	//some accessors
 
@@ -87,12 +97,9 @@ protected:
 	void aimTurrets(f32 frameDeltaTime);
 
 	bool isPlayer;
-	//iterator to 'this'
-	std::list<Ship*>::iterator it;
 
 	//stats
 	//basic ship type
-	ShipProperties props;
 	ShipInformation info;
 
 	//data containers for the turrets of the ship
@@ -106,5 +113,7 @@ protected:
 	//inventory of ship
 	
 	
+	//iterator to 'this'
+	std::list<Ship*>::iterator it;
 };
 #endif

@@ -2,8 +2,7 @@
 #define _DATAMANAGER_H_
 
 #include "gamescenemanager.h"
-#include "turret.h"
-#include "ship.h"
+#include "player.h"
 
 class DataManager
 {

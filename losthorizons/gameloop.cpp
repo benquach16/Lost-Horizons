@@ -18,10 +18,10 @@ void Gameloop::createNewGame()
 	//create player and camera
 	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
-	player = gameSceneManager->getCurrentScene()->createPlayer(vector3df(0,0,0), vector3df(0,0,0), ObjectManager::shipList[0]);
+	player = gameSceneManager->getCurrentScene()->createPlayer(E_FACTION_TERRAN);
 	//temporary for testing purposes only
-	player->setTarget(gameSceneManager->getCurrentScene()->createShip(vector3df(500,0,0), vector3df(0,0,0), ObjectManager::shipList[0],
-		E_FACTION_NEUTRAL));
+	player->setTarget(gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
+		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0)));
 }
 
 void Gameloop::createLoadedGame(const std::string &filename)
@@ -31,7 +31,6 @@ void Gameloop::createLoadedGame(const std::string &filename)
 
 Gameloop::~Gameloop()
 {
-
 	delete objectManager;
 	delete gameSceneManager;
 	delete player;
@@ -41,7 +40,7 @@ void Gameloop::run()
 {
 	//calculate the delta time
 	const f32 now = (f32)(graphics->getTimer()->getTime());
-	const f32 frameDeltaTime = (now - then) / 1000.f; // Time in seconds
+	const f32 frameDeltaTime = (now-then)/1000.f; // Time in seconds
 	then = now;
 
 	playerControl(frameDeltaTime);
@@ -53,38 +52,38 @@ void Gameloop::run()
 void Gameloop::playerControl(f32 frameDeltaTime)
 {
 	//all actions the player can do are stored here
-	if(receiver->isKeyDown(irr::KEY_KEY_X))
+	if (receiver->isKeyDown(irr::KEY_KEY_X))
 	{
 		//accelerate
 		player->increaseVelocity(frameDeltaTime);
 	}
-	else if(receiver->isKeyDown(irr::KEY_KEY_Z))
+	else if (receiver->isKeyDown(irr::KEY_KEY_Z))
 	{
 		//decelerate
 		player->decreaseVelocity(frameDeltaTime);
 	}
-	if(receiver->isKeyDown(irr::KEY_KEY_A))
+	if (receiver->isKeyDown(irr::KEY_KEY_A))
 	{
 		//rotate left
 		vector3df rot = player->getTargetRotation();
 		rot.Y -= 35*frameDeltaTime;
 		player->setTargetRotationTo(rot);
 	}
-	if(receiver->isKeyDown(irr::KEY_KEY_D))
+	if (receiver->isKeyDown(irr::KEY_KEY_D))
 	{
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.Y += 35*frameDeltaTime;
 		player->setTargetRotationTo(rot);
 	}
-	if(receiver->isKeyDown(irr::KEY_KEY_W))
+	if (receiver->isKeyDown(irr::KEY_KEY_W))
 	{
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.X -= 35*frameDeltaTime;
 		player->setTargetRotationTo(rot);
 	}
-	if(receiver->isKeyDown(irr::KEY_KEY_S))
+	if (receiver->isKeyDown(irr::KEY_KEY_S))
 	{
 		//rotate right
 		vector3df rot = player->getTargetRotation();
@@ -95,7 +94,7 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 
 void Gameloop::cameraControl()
 {
-	if(receiver->getRightMouseButton())
+	if (receiver->getRightMouseButton())
 	{
 		//we can rotate the camera around this way
 		playerCam->rotateX(receiver->getMouseX());

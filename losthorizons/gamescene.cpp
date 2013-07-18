@@ -12,7 +12,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 {
 	//setup camera for menu scene
 	playerCam = createPlayerCam();
-	if(scene == E_MAINMENU_SCENE)
+	if (scene == E_MAINMENU_SCENE)
 	{
 		//create sun for menu background
 		IBillboardSceneNode *corona = scenemngr->addBillboardSceneNode(0, dimension2d<f32>(50000,50000), vector3df(-20000,500,70000));
@@ -58,7 +58,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 		sceneObjects.push(asteroids);
 
 	}
-	else if(scene == E_TAU_CETI_SCENE)
+	else if (scene == E_TAU_CETI_SCENE)
 	{
 		skybox = scenemngr->addSkyBoxSceneNode(
 			vdriver->getTexture("res/textures/skyboxes/1/space_top3.jpg"),
@@ -76,29 +76,28 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 GameScene::~GameScene()
 {
 	skybox->remove();
-	while(!sceneObjects.empty())
+	while (!sceneObjects.empty())
 	{
 		sceneObjects.top()->remove();
 		sceneObjects.pop();
 	}
-	while(!dynamicObjects.empty())
+	while (!dynamicObjects.empty())
 	{
 		delete dynamicObjects.top();
 		dynamicObjects.pop();
 	}
 	//delete all ships currently in the scene except for the player
-	for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); i++)
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
 	{
-		if(!(*i)->getIsPlayer())
+		if (!(*i)->getIsPlayer())
 			i = Ship::allShips.erase(i);
-
 	}
 }
 
 void GameScene::run(f32 frameDeltaTime)
 {
 	//run through all the objects in the scene
-	for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); i++)
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
 	{
 		(*i)->run(frameDeltaTime);
 	}
@@ -106,28 +105,32 @@ void GameScene::run(f32 frameDeltaTime)
 
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 {
-	//simple creation function
-	PlayerCamera *ret = new PlayerCamera(graphics, position);
-	return ret;
+	return new PlayerCamera(graphics, position);
 }
 
-Player *GameScene::createPlayer(const vector3df &position, const vector3df &rotation, const ShipProperties &shipProps)
+Player *GameScene::createPlayer(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 {
-	//simple creation func
-	Player *ret = new Player(position, rotation, shipProps);
-	return ret;
+	return new Player(faction, shipType, position, rotation);
 }
 
-Ship *GameScene::createShip(const vector3df &position, const vector3df &rotation, const ShipProperties &shipProps, const E_GAME_FACTIONS &faction)
+Player *GameScene::createPlayer(const ShipInformation &info, const vector3df &position, const vector3df &rotation)
 {
-	Ship *ret = new Ship(position, rotation, false, shipProps);
-	return ret;
+	return new Player(info, position, rotation);
+}
+
+Ship *GameScene::createShip(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+{
+	return new Ship(faction, shipType, position, rotation);
+}
+
+Ship *GameScene::createShip(const ShipInformation &info, const vector3df &position, const vector3df &rotation)
+{
+	return new Ship(info, position, rotation);
 }
 
 Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)
 {
-	Sun *ret = new Sun(position, scale);
-	return ret;
+	return new Sun(position, scale);
 }
 
 PlayerCamera *GameScene::getCurrentSceneCamera()

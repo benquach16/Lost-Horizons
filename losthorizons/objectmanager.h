@@ -25,21 +25,20 @@ public:
 
 	enum E_ITEM_LIST
 	{
-		WATER = 0,
+		WATER,
 	};	
 	enum E_SHIP_LIST
 	{
-		PRAE_CRUISER = 0,
+		PRAE_CRUISER,
 	};
 	enum E_TURRET_LIST
 	{
-		RAILGUNI = 0,
+		RAILGUNI,
 	};
 	
 	static std::vector<ItemProperties> itemList;
 	static std::vector<ShipProperties> shipList;
 	static std::vector<TurretProperties> turretList;
-	
 };
 
 #endif

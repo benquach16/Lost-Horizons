@@ -23,6 +23,7 @@ public:
 
 	GameSceneManager* getGameSceneManager() { return gameSceneManager; }
 	Player* getPlayer() { return player; }
+	void setPlayer(Player* newPlayer) { player = newPlayer; }
 
 	//might want this to be a singleton
 	~Gameloop();

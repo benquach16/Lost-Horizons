@@ -6,7 +6,7 @@ DataManager::ShipData& operator<<(DataManager::ShipData& shipData, const Ship *s
 {
 	shipData.position = s->getPosition();
 	shipData.rotation = s->getRotation();
-	shipData.info = s->getShipInfo();
+	shipData.info = s->getInfo();
 	return shipData;
 }
 
@@ -78,16 +78,21 @@ void DataManager::pull()
 {
 	scene = game->getGameSceneManager()->getCurrentScene()->getScene();
 	ShipData tmp;
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
+		if (!(*i)->getIsPlayer())
+			ships.push(tmp << *i);
 	ships.push(tmp << game->getPlayer());
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i!= Ship::allShips.end(); ++i)
-		ships.push(tmp << *i);
 }
 
 void DataManager::push()
 {
 	game->getGameSceneManager()->changeCurrentScene(scene);
-	//construct ships
-	//pop ships
+	game->setPlayer(game->getGameSceneManager()->getCurrentScene()->createPlayer(ships.top().info, ships.top().position, ships.top().rotation));
+	ships.pop();
+	while (!ships.empty()) {
+		game->getGameSceneManager()->getCurrentScene()->createShip(ships.top().info, ships.top().position, ships.top().rotation);
+		ships.pop();
+	}
 }
 
 void DataManager::save(const std::string &filename)
