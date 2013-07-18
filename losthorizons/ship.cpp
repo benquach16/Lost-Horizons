@@ -126,6 +126,16 @@ const ShipInformation& Ship::getShipInfo() const
 	return info;
 }
 
+const int& Ship::getMaxArmor() const
+{
+	return info.maxArmor;
+}
+
+const int& Ship::getMaxShield() const
+{
+	return info.maxShield;
+}
+
 //protected function
 //rotates ship to point
 void Ship::rotate(f32 frameDeltaTime)
