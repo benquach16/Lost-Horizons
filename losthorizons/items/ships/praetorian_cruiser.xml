@@ -13,7 +13,9 @@
 		<scaleZ>0.15</scaleZ>
 	</modelStats>
 	<shipStats>
-		<hull>2000</hull>
+		<maxHull>2000</maxHull>
+		<maxArmor>1000</maxArmor>
+		<maxShield>2000</maxShield>
 		<maxVelocity>59</maxVelocity>
 		<maxTurn>10</maxTurn>
 		<maxEnergy>1000</maxEnergy>

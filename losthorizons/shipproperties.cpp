@@ -20,11 +20,23 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 		{
 		case io::EXN_TEXT:
 			{
-				if(currentSection.equals_ignore_case(L"hull"))
+				if(currentSection.equals_ignore_case(L"maxHull"))
 				{
 					//read hull
 					std::wstringstream iss(file->getNodeData());
-					iss >> hull;
+					iss >> maxHull;
+				}
+				if(currentSection.equals_ignore_case(L"maxArmor"))
+				{
+					//read hull
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxArmor;
+				}
+				if(currentSection.equals_ignore_case(L"maxShield"))
+				{
+					//read hull
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxShield;
 				}
 				if(currentSection.equals_ignore_case(L"maxVelocity"))
 				{
@@ -61,9 +73,17 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 			}
 		case io::EXN_ELEMENT:
 			{
-				if(core::stringw(L"hull").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"maxHull").equals_ignore_case(file->getNodeName()))
 				{
-					currentSection=L"hull";
+					currentSection=L"maxHull";
+				}
+				if(core::stringw(L"maxArmor").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxArmor";
+				}
+				if(core::stringw(L"maxShield").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxShield";
 				}
 				if(core::stringw(L"maxVelocity").equals_ignore_case(file->getNodeName()))
 				{
@@ -183,10 +203,21 @@ ShipProperties::~ShipProperties()
 }
 
 //accessors
-const int& ShipProperties::getHull() const
+const int& ShipProperties::getMaxHull() const
 {
-	return hull;
+	return maxHull;
 }
+
+const int& ShipProperties::getMaxArmor() const
+{
+	return maxArmor;
+}
+
+const int& ShipProperties::getMaxShield() const
+{
+	return maxShield;
+}
+
 const int& ShipProperties::getMaxTurn() const
 {
 	return maxTurn;

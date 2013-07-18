@@ -25,7 +25,9 @@ public:
 	~ShipProperties();
 
 	//accessors because visual studio is a douchebag
-	const int& getHull() const;
+	const int& getMaxHull() const;
+	const int& getMaxArmor() const;
+	const int& getMaxShield() const;
 	const int& getMaxTurn() const;
 	const f32& getMaxVel() const;
 
@@ -48,7 +50,9 @@ protected:
 	void loadTurretInformation(io::IXMLReader *file);
 
 	//performance statistics
-	int hull;
+	int maxHull;
+	int maxArmor;
+	int maxShield;
 	int maxTurn;
 	f32 maxVelocity;
 

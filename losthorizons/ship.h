@@ -77,8 +77,7 @@ public:
 	const ShipInformation& getShipInfo() const;
 
 	//some accessors
-	const int& getMaxArmor() const;
-	const int& getMaxShield() const;
+
 
 protected:
 	//protected functions

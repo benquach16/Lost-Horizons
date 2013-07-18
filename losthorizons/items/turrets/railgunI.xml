@@ -19,4 +19,12 @@
 		<reloadSpeed>1.5</reloadSpeed>
 		<projectileSpeed>70</projectileSpeed>
 	</turretStats>
+	<projectileInfo>
+		<R>80</R>
+		<G>80</B>
+		<B>170</B>
+		<scaleX>1</scaleX>
+		<scaleY>1</scaleY>
+		<scaleZ>1</scaleZ>
+	</projectileInfo>
 </itemStats>
