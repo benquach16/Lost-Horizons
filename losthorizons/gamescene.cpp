@@ -101,6 +101,14 @@ void GameScene::run(f32 frameDeltaTime)
 	{
 		(*i)->run(frameDeltaTime);
 	}
+	//initialize 2 iterators because we want to delete the object whenever we have to
+	//so we dont lose the iterator!!!!!!!
+	for (std::list<Projectile*>::iterator i = Projectile::allProjectiles.begin(), next; i != Projectile::allProjectiles.end(); i = next)
+	{
+		next = i;
+		next++;
+		(*i)->run(frameDeltaTime);
+	}
 }
 
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)

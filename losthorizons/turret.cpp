@@ -3,16 +3,12 @@
 #include "ship.h"
 #include <iostream>
 
-
-TurretSlot::TurretSlot() : joint(0), childTurret(0)
-{
-	//default constructor
-}
-
+//BEGIN TURRETSLOT
 TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS &turretClass, Ship* parent) : 
-	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent)
+	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent), currentAim()
 {
 	offset = scenemngr->addEmptySceneNode(joint);
+	aimPoint = scenemngr->addEmptySceneNode();
 	offset->setRotation(rotationOffset);
 }
 
@@ -20,6 +16,11 @@ void TurretSlot::assignTurret(const TurretProperties &props)
 {
 	removeTurret();
 	childTurret = new Turret(props, offset);
+}
+
+bool TurretSlot::hasTurret()
+{
+	return childTurret;
 }
 
 void TurretSlot::removeTurret()
@@ -36,7 +37,7 @@ void TurretSlot::drawArc()
 
 void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 {
-
+	aimPoint->setPosition(joint->getAbsolutePosition());
 	if(childTurret)
 	{
 		//ensure if the point is inside firing arc
@@ -49,22 +50,37 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 		float angleX = std::atan2(tmp,y)*static_cast<float>(180/3.1415);
 
 		angleX -= 90;
+		currentAim = vector3df(angleX, angleY,0);
 		int difference = properties.arc/2;
 		angleY -= parent->getRotation().Y;
-		angleY += 180;
+		//angleY += 180;
 
-		//if(angleToTarget.Y + difference < offset->getRotation().Y && angleToTarget.Y - difference > offset->getRotation().Y)
+		//if(angleY + difference < offset->getRotation().Y && angleY - difference > offset->getRotation().Y)
 		{
 			//inside the arc horizontally
 			//pass rotation to the turret so we dont do math again unnecessarily
-			childTurret->aim(vector3df(angleX, angleY, 0), frameDeltaTime);
+			childTurret->aim(vector3df(angleX, angleY,0), frameDeltaTime);
 		}
 	}
 }
 
 TurretSlot::~TurretSlot()
 {
+	//make sure we clear up memory
+	removeTurret();
 }
+
+const vector3df& TurretSlot::getCurrentAim() const
+{
+	return currentAim;
+}
+
+const vector3df& TurretSlot::getPosition() const
+{
+	return aimPoint->getPosition();
+}
+
+//END TURRETSLOT
 
 
 //BEGIN TURRET
@@ -84,11 +100,11 @@ void Turret::aim(const core::vector3df &rotation, float frameDeltaTime)
 	core::vector3df rot(getRotation());
 	if(getRotation().Y < rotation.Y)
 	{
-		rot.Y += props.getMaxTurn();
+		rot.Y += props.getMaxTurn() * frameDeltaTime;
 	}
 	if(getRotation().Y > rotation.Y)
 	{
-		rot.Y -= props.getMaxTurn();
+		rot.Y -= props.getMaxTurn() * frameDeltaTime;
 	}
 	rot.Y = rotation.Y;
 	setRotation(rot);

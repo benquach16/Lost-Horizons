@@ -90,6 +90,10 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 		rot.X += 35*frameDeltaTime;
 		player->setTargetRotationTo(rot);
 	}
+	if(receiver->isKeyDown(irr::KEY_SPACE))
+	{
+		player->fireTurrets();
+	}
 }
 
 void Gameloop::cameraControl()

@@ -10,6 +10,7 @@
 #include "item.h"
 #include "shipproperties.h"
 #include "objectmanager.h"
+#include "projectile.h"
 
 //for finite state machine implementation
 enum E_AI_STATES
@@ -56,14 +57,18 @@ public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
 
+	//constructors
 	Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
 	Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
 	//copy constructor
 	Ship(const Ship *s);
 	//overloaded assignment operator
 	Ship& operator=(const Ship *s);
+	//destructor
 	virtual ~Ship();
 
+	//returns if the ship is the player ship
+	//if so you can cast it to player calss
 	bool getIsPlayer();
 	const ShipInformation& getInfo() const;
 
@@ -71,6 +76,8 @@ public:
 
 	void increaseVelocity(f32 frameDeltaTime);
 	void decreaseVelocity(f32 frameDeltaTime);
+
+	void fireTurrets();
 
 	//rotate ship to specific angle
 	void setTargetRotationTo(const vector3df &newTargetRotation);

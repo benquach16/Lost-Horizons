@@ -13,6 +13,7 @@ ModelProperties::ModelProperties(irr::IrrlichtDevice *graphics, const std::strin
 
 	//since we have dem nests
 	core::stringw currentSection(L"");
+	core::stringw currentTree(L"");
 	while(file->read())
 	{
 		switch(file->getNodeType())
@@ -50,27 +51,31 @@ ModelProperties::ModelProperties(irr::IrrlichtDevice *graphics, const std::strin
 			}
 		case io::EXN_ELEMENT:
 			{
+				if(core::stringw(L"modelStats").equals_ignore_case(file->getNodeName()))
+				{
+					currentTree=L"modelStats";
+				}
 				if(core::stringw(L"filename").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"filename";
 				}
-				if(core::stringw(L"diffuseMap").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"modelStats").equals_ignore_case(currentTree) && core::stringw(L"diffuseMap").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"diffuseMap";
 				}
-				if(core::stringw(L"normalMap").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"modelStats").equals_ignore_case(currentTree) && core::stringw(L"normalMap").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"normalMap";
 				}
-				if(core::stringw(L"scaleX").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"modelStats").equals_ignore_case(currentTree) && core::stringw(L"scaleX").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"scaleX";
 				}
-				if(core::stringw(L"scaleY").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"modelStats").equals_ignore_case(currentTree) && core::stringw(L"scaleY").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"scaleY";
 				}
-				if(core::stringw(L"scaleZ").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"modelStats").equals_ignore_case(currentTree) && core::stringw(L"scaleZ").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"scaleZ";
 				}
@@ -78,6 +83,10 @@ ModelProperties::ModelProperties(irr::IrrlichtDevice *graphics, const std::strin
 			}
 		case io::EXN_ELEMENT_END:
 			{
+				if(core::stringw(L"modelStats").equals_ignore_case(file->getNodeName()))
+				{
+					currentTree=L"";
+				}
 				currentSection=L"";
 				break;
 			}

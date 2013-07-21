@@ -13,7 +13,8 @@ enum E_ITEM_TYPES
 	E_ITEM_SHIP = 0,
 	E_ITEM_TURRET = 1,
 	E_ITEM_MODULE = 2,
-	E_ITEM = 3
+	E_ITEM = 3,
+	E_ITEM_PLANET = 4,
 };
 
 class ItemProperties

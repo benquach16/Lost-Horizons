@@ -13,9 +13,13 @@ class Ship;
 class TurretSlot
 {
 public:
-	TurretSlot();
+	//constructors
+	//parameterized constructor
 	TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS &turretClass, Ship* parent);
+	//assigns a turret to this slot
 	void assignTurret(const TurretProperties &props);
+	//just checks if this turret slot is filled
+	bool hasTurret();
 	void removeTurret();
 	//to see which direction the turret arc is facing and covers
 	//good for debug purposes and players
@@ -24,16 +28,30 @@ public:
 	void aim(const core::vector3df &point, f32 frameDeltaTime);
 	~TurretSlot();
 
+	//used for projectile generation
+	const core::vector3df& getCurrentAim() const;
+	const core::vector3df& getPosition() const;
+
 protected:
+	//a dummy scene node to have the turret face in a particular direction
 	ISceneNode *offset;
+	//another dummy scene node because joint absolute position seems to be completely fucked
+	ISceneNode *aimPoint;
+	//pointer to the joint that we're parented to
 	IBoneSceneNode *joint;
+	//pointer to the ship that this slot is parented to
 	Ship *parent;
+	//pointer to the turret model itself
 	Turret *childTurret;
+	//the stats for the current turret
 	turretInformation properties;
+	//the vector of the offset
 	vector3df rotationOffset;
+	vector3df currentAim;
 };
 
-
+//turret model class
+//deals with the actual rotation
 class Turret : public Object
 {
 public:

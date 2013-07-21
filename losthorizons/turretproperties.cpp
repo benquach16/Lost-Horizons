@@ -11,6 +11,7 @@ TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::str
 {
 	//only read the turret values
 	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+	core::stringw currentTree(L"");
 	core::stringw currentSection(L"");
 	while(file->read())
 	{
@@ -44,6 +45,25 @@ TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::str
 					std::wstringstream iss(file->getNodeData());
 					iss >> projectileSpeed;
 				}
+				if(currentTree.equals_ignore_case(L"projectileStats") && currentSection.equals_ignore_case(L"scaleX"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> projectileScale.X;
+				}
+				if(currentTree.equals_ignore_case(L"projectileStats") && currentSection.equals_ignore_case(L"scaleY"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> projectileScale.Y;
+				}
+				if(currentTree.equals_ignore_case(L"projectileStats") && currentSection.equals_ignore_case(L"scaleZ"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> projectileScale.Z;
+				}
+				if(currentTree.equals_ignore_case(L"projectileStats") && currentSection.equals_ignore_case(L"diffuseMap"))
+				{
+					projectileTexture = file->getNodeData();
+				}
 				break;
 			}
 		case io::EXN_ELEMENT:
@@ -51,6 +71,11 @@ TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::str
 				if(core::stringw(L"turretStats").equals_ignore_case(file->getNodeName()))
 				{
 					turretClass = getTurretClass(file->getAttributeValue(L"class"));
+					currentTree=L"turretStats";
+				}
+				if(core::stringw(L"projectileStats").equals_ignore_case(file->getNodeName()))
+				{
+					currentTree=L"projectileStats";
 				}
 				if(core::stringw(L"turnSpeed").equals_ignore_case(file->getNodeName()))
 				{
@@ -72,10 +97,34 @@ TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::str
 				{
 					currentSection=L"projectileSpeed";
 				}
+				if(core::stringw(L"scaleX").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"scaleX";
+				}
+				if(core::stringw(L"scaleY").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"scaleY";
+				}
+				if(core::stringw(L"scaleZ").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"scaleZ";
+				}
+				if(core::stringw(L"diffuseMap").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"diffuseMap";
+				}
 				break;
 			}
 		case io::EXN_ELEMENT_END:
 			{
+				if(core::stringw(L"turretStats").equals_ignore_case(currentTree) && core::stringw(L"turretStats").equals_ignore_case(file->getNodeName()))
+				{
+					currentTree = L"";
+				}
+				if(core::stringw(L"projectileStats").equals_ignore_case(currentTree) && core::stringw(L"projectileStats").equals_ignore_case(file->getNodeName()))
+				{
+					currentTree = L"";
+				}
 				currentSection=L"";
 				break;
 			}
@@ -134,4 +183,19 @@ const int& TurretProperties::getDamage() const
 const int& TurretProperties::getRange() const
 {
 	return range;
+}
+
+const int& TurretProperties::getProjectileSpeed() const
+{
+	return projectileSpeed;
+}
+
+const std::wstring& TurretProperties::getProjectileTex() const
+{
+	return projectileTexture;
+}
+
+const core::vector3df& TurretProperties::getProjectileScale() const
+{
+	return projectileScale;
 }

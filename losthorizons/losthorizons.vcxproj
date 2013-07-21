@@ -105,6 +105,7 @@
     <ClInclude Include="optionmenu.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playercamera.h" />
+    <ClInclude Include="projectile.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="savemenu.h" />
     <ClInclude Include="sceneloader.h" />
@@ -135,6 +136,7 @@
     <ClCompile Include="optionmenu.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playercamera.cpp" />
+    <ClCompile Include="projectile.cpp" />
     <ClCompile Include="savemenu.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />

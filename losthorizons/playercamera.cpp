@@ -84,7 +84,7 @@ void PlayerCamera::zoom(int z)
 {
 	if(z != oldMouseWheel)
 	{
-		distance+= (z - oldMouseWheel) * 50;
+		distance -= (z - oldMouseWheel) * 50;
 		oldMouseWheel = z;
 	}
 

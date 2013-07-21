@@ -25,6 +25,10 @@ public:
 	const int& getDamage() const;
 	const f32& getReloadSpeed() const;
 	const int& getRange() const;
+	const int& getProjectileSpeed() const;
+
+	const std::wstring& getProjectileTex() const;
+	const core::vector3df& getProjectileScale() const;
 protected:
 	E_TURRET_CLASS getTurretClass(const std::wstring &str);
 	E_TURRET_CLASS turretClass;
@@ -32,6 +36,8 @@ protected:
 	int damage;
 	int range;
 	int projectileSpeed;
+	core::vector3df projectileScale;
+	std::wstring projectileTexture;
 	f32 reloadSpeed;
 };
 

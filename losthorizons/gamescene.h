@@ -9,6 +9,7 @@
 #include <stack>
 #include "player.h"
 #include "ship.h"
+#include "projectile.h"
 #include "object.h"
 #include "sun.h"
 #include "objectmanager.h"

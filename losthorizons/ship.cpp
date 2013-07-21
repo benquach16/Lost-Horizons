@@ -96,6 +96,18 @@ void Ship::decreaseVelocity(f32 frameDeltaTime)
 		info.velocity -= (1+abs(info.velocity)/2)*frameDeltaTime;
 }
 
+void Ship::fireTurrets()
+{
+	//lets do this in a way that doesn't involve middlemen
+	for(unsigned i = 0; i < mediumTurrets.size(); i++)
+	{
+		if(mediumTurrets[i]->hasTurret())
+		{
+			Projectile *p = new Projectile(mediumTurrets[i]->getPosition(), mediumTurrets[i]->getCurrentAim(), ObjectManager::turretList[0]);
+		}
+	}
+}
+
 void Ship::setTargetRotationTo(const vector3df &newTargetRotation)
 {
 	info.targetRotation = newTargetRotation;
