@@ -24,16 +24,16 @@
 		<heavyTurret num="0">
 		</heavyTurret>
 		<mediumTurret num="4">
-			<A rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
-			<B rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
-			<C rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
-			<D rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<A rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<B rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<C rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<D rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
 		</mediumTurret>
 		<lightTurret num="4">
 			<A rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
 			<B rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
-			<C rotationX="180" rotationY="0" rotationZ="0" arc="270"/>
-			<D rotationX="180" rotationY="0" rotationZ="0" arc="270"/>
+			<C rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
+			<D rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
 		</lightTurret>
     <pdTurret num="4">
     </pdTurret>

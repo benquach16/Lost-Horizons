@@ -16,6 +16,7 @@ Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const v
 	//set up the ship turrets
 	initTurrets();
 	setMediumTurret(ObjectManager::turretList[0],3);
+	setMediumTurret(ObjectManager::turretList[0],1);
 }
 
 Ship::Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer)
@@ -101,7 +102,7 @@ void Ship::fireTurrets()
 	//lets do this in a way that doesn't involve middlemen
 	for(unsigned i = 0; i < mediumTurrets.size(); i++)
 	{
-		if(mediumTurrets[i]->hasTurret())
+		if(mediumTurrets[i]->getCanFire())
 		{
 			Projectile *p = new Projectile(mediumTurrets[i]->getPosition(), mediumTurrets[i]->getCurrentAim(), ObjectManager::turretList[0]);
 		}

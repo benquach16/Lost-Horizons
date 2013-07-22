@@ -19,7 +19,7 @@ public:
 	//assigns a turret to this slot
 	void assignTurret(const TurretProperties &props);
 	//just checks if this turret slot is filled
-	bool hasTurret();
+	bool getCanFire();
 	void removeTurret();
 	//to see which direction the turret arc is facing and covers
 	//good for debug purposes and players
@@ -47,7 +47,10 @@ protected:
 	turretInformation properties;
 	//the vector of the offset
 	vector3df rotationOffset;
+	//we store the direction in which the turret is aiming so we don't have to recalculate twice
 	vector3df currentAim;
+	//ensure target is shootable
+	bool canFire;
 };
 
 //turret model class

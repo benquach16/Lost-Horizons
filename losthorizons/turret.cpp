@@ -18,9 +18,9 @@ void TurretSlot::assignTurret(const TurretProperties &props)
 	childTurret = new Turret(props, offset);
 }
 
-bool TurretSlot::hasTurret()
+bool TurretSlot::getCanFire()
 {
-	return childTurret;
+	return canFire;
 }
 
 void TurretSlot::removeTurret()
@@ -51,16 +51,30 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 
 		angleX -= 90;
 		currentAim = vector3df(angleX, angleY,0);
-		int difference = properties.arc/2;
-		angleY -= parent->getRotation().Y;
+		int difference = (360-properties.arc)/2;
+
 		//angleY += 180;
 
-		//if(angleY + difference < offset->getRotation().Y && angleY - difference > offset->getRotation().Y)
+		if(angleY + difference < offset->getAbsoluteTransformation().getRotationDegrees().Y || angleY - difference > offset->getAbsoluteTransformation().getRotationDegrees().Y)
 		{
 			//inside the arc horizontally
 			//pass rotation to the turret so we dont do math again unnecessarily
+			angleY -= parent->getRotation().Y;
 			childTurret->aim(vector3df(angleX, angleY,0), frameDeltaTime);
+			canFire = true;
 		}
+		else
+		{
+			//just reset the aim and not shoot
+			//good shit
+			childTurret->aim(vector3df(0,0,0), frameDeltaTime);
+			canFire = false;
+		}
+	}
+	else
+	{
+		//no turret so 
+		canFire = false;
 	}
 }
 

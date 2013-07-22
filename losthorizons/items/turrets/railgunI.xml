@@ -15,9 +15,9 @@
 	<turretStats class="medium">
 		<turnSpeed>5</turnSpeed>
 		<damage>27</damage>
-		<range>2000</range>
+		<range>1000</range>
 		<reloadSpeed>1.5</reloadSpeed>
-		<projectileSpeed>140</projectileSpeed>
+		<projectileSpeed>180</projectileSpeed>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.05</scaleX>
