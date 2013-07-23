@@ -5,8 +5,9 @@
 
 //BEGIN TURRETSLOT
 TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS &turretClass, Ship* parent) : 
-	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent), currentAim()
+	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent)
 {
+	//we have not one but two scene nodes beecause joints fuck things up
 	offset = scenemngr->addEmptySceneNode(joint);
 	aimPoint = scenemngr->addEmptySceneNode();
 	offset->setRotation(rotationOffset);
@@ -14,6 +15,7 @@ TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *join
 
 void TurretSlot::assignTurret(const TurretProperties &props)
 {
+	//make sure that the childturret pointer is clear
 	removeTurret();
 	childTurret = new Turret(props, offset);
 }
@@ -21,6 +23,16 @@ void TurretSlot::assignTurret(const TurretProperties &props)
 bool TurretSlot::getCanFire()
 {
 	return canFire;
+}
+
+bool TurretSlot::fire()
+{
+	if(childTurret && canFire)
+	{
+		childTurret->fire(currentAim);
+		return true;
+	}
+	return false;
 }
 
 void TurretSlot::removeTurret()
@@ -40,7 +52,7 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 	aimPoint->setPosition(joint->getAbsolutePosition());
 	if(childTurret)
 	{
-		//ensure if the point is inside firing arc
+		//do some math to find the angle to face this point
 		const float x = (point.X-offset->getAbsolutePosition().X);
 		const float y = (point.Y-offset->getAbsolutePosition().Y);
 		const float z = (point.Z-offset->getAbsolutePosition().Z);
@@ -60,7 +72,6 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 			angleY -= parent->getRotation().Y;
 			angleY += 180 - offset->getRotation().Y;
 			childTurret->aim(vector3df(angleX, angleY,0), frameDeltaTime);
-			canFire = true;
 		}
 		else
 		{
@@ -123,6 +134,19 @@ void Turret::aim(const core::vector3df &rotation, float frameDeltaTime)
 	setRotation(rot);
 }
 
+void Turret::fire(const vector3df &rotation)
+{
+	//stopgap fix so we can have dynamically firing weapons
+	//since volley fire looks pretty unrealistic
+	//probably should modify this later
+	int speed = props.getReloadSpeed();
+	if(rand()%speed < 3)
+	{
+		Projectile *p = new Projectile(mesh->getAbsolutePosition(), rotation, ObjectManager::turretList[0]);
+	}
+}
+
 Turret::~Turret()
 {
+	mesh->remove();
 }

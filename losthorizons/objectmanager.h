@@ -22,7 +22,8 @@ public:
 	ObjectManager(IrrlichtDevice *graphics);
 	~ObjectManager();
 	
-
+	//enum of all items in the game
+	//position in the enum should relate to the index
 	enum E_ITEM_LIST
 	{
 		WATER,

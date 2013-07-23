@@ -5,6 +5,7 @@
 #include "objectmanager.h"
 #include "turretproperties.h"
 #include "shipproperties.h"
+#include "projectile.h"
 
 class Turret;
 class Ship;
@@ -20,6 +21,7 @@ public:
 	void assignTurret(const TurretProperties &props);
 	//just checks if this turret slot is filled
 	bool getCanFire();
+	bool fire();
 	void removeTurret();
 	//to see which direction the turret arc is facing and covers
 	//good for debug purposes and players
@@ -51,6 +53,8 @@ protected:
 	vector3df currentAim;
 	//ensure target is shootable
 	bool canFire;
+	//we create a timer so that there is a fire rate
+	int shootTimer;
 };
 
 //turret model class
@@ -63,7 +67,7 @@ public:
 	//if you actually want to create a 3d model
 	Turret(const TurretProperties &props, ISceneNode *parent);
 	void aim(const core::vector3df &rotation, float frameDeltaTime);
-
+	void fire(const vector3df &rotation);
 	~Turret();
 
 protected:

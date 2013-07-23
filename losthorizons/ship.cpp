@@ -102,10 +102,7 @@ void Ship::fireTurrets()
 	//lets do this in a way that doesn't involve middlemen
 	for(unsigned i = 0; i < mediumTurrets.size(); i++)
 	{
-		if(mediumTurrets[i]->getCanFire())
-		{
-			Projectile *p = new Projectile(mediumTurrets[i]->getPosition(), mediumTurrets[i]->getCurrentAim(), ObjectManager::turretList[0]);
-		}
+		mediumTurrets[i]->fire();
 	}
 }
 
