@@ -141,6 +141,9 @@
     <ClInclude Include="projectile.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
