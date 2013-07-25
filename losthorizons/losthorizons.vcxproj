@@ -89,10 +89,13 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="effect.h" />
+    <ClInclude Include="explosion.h" />
     <ClInclude Include="gameloop.h" />
+    <ClInclude Include="gamemenu.h" />
     <ClInclude Include="gamescene.h" />
     <ClInclude Include="gamescenemanager.h" />
     <ClInclude Include="hud.h" />
+    <ClInclude Include="impact.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="itemproperties.h" />
     <ClInclude Include="keylistener.h" />

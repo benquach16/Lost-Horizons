@@ -37,6 +37,9 @@
     <Filter Include="Source Files\properties">
       <UniqueIdentifier>{f1108e4e-893a-430e-9a19-8ef0155fb8a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\effects">
+      <UniqueIdentifier>{39bb98a6-96b1-4d57-8a99-e61e680cb9cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -141,8 +144,17 @@
     <ClInclude Include="projectile.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="gamemenu.h">
+      <Filter>Source Files\ui</Filter>
+    </ClInclude>
     <ClInclude Include="effect.h">
-      <Filter>Header Files\objects</Filter>
+      <Filter>Header Files\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion.h">
+      <Filter>Header Files\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="impact.h">
+      <Filter>Header Files\effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

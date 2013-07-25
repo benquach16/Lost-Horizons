@@ -8,9 +8,10 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), then((f32)(graphics->getTimer()->getTime()))
+	  objectManager(new ObjectManager(graphics)), then((f32)(graphics->getTimer()->getTime())), hud(new HUD)
 {
 	//player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
+	hud->setVisible(false);
 }
 
 void Gameloop::createNewGame()
@@ -22,6 +23,7 @@ void Gameloop::createNewGame()
 	//temporary for testing purposes only
 	player->setTarget(gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
 		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0)));
+
 }
 
 void Gameloop::createLoadedGame(const std::string &filename)

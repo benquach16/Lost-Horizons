@@ -17,10 +17,11 @@ public:
 	//So this needs a bunch of inputs, mainly player information and the
 	//player target information
 	void run(Object *playerTarget);
-	~HUD();
+	void setVisible(bool visible);
+	virtual ~HUD();
 private:
 	//we're going to have this be the parent of everything in the hud
-	gui::IGUIWindow *base; 
+	gui::IGUIWindow *window;
 	//the pointer to the background image for showing all the ship information
 	gui::IGUIImage *shipWheel;
 };

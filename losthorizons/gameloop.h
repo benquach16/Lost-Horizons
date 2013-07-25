@@ -7,6 +7,7 @@
 #include "datamanager.h"
 #include "gamescenemanager.h"
 #include "objectmanager.h"
+#include "hud.h"
 
 class Gameloop
 {
@@ -41,6 +42,7 @@ private:
 	ObjectManager *objectManager;
 	PlayerCamera *playerCam;
 	Player *player;
+	HUD *hud;
 
 	//for delta time calculation
 	f32 then;
