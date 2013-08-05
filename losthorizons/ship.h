@@ -84,7 +84,7 @@ public:
 	const vector3df &getTargetRotation() const;
 
 	//target functions
-	void setTarget(Ship *newTarget);
+	void setTarget(Object *newTarget);
 	void removeTarget();
 
 	//equip funcs
@@ -115,7 +115,7 @@ protected:
 	std::vector<TurretSlot*> lightTurrets;
 
 	//important misc variables
-	Ship *shipTarget;
+	Object *shipTarget;
 
 	//inventory of ship
 	

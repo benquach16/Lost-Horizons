@@ -4,6 +4,7 @@
 #include "irrlicht.h"
 #include "object.h"
 #include "menuwindow.h"
+#include "player.h"
 
 using namespace irr;
 using namespace gui;
@@ -11,19 +12,24 @@ using namespace gui;
 class HUD
 {
 public:
-	HUD();
+	HUD(Player *player);
 	//initialize all the cool pictures n shit here
 	void initializeDisplay();
 	//So this needs a bunch of inputs, mainly player information and the
 	//player target information
-	void run(Object *playerTarget);
+	void run();
 	void setVisible(bool visible);
 	virtual ~HUD();
 private:
+	void updatePlayerInfo();
 	//we're going to have this be the parent of everything in the hud
-	gui::IGUIWindow *window;
+	//gui::IGUIElement *window;
 	//the pointer to the background image for showing all the ship information
 	gui::IGUIImage *shipWheel;
+	gui::IGUIStaticText *velocity;
+
+	//pointer to tha player so we can grab information
+	Player *player;
 };
 
 #endif

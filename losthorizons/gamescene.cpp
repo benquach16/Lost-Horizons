@@ -96,6 +96,7 @@ GameScene::~GameScene()
 
 void GameScene::run(f32 frameDeltaTime)
 {
+	/*
 	//run through all the objects in the scene
 	for (std::list<Ship*>::iterator i = Ship::allShips.begin(), next; i != Ship::allShips.end(); i = next)
 	{
@@ -110,9 +111,16 @@ void GameScene::run(f32 frameDeltaTime)
 		next = i;
 		next++;
 		(*i)->run(frameDeltaTime);
+	}*/
+	for(std::list<Object*>::iterator i = Object::allObjects.begin(), next; i != Object::allObjects.end(); i = next)
+	{
+		next = i;
+		next++;
+		(*i)->run(frameDeltaTime);
 	}
 }
 
+//creator functions, dont really need commenting
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 {
 	return new PlayerCamera(graphics, position);

@@ -34,6 +34,7 @@ public:
 private:
 	void playerControl(f32 frameDeltaTime);
 	void cameraControl();
+	void selectTarget();
 
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;

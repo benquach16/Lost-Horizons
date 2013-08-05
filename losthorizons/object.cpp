@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "object.h"
 
+std::list<Object*> Object::allObjects;
+
 //the constructors of this class
+//default constructor
 Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0)), scale(vector3df(0,0,0))
 {
 
 }
 
+//constructor with mesh already allocated
 Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale, bool targetable) :
 	position(position), rotation(rotation), scale(scale), targetable(targetable)
 {
@@ -14,8 +18,12 @@ Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
+	allObjects.push_front(this);
+	it = allObjects.begin();
+	setupTarget();
 }
 
+//constructor to load mesh from file
 Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
 			   bool targetable)
 	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
@@ -24,8 +32,12 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
+	allObjects.push_front(this);
+	it = allObjects.begin();
+	setupTarget();
 }
 
+//constructor to load mesh and texture from file 
 Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
 			   bool targetable)
 	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
@@ -35,15 +47,19 @@ Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3d
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
+	allObjects.push_front(this);
+	it = allObjects.begin();
+	setupTarget();
 }
 
 //copy constructor
-Object::Object(const Object *obj)
+Object::Object(const Object *obj) : position(obj->getPosition()), rotation(obj->getRotation()), scale(obj->getScale())
 {
-	position = obj->position;
-	rotation = obj->rotation;
-	scale = obj->scale;
-	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(obj->filename.c_str()));
+	mesh = scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh());
+	mesh->setPosition(position);
+	mesh->setRotation(rotation);
+	mesh->setScale(scale);
+	setupTarget();
 }
 
 //assignment operator
@@ -62,12 +78,20 @@ Object& Object::operator=(const Object *obj)
 
 Object::~Object()
 {
+	allObjects.erase(it);
 	mesh->remove();
+	if(targetable)
+		targetSquare->remove();
 }
 
-void Object::run()
+void Object::run(f32 frameDeltaTime)
 {
-
+	//do 2d target information here
+	if(targetable)
+	{
+		screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
+		targetSquare->setRelativePosition(vector2d<s32>(screenPosition.X-32,screenPosition.Y-32));
+	}
 }
 
 void Object::reloadMesh()
@@ -76,19 +100,29 @@ void Object::reloadMesh()
 }
 
 //accessors
-const vector3df Object::getPosition() const
+const vector3df& Object::getPosition() const
 {
 	return position;
 }
 
-const vector3df Object::getRotation() const
+const vector3df& Object::getRotation() const
 {
 	return rotation;
 }
 
-const vector3df Object::getScale() const
+const vector3df& Object::getScale() const
 {
 	return scale;
+}
+
+const vector2di& Object::getScreenPosition() const
+{
+	return screenPosition;
+}
+
+const bool& Object::isTargetable() const
+{
+	return targetable;
 }
 
 void Object::setPosition(const vector3df &newPosition)
@@ -107,4 +141,14 @@ void Object::setScale(const vector3df &newScale)
 {
 	scale = newScale;
 	mesh->setScale(scale);
+}
+
+//protected function
+void Object::setupTarget()
+{
+	if(targetable)
+	{
+		screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
+		targetSquare = guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition);
+	}
 }

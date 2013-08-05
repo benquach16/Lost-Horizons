@@ -8,10 +8,9 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), then((f32)(graphics->getTimer()->getTime())), hud(new HUD)
+	  objectManager(new ObjectManager(graphics)), then((f32)(graphics->getTimer()->getTime()))
 {
 	//player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
-	hud->setVisible(false);
 }
 
 void Gameloop::createNewGame()
@@ -23,7 +22,7 @@ void Gameloop::createNewGame()
 	//temporary for testing purposes only
 	player->setTarget(gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
 		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0)));
-
+	hud = new HUD(player);
 }
 
 void Gameloop::createLoadedGame(const std::string &filename)
@@ -36,6 +35,7 @@ Gameloop::~Gameloop()
 	delete objectManager;
 	delete gameSceneManager;
 	delete player;
+	delete hud;
 }
 
 void Gameloop::run()
@@ -47,8 +47,10 @@ void Gameloop::run()
 
 	playerControl(frameDeltaTime);
 	cameraControl();
+	selectTarget();
 	playerCam->run(player->getPosition(), frameDeltaTime);
 	gameSceneManager->runCurrentScene(frameDeltaTime);
+	hud->run();
 }
 
 void Gameloop::playerControl(f32 frameDeltaTime)
@@ -96,6 +98,7 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 	{
 		player->fireTurrets();
 	}
+
 }
 
 void Gameloop::cameraControl()
@@ -107,4 +110,26 @@ void Gameloop::cameraControl()
 		playerCam->rotateY(receiver->getMouseY());
 	}
 	playerCam->zoom(receiver->getMouseWheel());
+}
+
+void Gameloop::selectTarget()
+{
+	//do target selection code here
+	if(receiver->getLeftMouseButton())
+	{
+		//see if theres a square here
+		for(std::list<Object*>::iterator i = Object::allObjects.begin(); i!= Object::allObjects.end(); i++)
+		{
+			if((*i)->isTargetable())
+			{
+				const int x = receiver->getMouseX() - (*i)->getScreenPosition().X;
+				const int y = receiver->getMouseY() - (*i)->getScreenPosition().Y;
+				if(((x*x) + (y*y)) < 1024)
+				{
+					//should be able to have bigger than 64x64 pictures for targets
+					
+				}
+			}
+		}
+	}
 }

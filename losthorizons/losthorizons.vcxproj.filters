@@ -144,9 +144,6 @@
     <ClInclude Include="projectile.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
-    <ClInclude Include="gamemenu.h">
-      <Filter>Source Files\ui</Filter>
-    </ClInclude>
     <ClInclude Include="effect.h">
       <Filter>Header Files\effects</Filter>
     </ClInclude>
@@ -155,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="impact.h">
       <Filter>Header Files\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="gamemenu.h">
+      <Filter>Header Files\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

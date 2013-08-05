@@ -20,6 +20,7 @@ Projectile::~Projectile()
 
 void Projectile::run(f32 frameDeltaTime)
 {
+	Object::run(frameDeltaTime);
 	if(!checkIfOutOfRange())
 	{
 		movement(frameDeltaTime);
