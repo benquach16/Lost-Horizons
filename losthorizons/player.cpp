@@ -31,4 +31,6 @@ void Player::run(f32 frameDeltaTime)
 		t.Y-=32;
 		targetedIcon->setRelativePosition(t);
 	}
+	else
+		targetedIcon->setVisible(false);
 }

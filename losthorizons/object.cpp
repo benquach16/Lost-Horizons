@@ -12,7 +12,7 @@ Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0
 
 //constructor with mesh already allocated
 Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale, bool targetable) :
-	position(position), rotation(rotation), scale(scale), targetable(targetable)
+	position(position), rotation(rotation), scale(scale), targetable(targetable), targetSquare(0)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(m);
 	mesh->setPosition(position);
@@ -26,7 +26,7 @@ Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3
 //constructor to load mesh from file
 Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
 			   bool targetable)
-	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
+	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable), targetSquare(0)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 	mesh->setPosition(position);
@@ -40,7 +40,7 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 //constructor to load mesh and texture from file 
 Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
 			   bool targetable)
-	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable)
+	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable), targetSquare(0)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 	mesh->setMaterialTexture(0, vdriver->getTexture(tfilename));
@@ -80,7 +80,7 @@ Object::~Object()
 {
 	allObjects.erase(it);
 	mesh->remove();
-	if(targetable)
+	if(targetSquare)
 		targetSquare->remove();
 }
 

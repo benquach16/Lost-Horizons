@@ -82,6 +82,12 @@ void Ship::run(f32 frameDeltaTime)
 		//aim turrets
 		//mediumTurrets[3]->drawArc();
 	}
+	else
+	{
+		//we have to delete this ship when it asplodes
+		//so create an explosion and delete itself
+		delete this;
+	}
 }
 
 //increases velocity based on how fast the ship is going
@@ -103,6 +109,25 @@ void Ship::fireTurrets()
 	for(unsigned i = 0; i < mediumTurrets.size(); i++)
 	{
 		mediumTurrets[i]->fire();
+	}
+}
+
+void Ship::damage(int val)
+{
+	//do damage stuff here
+	//check shields, then armor then hull
+	if(info.shield > 0)
+	{
+		info.shield -= val;
+	}
+	else if(info.armor > 0)
+	{
+		info.armor -= val;
+	}
+	else
+	{
+		//damage hull
+		info.hull -= val;
 	}
 }
 
@@ -247,5 +272,9 @@ void Ship::aimTurrets(float frameDeltaTime)
 	else
 	{
 		//go back to aiming like normal
+		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
+		{
+			mediumTurrets[i]->resetAim();
+		}
 	}
 }

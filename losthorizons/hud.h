@@ -22,11 +22,18 @@ public:
 	virtual ~HUD();
 private:
 	void updatePlayerInfo();
+	void updateTargetInfo();
 	//we're going to have this be the parent of everything in the hud
 	//gui::IGUIElement *window;
 	//the pointer to the background image for showing all the ship information
 	gui::IGUIImage *shipWheel;
+
 	gui::IGUIStaticText *velocity;
+	gui::IGUIStaticText *hull;
+	gui::IGUIStaticText *armor;
+	gui::IGUIStaticText *shield;
+
+	gui::IGUIImage *targetBkg;
 
 	//pointer to tha player so we can grab information
 	Player *player;

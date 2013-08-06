@@ -24,6 +24,11 @@ void Projectile::run(f32 frameDeltaTime)
 	if(!checkIfOutOfRange())
 	{
 		movement(frameDeltaTime);
+		//check if collides with a ship
+		for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); i++)
+		{
+			
+		}
 	}
 	else
 	{

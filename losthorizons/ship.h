@@ -77,7 +77,10 @@ public:
 	void increaseVelocity(f32 frameDeltaTime);
 	void decreaseVelocity(f32 frameDeltaTime);
 
+	//combat functions
 	void fireTurrets();
+	//damage this ship
+	void damage(int val);
 
 	//rotate ship to specific angle
 	void setTargetRotationTo(const vector3df &newTargetRotation);

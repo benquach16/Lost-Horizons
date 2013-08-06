@@ -72,18 +72,28 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 			angleY -= parent->getRotation().Y;
 			angleY += 180 - offset->getRotation().Y;
 			childTurret->aim(vector3df(angleX, angleY,0), frameDeltaTime);
+			canFire = true;
 		}
 		else
 		{
 			//just reset the aim and not shoot
 			//good shit
-			childTurret->aim(vector3df(0,0,0), frameDeltaTime);
+			childTurret->aim(vector3df(0,180,0), frameDeltaTime);
 			canFire = false;
 		}
 	}
 	else
 	{
 		//no turret so 
+		canFire = false;
+	}
+}
+
+void TurretSlot::resetAim()
+{
+	if(childTurret)
+	{
+		childTurret->aim(vector3df(0,180,0), 1);
 		canFire = false;
 	}
 }

@@ -20,8 +20,8 @@ void Gameloop::createNewGame()
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
 	player = gameSceneManager->getCurrentScene()->createPlayer(E_FACTION_TERRAN);
 	//temporary for testing purposes only
-	player->setTarget(gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
-		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0)));
+	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
+		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
 	hud = new HUD(player);
 }
 
@@ -127,9 +127,12 @@ void Gameloop::selectTarget()
 				if(((x*x) + (y*y)) < 1024)
 				{
 					//should be able to have bigger than 64x64 pictures for targets
-					
+					player->setTarget((*i));
+					return;
 				}
 			}
 		}
+		player->setTarget(0);
+		return;
 	}
 }

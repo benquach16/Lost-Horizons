@@ -28,6 +28,8 @@ public:
 	void drawArc();
 	//actual aiming portion
 	void aim(const core::vector3df &point, f32 frameDeltaTime);
+	//make turret stop aiming
+	void resetAim();
 	~TurretSlot();
 
 	//used for projectile generation
