@@ -149,8 +149,7 @@ void Turret::fire(const vector3df &rotation)
 	//stopgap fix so we can have dynamically firing weapons
 	//since volley fire looks pretty unrealistic
 	//probably should modify this later
-	int speed = props.getReloadSpeed();
-	if(rand()%speed < 3)
+	if(rand() % (int)props.getReloadSpeed() < 3)
 	{
 		Projectile *p = new Projectile(mesh->getAbsolutePosition(), rotation, ObjectManager::turretList[0]);
 	}

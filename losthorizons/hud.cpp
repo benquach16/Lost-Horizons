@@ -44,10 +44,9 @@ HUD::~HUD()
 //proected function
 void HUD::updatePlayerInfo()
 {
-	int v = player->getInfo().velocity;
 	core::stringw str(L"");
-	str+=v;
-	str+=L"m/s";
+	str += (int)player->getInfo().velocity;
+	str += L"m/s";
 	velocity->setText(str.c_str());
 }
 
