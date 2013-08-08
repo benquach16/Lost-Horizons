@@ -6,8 +6,7 @@ std::list<Ship*> Ship::allShips;
 
 
 Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer)
-	: Object(ObjectManager::shipList[shipType].getFilename().c_str(), position, rotation,
-	  ObjectManager::shipList[shipType].getScale(), true), isPlayer(isPlayer), info(shipType, faction)
+	: TargetableObject(ObjectManager::shipList[shipType], position, rotation), isPlayer(isPlayer), info(shipType, faction)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -20,8 +19,7 @@ Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const v
 }
 
 Ship::Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer)
-	: Object(ObjectManager::shipList[info.shipType].getFilename().c_str(), position, rotation,
-	  ObjectManager::shipList[info.shipType].getScale(), true), isPlayer(isPlayer), info(info)
+	: TargetableObject(ObjectManager::shipList[info.shipType], position, rotation), isPlayer(isPlayer), info(info)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -66,7 +64,7 @@ const ShipInformation& Ship::getInfo() const
 
 void Ship::run(f32 frameDeltaTime)
 {
-	Object::run(frameDeltaTime);
+	TargetableObject::run(frameDeltaTime);
 	if (info.hull > 0)
 	{
 		//make sure its alive to do anything
@@ -141,7 +139,7 @@ const vector3df &Ship::getTargetRotation() const
 	return info.targetRotation;
 }
 
-void Ship::setTarget(Object *newTarget)
+void Ship::setTarget(TargetableObject *newTarget)
 {
 	shipTarget = newTarget;
 }
@@ -159,6 +157,11 @@ void Ship::setMediumTurret(const TurretProperties &props, int slot)
 void Ship::setFaction(E_GAME_FACTIONS newFaction)
 {
 	info.currentFaction = newFaction;
+}
+
+const TargetableObject* Ship::getShipTarget() const
+{
+	return shipTarget;
 }
 
 //protected function

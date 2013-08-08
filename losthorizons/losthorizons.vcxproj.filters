@@ -156,6 +156,9 @@
     <ClInclude Include="gamemenu.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="targetableobject.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -234,6 +237,9 @@
       <Filter>Source Files\ui</Filter>
     </ClCompile>
     <ClCompile Include="projectile.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="targetableobject.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>

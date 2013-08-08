@@ -118,18 +118,14 @@ void Gameloop::selectTarget()
 	if(receiver->getLeftMouseButton())
 	{
 		//see if theres a square here
-		for(std::list<Object*>::iterator i = Object::allObjects.begin(); i!= Object::allObjects.end(); i++)
+		for(std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); i++)
 		{
-			if((*i)->isTargetable())
+			const int x = receiver->getMouseX() - (*i)->getScreenPosition().X;
+			const int y = receiver->getMouseY() - (*i)->getScreenPosition().Y;
+			if(((x*x)+(y*y)) < 1024)
 			{
-				const int x = receiver->getMouseX() - (*i)->getScreenPosition().X;
-				const int y = receiver->getMouseY() - (*i)->getScreenPosition().Y;
-				if(((x*x) + (y*y)) < 1024)
-				{
-					//should be able to have bigger than 64x64 pictures for targets
-					player->setTarget((*i));
-					return;
-				}
+				player->setTarget(*i);
+				return;
 			}
 		}
 		player->setTarget(0);

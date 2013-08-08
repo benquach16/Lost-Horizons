@@ -118,6 +118,7 @@
     <ClInclude Include="startmenu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="sun.h" />
+    <ClInclude Include="targetableobject.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="turret.h" />
     <ClInclude Include="turretproperties.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="startmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="sun.cpp" />
+    <ClCompile Include="targetableobject.cpp" />
     <ClCompile Include="turret.cpp" />
     <ClCompile Include="turretproperties.cpp" />
   </ItemGroup>

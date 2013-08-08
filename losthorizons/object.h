@@ -31,17 +31,17 @@ public:
 	//parametrized constructors
 	//instantiate with position, rotation, etc
 	Object(scene::IAnimatedMesh *m, const vector3df &position = vector3df(0,0,0), const vector3df &rotation = vector3df(0,0,0),
-		const vector3df &scale = vector3df(1,1,1), bool targetable = false);
+		const vector3df &scale = vector3df(1,1,1));
 
 	//instantiate with filename
 	//irr::IrrlichtDevice *graphics = irrlicht device
 	//const wchar_t *filename = filepath of the mesh
 	Object(const wchar_t *filename, const vector3df &position = vector3df(0,0,0),
-		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1), bool targetable = false);
+		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
 
 	//parameterized constructor with texture overloading
 	Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position = vector3df(0,0,0),
-		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1), bool targetable = false);
+		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
 
 	//copy constructor
 	Object(const Object *obj);
@@ -68,28 +68,19 @@ public:
 	const vector3df& getPosition() const;
 	const vector3df& getRotation() const;
 	const vector3df& getScale() const;
-	const vector2di& getScreenPosition() const;
-	const bool& isTargetable() const;
 	//mutators
 	void setPosition(const vector3df &newPosition);
 	void setRotation(const vector3df &newRotation);
 	void setScale(const vector3df &newScale);
 
 protected:
-	//if the object is targetable we want it to show up on the hud
-	void setupTarget();
-	//if player can select this object
-	bool targetable;
 
 	//basic info about object
 	vector3df position;
 	vector3df rotation;
 	vector3df scale;
 
-	//for targetable objects
-	vector2di screenPosition;
 
-	gui::IGUIImage *targetSquare;
 
 	//3d infomation
 	IAnimatedMeshSceneNode *mesh;

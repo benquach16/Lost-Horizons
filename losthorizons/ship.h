@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "object.h"
+#include "targetableobject.h"
 #include "turret.h"
 #include "item.h"
 #include "shipproperties.h"
@@ -29,6 +30,7 @@ struct Subsystem
 	Subsystem() { health = 100; };
 };
 
+//store all the ship info in a struct so we can save it easily
 struct ShipInformation
 {
 	ObjectManager::E_SHIP_LIST shipType;
@@ -51,7 +53,8 @@ struct ShipInformation
 };
 
 //basic ship class
-class Ship : public Object
+//inherits from targetable object
+class Ship : public TargetableObject
 {
 public:
 	//contain the list inside ship class so all ships can access any other ship if needed
@@ -87,7 +90,7 @@ public:
 	const vector3df &getTargetRotation() const;
 
 	//target functions
-	void setTarget(Object *newTarget);
+	void setTarget(TargetableObject *newTarget);
 	void removeTarget();
 
 	//equip funcs
@@ -97,7 +100,7 @@ public:
 	void setFaction(E_GAME_FACTIONS currentFaction);
 
 	//some accessors
-
+	const TargetableObject* getShipTarget() const;
 
 protected:
 	//protected functions
@@ -118,7 +121,7 @@ protected:
 	std::vector<TurretSlot*> lightTurrets;
 
 	//important misc variables
-	Object *shipTarget;
+	TargetableObject *shipTarget;
 
 	//inventory of ship
 	

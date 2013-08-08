@@ -25,6 +25,7 @@ void Player::run(f32 frameDeltaTime)
 	if(shipTarget)
 	{
 		//make the ship target have a square around it
+		
 		targetedIcon->setVisible(true);
 		vector2di t(shipTarget->getScreenPosition());
 		t.X-=32;

@@ -11,8 +11,8 @@ Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0
 }
 
 //constructor with mesh already allocated
-Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale, bool targetable) :
-	position(position), rotation(rotation), scale(scale), targetable(targetable), targetSquare(0)
+Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale) :
+	position(position), rotation(rotation), scale(scale)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(m);
 	mesh->setPosition(position);
@@ -20,13 +20,11 @@ Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3
 	mesh->setScale(scale);
 	allObjects.push_front(this);
 	it = allObjects.begin();
-	setupTarget();
 }
 
 //constructor to load mesh from file
-Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
-			   bool targetable)
-	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable), targetSquare(0)
+Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
+	: position(position), rotation(rotation), scale(scale), filename(filename)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 	mesh->setPosition(position);
@@ -34,13 +32,11 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 	mesh->setScale(scale);
 	allObjects.push_front(this);
 	it = allObjects.begin();
-	setupTarget();
 }
 
 //constructor to load mesh and texture from file 
-Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale,
-			   bool targetable)
-	: position(position), rotation(rotation), scale(scale), filename(filename), targetable(targetable), targetSquare(0)
+Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
+	: position(position), rotation(rotation), scale(scale), filename(filename)
 {
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 	mesh->setMaterialTexture(0, vdriver->getTexture(tfilename));
@@ -49,7 +45,6 @@ Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3d
 	mesh->setScale(scale);
 	allObjects.push_front(this);
 	it = allObjects.begin();
-	setupTarget();
 }
 
 //copy constructor
@@ -59,7 +54,6 @@ Object::Object(const Object *obj) : position(obj->getPosition()), rotation(obj->
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
-	setupTarget();
 }
 
 //assignment operator
@@ -80,18 +74,11 @@ Object::~Object()
 {
 	allObjects.erase(it);
 	mesh->remove();
-	if(targetSquare)
-		targetSquare->remove();
+
 }
 
 void Object::run(f32 frameDeltaTime)
 {
-	//do 2d target information here
-	if(targetable)
-	{
-		screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
-		targetSquare->setRelativePosition(vector2d<s32>(screenPosition.X-32,screenPosition.Y-32));
-	}
 }
 
 void Object::reloadMesh()
@@ -115,16 +102,6 @@ const vector3df& Object::getScale() const
 	return scale;
 }
 
-const vector2di& Object::getScreenPosition() const
-{
-	return screenPosition;
-}
-
-const bool& Object::isTargetable() const
-{
-	return targetable;
-}
-
 void Object::setPosition(const vector3df &newPosition)
 {
 	position = newPosition;
@@ -141,14 +118,4 @@ void Object::setScale(const vector3df &newScale)
 {
 	scale = newScale;
 	mesh->setScale(scale);
-}
-
-//protected function
-void Object::setupTarget()
-{
-	if(targetable)
-	{
-		screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
-		targetSquare = guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition);
-	}
 }
