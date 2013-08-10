@@ -102,6 +102,11 @@ const vector3df& Object::getScale() const
 	return scale;
 }
 
+const core::aabbox3df& Object::getBoundingBox() const
+{
+	return mesh->getBoundingBox();
+}
+
 void Object::setPosition(const vector3df &newPosition)
 {
 	position = newPosition;

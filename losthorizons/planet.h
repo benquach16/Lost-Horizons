@@ -2,22 +2,18 @@
 #define _PLANET_H_
 
 #include "object.h"
+#include "targetableobject.h"
+#include "planetproperties.h"
 
-//planets
-enum E_PLANET_TYPES
-{
-	E_PLANET_TERRAN,
-	E_PLANET_GAS,
-	E_PLANET_MOON,
-	E_PLANET_BARREN,
-	E_PLANET_ICE
-};
 
-class Planet : public Object
+
+class Planet : public TargetableObject
 {
 public:
+	//default constructor
 	Planet();
-	Planet(irr::IrrlichtDevice *graphics);
+	//parameterized constructor
+	Planet(const E_PLANET_TYPES &type);
 	~Planet();
 	virtual void run();
 
@@ -27,10 +23,14 @@ protected:
 
 	//affects production time
 	int population;
+	int maxPopulation;
 	//how developed the planet is, ie number of factories and production facilities
 	int developmentIndex;
+	int maxDevelopmentIndex;
 	//tech level of the planet
 	int techIndex;
+	int maxTechLevel;
+
 
 	
 

@@ -127,6 +127,7 @@
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
+    <ClCompile Include="effect.cpp" />
     <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="gamescenemanager.cpp" />

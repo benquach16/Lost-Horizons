@@ -25,9 +25,16 @@ void Projectile::run(f32 frameDeltaTime)
 	{
 		movement(frameDeltaTime);
 		//check if collides with a ship
-		for(std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); i++)
+		for(std::list<Ship*>::iterator i = Ship::allShips.begin(), next; i != Ship::allShips.end(); i = next)
 		{
-			
+			next = i;
+			next++;
+			if(getBoundingBox().intersectsWithBox((*i)->getBoundingBox()))
+			{
+				//hit a target
+				delete this;
+				return;
+			}
 		}
 	}
 	else

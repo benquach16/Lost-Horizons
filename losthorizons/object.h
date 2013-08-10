@@ -54,7 +54,8 @@ public:
 	//meant to be overridden
 	virtual void run(f32 frameDeltaTime);
 	//meant for use by planets and ships to show ingame info
-	virtual void information() {}
+	//moved to targetable object class
+	//virtual void information() {}
 	//needed for changing resolution ingame
 	//reloads the mesh
 	void reloadMesh();
@@ -68,6 +69,7 @@ public:
 	const vector3df& getPosition() const;
 	const vector3df& getRotation() const;
 	const vector3df& getScale() const;
+	const core::aabbox3df& getBoundingBox() const;
 	//mutators
 	void setPosition(const vector3df &newPosition);
 	void setRotation(const vector3df &newRotation);

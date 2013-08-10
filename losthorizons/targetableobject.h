@@ -20,6 +20,8 @@ public:
 		const vector3df &position, const vector3df &rotation, const vector3df &scale);
 	~TargetableObject();
 	virtual void run(f32 frameDeltaTime);
+	//overridable function designed to return specific information related to this object to the hud
+	//virtual void information(gui::IGUIImage *targetBkg);
 
 	//some accessors
 	const std::wstring& getName() const;

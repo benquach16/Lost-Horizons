@@ -3,6 +3,7 @@
 #define vdriver gConfig.VideoDriver
 #define scenemngr gConfig.SceneManager
 #define guienv gConfig.GUIEnvironment
+#define timer gConfig.Timer
 #define iWidth gConfig.screen.Width
 #define iHeight gConfig.screen.Height
 #define game gConfig.gGame
@@ -54,6 +55,7 @@ struct Config
 	irr::video::IVideoDriver* VideoDriver;
 	irr::scene::ISceneManager* SceneManager;
 	irr::gui::IGUIEnvironment* GUIEnvironment;
+	irr::ITimer* Timer;
 	irr::core::dimension2d<unsigned> screen;
 	Gameloop* gGame;
 };

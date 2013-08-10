@@ -12,6 +12,9 @@ public:
 	Impact();
 	~Impact();
 	virtual void run();
+
+protected:
+	
 };
 
 #endif

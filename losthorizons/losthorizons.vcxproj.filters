@@ -40,6 +40,9 @@
     <Filter Include="Header Files\effects">
       <UniqueIdentifier>{39bb98a6-96b1-4d57-8a99-e61e680cb9cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\effects">
+      <UniqueIdentifier>{8905daa5-66fe-4e7f-af84-d4049b088e96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="targetableobject.cpp">
       <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>Source Files\effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
