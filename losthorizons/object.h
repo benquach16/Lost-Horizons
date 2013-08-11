@@ -63,6 +63,9 @@ public:
 	void changeMesh(const wchar_t *filename);
 	//set the diffuse map of the mesh
 	void setTexture(video::ITexture *tex);
+	//set the normal map of the mesh
+	//automatically enable shaders if this happens
+	void setNormalMap(video::ITexture *normalMap);
 
 	//accessors
 	//returns an rvalue

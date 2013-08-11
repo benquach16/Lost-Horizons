@@ -86,6 +86,17 @@ void Object::reloadMesh()
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename.c_str()));
 }
 
+void Object::changeMesh(const wchar_t *filename)
+{
+	mesh->remove();
+	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
+}
+
+void Object::setTexture(video::ITexture *tex)
+{
+	mesh->setMaterialTexture(0, tex);
+}
+
 //accessors
 const vector3df& Object::getPosition() const
 {

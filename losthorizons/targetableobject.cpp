@@ -8,7 +8,7 @@ TargetableObject::TargetableObject()
 }
 
 TargetableObject::TargetableObject(const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation) : 
-	Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()), name(modelProps.getName()), description(modelProps.getDesc())
+	Object(modelProps.getFilename().c_str(), modelProps.getDiffuseMap().c_str(), position, rotation, modelProps.getScale()), name(modelProps.getName()), description(modelProps.getDesc())
 {
 	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
 	targetSquare = guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition);
