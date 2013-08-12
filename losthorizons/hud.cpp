@@ -23,7 +23,7 @@ void HUD::initializeDisplay()
 void HUD::run()
 {
 	updatePlayerInfo();
-	
+	updateTargetInfo();
 }
 
 void HUD::setVisible(bool visible)
@@ -59,9 +59,11 @@ void HUD::updateTargetInfo()
 	{
 		//if a target exists
 		targetName->setText(target->getName().c_str());
+		//at this point we pull object information from this thing
 	}
 	else
 	{
 		//reset the text
+		targetName->setText(L"No Target Selected");
 	}
 }

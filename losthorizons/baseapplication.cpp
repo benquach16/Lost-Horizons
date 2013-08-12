@@ -96,6 +96,7 @@ void BaseApplication::buildGraphics()
 	vdriver = graphics->getVideoDriver();
 	scenemngr = graphics->getSceneManager();
 	guienv = graphics->getGUIEnvironment();
+	timer = graphics->getTimer();
 	gConfig.screen = vdriver->getScreenSize();
 	
 	graphics->setWindowCaption(L"Lost Horizons");

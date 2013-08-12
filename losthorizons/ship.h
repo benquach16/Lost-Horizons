@@ -100,7 +100,7 @@ public:
 	void setFaction(E_GAME_FACTIONS currentFaction);
 
 	//some accessors
-	const TargetableObject* getShipTarget() const;
+	TargetableObject* getShipTarget();
 
 protected:
 	//protected functions
@@ -108,6 +108,10 @@ protected:
 	void movement(f32 frameDeltaTime);
 	void initTurrets();
 	void aimTurrets(f32 frameDeltaTime);
+	//ai functions go here
+	void runAI();
+	//function to change ai states in necessary cases
+	void updateStates();
 
 	bool isPlayer;
 

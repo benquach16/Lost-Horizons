@@ -13,8 +13,10 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	//would prefer not to use pointers but since there are inherited classes we have to
 	std::cout << "Loading item properties...." << std::endl;
 	itemList.push_back(ItemProperties(graphics, "items/water.xml"));
+	itemList.push_back(ItemProperties(graphics, "items/iridium.xml"));
 	shipList.push_back(ShipProperties(graphics, "items/ships/praetorian_cruiser.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/railgunI.xml"));
+	turretList.push_back(TurretProperties(graphics, "items/turrets/antimatterI.xml"));
 }
 
 ObjectManager::~ObjectManager()

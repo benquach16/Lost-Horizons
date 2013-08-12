@@ -34,6 +34,7 @@ private:
 	gui::IGUIStaticText *shield;
 
 	gui::IGUIImage *targetBkg;
+	gui::IGUIStaticText *targetName;
 
 	//pointer to tha player so we can grab information
 	Player *player;

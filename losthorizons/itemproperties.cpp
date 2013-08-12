@@ -118,6 +118,10 @@ E_ITEM_TYPES ItemProperties::getItemType(const std::wstring &str)
 	{
 		return E_ITEM_SHIP;
 	}
+	else if(str == L"planet")
+	{
+		return E_ITEM_PLANET;
+	}
 	else
 	{
 		//something broke here
