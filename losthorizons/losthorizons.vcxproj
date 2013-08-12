@@ -109,6 +109,7 @@
     <ClInclude Include="optionmenu.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playercamera.h" />
+    <ClInclude Include="postprocess.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="savemenu.h" />
@@ -125,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="baseapplication.cpp" />
+    <ClCompile Include="callback.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
     <ClCompile Include="effect.cpp" />

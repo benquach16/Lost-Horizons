@@ -13,14 +13,17 @@
 class Effect
 {
 public:
-	Effect();
+	Effect(int lengthInMilliseconds);
 	virtual ~Effect();
 	virtual void run();
 
 	static std::vector<Effect*> allEffects;
 protected:
 	//the length of the effect before we delete it
-	int lengthInSeconds;
+	int lengthInMilliseconds;
+	unsigned totalTime;
+
+	std::vector<Effect*>::iterator it;
 };
 
 #endif

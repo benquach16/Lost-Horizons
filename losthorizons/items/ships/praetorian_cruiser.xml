@@ -6,8 +6,8 @@
 	<weight>1200000</weight>
 	<modelStats>
 		<filename>res/models/ships/praetorian.X</filename>
-		<diffuseMap>res/models/shiphull.png</diffuseMap>
-		<normalMap>res/models/shiphull_normal.png</normalMap>
+		<diffuseMap>res/models/ships/shiphull.png</diffuseMap>
+		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
 		<scaleX>0.15</scaleX>
 		<scaleY>0.15</scaleY>
 		<scaleZ>0.15</scaleZ>

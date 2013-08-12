@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "ship.h"
 #include <iostream>
 
@@ -6,7 +6,7 @@ std::list<Ship*> Ship::allShips;
 
 
 Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer)
-	: TargetableObject(ObjectManager::shipList[shipType], position, rotation), isPlayer(isPlayer), info(shipType, faction)
+	: TargetableObject(ObjectManager::shipList[shipType], position, rotation), isPlayer(isPlayer), info(shipType, faction), shipTarget(0)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -14,12 +14,13 @@ Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const v
 
 	//set up the ship turrets
 	initTurrets();
+	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType].getNormalMap().c_str()));
 	setMediumTurret(ObjectManager::turretList[0],3);
 	setMediumTurret(ObjectManager::turretList[0],1);
 }
 
 Ship::Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer)
-	: TargetableObject(ObjectManager::shipList[info.shipType], position, rotation), isPlayer(isPlayer), info(info)
+	: TargetableObject(ObjectManager::shipList[info.shipType], position, rotation), isPlayer(isPlayer), info(info), shipTarget(0)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -27,7 +28,6 @@ Ship::Ship(const ShipInformation &info, const vector3df &position, const vector3
 
 	//set up the ship turrets
 	initTurrets();
-	setMediumTurret(ObjectManager::turretList[0],3);
 }
 
 //copy constructor
@@ -41,6 +41,7 @@ Ship& Ship::operator=(const Ship *s)
 {
 	if (this != s)
 	{
+		//TODO: ASSISNGMENT OPERATOR!!!
 
 	}
 	return *this;
@@ -78,7 +79,12 @@ void Ship::run(f32 frameDeltaTime)
 		movement(frameDeltaTime);
 
 		//aim turrets
-		//mediumTurrets[3]->drawArc();
+
+		//if is not player do ai stuff
+		if(!isPlayer)
+		{
+			runAI();
+		}
 	}
 	else
 	{
@@ -159,7 +165,7 @@ void Ship::setFaction(E_GAME_FACTIONS newFaction)
 	info.currentFaction = newFaction;
 }
 
-const TargetableObject* Ship::getShipTarget() const
+TargetableObject* Ship::getShipTarget()
 {
 	return shipTarget;
 }
@@ -280,4 +286,38 @@ void Ship::aimTurrets(float frameDeltaTime)
 			mediumTurrets[i]->resetAim();
 		}
 	}
+}
+
+//protected function
+//do all AI stuff here
+void Ship::runAI()
+{
+	updateStates();
+	if(STATE_FLEEING)
+	{
+		//do fleeing code here
+	}
+	else if(STATE_ATTACKING)
+	{
+		//do attacking code here
+		if(shipTarget)
+		{
+
+		}
+		else
+		{
+			//if theres no target, change the state
+		}
+	}
+}
+
+//protected function
+void Ship::updateStates()
+{
+	if(info.hull < info.maxHull/2)
+	{
+		//if hull is less than half, try to flee
+		info.currentAIState = STATE_FLEEING;
+	}
+
 }

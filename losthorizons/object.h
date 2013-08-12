@@ -5,6 +5,7 @@
 #include <string>
 
 #include "irrlicht.h"
+#include "callback.h"
 
 
 using namespace irr;

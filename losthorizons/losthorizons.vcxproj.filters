@@ -43,6 +43,12 @@
     <Filter Include="Source Files\effects">
       <UniqueIdentifier>{8905daa5-66fe-4e7f-af84-d4049b088e96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\postprocess">
+      <UniqueIdentifier>{eacd2d5c-beb0-4350-be62-1fb6df202b02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\postprocess">
+      <UniqueIdentifier>{98fbb9a9-472f-420a-8d9b-3ae20183284b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -111,9 +117,6 @@
     <ClInclude Include="gamescenemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="callback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="sun.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
@@ -161,6 +164,12 @@
     </ClInclude>
     <ClInclude Include="targetableobject.h">
       <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="callback.h">
+      <Filter>Header Files\postprocess</Filter>
+    </ClInclude>
+    <ClInclude Include="postprocess.h">
+      <Filter>Header Files\postprocess</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="effect.cpp">
       <Filter>Source Files\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="callback.cpp">
+      <Filter>Source Files\postprocess</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

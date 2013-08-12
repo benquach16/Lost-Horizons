@@ -97,6 +97,18 @@ void Object::setTexture(video::ITexture *tex)
 	mesh->setMaterialTexture(0, tex);
 }
 
+void Object::setNormalMap(video::ITexture *normalMap)
+{
+
+	BumpMapCallback *bp = new BumpMapCallback;
+	s32 shadermat1 = vdriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/bumpmap.hlsl", "VertexShaderFunction", video::EVST_VS_3_0,
+		"shaders/bumpmap.hlsl", "PixelShaderFunction", video::EPST_PS_3_0, bp, video::EMT_SOLID);
+
+	mesh->setMaterialType((video::E_MATERIAL_TYPE)shadermat1);
+	mesh->setMaterialTexture(1, normalMap);
+	bp->drop();
+}
+
 //accessors
 const vector3df& Object::getPosition() const
 {
