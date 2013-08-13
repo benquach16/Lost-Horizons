@@ -2,6 +2,7 @@
 #define _POSTPROCESS_H_
 
 #include "irrlicht.h"
+#include "screenquadnode.h"
 
 using namespace irr;
 
@@ -12,7 +13,10 @@ class PostProcessEffect
 public:
 	PostProcessEffect();
 	~PostProcessEffect();
-	void render(video::ITexture *renderTarget);
+	void render();
+
+protected:
+	ScreenQuadNode *screenQuad;
 };
 
 #endif

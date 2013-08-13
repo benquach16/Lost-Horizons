@@ -171,6 +171,9 @@
     <ClInclude Include="postprocess.h">
       <Filter>Header Files\postprocess</Filter>
     </ClInclude>
+    <ClInclude Include="screenquadnode.h">
+      <Filter>Header Files\postprocess</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -258,6 +261,9 @@
       <Filter>Source Files\effects</Filter>
     </ClCompile>
     <ClCompile Include="callback.cpp">
+      <Filter>Source Files\postprocess</Filter>
+    </ClCompile>
+    <ClCompile Include="postprocess.cpp">
       <Filter>Source Files\postprocess</Filter>
     </ClCompile>
   </ItemGroup>

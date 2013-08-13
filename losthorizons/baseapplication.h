@@ -7,6 +7,7 @@
 #include "startmenu.h"
 #include "keylistener.h"
 #include "datamanager.h"
+#include "postprocess.h"
 
 using namespace irr;
 using namespace core;
@@ -26,6 +27,7 @@ public:
 	void run();
 
 private:
+	PostProcessEffect *effect;
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
 	DataManager *data;

@@ -27,6 +27,7 @@ void BaseApplication::init()
 	buildGraphics();
 	menu = new StartMenu(graphics, receiver, data);
 	game = new Gameloop(graphics, receiver, data);
+	effect = new PostProcessEffect();
 	gConfig.bFirstRun = false;
 }
 
