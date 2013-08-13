@@ -33,6 +33,7 @@ struct Subsystem
 //store all the ship info in a struct so we can save it easily
 struct ShipInformation
 {
+	u32 ID;
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTIONS currentFaction;
 	E_AI_STATES currentAIState;
@@ -40,8 +41,8 @@ struct ShipInformation
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	ShipInformation() {}
-	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
-		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
+	ShipInformation(u32 ID, ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
+		: ID(ID), shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
 		  hull(ObjectManager::shipList[shipType].getMaxHull()), maxHull(hull),
 		  armor(ObjectManager::shipList[shipType].getMaxArmor()), maxArmor(armor),
 		  shield(ObjectManager::shipList[shipType].getMaxShield()), maxShield(shield),
@@ -53,41 +54,32 @@ struct ShipInformation
 };
 
 //basic ship class
-//inherits from targetable object
 class Ship : public TargetableObject
 {
 public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
+	//next available ship ID
+	static u32 nextID;
 
-	//constructors
 	Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
 	Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
-	//copy constructor
 	Ship(const Ship *s);
-	//overloaded assignment operator
 	Ship& operator=(const Ship *s);
-	//destructor
 	virtual ~Ship();
-
-	//returns if the ship is the player ship
-	//if so you can cast it to player calss
-	bool getIsPlayer();
-	const ShipInformation& getInfo() const;
-
 	virtual void run(f32 frameDeltaTime);
 
+	//changes ship's velocity
 	void increaseVelocity(f32 frameDeltaTime);
 	void decreaseVelocity(f32 frameDeltaTime);
 
 	//combat functions
 	void fireTurrets();
-	//damage this ship
 	void damage(int val);
 
 	//rotate ship to specific angle
-	void setTargetRotationTo(const vector3df &newTargetRotation);
-	const vector3df &getTargetRotation() const;
+	void setTargetRotation(const vector3df &newTargetRotation);
+	const vector3df& getTargetRotation() const;
 
 	//target functions
 	void setTarget(TargetableObject *newTarget);
@@ -100,23 +92,12 @@ public:
 	void setFaction(E_GAME_FACTIONS currentFaction);
 
 	//some accessors
+	bool getIsPlayer();
+	const ShipInformation& getInfo() const;
 	TargetableObject* getShipTarget();
 
 protected:
-	//protected functions
-	void rotate(f32 frameDeltaTime);
-	void movement(f32 frameDeltaTime);
-	void initTurrets();
-	void aimTurrets(f32 frameDeltaTime);
-	//ai functions go here
-	void runAI();
-	//function to change ai states in necessary cases
-	void updateStates();
-
-	bool isPlayer;
-
-	//stats
-	//basic ship type
+	//ship stats
 	ShipInformation info;
 
 	//data containers for the turrets of the ship
@@ -132,5 +113,20 @@ protected:
 	
 	//iterator to 'this'
 	std::list<Ship*>::iterator it;
+
+private:
+	bool isPlayer;
+
+	//change the ship's position
+	void rotate(f32 frameDeltaTime);
+	void movement(f32 frameDeltaTime);
+
+	//turret functions
+	void initTurrets();
+	void aimTurrets(f32 frameDeltaTime);
+
+	//AI functions
+	void runAI();
+	void updateStates();
 };
 #endif

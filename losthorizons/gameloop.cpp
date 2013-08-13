@@ -71,28 +71,28 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 		//rotate left
 		vector3df rot = player->getTargetRotation();
 		rot.Y -= 35*frameDeltaTime;
-		player->setTargetRotationTo(rot);
+		player->setTargetRotation(rot);
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_D))
 	{
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.Y += 35*frameDeltaTime;
-		player->setTargetRotationTo(rot);
+		player->setTargetRotation(rot);
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_W))
 	{
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.X -= 35*frameDeltaTime;
-		player->setTargetRotationTo(rot);
+		player->setTargetRotation(rot);
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_S))
 	{
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.X += 35*frameDeltaTime;
-		player->setTargetRotationTo(rot);
+		player->setTargetRotation(rot);
 	}
 	if(receiver->isKeyDown(irr::KEY_SPACE))
 	{

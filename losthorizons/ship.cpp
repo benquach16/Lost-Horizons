@@ -3,15 +3,15 @@
 #include <iostream>
 
 std::list<Ship*> Ship::allShips;
-
+u32 Ship::nextID(0);
 
 Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer)
-	: TargetableObject(ObjectManager::shipList[shipType], position, rotation), isPlayer(isPlayer), info(shipType, faction), shipTarget(0)
+	: TargetableObject(ObjectManager::shipList[shipType], position, rotation), isPlayer(isPlayer), info(nextID++, shipType, faction), shipTarget(0)
 {
 	//add it to the ships list
 	allShips.push_front(this);
 	it = allShips.begin();
-
+	
 	//set up the ship turrets
 	initTurrets();
 	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType].getNormalMap().c_str()));
@@ -37,6 +37,7 @@ Ship::Ship(const Ship *s) : isPlayer(s->isPlayer), info(s->info)
 	it = allShips.begin();
 }
 
+//assignmennt operator
 Ship& Ship::operator=(const Ship *s)
 {
 	if (this != s)
@@ -49,18 +50,7 @@ Ship& Ship::operator=(const Ship *s)
 
 Ship::~Ship()
 {
-	//destructor
 	allShips.erase(it);
-}
-
-bool Ship::getIsPlayer()
-{
-	return isPlayer;
-}
-
-const ShipInformation& Ship::getInfo() const
-{
-	return info;
 }
 
 void Ship::run(f32 frameDeltaTime)
@@ -81,7 +71,7 @@ void Ship::run(f32 frameDeltaTime)
 		//aim turrets
 
 		//if is not player do ai stuff
-		if(!isPlayer)
+		if (!isPlayer)
 		{
 			runAI();
 		}
@@ -110,8 +100,7 @@ void Ship::decreaseVelocity(f32 frameDeltaTime)
 void Ship::fireTurrets()
 {
 	//lets do this in a way that doesn't involve middlemen
-	for(unsigned i = 0; i < mediumTurrets.size(); i++)
-	{
+	for (unsigned i = 0; i < mediumTurrets.size(); ++i) {
 		mediumTurrets[i]->fire();
 	}
 }
@@ -135,7 +124,7 @@ void Ship::damage(int val)
 	}
 }
 
-void Ship::setTargetRotationTo(const vector3df &newTargetRotation)
+void Ship::setTargetRotation(const vector3df &newTargetRotation)
 {
 	info.targetRotation = newTargetRotation;
 }
@@ -165,12 +154,22 @@ void Ship::setFaction(E_GAME_FACTIONS newFaction)
 	info.currentFaction = newFaction;
 }
 
+bool Ship::getIsPlayer()
+{
+	return isPlayer;
+}
+
+const ShipInformation& Ship::getInfo() const
+{
+	return info;
+}
+
 TargetableObject* Ship::getShipTarget()
 {
 	return shipTarget;
 }
 
-//protected function
+//private function
 //rotates ship to point
 void Ship::rotate(f32 frameDeltaTime)
 {
@@ -222,13 +221,12 @@ void Ship::rotate(f32 frameDeltaTime)
 	}
 }
 
-//protected function
+//private function
 void Ship::movement(f32 frameDeltaTime)
 {
 	vector3df sPos = getPosition();
 	f32 i = getRotation().Y;
 	f32 z = -(getRotation().X);	//if i dont do this the ship doesnt rotate right
-
 
 	sPos.Y = (f32)(frameDeltaTime*info.velocity*(sin(z*3.14/180)));
 	sPos.Y += getPosition().Y;
@@ -243,13 +241,14 @@ void Ship::movement(f32 frameDeltaTime)
 	vector3df finalPos = sPos*0.8f+getPosition()*0.2f;
 	setPosition(finalPos);
 }
-//protected function
+//private function
 //initialises the turret slot classes for each ship
 void Ship::initTurrets()
 {
 	//we create new turret slots and assign them to the ship
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxHTurrets(); ++i)
 	{
+
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxMTurrets(); ++i)
 	{
@@ -266,7 +265,7 @@ void Ship::initTurrets()
 	}
 }
 
-//protected function
+//private function
 //aims turrets at current target
 void Ship::aimTurrets(float frameDeltaTime)
 {
@@ -288,7 +287,7 @@ void Ship::aimTurrets(float frameDeltaTime)
 	}
 }
 
-//protected function
+//private function
 //do all AI stuff here
 void Ship::runAI()
 {
@@ -311,7 +310,7 @@ void Ship::runAI()
 	}
 }
 
-//protected function
+//private function
 void Ship::updateStates()
 {
 	if(info.hull < info.maxHull/2)

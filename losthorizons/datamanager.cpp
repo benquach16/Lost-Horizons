@@ -99,14 +99,14 @@ void DataManager::save(const std::string &filename)
 {
 	pull();
 	std::ofstream ofs(filename.c_str(), std::ios::binary);
-	ofs << scene << ships;
+	ofs << scene << ships << Ship::nextID;
 	ofs.close();
 }
 
 void DataManager::load(const std::string &filename)
 {
 	std::ifstream ifs(filename.c_str(), std::ios::binary);
-	ifs >> scene >> ships;
+	ifs >> scene >> ships >> Ship::nextID;
 	ifs.close();
 	push();
 }
