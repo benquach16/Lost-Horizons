@@ -33,7 +33,6 @@ struct Subsystem
 //store all the ship info in a struct so we can save it easily
 struct ShipInformation
 {
-	u32 ID;
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTIONS currentFaction;
 	E_AI_STATES currentAIState;
@@ -41,8 +40,8 @@ struct ShipInformation
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	ShipInformation() {}
-	ShipInformation(u32 ID, ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
-		: ID(ID), shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
+	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
+		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
 		  hull(ObjectManager::shipList[shipType].getMaxHull()), maxHull(hull),
 		  armor(ObjectManager::shipList[shipType].getMaxArmor()), maxArmor(armor),
 		  shield(ObjectManager::shipList[shipType].getMaxShield()), maxShield(shield),
@@ -59,12 +58,10 @@ class Ship : public TargetableObject
 public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
-	//next available ship ID
-	static u32 nextID;
 
-	Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
-	Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer = false);
-	Ship(const Ship *s);
+	Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
+	Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
+	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();
 	virtual void run(f32 frameDeltaTime);
@@ -92,9 +89,11 @@ public:
 	void setFaction(E_GAME_FACTIONS currentFaction);
 
 	//some accessors
-	bool getIsPlayer();
 	const ShipInformation& getInfo() const;
-	TargetableObject* getShipTarget();
+	const TargetableObject* getShipTarget() const;
+
+	//returns whether the ship is a player or AI
+	bool isPlayer() const;
 
 protected:
 	//ship stats
@@ -115,8 +114,6 @@ protected:
 	std::list<Ship*>::iterator it;
 
 private:
-	bool isPlayer;
-
 	//change the ship's position
 	void rotate(f32 frameDeltaTime);
 	void movement(f32 frameDeltaTime);

@@ -69,7 +69,6 @@ public:
 	void setNormalMap(video::ITexture *normalMap);
 
 	//accessors
-	//returns an rvalue
 	const vector3df& getPosition() const;
 	const vector3df& getRotation() const;
 	const vector3df& getScale() const;

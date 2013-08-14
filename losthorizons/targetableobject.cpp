@@ -2,26 +2,28 @@
 #include "targetableobject.h"
 
 std::list<TargetableObject*> TargetableObject::allTargets;
+u32 TargetableObject::nextID(0);
 
 TargetableObject::TargetableObject()
 {
 }
 
-TargetableObject::TargetableObject(const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation) : 
-	Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()), name(modelProps.getName()), description(modelProps.getDesc())
+TargetableObject::TargetableObject(u32 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation)
+	: Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()),
+	  ID(ID), name(modelProps.getName()), description(modelProps.getDesc()),
+	  screenPosition(scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera())),
+	  targetSquare(guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition))
 {
-	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
-	targetSquare = guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition);
 	allTargets.push_front(this);
 	it = allTargets.begin();
 }
 
 TargetableObject::TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
-		const vector3df &position, const vector3df &rotation, const vector3df &scale) : 
-Object(filename, position, rotation, scale)
+		const vector3df &position, const vector3df &rotation, const vector3df &scale)
+		: Object(filename, position, rotation, scale),
+		  screenPosition(scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera())),
+		  targetSquare(guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition))
 {
-	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
-	targetSquare = guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition);
 	allTargets.push_front(this);
 	it = allTargets.begin();
 }
@@ -36,6 +38,11 @@ void TargetableObject::run(f32 frameDeltaTime)
 	//update 2d position of this object
 	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
 	targetSquare->setRelativePosition(vector2d<s32>(screenPosition.X-32,screenPosition.Y-32));
+}
+
+const u32 TargetableObject::getID() const
+{
+	return ID;
 }
 
 const std::wstring& TargetableObject::getName() const

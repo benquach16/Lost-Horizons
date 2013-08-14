@@ -22,8 +22,8 @@ public:
 	void createNewGame();
 	void createLoadedGame(const std::string &filename);
 
-	GameSceneManager* getGameSceneManager() { return gameSceneManager; }
-	Player* getPlayer() { return player; }
+	//functions used by datamanager
+	GameSceneManager* getGameSceneManager() { return gameSceneManager; } const
 	void setPlayer(Player* newPlayer) { player = newPlayer; }
 
 	//might want this to be a singleton

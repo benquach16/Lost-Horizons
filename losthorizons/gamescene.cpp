@@ -6,8 +6,6 @@ GameScene::GameScene()
 {
 }
 
-
-
 GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(graphics), scene(scene)
 {
 	//setup camera for menu scene
@@ -89,7 +87,7 @@ GameScene::~GameScene()
 	//delete all ships currently in the scene except for the player
 	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
 	{
-		if (!(*i)->getIsPlayer())
+		if (!(*i)->isPlayer())
 			i = Ship::allShips.erase(i);
 	}
 }
@@ -141,9 +139,9 @@ Ship *GameScene::createShip(const E_GAME_FACTIONS &faction, ObjectManager::E_SHI
 	return new Ship(faction, shipType, position, rotation);
 }
 
-Ship *GameScene::createShip(const ShipInformation &info, const vector3df &position, const vector3df &rotation)
+Ship *GameScene::createShip(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
 {
-	return new Ship(info, position, rotation);
+	return new Ship(ID, info, position, rotation);
 }
 
 Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)

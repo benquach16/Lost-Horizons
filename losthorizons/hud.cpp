@@ -12,12 +12,12 @@ HUD::HUD(Player *player) : shipWheel(0), velocity(0), hull(0), armor(0), shield(
 void HUD::initializeDisplay()
 {
 	IGUIFont *largeFont = guienv->getFont("res/font/verdana_large.xml");
-	shipWheel = guienv->addImage(vdriver->getTexture("res/menu/hud.png"),core::position2d<s32>(-90,iHeight-190), true);
-	velocity = guienv->addStaticText(L"velocity",rect<int>(10,iHeight-110,iWidth/2+35,iHeight),false);
+	shipWheel = guienv->addImage(vdriver->getTexture("res/menu/hud.png"), core::position2d<s32>(-90,iHeight-190), true);
+	velocity = guienv->addStaticText(L"velocity", rect<int>(10,iHeight-110,iWidth/2+35,iHeight), false);
 	velocity->setOverrideFont(largeFont);
 
-	targetBkg = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"),core::position2d<s32>(iWidth-140,20));
-	targetName = guienv->addStaticText(L"No Target Selected",rect<s32>(0,0,120,120), false, true, targetBkg);
+	targetBkg = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(iWidth-140,20));
+	targetName = guienv->addStaticText(L"No Target Selected", rect<s32>(0,0,120,120), false, true, targetBkg);
 }
 
 void HUD::run()

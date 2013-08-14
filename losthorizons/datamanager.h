@@ -9,10 +9,10 @@ class DataManager
 public:
 	struct ShipData
 	{
+		u32 ID, shipTarget;
 		vector3df position, rotation;
 		ShipInformation info;
 		//std::vector<TurretData> mediumTurrets;
-		//u32 shipTarget;
 	};
 	struct TurretData
 	{

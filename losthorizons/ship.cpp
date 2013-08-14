@@ -3,11 +3,14 @@
 #include <iostream>
 
 std::list<Ship*> Ship::allShips;
-u32 Ship::nextID(0);
 
-Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation, bool isPlayer)
-	: TargetableObject(ObjectManager::shipList[shipType], position, rotation), isPlayer(isPlayer), info(nextID++, shipType, faction), shipTarget(0)
+Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation), info(shipType, faction), shipTarget(0)
 {
+	//ID 0 is reserved for the player, and the player is created first and only once
+	if (nextID == 0)
+		nextID++;
+
 	//add it to the ships list
 	allShips.push_front(this);
 	it = allShips.begin();
@@ -19,8 +22,8 @@ Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const v
 	setMediumTurret(ObjectManager::turretList[0],1);
 }
 
-Ship::Ship(const ShipInformation &info, const vector3df &position, const vector3df &rotation, bool isPlayer)
-	: TargetableObject(ObjectManager::shipList[info.shipType], position, rotation), isPlayer(isPlayer), info(info), shipTarget(0)
+Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
+	: TargetableObject(ID, ObjectManager::shipList[info.shipType], position, rotation), info(info), shipTarget(0)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -31,8 +34,14 @@ Ship::Ship(const ShipInformation &info, const vector3df &position, const vector3
 }
 
 //copy constructor
-Ship::Ship(const Ship *s) : isPlayer(s->isPlayer), info(s->info)
+Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
+	: TargetableObject(nextID++, ObjectManager::shipList[s->info.shipType], position, rotation), info(s->info), shipTarget(0)
 {
+	//ID 0 is reserved for the player, and the player is created first and only once
+	if (nextID == 0)
+		nextID++;
+
+	//add it to the ships list
 	allShips.push_front(this);
 	it = allShips.begin();
 }
@@ -71,7 +80,7 @@ void Ship::run(f32 frameDeltaTime)
 		//aim turrets
 
 		//if is not player do ai stuff
-		if (!isPlayer)
+		if (!isPlayer())
 		{
 			runAI();
 		}
@@ -154,19 +163,19 @@ void Ship::setFaction(E_GAME_FACTIONS newFaction)
 	info.currentFaction = newFaction;
 }
 
-bool Ship::getIsPlayer()
-{
-	return isPlayer;
-}
-
 const ShipInformation& Ship::getInfo() const
 {
 	return info;
 }
 
-TargetableObject* Ship::getShipTarget()
+const TargetableObject* Ship::getShipTarget() const
 {
 	return shipTarget;
+}
+
+bool Ship::isPlayer() const
+{
+	return ID == 0;
 }
 
 //private function

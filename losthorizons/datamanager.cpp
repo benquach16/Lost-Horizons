@@ -4,6 +4,8 @@
 
 DataManager::ShipData& operator<<(DataManager::ShipData& shipData, const Ship *s)
 {
+	shipData.ID = s->getID();
+	shipData.shipTarget = s->getShipTarget()->getID();
 	shipData.position = s->getPosition();
 	shipData.rotation = s->getRotation();
 	shipData.info = s->getInfo();
@@ -79,9 +81,7 @@ void DataManager::pull()
 	scene = game->getGameSceneManager()->getCurrentScene()->getScene();
 	ShipData tmp;
 	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
-		if (!(*i)->getIsPlayer())
-			ships.push(tmp << *i);
-	ships.push(tmp << game->getPlayer());
+		ships.push(tmp << *i);
 }
 
 void DataManager::push()
@@ -90,7 +90,7 @@ void DataManager::push()
 	game->setPlayer(game->getGameSceneManager()->getCurrentScene()->createPlayer(ships.top().info, ships.top().position, ships.top().rotation));
 	ships.pop();
 	while (!ships.empty()) {
-		game->getGameSceneManager()->getCurrentScene()->createShip(ships.top().info, ships.top().position, ships.top().rotation);
+		game->getGameSceneManager()->getCurrentScene()->createShip(ships.top().ID, ships.top().info, ships.top().position, ships.top().rotation);
 		ships.pop();
 	}
 }
@@ -99,14 +99,14 @@ void DataManager::save(const std::string &filename)
 {
 	pull();
 	std::ofstream ofs(filename.c_str(), std::ios::binary);
-	ofs << scene << ships << Ship::nextID;
+	ofs << scene << ships << TargetableObject::nextID;
 	ofs.close();
 }
 
 void DataManager::load(const std::string &filename)
 {
 	std::ifstream ifs(filename.c_str(), std::ios::binary);
-	ifs >> scene >> ships >> Ship::nextID;
+	ifs >> scene >> ships >> TargetableObject::nextID;
 	ifs.close();
 	push();
 }
