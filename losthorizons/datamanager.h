@@ -9,10 +9,11 @@ class DataManager
 public:
 	struct ShipData
 	{
-		u32 ID, shipTarget;
+		u32 ID, target;
 		vector3df position, rotation;
 		ShipInformation info;
 		//std::vector<TurretData> mediumTurrets;
+		bool targetting;
 	};
 	struct TurretData
 	{
@@ -29,6 +30,10 @@ public:
 private:
 	E_GAMESCENES scene;
 	std::stack<ShipData> ships;
+	std::stack< std::pair<bool,u32> > shipTargets;
+	std::list<TargetableObject*> *targets;
+
+	void setShipTargets();
 };
 
 #endif

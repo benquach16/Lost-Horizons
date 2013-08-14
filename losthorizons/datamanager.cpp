@@ -5,10 +5,12 @@
 DataManager::ShipData& operator<<(DataManager::ShipData& shipData, const Ship *s)
 {
 	shipData.ID = s->getID();
-	shipData.shipTarget = s->getShipTarget()->getID();
 	shipData.position = s->getPosition();
 	shipData.rotation = s->getRotation();
 	shipData.info = s->getInfo();
+	shipData.targetting = s->getShipTarget() != 0;
+	if (shipData.targetting)
+		shipData.target = s->getShipTarget()->getID();
 	return shipData;
 }
 
@@ -88,11 +90,14 @@ void DataManager::push()
 {
 	game->getGameSceneManager()->changeCurrentScene(scene);
 	game->setPlayer(game->getGameSceneManager()->getCurrentScene()->createPlayer(ships.top().info, ships.top().position, ships.top().rotation));
+	shipTargets.push(std::pair<bool,u32>(ships.top().targetting, ships.top().target));
 	ships.pop();
 	while (!ships.empty()) {
 		game->getGameSceneManager()->getCurrentScene()->createShip(ships.top().ID, ships.top().info, ships.top().position, ships.top().rotation);
+		shipTargets.push(std::pair<bool,u32>(ships.top().targetting, ships.top().target));
 		ships.pop();
 	}
+	setShipTargets();
 }
 
 void DataManager::save(const std::string &filename)
@@ -109,4 +114,22 @@ void DataManager::load(const std::string &filename)
 	ifs >> scene >> ships >> TargetableObject::nextID;
 	ifs.close();
 	push();
+}
+
+void DataManager::setShipTargets()
+{
+	targets = new std::list<TargetableObject*>[20];
+	for (std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); ++i) {
+		targets[(*i)->getID()%20].push_front(*i);
+	}
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
+		if (shipTargets.top().first) {
+			std::list<TargetableObject*>::iterator j = targets[shipTargets.top().second%20].begin();
+			while ((*j)->getID() != shipTargets.top().second)
+				j++;
+			(*i)->setTarget(*j);
+		}
+		shipTargets.pop();
+	}
+	delete[] targets;
 }
