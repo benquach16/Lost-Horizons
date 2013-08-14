@@ -3,9 +3,9 @@
 
 std::list<Projectile*> Projectile::allProjectiles;
 
-Projectile::Projectile(const vector3df &position, const vector3df &rotation, const TurretProperties &turretProps) : 
-	Object(L"res/models/projectile.X", turretProps.getProjectileTex().c_str(), position, rotation, turretProps.getProjectileScale()),
-	originalPosition(position), velocity(turretProps.getProjectileSpeed()), range(turretProps.getRange())
+Projectile::Projectile(u32 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation)
+	: Object(L"res/models/projectile.X", turretProps.getProjectileTex().c_str(), position, rotation, turretProps.getProjectileScale()),
+	originalPosition(position), ID(ID), velocity(turretProps.getProjectileSpeed()), range(turretProps.getRange())
 {
 	mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 	mesh->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
@@ -21,24 +21,19 @@ Projectile::~Projectile()
 void Projectile::run(f32 frameDeltaTime)
 {
 	Object::run(frameDeltaTime);
-	if(!checkIfOutOfRange())
-	{
+	if (!checkIfOutOfRange()) {
 		movement(frameDeltaTime);
 		//check if collides with a ship
-		for(std::list<Ship*>::iterator i = Ship::allShips.begin(), next; i != Ship::allShips.end(); i = next)
-		{
+		for (std::list<Ship*>::iterator i = Ship::allShips.begin(), next; i != Ship::allShips.end(); i = next) {
 			next = i;
 			next++;
-			if(getBoundingBox().intersectsWithBox((*i)->getBoundingBox()))
-			{
+			if (getBoundingBox().intersectsWithBox((*i)->getBoundingBox()) && ID != (*i)->getID()) {
 				//hit a target
 				delete this;
 				return;
 			}
 		}
-	}
-	else
-	{
+	} else {
 		delete this;
 	}
 }
@@ -62,7 +57,6 @@ void Projectile::movement(f32 frameDeltaTime)
 	sPos.Z += getPosition().Z;
 
 	setPosition(sPos);
-
 }
 
 //protected function
@@ -74,8 +68,7 @@ bool Projectile::checkIfOutOfRange()
 	const float y = originalPosition.Y - getPosition().Y;
 	const float z = originalPosition.Z - getPosition().Z;
 
-	if((x*x + y*y + z*z) > (range*range))
-	{
+	if ((x*x + y*y + z*z) > (range*range)) {
 		//out of range
 		return true;
 	}

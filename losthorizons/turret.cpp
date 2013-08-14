@@ -104,6 +104,11 @@ TurretSlot::~TurretSlot()
 	removeTurret();
 }
 
+const Ship* TurretSlot::getParent() const
+{
+	return parent;
+}
+
 const vector3df& TurretSlot::getCurrentAim() const
 {
 	return currentAim;
@@ -129,6 +134,11 @@ Turret::Turret(const TurretProperties &props, ISceneNode *parent) :
 	mesh->setParent(parent);
 }
 
+Turret::~Turret()
+{
+	mesh->remove();
+}
+
 void Turret::aim(const core::vector3df &rotation, float frameDeltaTime)
 {
 	core::vector3df rot(getRotation());
@@ -151,11 +161,11 @@ void Turret::fire(const vector3df &rotation)
 	//probably should modify this later
 	if(rand() % (int)props.getReloadSpeed() < 3)
 	{
-		Projectile *p = new Projectile(mesh->getAbsolutePosition(), rotation, ObjectManager::turretList[0]);
+		Projectile *p = new Projectile(getParent()->getID(), ObjectManager::turretList[0], mesh->getAbsolutePosition(), rotation);
 	}
 }
 
-Turret::~Turret()
+const Ship* Turret::getParent() const
 {
-	mesh->remove();
+	return parentSlot->getParent();
 }

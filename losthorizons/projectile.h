@@ -14,7 +14,7 @@ public:
 	static std::list<Projectile*> allProjectiles;
 
 	//initialize with position, rotation, and information
-	Projectile(const vector3df &position, const vector3df &rotation, const TurretProperties &turretProps);
+	Projectile(u32 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation);
 	~Projectile();
 
 	//does everything a projectile is supposed to
@@ -23,7 +23,9 @@ public:
 protected:
 	void movement(f32 frameDeltaTime);
 	bool checkIfOutOfRange();
+
 	core::vector3df originalPosition;
+	u32 ID;
 	int range;
 	int velocity;
 

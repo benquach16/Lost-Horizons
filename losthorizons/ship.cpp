@@ -11,6 +11,8 @@ Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const v
 	if (nextID == 0)
 		nextID++;
 
+	std::cout << '[' << ID << "]Ship object created" << std::endl;
+
 	//add it to the ships list
 	allShips.push_front(this);
 	it = allShips.begin();

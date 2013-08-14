@@ -41,8 +41,7 @@ HUD::~HUD()
 	targetBkg->remove();
 }
 
-
-//proected function
+//private function
 void HUD::updatePlayerInfo()
 {
 	core::stringw str(L"");
@@ -51,14 +50,13 @@ void HUD::updatePlayerInfo()
 	velocity->setText(str.c_str());
 }
 
-
 void HUD::updateTargetInfo()
 {
 	const TargetableObject *target = player->getShipTarget();
 	if(target)
 	{
 		//if a target exists
-		targetName->setText(target->getName().c_str());
+		targetName->setText(target->getName().c_str()); //THIS LINE CAUSES A CRASH SOMEHOW IF YOU START A SECOND NEW GAME
 		//at this point we pull object information from this thing
 	}
 	else

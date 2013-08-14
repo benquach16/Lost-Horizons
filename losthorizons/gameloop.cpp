@@ -18,6 +18,7 @@ void Gameloop::createNewGame()
 	//create player and camera
 	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
+	TargetableObject::nextID = 0;
 	player = gameSceneManager->getCurrentScene()->createPlayer(E_FACTION_TERRAN);
 	//temporary for testing purposes only
 	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,

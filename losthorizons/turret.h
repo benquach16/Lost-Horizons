@@ -33,6 +33,7 @@ public:
 	~TurretSlot();
 
 	//used for projectile generation
+	const Ship* getParent() const;
 	const core::vector3df& getCurrentAim() const;
 	const core::vector3df& getPosition() const;
 
@@ -68,9 +69,12 @@ public:
 	Turret();
 	//if you actually want to create a 3d model
 	Turret(const TurretProperties &props, ISceneNode *parent);
+	~Turret();
+
 	void aim(const core::vector3df &rotation, float frameDeltaTime);
 	void fire(const vector3df &rotation);
-	~Turret();
+
+	const Ship* getParent() const;
 
 protected:
 	TurretSlot *parentSlot;
