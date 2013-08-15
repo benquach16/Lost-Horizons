@@ -160,8 +160,8 @@ void Turret::fire(const vector3df &rotation)
 	//since volley fire looks pretty unrealistic
 	//probably should modify this later
 	if(rand() % (int)props.getReloadSpeed() < 3)
-	{
-		Projectile *p = new Projectile(getParent()->getID(), ObjectManager::turretList[0], mesh->getAbsolutePosition(), rotation);
+	{//for now, projectile gets an ID. change to ship pointer later
+		Projectile *p = new Projectile(0, ObjectManager::turretList[0], mesh->getAbsolutePosition(), rotation);
 	}
 }
 
