@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "projectile.h"
+#include <iostream>
 
 std::list<Projectile*> Projectile::allProjectiles;
 
@@ -25,8 +26,9 @@ void Projectile::run(f32 frameDeltaTime)
 		movement(frameDeltaTime);
 		//check if collides with a ship
 		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
-			if (ID != (*i)->getID() && getBoundingBox().intersectsWithBox((*i)->getBoundingBox())) {
+			if ((*i)->getBoundingBox().isPointInside(mesh->getPosition())) {
 				//hit a target
+				std::cout << "HIT TARGET" << std::endl;
 				delete this;
 				return;
 			}

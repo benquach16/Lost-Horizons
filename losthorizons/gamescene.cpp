@@ -85,10 +85,12 @@ GameScene::~GameScene()
 		dynamicObjects.pop();
 	}
 	//delete all ships currently in the scene except for the player
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin() , next; i != Ship::allShips.end(); i = next)
 	{
+		next = i;
+		next++;
 		if (!(*i)->isPlayer())
-			i = Ship::allShips.erase(i);
+			Ship::allShips.erase(i);
 	}
 }
 

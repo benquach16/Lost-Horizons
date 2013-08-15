@@ -32,6 +32,7 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 	mesh->setScale(scale);
 	allObjects.push_front(this);
 	it = allObjects.begin();
+	mesh->setDebugDataVisible(irr::scene::EDS_BBOX);
 }
 
 //constructor to load mesh and texture from file 
@@ -45,6 +46,7 @@ Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3d
 	mesh->setScale(scale);
 	allObjects.push_front(this);
 	it = allObjects.begin();
+	mesh->setDebugDataVisible(irr::scene::EDS_BBOX);
 }
 
 //copy constructor
@@ -126,7 +128,7 @@ const vector3df& Object::getScale() const
 
 const core::aabbox3df& Object::getBoundingBox() const
 {
-	return mesh->getBoundingBox();
+	return mesh->getTransformedBoundingBox();
 }
 
 void Object::setPosition(const vector3df &newPosition)

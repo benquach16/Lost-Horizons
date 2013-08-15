@@ -30,6 +30,8 @@ TargetableObject::TargetableObject(const std::wstring& name, const std::wstring 
 
 TargetableObject::~TargetableObject()
 {
+	targetSquare->remove();
+	allTargets.erase(it);
 }
 
 void TargetableObject::run(f32 frameDeltaTime)
