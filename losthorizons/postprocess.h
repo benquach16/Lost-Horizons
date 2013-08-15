@@ -16,7 +16,13 @@ public:
 	void render();
 
 protected:
+	ITexture *renderTarget;
+	ITexture *secondRenderTarget;
+	ITexture *temp; 
+	//first pass
 	ScreenQuadNode *screenQuad;
+	//second pass
+	ScreenQuadNode *secondScreenQuad;
 };
 
 #endif
