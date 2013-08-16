@@ -72,7 +72,7 @@ public:
 	const vector3df& getPosition() const;
 	const vector3df& getRotation() const;
 	const vector3df& getScale() const;
-	const core::aabbox3df& getBoundingBox() const;
+	const core::aabbox3d<f32> getBoundingBox();
 	//mutators
 	void setPosition(const vector3df &newPosition);
 	void setRotation(const vector3df &newRotation);

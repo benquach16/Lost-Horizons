@@ -14,7 +14,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 	{
 		//create sun for menu background
 		IBillboardSceneNode *corona = scenemngr->addBillboardSceneNode(0, dimension2d<f32>(50000,50000), vector3df(-20000,500,70000));
-		corona->setMaterialTexture(0, vdriver->getTexture("res/particlewhite.bmp"));
+		corona->setMaterialTexture(0, vdriver->getTexture("res/textures/particlewhite.bmp"));
 		corona->setMaterialFlag(EMF_LIGHTING, false);
 		corona->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		sceneObjects.push(corona);
@@ -50,7 +50,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 		af->drop();
 	
 		IAnimatedMeshSceneNode *asteroids = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/planets/asteroid.x"));
-		asteroids->setMaterialTexture(0, vdriver->getTexture("res/roid.jpg"));
+		asteroids->setMaterialTexture(0, vdriver->getTexture("res/models/planets/roid.png"));
 		asteroids->setPosition(vector3df(-20000,0,60000));
 		asteroids->setScale(vector3df(8,8,8));
 		sceneObjects.push(asteroids);

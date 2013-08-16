@@ -32,7 +32,7 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 	mesh->setScale(scale);
 	allObjects.push_front(this);
 	it = allObjects.begin();
-	mesh->setDebugDataVisible(irr::scene::EDS_BBOX);
+	mesh->setDebugDataVisible(true);
 }
 
 //constructor to load mesh and texture from file 
@@ -46,7 +46,7 @@ Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3d
 	mesh->setScale(scale);
 	allObjects.push_front(this);
 	it = allObjects.begin();
-	mesh->setDebugDataVisible(irr::scene::EDS_BBOX);
+	mesh->setDebugDataVisible(true);
 }
 
 //copy constructor
@@ -125,7 +125,7 @@ const vector3df& Object::getScale() const
 	return scale;
 }
 
-const core::aabbox3df& Object::getBoundingBox() const
+const core::aabbox3d<f32> Object::getBoundingBox()
 {
 	return mesh->getTransformedBoundingBox();
 }

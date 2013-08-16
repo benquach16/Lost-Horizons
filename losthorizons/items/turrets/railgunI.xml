@@ -23,6 +23,6 @@
 		<scaleX>0.05</scaleX>
 		<scaleY>0.2</scaleY>
 		<scaleZ>0.05</scaleZ>
-		<diffuseMap>res/textures/railgun.png</diffuseMap>
+		<diffuseMap>res/textures/fx/railgun.png</diffuseMap>
 	</projectileStats>
 </itemStats>

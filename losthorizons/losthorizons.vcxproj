@@ -122,6 +122,7 @@
     <ClInclude Include="sun.h" />
     <ClInclude Include="targetableobject.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="turningmarker.h" />
     <ClInclude Include="turret.h" />
     <ClInclude Include="turretproperties.h" />
   </ItemGroup>

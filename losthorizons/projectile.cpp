@@ -26,7 +26,7 @@ void Projectile::run(f32 frameDeltaTime)
 		movement(frameDeltaTime);
 		//check if collides with a ship
 		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
-			if ((*i)->getBoundingBox().isPointInside(mesh->getPosition())) {
+			if (ID != (*i)->getID() && (*i)->getBoundingBox().isPointInside(getPosition())) {
 				//hit a target
 				std::cout << "HIT TARGET" << std::endl;
 				delete this;

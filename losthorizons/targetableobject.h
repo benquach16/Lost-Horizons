@@ -21,7 +21,7 @@ public:
 	//raw constructor with all the other inputs
 	TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
 		const vector3df &position, const vector3df &rotation, const vector3df &scale);
-	~TargetableObject();
+	virtual ~TargetableObject();
 	virtual void run(f32 frameDeltaTime);
 	//overridable function designed to return specific information related to this object to the hud
 	//virtual void information(gui::IGUIImage *targetBkg);
