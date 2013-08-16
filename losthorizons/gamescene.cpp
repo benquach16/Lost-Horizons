@@ -85,12 +85,8 @@ GameScene::~GameScene()
 		dynamicObjects.pop();
 	}
 	//delete all ships currently in the scene except for the player
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(), next; Ship::allShips.size() > 1; i = next)
-	{
-		next = i;
-		next++;
-		Ship::allShips.erase(i);
-	}
+	while (Ship::allShips.size() > 1)
+		delete Ship::allShips.front();
 }
 
 void GameScene::run(f32 frameDeltaTime)
@@ -111,7 +107,7 @@ void GameScene::run(f32 frameDeltaTime)
 		next++;
 		(*i)->run(frameDeltaTime);
 	}*/
-	for(std::list<Object*>::iterator i = Object::allObjects.begin(), next; i != Object::allObjects.end(); i = next)
+	for (std::list<Object*>::iterator i = Object::allObjects.begin(), next; i != Object::allObjects.end(); i = next)
 	{
 		next = i;
 		next++;

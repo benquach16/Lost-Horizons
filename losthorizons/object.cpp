@@ -125,7 +125,7 @@ const vector3df& Object::getScale() const
 	return scale;
 }
 
-const core::aabbox3d<f32> Object::getBoundingBox()
+const core::aabbox3df Object::getBoundingBox() const
 {
 	return mesh->getTransformedBoundingBox();
 }
