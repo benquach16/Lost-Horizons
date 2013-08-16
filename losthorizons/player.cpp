@@ -6,11 +6,15 @@ Player::Player(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, con
 	  targetedIcon(guienv->addImage(vdriver->getTexture("res/menu/target.png"), core::vector2d<s32>(0,0)))
 {
 	targetedIcon->setVisible(false);
+	game->setPlayer(this);
 }
 
 Player::Player(const ShipInformation &info, const vector3df &position, const vector3df &rotation)
-	: Ship(0, info, position, rotation)
+	: Ship(0, info, position, rotation),
+	  targetedIcon(guienv->addImage(vdriver->getTexture("res/menu/target.png"), core::vector2d<s32>(0,0)))
 {
+	targetedIcon->setVisible(false);
+	game->setPlayer(this);
 }
 
 Player::~Player()

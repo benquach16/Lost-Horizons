@@ -85,12 +85,11 @@ GameScene::~GameScene()
 		dynamicObjects.pop();
 	}
 	//delete all ships currently in the scene except for the player
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin() , next; i != Ship::allShips.end(); i = next)
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin(), next; Ship::allShips.size() > 1; i = next)
 	{
 		next = i;
 		next++;
-		if (!(*i)->isPlayer())
-			Ship::allShips.erase(i);
+		Ship::allShips.erase(i);
 	}
 }
 
@@ -120,30 +119,26 @@ void GameScene::run(f32 frameDeltaTime)
 	}
 }
 
-//creator functions, dont really need commenting
+//functions for creating scene objects
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 {
 	return new PlayerCamera(graphics, position);
 }
 
-Player *GameScene::createPlayer(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-{
-	return new Player(faction, shipType, position, rotation);
-}
-
-Player *GameScene::createPlayer(const ShipInformation &info, const vector3df &position, const vector3df &rotation)
-{
-	return new Player(info, position, rotation);
-}
-
 Ship *GameScene::createShip(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 {
-	return new Ship(faction, shipType, position, rotation);
+	if (Ship::allShips.empty())
+		return new Player(faction, shipType, position, rotation);
+	else
+		return new Ship(faction, shipType, position, rotation);
 }
 
 Ship *GameScene::createShip(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
 {
-	return new Ship(ID, info, position, rotation);
+	if (Ship::allShips.empty())
+		return new Player(info, position, rotation);
+	else
+		return new Ship(ID, info, position, rotation);
 }
 
 Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)

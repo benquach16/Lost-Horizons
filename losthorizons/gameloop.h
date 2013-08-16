@@ -13,23 +13,17 @@ class Gameloop
 {
 public:
 	Gameloop();
-
-	//parameterized constructor
-	//really though, not using this is bad news bears
 	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
-	
+	~Gameloop();
+	void run();
+
 	//newgame or loadgame instances
 	void createNewGame();
 	void createLoadedGame(const std::string &filename);
 
-	//functions used by datamanager
-	GameSceneManager* getGameSceneManager() { return gameSceneManager; } const
+	//functions for managing the scene
+	GameSceneManager *getGameSceneManager() { return gameSceneManager; } const
 	void setPlayer(Player* newPlayer) { player = newPlayer; }
-
-	//might want this to be a singleton
-	~Gameloop();
-	//having an independant function to loop through everything makes pausing much easier
-	void run();
 
 private:
 	void playerControl(f32 frameDeltaTime);
@@ -38,7 +32,7 @@ private:
 
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
-	DataManager *data;
+	DataManager *data;// plan to get rid of this
 	GameSceneManager *gameSceneManager;
 	ObjectManager *objectManager;
 	PlayerCamera *playerCam;

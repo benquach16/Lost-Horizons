@@ -29,7 +29,7 @@ public:
 
 private:
 	E_GAMESCENES scene;
-	std::stack<ShipData> ships;
+	std::deque<ShipData> ships;
 	std::stack< std::pair<bool,u32> > shipTargets;
 	std::list<TargetableObject*> *targets;
 

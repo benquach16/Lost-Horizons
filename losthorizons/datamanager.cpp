@@ -48,12 +48,12 @@ std::ofstream& operator<<(std::ofstream& ofs, const T& t)
 }
 
 template <typename T>
-std::ofstream& operator<<(std::ofstream& ofs, std::stack<T>& s)
+std::ofstream& operator<<(std::ofstream& ofs, std::deque<T>& d)
 {
-	ofs << u32(s.size());
-    while (!s.empty()) {
-		ofs << s.top();
-		s.pop();
+	ofs << u32(d.size());
+    while (!d.empty()) {
+		ofs << d.back();
+		d.pop_back();
 	}
     return ofs;
 }
@@ -66,14 +66,14 @@ std::ifstream& operator>>(std::ifstream& ifs, T& t)
 }
 
 template <typename T>
-std::ifstream& operator>>(std::ifstream& ifs, std::stack<T>& s)
+std::ifstream& operator>>(std::ifstream& ifs, std::deque<T>& d)
 {
 	u32 size;
 	ifs >> size;
 	T tmp;
     for (unsigned i = 0; i < size; ++i) {
 		ifs >> tmp;
-		s.push(tmp);
+		d.push_front(tmp);
 	}
     return ifs;
 }
@@ -83,19 +83,16 @@ void DataManager::pull()
 	scene = game->getGameSceneManager()->getCurrentScene()->getScene();
 	ShipData tmp;
 	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
-		ships.push(tmp << *i);
+		ships.push_front(tmp << *i);
 }
 
 void DataManager::push()
 {
 	game->getGameSceneManager()->changeCurrentScene(scene);
-	game->setPlayer(game->getGameSceneManager()->getCurrentScene()->createPlayer(ships.top().info, ships.top().position, ships.top().rotation));
-	shipTargets.push(std::pair<bool,u32>(ships.top().targetting, ships.top().target));
-	ships.pop();
 	while (!ships.empty()) {
-		game->getGameSceneManager()->getCurrentScene()->createShip(ships.top().ID, ships.top().info, ships.top().position, ships.top().rotation);
-		shipTargets.push(std::pair<bool,u32>(ships.top().targetting, ships.top().target));
-		ships.pop();
+		game->getGameSceneManager()->getCurrentScene()->createShip(ships.front().ID, ships.front().info, ships.front().position, ships.front().rotation);
+		shipTargets.push(std::pair<bool,u32>(ships.front().targetting, ships.front().target));
+		ships.pop_front();
 	}
 	setShipTargets();
 }
@@ -118,13 +115,13 @@ void DataManager::load(const std::string &filename)
 
 void DataManager::setShipTargets()
 {
-	targets = new std::list<TargetableObject*>[20];
+	targets = new std::list<TargetableObject*>[10];
 	for (std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); ++i) {
-		targets[(*i)->getID()%20].push_front(*i);
+		targets[(*i)->getID()%10].push_front(*i);
 	}
 	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
 		if (shipTargets.top().first) {
-			std::list<TargetableObject*>::iterator j = targets[shipTargets.top().second%20].begin();
+			std::list<TargetableObject*>::iterator j = targets[shipTargets.top().second%10].begin();
 			while ((*j)->getID() != shipTargets.top().second)
 				j++;
 			(*i)->setTarget(*j);

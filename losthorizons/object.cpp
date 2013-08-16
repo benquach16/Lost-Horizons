@@ -76,7 +76,6 @@ Object::~Object()
 {
 	allObjects.erase(it);
 	mesh->remove();
-
 }
 
 void Object::run(f32 frameDeltaTime)

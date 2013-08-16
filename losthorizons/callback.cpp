@@ -13,11 +13,11 @@ void BumpMapCallback::OnSetConstants(video::IMaterialRendererServices* services,
 	services->setVertexShaderConstant("World", worldMatrix.pointer(), 16);
 	services->setVertexShaderConstant("matWorldViewProj", projectionViewWorldMatrix.pointer(), 16);
 
-	float dir[4] = {1,0,0,0};
+	f32 dir[4] = {1,0,0,0};
 	services->setVertexShaderConstant("LightDirection", dir, 4);   
 	 
 	vector3df p = scenemngr->getActiveCamera()->getAbsolutePosition();
-	float pos[4] = {p.X,p.Y,p.Z,0};
+	f32 pos[4] = {p.X,p.Y,p.Z,0};
 	services->setVertexShaderConstant("EyePosition", pos, 4);
 
 	//f32 map = 1;
@@ -32,8 +32,8 @@ void BloomCallback::OnSetConstants(video::IMaterialRendererServices* services, s
 	matrix4 projectionViewWorldMatrix = projectionMatrix*viewMatrix*worldMatrix;
 	services->setVertexShaderConstant("matWorldViewProj", projectionViewWorldMatrix.pointer(), 16);
 
-	float offsetX = -1/iWidth;
-	float offsetY = 1 / iHeight;
-	float offset[2] = {offsetX, offsetY};
+	f32 offsetX = -1.f/iWidth;
+	f32 offsetY = 1.f/iHeight;
+	f32 offset[2] = {offsetX, offsetY};
 	//services->setVertexShaderConstant("Offset", offset, 2);
 }
