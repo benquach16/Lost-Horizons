@@ -10,7 +10,12 @@ using namespace core;
 class BumpMapCallback : public video::IShaderConstantSetCallBack
 {
 public:
-	float lightDirection[4];
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData);
+};
+
+class BloomCallback : public video::IShaderConstantSetCallBack
+{
+public:
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData);
 };
 
