@@ -269,6 +269,9 @@
     <ClCompile Include="postprocess.cpp">
       <Filter>Source Files\postprocess</Filter>
     </ClCompile>
+    <ClCompile Include="turningmarker.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">

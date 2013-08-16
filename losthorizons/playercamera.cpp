@@ -89,3 +89,9 @@ void PlayerCamera::zoom(int z)
 	}
 
 }
+
+void PlayerCamera::updateMousePosition(int x, int y)
+{
+	mouseX = x;
+	mouseY = y;
+}

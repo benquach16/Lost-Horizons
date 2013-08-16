@@ -155,6 +155,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="targetableobject.cpp" />
+    <ClCompile Include="turningmarker.cpp" />
     <ClCompile Include="turret.cpp" />
     <ClCompile Include="turretproperties.cpp" />
   </ItemGroup>

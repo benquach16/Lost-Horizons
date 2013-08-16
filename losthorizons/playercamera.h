@@ -28,6 +28,8 @@ public:
 	void rotateX(int x);
 	void rotateY(int y);
 	void zoom(int z);
+	//needed to keep cam smooth
+	void updateMousePosition(int x, int y);
 private:
 	scene::ICameraSceneNode *cam; 
 	f32 distance;		//distance from camera to player

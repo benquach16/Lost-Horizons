@@ -15,7 +15,7 @@ public:
 	Gameloop();
 	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
 	~Gameloop();
-	void run();
+	void run(f32 frameDeltaTime);
 
 	//newgame or loadgame instances
 	void createNewGame();
@@ -39,8 +39,6 @@ private:
 	Player *player;
 	HUD *hud;
 
-	//for delta time calculation
-	f32 then;
 };
 
 #endif

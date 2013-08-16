@@ -8,7 +8,7 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), then((f32)(graphics->getTimer()->getTime())), hud(0)
+	  objectManager(new ObjectManager(graphics)), hud(0)
 {
 	//player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
 }
@@ -42,12 +42,8 @@ Gameloop::~Gameloop()
 	delete hud;
 }
 
-void Gameloop::run()
+void Gameloop::run(f32 frameDeltaTime)
 {
-	//calculate the delta time
-	const f32 now = (f32)(graphics->getTimer()->getTime());
-	const f32 frameDeltaTime = (now-then)/1000.f; // Time in seconds
-	then = now;
 
 	playerControl(frameDeltaTime);
 	cameraControl();
@@ -113,6 +109,8 @@ void Gameloop::cameraControl()
 		playerCam->rotateX(receiver->getMouseX());
 		playerCam->rotateY(receiver->getMouseY());
 	}
+	else
+		playerCam->updateMousePosition(receiver->getMouseX(), receiver->getMouseY());
 	playerCam->zoom(receiver->getMouseWheel());
 }
 

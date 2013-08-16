@@ -8,7 +8,7 @@
 #endif
 
 BaseApplication::BaseApplication()
-	: graphics(0), receiver(new KeyListener), data(new DataManager), menu(0), hwnd(0)
+	: graphics(0), receiver(new KeyListener), data(new DataManager), menu(0), hwnd(0), then((f32)(0))
 {
 	getBits();
 	gConfig.Load();
@@ -56,14 +56,17 @@ void BaseApplication::run()
 		vdriver->beginScene(true, true, SColor(255,0,0,0));
 
 		//run menu or game
+		const f32 now = (f32)(graphics->getTimer()->getTime());
+		const f32 frameDeltaTime = (now-then)/1000.f; // Time in seconds
+		then = now;
 		menu->run();
 		if (!menu->getVisible()) {
-			game->run();
+			game->run(frameDeltaTime);
 			if (receiver->isKeyDown(irr::KEY_ESCAPE))
 				menu->setVisible(true);
 		}
-		
-		scenemngr->drawAll();
+		effect->render();
+		//scenemngr->drawAll();
 		guienv->drawAll();
 
 		vdriver->endScene();

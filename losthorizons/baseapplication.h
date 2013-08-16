@@ -36,6 +36,9 @@ private:
 
 	void buildGraphics();
 	void getBits();
+
+	//for delta time calculation
+	f32 then;
 };
 
 #endif
