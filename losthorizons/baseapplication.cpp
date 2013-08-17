@@ -8,7 +8,7 @@
 #endif
 
 BaseApplication::BaseApplication()
-	: graphics(0), receiver(new KeyListener), data(new DataManager), menu(0), hwnd(0), then((f32)(0))
+	: graphics(0), receiver(new KeyListener), data(new DataManager), menu(0), effect(0), hwnd(0), then((f32)(0))
 {
 	getBits();
 	gConfig.Load();
@@ -27,7 +27,7 @@ void BaseApplication::init()
 	buildGraphics();
 	menu = new StartMenu(graphics, receiver, data);
 	game = new Gameloop(graphics, receiver, data);
-	effect = new PostProcessEffect();
+	effect = new PostProcessEffect;
 	gConfig.bFirstRun = false;
 }
 
@@ -35,6 +35,7 @@ void BaseApplication::killDevice()
 {
 	delete menu;
 	delete game;
+	delete effect;
 	graphics->closeDevice();
 	graphics->run();
     graphics->drop();

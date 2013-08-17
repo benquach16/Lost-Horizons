@@ -10,7 +10,7 @@ class TargetableObject : public Object
 public:
 	//list of all available objects
 	static std::list<TargetableObject*> allTargets;
-	//next available ship ID
+	//next available ID
 	static u32 nextID;
 
 	//default constructor

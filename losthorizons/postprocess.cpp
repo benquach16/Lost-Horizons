@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "postprocess.h"
 
-PostProcessEffect::PostProcessEffect() : screenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, 10)),
-	secondScreenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, 11))
+PostProcessEffect::PostProcessEffect()
+	: screenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, 10)),
+	  secondScreenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, 11))
 {
-
 	//create screen aligned quad and set the render to texture
 	//keep in mind we need to do two passes for proper bloom!
 	renderTarget = vdriver->addRenderTargetTexture(dimension2du(iWidth, iHeight), "renderTarget");
@@ -24,10 +24,12 @@ PostProcessEffect::PostProcessEffect() : screenQuad(new ScreenQuadNode(scenemngr
 	bp->drop();
 }
 
+PostProcessEffect::~PostProcessEffect()
+{
+}
+
 void PostProcessEffect::render()
 {
-
-
 	vdriver->setRenderTarget(renderTarget,true, true, video::SColor(0,0,0,255));
 	scenemngr->drawAll();
 	vdriver->setRenderTarget(secondRenderTarget, true, true, video::SColor(0,0,0,255));
@@ -37,5 +39,4 @@ void PostProcessEffect::render()
 	vdriver->setRenderTarget(video::ERT_FRAME_BUFFER, true, true);
 	screenQuad->render();
 	secondScreenQuad->render();
-	
 }

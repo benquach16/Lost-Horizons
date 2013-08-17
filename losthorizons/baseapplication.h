@@ -27,11 +27,11 @@ public:
 	void run();
 
 private:
-	PostProcessEffect *effect;
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
 	DataManager *data;
 	StartMenu *menu;
+	PostProcessEffect *effect;
 	HWND hwnd;
 
 	void buildGraphics();
