@@ -27,6 +27,7 @@ void Gameloop::createNewGame()
 	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
 		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
 	hud = new HUD(player);
+	turning = new TurningMarker(player);
 }
 
 void Gameloop::createLoadedGame(const std::string &filename)
@@ -40,6 +41,7 @@ Gameloop::~Gameloop()
 	delete gameSceneManager;
 	delete player;
 	delete hud;
+	delete turning;
 }
 
 void Gameloop::run(f32 frameDeltaTime)
@@ -51,6 +53,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	playerCam->run(player->getPosition(), frameDeltaTime);
 	gameSceneManager->runCurrentScene(frameDeltaTime);
 	hud->run();
+	turning->run();
 }
 
 void Gameloop::playerControl(f32 frameDeltaTime)

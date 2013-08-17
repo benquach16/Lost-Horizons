@@ -12,12 +12,15 @@ public:
 	virtual void run();
 
 protected:
+	//protected function
+	//does exactly what it says
+	void setVisible(bool visible);
 	//need player information so we can orient this correctly
 	Player* player;
 	//consists of 3 objects
-	Object *XYcircle;
-	Object *YZcircle;
-	Object *arrow;
+	ISceneNode *XYcircle;
+	ISceneNode *YZcircle;
+	ISceneNode *arrow;
 };
 
 #endif

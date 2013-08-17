@@ -7,6 +7,7 @@
 #include "datamanager.h"
 #include "gamescenemanager.h"
 #include "objectmanager.h"
+#include "turningmarker.h"
 #include "hud.h"
 
 class Gameloop
@@ -37,6 +38,7 @@ private:
 	ObjectManager *objectManager;
 	PlayerCamera *playerCam;
 	Player *player;
+	TurningMarker *turning;
 	HUD *hud;
 
 };
