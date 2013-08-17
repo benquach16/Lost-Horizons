@@ -30,7 +30,7 @@ void Projectile::run(f32 frameDeltaTime)
 				//hit a target
 				std::cout << "HIT TARGET" << std::endl;
 				Impact *impact = new Impact(getPosition());
-				//(*i)->damage(3000);
+				(*i)->damage(damage);
 				delete this;
 				return;
 			}

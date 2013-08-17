@@ -95,6 +95,7 @@ void Ship::run(f32 frameDeltaTime)
 	{
 		//we have to delete this ship when it asplodes
 		//so create an explosion and delete itself
+		removeThisFromTargets();
 		delete this;
 	}
 }
@@ -182,6 +183,18 @@ const TargetableObject* Ship::getShipTarget() const
 bool Ship::isPlayer() const
 {
 	return ID == 0;
+}
+
+void Ship::removeThisFromTargets()
+{
+	//loop thru ship lista nd remove this ship if it is a target
+	for(std::list<Ship*>::iterator i = allShips.begin(); i != allShips.end(); i++)
+	{
+		if((*i)->getShipTarget() == this)
+		{
+			(*i)->setTarget(0);
+		}
+	}
 }
 
 //private function
