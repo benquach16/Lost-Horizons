@@ -2,7 +2,7 @@
 #include "startmenu.h"
 
 StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
-	: MenuWindow(), graphics(graphics), receiver(receiver), data(data), config(0), confirmQuit(0)
+	: MenuWindow(), graphics(graphics), receiver(receiver), data(data), saved(true), close(false), config(0), confirmClose(0)
 {
 	//create window
 	window = guienv->addWindow(rect<s32>(0,0,iWidth,iHeight), true);
@@ -57,9 +57,9 @@ StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManage
 
 	//create child windows
 	config = new OptionMenu(window);
-	confirmQuit = new MessageMenu(rect<s32>(iWidth/2-120,iHeight/2-40,iWidth/2+120,iHeight/2+40), window, 0, MessageMenu::YESNO, false, false);
-	confirmQuit->moveButtons(position2d<s32>(0,-5));
-	confirmQuit->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"Are you sure you want to exit?");
+	confirmClose = new MessageMenu(rect<s32>(iWidth/2-120,iHeight/2-40,iWidth/2+120,iHeight/2+40), window, 0, MessageMenu::YESNO, false, false);
+	confirmClose->moveButtons(position2d<s32>(0,-5));
+	confirmClose->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"You did not save. Are you sure?");
 
 	setVisible(true);
 }
@@ -68,15 +68,15 @@ StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManage
 StartMenu::~StartMenu()
 {
 	delete config;
-	delete confirmQuit;
+	delete confirmClose;
 }
 
 void StartMenu::run()
 {
 	MenuWindow::run();
 	if (getVisible()) {
-		config->run();
 		if (resume->isPressed()) {
+			saved = false;
 			setVisible(false);
 		}
 		if (newgame->isPressed()) {
@@ -95,25 +95,30 @@ void StartMenu::run()
 		}
 		if (savegame->isPressed()) {
 			//function for saving
+			saved = true;
 			setVisible(false);
 		}
 		if (closegame->isPressed() && gConfig.bPlay) {
+			if (gConfig.bCheckIfSaved && !saved) {
+				confirmClose->setVisible(true);
+			} else {
+				close = true;
+			}
+		}
+		if (options->isPressed()) {
+			config->setVisible(true);
+		}
+		if (quit->isPressed()) {
+			gConfig.bExit = true;
+		}
+		if (close) {
 			gConfig.bPlay = false;
 			shift();
 			delete game;
 			game = new Gameloop(graphics, receiver, data);
 		}
-		if (options->isPressed()) {
-			config->setVisible(true);
-		}
-		gConfig.bExit = MessageMenu::YES == confirmQuit->run();
-		if (quit->isPressed()) {
-			if (gConfig.bConfirmOnQuit) {
-				confirmQuit->setVisible(true);
-			} else {
-				gConfig.bExit = true;
-			}
-		}
+		config->run();
+		close = MessageMenu::YES == confirmClose->run();
 	}
 }
 

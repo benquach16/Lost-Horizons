@@ -26,8 +26,10 @@ private:
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
 	DataManager *data;
+	bool saved;
+	bool close;
 	OptionMenu *config;
-	MessageMenu *confirmQuit;
+	MessageMenu *confirmClose;
 	gui::IGUIButton *resume;
 	gui::IGUIButton *newgame;
 	gui::IGUIButton *loadgame;

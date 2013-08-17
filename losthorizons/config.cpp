@@ -24,7 +24,7 @@ void Config::Load(const char *iniFileName)
 
 	general->Get("FirstRun", &bFirstRun, true);
 	general->Get("AutoLoadLast", &bAutoLoadLast, false);
-	general->Get("ConfirmOnQuit", &bConfirmOnQuit, false);
+	general->Get("CheckIfSaved", &bCheckIfSaved, false);
 	general->Get("TopMost", &bTopMost, false);
 
 	IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");
@@ -53,7 +53,7 @@ void Config::Save()
 		
 		general->Set("FirstRun", bFirstRun);
 		general->Set("AutoLoadLast", bAutoLoadLast);
-		general->Set("ConfirmOnQuit", bConfirmOnQuit);
+		general->Set("CheckIfSaved", bCheckIfSaved);
 		general->Set("TopMost", bTopMost);
 
 		IniFile::Section *graphics = iniFile.GetOrCreateSection("Graphics");

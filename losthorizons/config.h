@@ -28,7 +28,7 @@ struct Config
 
 	// General
 	bool bAutoLoadLast;
-	bool bConfirmOnQuit;
+	bool bCheckIfSaved;
 	bool bTopMost;
 
 	// Video

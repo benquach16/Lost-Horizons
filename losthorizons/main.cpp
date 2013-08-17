@@ -15,7 +15,7 @@ void getCmdArgs(int argc, char *argv[])
 		}
 		if (argv[i] == "-debug") {
 			gConfig.bFirstRun = false;
-			gConfig.bConfirmOnQuit = false;
+			gConfig.bCheckIfSaved = false;
 			gConfig.bTopMost = false;
 			gConfig.bShowFPSCounter = true;
 			gConfig.bShowDebugStats = true;
