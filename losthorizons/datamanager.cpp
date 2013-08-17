@@ -95,6 +95,7 @@ void DataManager::push()
 		ships.pop_front();
 	}
 	setShipTargets();
+	game->init();
 }
 
 void DataManager::save(const std::string &filename)

@@ -8,32 +8,9 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0)
+	  objectManager(new ObjectManager(graphics)), hud(0), turning(0)
 {
-	//player = gameSceneManager->getCurrentScene()->createPlayer(ObjectManager::shipList[0], vector3df(0,0,0), vector3df(0,0,0));	
 }
-
-void Gameloop::createNewGame()
-{
-	//create player and camera
-	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
-	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
-	TargetableObject::nextID = 0;
-	//create player ship
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_TERRAN);
-	//temporary for testing purposes only
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
-		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
-		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
-	hud = new HUD(player);
-	turning = new TurningMarker(player);
-}
-
-void Gameloop::createLoadedGame(const std::string &filename)
-{
-	data->load(filename);
-}// plan to get rid of this and just do things from the savemenu class
 
 Gameloop::~Gameloop()
 {
@@ -42,6 +19,13 @@ Gameloop::~Gameloop()
 	delete player;
 	delete hud;
 	delete turning;
+}
+
+void Gameloop::init()
+{
+	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
+	hud = new HUD(player);
+	turning = new TurningMarker(player);
 }
 
 void Gameloop::run(f32 frameDeltaTime)
@@ -54,6 +38,26 @@ void Gameloop::run(f32 frameDeltaTime)
 	hud->run();
 	turning->run();
 }
+
+void Gameloop::createNewGame()
+{
+	//create player and camera
+	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
+	TargetableObject::nextID = 0;
+	//create player ship
+	gameSceneManager->getCurrentScene()->createShip(E_FACTION_TERRAN);
+	//temporary for testing purposes only
+	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
+		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
+	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
+		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
+	init();
+}
+
+void Gameloop::createLoadedGame(const std::string &filename)
+{
+	data->load(filename);
+}// plan to get rid of this and just do things from the savemenu class
 
 void Gameloop::playerControl(f32 frameDeltaTime)
 {

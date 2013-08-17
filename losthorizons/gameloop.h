@@ -7,8 +7,8 @@
 #include "datamanager.h"
 #include "gamescenemanager.h"
 #include "objectmanager.h"
-#include "turningmarker.h"
 #include "hud.h"
+#include "turningmarker.h"
 
 class Gameloop
 {
@@ -16,6 +16,7 @@ public:
 	Gameloop();
 	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
 	~Gameloop();
+	void init();
 	void run(f32 frameDeltaTime);
 
 	//newgame or loadgame instances
@@ -38,9 +39,8 @@ private:
 	ObjectManager *objectManager;
 	PlayerCamera *playerCam;
 	Player *player;
-	TurningMarker *turning;
 	HUD *hud;
-
+	TurningMarker *turning;
 };
 
 #endif
