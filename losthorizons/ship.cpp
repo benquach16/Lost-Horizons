@@ -80,6 +80,10 @@ void Ship::run(f32 frameDeltaTime)
 		movement(frameDeltaTime);
 
 		//aim turrets
+		if(shipTarget)
+		{
+			
+		}
 
 		//if is not player do ai stuff
 		if (!isPlayer())

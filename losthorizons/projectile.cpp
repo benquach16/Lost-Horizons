@@ -6,7 +6,7 @@ std::list<Projectile*> Projectile::allProjectiles;
 
 Projectile::Projectile(u32 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation)
 	: Object(L"res/models/projectile.X", turretProps.getProjectileTex().c_str(), position, rotation, turretProps.getProjectileScale()),
-	originalPosition(position), ID(ID), velocity(turretProps.getProjectileSpeed()), range(turretProps.getRange())
+	originalPosition(position), ID(ID), velocity(turretProps.getProjectileSpeed()), range(turretProps.getRange()), damage(turretProps.getDamage())
 {
 	mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 	mesh->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
@@ -29,6 +29,8 @@ void Projectile::run(f32 frameDeltaTime)
 			if (ID != (*i)->getID() && (*i)->getBoundingBox().isPointInside(getPosition())) {
 				//hit a target
 				std::cout << "HIT TARGET" << std::endl;
+				Impact *impact = new Impact(getPosition());
+				//(*i)->damage(3000);
 				delete this;
 				return;
 			}

@@ -6,6 +6,7 @@
 
 #include "turretproperties.h"
 #include "object.h"
+#include "impact.h"
 
 //basic projectile class
 class Projectile : public Object
@@ -28,6 +29,7 @@ protected:
 	u32 ID;
 	int range;
 	int velocity;
+	int damage;
 
 	//iterator to this
 	std::list<Projectile*>::iterator it;

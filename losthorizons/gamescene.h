@@ -13,6 +13,7 @@
 #include "objectmanager.h"
 #include "playercamera.h"
 #include "keylistener.h"
+#include "effect.h"
 
 enum E_GAMESCENES
 {

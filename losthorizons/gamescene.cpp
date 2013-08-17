@@ -113,6 +113,8 @@ void GameScene::run(f32 frameDeltaTime)
 		next++;
 		(*i)->run(frameDeltaTime);
 	}
+	//run effects
+
 }
 
 //functions for creating scene objects
