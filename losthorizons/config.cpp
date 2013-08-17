@@ -4,7 +4,7 @@ Config gConfig;
 
 
 Config::Config()
-	: bSaveSettings(true), bRestart(false)
+	: bSaveSettings(true), bRestart(false), bPlay(false), bExit(false)
 {
 }
 
@@ -71,10 +71,6 @@ void Config::Save()
 		sound->Set("SFX", iSFX);
 		
 		if (!iniFile.Save(iniFilename_.c_str())) {
-			return;
 		}
-		// config saved
-	} else {
-		// not saving config
 	}
 }

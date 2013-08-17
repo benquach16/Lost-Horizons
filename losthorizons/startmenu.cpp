@@ -2,7 +2,7 @@
 #include "startmenu.h"
 
 StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
-	: MenuWindow(), graphics(graphics), receiver(receiver), data(data), exit(false), play(false), config(0), confirmQuit(0)
+	: MenuWindow(), graphics(graphics), receiver(receiver), data(data), config(0), confirmQuit(0)
 {
 	//create window
 	window = guienv->addWindow(rect<s32>(0,0,iWidth,iHeight), true);
@@ -75,18 +75,19 @@ void StartMenu::run()
 {
 	MenuWindow::run();
 	if (getVisible()) {
+		config->run();
 		if (resume->isPressed()) {
 			setVisible(false);
 		}
 		if (newgame->isPressed()) {
-			play = true;
+			gConfig.bPlay = true;
 			shift();
 			game->createNewGame();
 			setVisible(false);
 		}
 		if (loadgame->isPressed()) {
-			if (!play) {
-				play = true;
+			if (!gConfig.bPlay) {
+				gConfig.bPlay = true;
 				shift();
 			}
 			//game->createLoadedGame();
@@ -96,8 +97,8 @@ void StartMenu::run()
 			//function for saving
 			setVisible(false);
 		}
-		if (closegame->isPressed() && play) {
-			play = false;
+		if (closegame->isPressed() && gConfig.bPlay) {
+			gConfig.bPlay = false;
 			shift();
 			delete game;
 			game = new Gameloop(graphics, receiver, data);
@@ -105,26 +106,20 @@ void StartMenu::run()
 		if (options->isPressed()) {
 			config->setVisible(true);
 		}
+		gConfig.bExit = MessageMenu::YES == confirmQuit->run();
 		if (quit->isPressed()) {
 			if (gConfig.bConfirmOnQuit) {
 				confirmQuit->setVisible(true);
 			} else {
-				exit = true;
+				gConfig.bExit = true;
 			}
 		}
-		if (exit) {
-			vdriver->endScene();
-			std::exit(0);
-		}
-		exit = MessageMenu::YES == confirmQuit->run();
-
-		config->run();
 	}
 }
 
 void StartMenu::shift()
 {
-	if (play) {
+	if (gConfig.bPlay) {
 		newgame->setVisible(false);
 		loadgame->move(position2d<s32>(-60,0));
 		savegame->setVisible(true);

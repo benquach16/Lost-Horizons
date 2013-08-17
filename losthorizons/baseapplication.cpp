@@ -45,11 +45,16 @@ void BaseApplication::run()
 	//graphics loop
 	while (graphics->run())
 	{
+		if (gConfig.bExit) {
+			return;
+		}
 		if (gConfig.bRestart) {
 			gConfig.bRestart = false;
 			data->pull();
 			killDevice();
 			init();
+			if (gConfig.bPlay)
+				menu->shift();
 			data->push();
 		}
 
@@ -92,10 +97,8 @@ void BaseApplication::buildGraphics()
 			gConfig.bVsync,
 			receiver);
 		
-	if(!graphics)
-	{
+	if (!graphics)
 		std::exit(1);
-	}
 
 	vdriver = graphics->getVideoDriver();
 	scenemngr = graphics->getSceneManager();

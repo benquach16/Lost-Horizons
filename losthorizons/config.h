@@ -21,8 +21,10 @@ struct Config
 
 	// Special Use
 	bool bSaveSettings;
-	bool bFirstRun;
 	bool bRestart;
+	bool bPlay;
+	bool bExit;
+	bool bFirstRun;
 
 	// General
 	bool bAutoLoadLast;

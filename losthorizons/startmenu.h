@@ -20,15 +20,12 @@ public:
 	~StartMenu();
 
 	void run();
-
-private:
 	void shift();
 
+private:
 	IrrlichtDevice *graphics;
 	KeyListener *receiver;
 	DataManager *data;
-	bool exit;
-	bool play;
 	OptionMenu *config;
 	MessageMenu *confirmQuit;
 	gui::IGUIButton *resume;

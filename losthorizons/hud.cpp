@@ -56,7 +56,7 @@ void HUD::updateTargetInfo()
 	if(target)
 	{
 		//if a target exists
-		targetName->setText(target->getName().c_str()); //THIS LINE CAUSES A CRASH SOMEHOW IF YOU START A SECOND NEW GAME
+		targetName->setText(target->getName().c_str());
 		//at this point we pull object information from this thing
 	}
 	else
