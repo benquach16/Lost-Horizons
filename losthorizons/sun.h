@@ -21,6 +21,8 @@ public:
 protected:
 	//light source
 	irr::scene::ILightSceneNode *light;
+	irr::scene::IBillboardSceneNode *corona;
+	irr::scene::IBillboardSceneNode *corona2;
 };
 
 #endif

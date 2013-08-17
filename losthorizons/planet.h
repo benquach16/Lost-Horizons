@@ -10,10 +10,9 @@
 class Planet : public TargetableObject
 {
 public:
-	//default constructor
-	Planet();
+
 	//parameterized constructor
-	Planet(const E_PLANET_TYPES &type);
+	Planet(const vector3df &position);
 	~Planet();
 	virtual void run();
 

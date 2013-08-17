@@ -37,3 +37,10 @@ void BloomCallback::OnSetConstants(video::IMaterialRendererServices* services, s
 	f32 offset[2] = {offsetX, offsetY};
 	//services->setVertexShaderConstant("Offset", offset, 2);
 }
+
+void PlanetCallback::OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
+{
+	matrix4 projectionMatrix = services->getVideoDriver()->getTransform(video::ETS_PROJECTION);
+	matrix4 viewMatrix = services->getVideoDriver()->getTransform(video::ETS_VIEW);
+	matrix4 worldMatrix = services->getVideoDriver()->getTransform(video::ETS_WORLD);
+}

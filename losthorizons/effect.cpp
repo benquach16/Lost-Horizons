@@ -3,6 +3,7 @@
 
 std::vector<Effect*> Effect::allEffects;
 
+//constructor
 Effect::Effect(int lengthInMilliseconds) : lengthInMilliseconds(lengthInMilliseconds), totalTime(timer->getTime() + lengthInMilliseconds)
 {
 	allEffects.push_back(this);

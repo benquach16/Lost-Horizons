@@ -19,5 +19,11 @@ public:
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData);
 };
 
+class PlanetCallback : public video::IShaderConstantSetCallBack
+{
+public:
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData);
+};
+
 
 #endif
