@@ -10,9 +10,7 @@ TargetableObject::TargetableObject()
 
 TargetableObject::TargetableObject(u32 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation)
 	: Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()),
-	  ID(ID), name(modelProps.getName()), description(modelProps.getDesc()),
-	  screenPosition(scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera())),
-	  targetSquare(guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition))
+	  ID(ID), name(modelProps.getName()), description(modelProps.getDesc())
 {
 	allTargets.push_front(this);
 	it = allTargets.begin();
@@ -20,9 +18,7 @@ TargetableObject::TargetableObject(u32 ID, const ModelProperties& modelProps, co
 
 TargetableObject::TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
 		const vector3df &position, const vector3df &rotation, const vector3df &scale)
-		: Object(filename, position, rotation, scale),
-		  screenPosition(scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera())),
-		  targetSquare(guienv->addImage(vdriver->getTexture("res/menu/target_array.png"),screenPosition))
+		: Object(filename, position, rotation, scale)
 {
 	allTargets.push_front(this);
 	it = allTargets.begin();
@@ -30,7 +26,6 @@ TargetableObject::TargetableObject(const std::wstring& name, const std::wstring 
 
 TargetableObject::~TargetableObject()
 {
-	targetSquare->remove();
 	allTargets.erase(it);
 }
 
@@ -39,7 +34,8 @@ void TargetableObject::run(f32 frameDeltaTime)
 	Object::run(frameDeltaTime);
 	//update 2d position of this object
 	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
-	targetSquare->setRelativePosition(vector2d<s32>(screenPosition.X-32,screenPosition.Y-32));
+	//draw a 2d target array on this object
+	vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, SColor(255,255,255,255), true);
 }
 
 const u32 TargetableObject::getID() const

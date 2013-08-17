@@ -66,13 +66,12 @@ void BaseApplication::run()
 		const f32 frameDeltaTime = (now-then)/1000.f; // Time in seconds
 		then = now;
 		menu->run();
+		effect->render();
 		if (!menu->getVisible()) {
 			game->run(frameDeltaTime);
 			if (receiver->isKeyDown(irr::KEY_ESCAPE))
 				menu->setVisible(true);
 		}
-		effect->render();
-		//scenemngr->drawAll();
 		guienv->drawAll();
 
 		vdriver->endScene();

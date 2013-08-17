@@ -79,13 +79,10 @@ public:
 	void setScale(const vector3df &newScale);
 
 protected:
-
 	//basic info about object
 	vector3df position;
 	vector3df rotation;
 	vector3df scale;
-
-
 
 	//3d infomation
 	IAnimatedMeshSceneNode *mesh;
@@ -93,7 +90,6 @@ protected:
 
 	//iterator to this
 	std::list<Object*>::iterator it;
-
 };
 
 #endif

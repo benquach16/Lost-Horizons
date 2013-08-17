@@ -38,9 +38,8 @@ protected:
 	std::wstring name;
 	std::wstring description;
 
-	//for creating a 2d hud icon for the targetable object
+	//for drawing targetting icons
 	vector2di screenPosition;
-	gui::IGUIImage *targetSquare;
 
 	//iterator to this
 	std::list<TargetableObject*>::iterator it;

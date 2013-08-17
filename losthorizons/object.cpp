@@ -7,7 +7,6 @@ std::list<Object*> Object::allObjects;
 //default constructor
 Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0)), scale(vector3df(0,0,0))
 {
-
 }
 
 //constructor with mesh already allocated

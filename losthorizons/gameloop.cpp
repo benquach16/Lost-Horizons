@@ -46,7 +46,6 @@ Gameloop::~Gameloop()
 
 void Gameloop::run(f32 frameDeltaTime)
 {
-
 	playerControl(frameDeltaTime);
 	cameraControl();
 	selectTarget();
@@ -59,60 +58,49 @@ void Gameloop::run(f32 frameDeltaTime)
 void Gameloop::playerControl(f32 frameDeltaTime)
 {
 	//all actions the player can do are stored here
-	if (receiver->isKeyDown(irr::KEY_KEY_X))
-	{
+	if (receiver->isKeyDown(irr::KEY_KEY_X)) {
 		//accelerate
 		player->increaseVelocity(frameDeltaTime);
-	}
-	else if (receiver->isKeyDown(irr::KEY_KEY_Z))
-	{
+	} else if (receiver->isKeyDown(irr::KEY_KEY_Z)) {
 		//decelerate
 		player->decreaseVelocity(frameDeltaTime);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_A))
-	{
+	if (receiver->isKeyDown(irr::KEY_KEY_A)) {
 		//rotate left
 		vector3df rot = player->getTargetRotation();
 		rot.Y -= 35*frameDeltaTime;
 		player->setTargetRotation(rot);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_D))
-	{
+	if (receiver->isKeyDown(irr::KEY_KEY_D)) {
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.Y += 35*frameDeltaTime;
 		player->setTargetRotation(rot);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_W))
-	{
-		//rotate right
+	if (receiver->isKeyDown(irr::KEY_KEY_W)) {
+		//rotate up
 		vector3df rot = player->getTargetRotation();
 		rot.X -= 35*frameDeltaTime;
 		player->setTargetRotation(rot);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_S))
-	{
-		//rotate right
+	if (receiver->isKeyDown(irr::KEY_KEY_S)) {
+		//rotate down
 		vector3df rot = player->getTargetRotation();
 		rot.X += 35*frameDeltaTime;
 		player->setTargetRotation(rot);
 	}
-	if(receiver->isKeyDown(irr::KEY_SPACE))
-	{
+	if (receiver->isKeyDown(irr::KEY_SPACE)) {
 		player->fireTurrets();
 	}
-
 }
 
 void Gameloop::cameraControl()
 {
-	if (receiver->getRightMouseButton())
-	{
+	if (receiver->getRightMouseButton()) {
 		//we can rotate the camera around this way
 		playerCam->rotateX(receiver->getMouseX());
 		playerCam->rotateY(receiver->getMouseY());
-	}
-	else
+	} else
 		playerCam->updateMousePosition(receiver->getMouseX(), receiver->getMouseY());
 	playerCam->zoom(receiver->getMouseWheel());
 }
@@ -120,15 +108,12 @@ void Gameloop::cameraControl()
 void Gameloop::selectTarget()
 {
 	//do target selection code here
-	if(receiver->getLeftMouseButton())
-	{
-		//see if theres a square here
-		for(std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); i++)
-		{
+	if (receiver->getLeftMouseButton()) {
+		//see if there's a square here
+		for (std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); ++i) {
 			const int x = receiver->getMouseX() - (*i)->getScreenPosition().X;
 			const int y = receiver->getMouseY() - (*i)->getScreenPosition().Y;
-			if(((x*x)+(y*y)) < 1024)
-			{
+			if ((x*x + y*y) < 1024) {
 				player->setTarget(*i);
 				return;
 			}

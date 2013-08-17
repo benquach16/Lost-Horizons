@@ -24,21 +24,16 @@ GameSceneManager::~GameSceneManager()
 
 void GameSceneManager::runCurrentScene(f32 frameDeltaTime)
 {
-	if(currentScene)
+	if (currentScene)
 		currentScene->run(frameDeltaTime);
 }
 
 void GameSceneManager::changeCurrentScene(E_GAMESCENES scene)
 {
 	//need to delete the entire scene
-	
-	if(currentScene)
-	{
+	if (currentScene)
 		delete currentScene;
-		currentScene = new GameScene(graphics, scene);
-	}
-	else
-		currentScene = new GameScene(graphics, scene);
+	currentScene = new GameScene(graphics, scene);
 }
 
 GameScene *GameSceneManager::getCurrentScene()

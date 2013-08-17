@@ -2,24 +2,19 @@
 #include "player.h"
 
 Player::Player(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-	: Ship(faction, shipType, position, rotation),
-	  targetedIcon(guienv->addImage(vdriver->getTexture("res/menu/target.png"), core::vector2d<s32>(0,0)))
+	: Ship(faction, shipType, position, rotation)
 {
-	targetedIcon->setVisible(false);
 	game->setPlayer(this);
 }
 
 Player::Player(const ShipInformation &info, const vector3df &position, const vector3df &rotation)
-	: Ship(0, info, position, rotation),
-	  targetedIcon(guienv->addImage(vdriver->getTexture("res/menu/target.png"), core::vector2d<s32>(0,0)))
+	: Ship(0, info, position, rotation)
 {
-	targetedIcon->setVisible(false);
 	game->setPlayer(this);
 }
 
 Player::~Player()
 {
-	targetedIcon->remove();
 }
 
 void Player::run(f32 frameDeltaTime)
@@ -27,13 +22,7 @@ void Player::run(f32 frameDeltaTime)
 	Ship::run(frameDeltaTime);
 	//do player specific stuff
 	if (shipTarget) {
-		//make the ship target have a square around it
-		
-		targetedIcon->setVisible(true);
-		vector2di t(shipTarget->getScreenPosition());
-		t.X -= 32;
-		t.Y -= 32;
-		targetedIcon->setRelativePosition(t);
-	} else
-		targetedIcon->setVisible(false);
+		//make the ship's target have a square around it
+		vdriver->draw2DImage(vdriver->getTexture("res/menu/target.png"), shipTarget->getScreenPosition() - vector2di(32), rect<s32>(0,0,64,64), 0, SColor(255,255,255,255), true);
+	}
 }

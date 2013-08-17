@@ -12,8 +12,7 @@ public:
 	virtual void run(f32 frameDeltaTime);
 
 private:
-	//pointer to an image of target selected icon around target
-	gui::IGUIImage *targetedIcon;
+	
 };
 
 
