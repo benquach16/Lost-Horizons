@@ -41,9 +41,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\irrlicht-1.8\include;$(IncludePath)</IncludePath>
-    <ReferencePath>C:\irrlicht-1.8\lib\Win32-visualstudio;$(ReferencePath)</ReferencePath>
-    <LibraryPath>C:\irrlicht-1.8\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\irrKlang-1.4.0\include;C:\irrlicht-1.8\include;$(IncludePath)</IncludePath>
+    <ReferencePath>C:\irrKlang-1.4.0\lib\Win32-visualStudio;C:\irrlicht-1.8\lib\Win32-visualstudio;$(ReferencePath)</ReferencePath>
+    <LibraryPath>C:\irrKlang-1.4.0\lib\Win32-visualStudio;C:\irrlicht-1.8\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

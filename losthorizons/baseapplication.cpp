@@ -5,6 +5,7 @@
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
+#pragma comment(lib, "irrklang.lib")
 #endif
 
 BaseApplication::BaseApplication()
