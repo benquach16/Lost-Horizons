@@ -24,7 +24,9 @@ public:
 	~PlanetProperties();
 
 protected:
-
+	int maxPopulation;
+	int maxDevelopmentIndex;
+	int maxTechLevel;
 };
 
 #endif

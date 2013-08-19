@@ -47,12 +47,11 @@ void PostProcessEffect::render()
 	vdriver->setRenderTarget(renderTarget,true, true, video::SColor(0,0,0,255));
 	screenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial1);
 	//secondScreenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial2);
-	vdriver->draw2DImage(renderTarget, rect<s32>(0,0,iWidth, iHeight), rect<s32>(0,0,iWidth, iHeight));
+	//vdriver->draw2DImage(renderTarget, rect<s32>(0,0,iWidth, iHeight), rect<s32>(0,0,iWidth, iHeight));
 	scenemngr->drawAll();
 
 	vdriver->setRenderTarget(secondRenderTarget, true, true, video::SColor(0,0,0,255));
 	screenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial2);
-	vdriver->draw2DImage(renderTarget, rect<s32>(0,0,iWidth, iHeight), rect<s32>(0,0,iWidth, iHeight));
 	scenemngr->drawAll();
 	vdriver->setRenderTarget(video::ERT_FRAME_BUFFER, true, true);
 	screenQuad->render();

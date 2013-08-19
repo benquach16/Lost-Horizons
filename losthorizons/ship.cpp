@@ -80,10 +80,6 @@ void Ship::run(f32 frameDeltaTime)
 		movement(frameDeltaTime);
 
 		//aim turrets
-		if(shipTarget)
-		{
-			
-		}
 
 		//if is not player do ai stuff
 		if (!isPlayer())
@@ -320,11 +316,11 @@ void Ship::aimTurrets(float frameDeltaTime)
 void Ship::runAI()
 {
 	updateStates();
-	if(STATE_FLEEING)
+	if(info.currentAIState == STATE_FLEEING)
 	{
 		//do fleeing code here
 	}
-	else if(STATE_ATTACKING)
+	else if(info.currentAIState == STATE_ATTACKING)
 	{
 		//do attacking code here
 		if(shipTarget)
@@ -335,6 +331,11 @@ void Ship::runAI()
 		{
 			//if theres no target, change the state
 		}
+	}
+	else if(info.currentAIState == STATE_PATROLLING)
+	{
+		//crooze
+		info.velocity = info.maxVelocity/2;
 	}
 }
 

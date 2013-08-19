@@ -28,8 +28,8 @@ Impact::~Impact()
 }
 
 
-void Impact::run()
+bool Impact::run()
 {
-	Effect::run();
+	return Effect::run();
 }
 

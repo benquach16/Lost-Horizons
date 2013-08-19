@@ -107,6 +107,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="objectmanager.h" />
     <ClInclude Include="optionmenu.h" />
+    <ClInclude Include="planetproperties.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playercamera.h" />
     <ClInclude Include="postprocess.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="objectmanager.cpp" />
     <ClCompile Include="optionmenu.cpp" />
     <ClCompile Include="planet.cpp" />
+    <ClCompile Include="planetproperties.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playercamera.cpp" />
     <ClCompile Include="postprocess.cpp" />

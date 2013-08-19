@@ -177,6 +177,9 @@
     <ClInclude Include="turningmarker.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="planetproperties.h">
+      <Filter>Header Files\properties</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -277,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="planet.cpp">
       <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="planetproperties.cpp">
+      <Filter>Source Files\properties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,11 +14,11 @@ class Impact : public Effect
 public:
 	Impact(const vector3df& position);
 	virtual ~Impact();
-	virtual void run();
+	virtual bool run();
 
 protected:
 	scene::IParticleSystemSceneNode *fireParticles;
-
+	scene::IParticleSystemSceneNode *debrisParticles;
 };
 
 #endif

@@ -114,9 +114,16 @@ void GameScene::run(f32 frameDeltaTime)
 		(*i)->run(frameDeltaTime);
 	}
 	//run effects
-
+	for(unsigned i = 0; i < Effect::allEffects.size(); i++)
+	{
+		if(!Effect::allEffects[i]->run())
+		{
+			
+			Effect::allEffects.erase(Effect::allEffects.begin()+i);
+		}
+	}
 }
-
+ 
 //functions for creating scene objects
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 {
