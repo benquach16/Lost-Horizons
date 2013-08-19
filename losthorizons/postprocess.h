@@ -23,6 +23,11 @@ protected:
 	ScreenQuadNode *screenQuad;
 	//second pass
 	ScreenQuadNode *secondScreenQuad;
+
+	//materials for shaders
+	s32 shaderMaterial1;
+	s32 shaderMaterial2;
+	s32 shaderMaterial3;
 };
 
 #endif
