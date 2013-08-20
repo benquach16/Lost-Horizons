@@ -7,9 +7,11 @@
 //so for now, keep the design as a singleton
 #include <list>
 #include <stack>
+
 #include "player.h"
 #include "projectile.h"
 #include "sun.h"
+#include "planet.h"
 #include "objectmanager.h"
 #include "playercamera.h"
 #include "keylistener.h"

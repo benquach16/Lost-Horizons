@@ -24,6 +24,7 @@ public:
 	~PlanetProperties();
 
 protected:
+	std::wstring cloudMap;
 	int maxPopulation;
 	int maxDevelopmentIndex;
 	int maxTechLevel;

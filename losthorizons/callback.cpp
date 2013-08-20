@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "callback.h"
-
+#include <iostream>
 
 void BumpMapCallback::OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
 {
@@ -40,7 +40,22 @@ void BloomCallback::OnSetConstants(video::IMaterialRendererServices* services, s
 
 void PlanetCallback::OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
 {
+	IAnimatedMeshSceneNode *mesh = (IAnimatedMeshSceneNode*)userData;
 	matrix4 projectionMatrix = services->getVideoDriver()->getTransform(video::ETS_PROJECTION);
 	matrix4 viewMatrix = services->getVideoDriver()->getTransform(video::ETS_VIEW);
 	matrix4 worldMatrix = services->getVideoDriver()->getTransform(video::ETS_WORLD);
+	matrix4 projectionViewWorldMatrix = projectionMatrix*viewMatrix*worldMatrix;
+	services->setVertexShaderConstant("Projection", projectionMatrix.pointer(), 16);
+	services->setVertexShaderConstant("World", worldMatrix.pointer(), 16);
+	services->setVertexShaderConstant("View", viewMatrix.pointer(), 16);
+	vector3df p = scenemngr->getActiveCamera()->getAbsolutePosition();
+	f32 pos[3] = {p.X,p.Y,p.Z};
+	
+	services->setVertexShaderConstant("CameraPosition", pos, 3);
+
+	f32 dir[4] = {1,0,0,0};
+	services->setVertexShaderConstant("DiffuseLightDirection", dir, 4);   
+
+
+
 }

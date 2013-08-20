@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<itemStats type="planet">
+	<name>Argrea</name>
+	<description>One of the first planets colonized in the Tau Ceti System. An important shipyard and trading hub</description>
+	<cost>-1</cost>
+	<weight>-1</weight>
+  <modelStats>
+    <filename>res/models/planets/habitable.X</filename>
+    <diffuseMap>res/textures/planets/habitable_1.jpg</diffuseMap>
+    <normalMap>res/textures/planets/habitable_1_normal.jpg</normalMap>
+    <scaleX>1000</scaleX>
+    <scaleY>1000</scaleY>
+    <scaleZ>1000</scaleZ>
+  </modelStats>
+  <planetStats>
+	<cloudMap>res/textures/planets/1.png</cloudMap>
+	<maxPopulation>200000</maxPopulation>
+	<maxDevelopmentIndex>100</maxDevelopmentIndex>
+    <maxTechLevel>100</maxTechLevel> 
+  </planetStats>
+</itemStats>

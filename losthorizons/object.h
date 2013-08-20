@@ -68,6 +68,8 @@ public:
 	//automatically enable shaders if this happens
 	void setNormalMap(video::ITexture *normalMap);
 
+
+
 	//accessors
 	const vector3df& getPosition() const;
 	const vector3df& getRotation() const;

@@ -6,6 +6,7 @@
 #include "itemproperties.h"
 #include "shipproperties.h"
 #include "turretproperties.h"
+#include "planetproperties.h"
 
 
 //load all objects from xml files
@@ -36,10 +37,15 @@ public:
 	{
 		RAILGUNI,
 	};
+	enum E_PLANET_LIST
+	{
+		ARGREA,
+	};
 	
 	static std::vector<ItemProperties> itemList;
 	static std::vector<ShipProperties> shipList;
 	static std::vector<TurretProperties> turretList;
+	static std::vector<PlanetProperties> planetList;
 };
 
 #endif

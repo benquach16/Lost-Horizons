@@ -6,17 +6,20 @@
 #include "planetproperties.h"
 
 
-
+//planet class
 class Planet : public TargetableObject
 {
 public:
 
 	//parameterized constructor
-	Planet(const vector3df &position);
+	Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df &position);
 	~Planet();
 	virtual void run();
 
 protected:
+	//protected function
+	//does as described
+	void enablePlanetShader();
 	//planets have basic stats
 	//different for each type of planet
 

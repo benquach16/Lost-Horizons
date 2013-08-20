@@ -109,6 +109,8 @@ void Object::setNormalMap(video::ITexture *normalMap)
 	bp->drop();
 }
 
+
+
 const vector3df& Object::getPosition() const
 {
 	return position;

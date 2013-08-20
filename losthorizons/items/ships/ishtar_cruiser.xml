@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<itemStats type="ship"> 
+	<name>Ishtar Class Cruiser</name>
+	<description>Provian Consortium Cruiser.</description> 
+	<cost>75000</cost> 
+	<weight>1200000</weight>
+	<modelStats>
+		<filename>res/models/ships/ishtar.X</filename>
+		<diffuseMap>res/models/ships/shiphull.png</diffuseMap>
+		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
+		<scaleX>0.15</scaleX>
+		<scaleY>0.15</scaleY>
+		<scaleZ>0.15</scaleZ>
+	</modelStats>
+	<shipStats>
+		<maxHull>2000</maxHull>
+		<maxArmor>1000</maxArmor>
+		<maxShield>2000</maxShield>
+		<maxVelocity>59</maxVelocity>
+		<maxTurn>10</maxTurn>
+		<maxEnergy>1000</maxEnergy>
+		<maxCrew>800</maxCrew>
+		<maxFighters>10</maxFighters>
+		<heavyTurret num="0">
+		</heavyTurret>
+		<mediumTurret num="4">
+			<A rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<B rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<C rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<D rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
+		</mediumTurret>
+		<lightTurret num="4">
+			<A rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<B rotationX="0" rotationY="0" rotationZ="0" arc="270"/>
+			<C rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
+			<D rotationX="0" rotationY="180" rotationZ="0" arc="270"/>
+		</lightTurret>
+    <pdTurret num="4">
+    </pdTurret>
+	</shipStats>
+</itemStats>

@@ -35,6 +35,7 @@ private:
 
 	gui::IGUIImage *targetBkg;
 	gui::IGUIStaticText *targetName;
+	gui::IGUIStaticText *targetDistance;
 
 	//pointer to tha player so we can grab information
 	Player *player;
