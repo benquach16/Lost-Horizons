@@ -5,7 +5,7 @@
 
 //BEGIN TURRETSLOT
 TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS &turretClass, Ship* parent) : 
-	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent), shootJoint(0);
+	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent)
 {
 	//we have not one but two scene nodes beecause joints fuck things up
 	offset = scenemngr->addEmptySceneNode(joint);
@@ -62,9 +62,15 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 		float angleX = std::atan2(tmp,y)*static_cast<float>(180/3.1415);
 
 		angleX -= 90;
+		if(angleY>360)
+			angleY-=360;
+		if(angleY < 0)
+			angleY+=360;
 		currentAim = vector3df(angleX, angleY,0);
 		int difference = (360-properties.arc)/2;
 		//std::cout << difference << std::endl;
+
+		//normalize angles
 		if(angleY + difference < offset->getAbsoluteTransformation().getRotationDegrees().Y || angleY - difference > offset->getAbsoluteTransformation().getRotationDegrees().Y)
 		{
 			//inside the arc horizontally
