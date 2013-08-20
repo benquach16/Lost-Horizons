@@ -79,6 +79,9 @@ public:
 protected:
 	TurretSlot *parentSlot;
 	TurretProperties props;
+
+	//pointer to joint that our fire position is
+	IBoneSceneNode *shootJoint;
 };
 
 #endif

@@ -5,7 +5,7 @@
 
 //BEGIN TURRETSLOT
 TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS &turretClass, Ship* parent) : 
-	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent)
+	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent), shootJoint(0);
 {
 	//we have not one but two scene nodes beecause joints fuck things up
 	offset = scenemngr->addEmptySceneNode(joint);
@@ -64,11 +64,13 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 		angleX -= 90;
 		currentAim = vector3df(angleX, angleY,0);
 		int difference = (360-properties.arc)/2;
-
+		//std::cout << difference << std::endl;
 		if(angleY + difference < offset->getAbsoluteTransformation().getRotationDegrees().Y || angleY - difference > offset->getAbsoluteTransformation().getRotationDegrees().Y)
 		{
 			//inside the arc horizontally
 			//pass rotation to the turret so we dont do math again unnecessarily
+			//draw so player knows which turrets can shoot
+			vdriver->draw3DLine(joint->getAbsolutePosition(), point, SColor(255,0,255,0));
 			angleY -= parent->getRotation().Y;
 			angleY += 180 - offset->getRotation().Y;
 			childTurret->aim(vector3df(angleX, angleY,0), frameDeltaTime);
@@ -129,9 +131,11 @@ Turret::Turret()
 }
 
 Turret::Turret(const TurretProperties &props, ISceneNode *parent) : 
-	Object(props.getFilename().c_str(), vector3df(0,0,0), vector3df(0,0,0), props.getScale()), props(props)
+	Object(props.getFilename().c_str(), vector3df(0,0,0), vector3df(0,0,0), props.getScale()), props(props), shootJoint(0)
 {
+	shootJoint = mesh->getJointNode("shoot");
 	mesh->setParent(parent);
+	setNormalMap(vdriver->getTexture(props.getNormalMap().c_str()));
 }
 
 Turret::~Turret()
@@ -161,7 +165,7 @@ void Turret::fire(const vector3df &rotation)
 	//probably should modify this later
 	if(rand() % (int)props.getReloadSpeed() < 3)
 	{//for now, projectile gets an ID. change to ship pointer later
-		Projectile *p = new Projectile(0, ObjectManager::turretList[0], mesh->getAbsolutePosition(), rotation);
+		Projectile *p = new Projectile(0, ObjectManager::turretList[0], shootJoint->getAbsolutePosition(), rotation);
 	}
 }
 
