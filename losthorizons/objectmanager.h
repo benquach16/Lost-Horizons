@@ -32,6 +32,7 @@ public:
 	enum E_SHIP_LIST
 	{
 		PRAE_CRUISER,
+		ISHTAR_CRUISER,
 	};
 	enum E_TURRET_LIST
 	{

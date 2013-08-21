@@ -59,7 +59,7 @@ public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
 
-	Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
+	Ship(const E_GAME_FACTIONS& faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
 	Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
 	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);

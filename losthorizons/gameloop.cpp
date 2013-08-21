@@ -51,6 +51,8 @@ void Gameloop::createNewGame()
 		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
 	gameSceneManager->getCurrentScene()->createShip(E_FACTION_NEUTRAL,
 		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
+	gameSceneManager->getCurrentScene()->createShip(E_FACTION_PIRATE,
+		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(500,0,1000));
 	init();
 }
 

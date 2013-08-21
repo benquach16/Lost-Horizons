@@ -8,9 +8,9 @@
     <filename>res/models/planets/habitable.X</filename>
     <diffuseMap>res/textures/planets/habitable_1.jpg</diffuseMap>
     <normalMap>res/textures/planets/habitable_1_normal.jpg</normalMap>
-    <scaleX>1000</scaleX>
-    <scaleY>1000</scaleY>
-    <scaleZ>1000</scaleZ>
+    <scaleX>5000</scaleX>
+    <scaleY>5000</scaleY>
+    <scaleZ>5000</scaleZ>
   </modelStats>
   <planetStats>
 	<cloudMap>res/textures/planets/1.png</cloudMap>

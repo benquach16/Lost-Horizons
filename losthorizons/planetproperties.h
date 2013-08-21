@@ -23,6 +23,7 @@ public:
 	PlanetProperties(irr::IrrlichtDevice *graphics, const std::string &f);
 	~PlanetProperties();
 
+	const std::wstring& getCloudMap() const;
 protected:
 	std::wstring cloudMap;
 	int maxPopulation;

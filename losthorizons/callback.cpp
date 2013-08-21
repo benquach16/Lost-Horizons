@@ -45,17 +45,20 @@ void PlanetCallback::OnSetConstants(video::IMaterialRendererServices* services, 
 	matrix4 viewMatrix = services->getVideoDriver()->getTransform(video::ETS_VIEW);
 	matrix4 worldMatrix = services->getVideoDriver()->getTransform(video::ETS_WORLD);
 	matrix4 projectionViewWorldMatrix = projectionMatrix*viewMatrix*worldMatrix;
-	services->setVertexShaderConstant("Projection", projectionMatrix.pointer(), 16);
-	services->setVertexShaderConstant("World", worldMatrix.pointer(), 16);
-	services->setVertexShaderConstant("View", viewMatrix.pointer(), 16);
+	matrix4 inverseWorld = services->getVideoDriver()->getTransform(video::ETS_WORLD);
+	inverseWorld.makeInverse();
+	services->setVertexShaderConstant("matWorldViewProj", projectionViewWorldMatrix.pointer(), 16);
+	services->setVertexShaderConstant("matWorldIT", inverseWorld.pointer(), 16);
+	services->setVertexShaderConstant("matWorld", worldMatrix.pointer(), 16);
 	vector3df p = scenemngr->getActiveCamera()->getAbsolutePosition();
-	f32 pos[3] = {p.X,p.Y,p.Z};
+	f32 pos[4] = {p.X,p.Y,p.Z,0};
 	
-	services->setVertexShaderConstant("CameraPosition", pos, 3);
+	services->setVertexShaderConstant("vecViewPosition", pos, 4);
 
-	f32 dir[4] = {1,0,0,0};
-	services->setVertexShaderConstant("DiffuseLightDirection", dir, 4);   
+	f32 dir[3] = {1,0,0};
+	services->setPixelShaderConstant("lightVec", dir, 3);   
 
-
+	f32 col[3] = {255,200,255};
+	//services->setPixelShaderConstant("lightCol", col, 3);   
 
 }

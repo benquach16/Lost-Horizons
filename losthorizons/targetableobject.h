@@ -17,10 +17,11 @@ public:
 	TargetableObject();
 	//parameterized constructor
 	//constructor with a model properties
-	TargetableObject(u32 ID, const ModelProperties &modelProps, const vector3df &position, const vector3df &rotation);
+	TargetableObject(u32 ID, const ModelProperties &modelProps, const vector3df &position, const vector3df &rotation,
+		const E_GAME_FACTIONS& faction);
 	//raw constructor with all the other inputs
 	TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
-		const vector3df &position, const vector3df &rotation, const vector3df &scale);
+		const vector3df &position, const vector3df &rotation, const vector3df &scale, const E_GAME_FACTIONS& faction);
 	virtual ~TargetableObject();
 	virtual void run(f32 frameDeltaTime);
 	//overridable function designed to return specific information related to this object to the hud
@@ -37,6 +38,7 @@ protected:
 	u32 ID;
 	std::wstring name;
 	std::wstring description;
+	E_GAME_FACTIONS faction;
 
 	//for drawing targetting icons
 	vector2di screenPosition;

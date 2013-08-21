@@ -42,6 +42,7 @@ void HUD::setVisible(bool visible)
 	shipWheel->setVisible(visible);
 	velocity->setVisible(visible);
 	targetBkg->setVisible(visible);
+
 }
 
 HUD::~HUD()
@@ -49,6 +50,9 @@ HUD::~HUD()
 	shipWheel->remove();
 	velocity->remove();
 	targetBkg->remove();
+	armor->remove();
+	hull->remove();
+	shield->remove();
 }
 
 //private function

@@ -70,3 +70,8 @@ PlanetProperties::PlanetProperties(irr::IrrlichtDevice *graphics, const std::str
 PlanetProperties::~PlanetProperties()
 {
 }
+
+const std::wstring& PlanetProperties::getCloudMap() const
+{
+	return cloudMap;
+}

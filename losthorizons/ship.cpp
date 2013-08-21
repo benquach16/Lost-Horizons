@@ -4,8 +4,8 @@
 
 std::list<Ship*> Ship::allShips;
 
-Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation), info(shipType, faction), shipTarget(0)
+Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -21,11 +21,13 @@ Ship::Ship(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const v
 	initTurrets();
 	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType].getNormalMap().c_str()));
 	setMediumTurret(ObjectManager::turretList[0],3);
+	setMediumTurret(ObjectManager::turretList[0],2);
 	setMediumTurret(ObjectManager::turretList[0],1);
+	setMediumTurret(ObjectManager::turretList[0],0);
 }
 
 Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(ID, ObjectManager::shipList[info.shipType], position, rotation), info(info), shipTarget(0)
+	: TargetableObject(ID, ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info), shipTarget(0)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -37,7 +39,7 @@ Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const
 
 //copy constructor
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(nextID++, ObjectManager::shipList[s->info.shipType], position, rotation), info(s->info), shipTarget(0)
+	: TargetableObject(nextID++, ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info), shipTarget(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)

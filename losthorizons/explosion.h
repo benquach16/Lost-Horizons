@@ -3,13 +3,21 @@
 
 #include "effect.h"
 
+using namespace irr;
+using namespace scene;
+
+
 //explosion class
-class Explosion
+class Explosion : public Effect
 {
 public:
 	Explosion();
 	~Explosion();
-	virtual void run();
+	virtual bool run();
+
+protected:
+	scene::IParticleSystemSceneNode *fireParticles;
+
 };
 
 #endif

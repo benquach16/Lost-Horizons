@@ -68,7 +68,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 		scenemngr->setAmbientLight(SColor(64,64,64,64));
 		dynamicObjects.push(createSun(vector3df(-20000,0,20000)));
 
-		Planet *argrea = new Planet(ObjectManager::E_PLANET_LIST::ARGREA, vector3df(2000,0,500));
+		Planet *argrea = new Planet(ObjectManager::E_PLANET_LIST::ARGREA, vector3df(12000,0,500));
 		dynamicObjects.push(argrea);
 	}
 }

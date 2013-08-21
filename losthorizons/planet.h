@@ -17,6 +17,8 @@ public:
 	virtual void run();
 
 protected:
+	scene::IAnimatedMeshSceneNode *cloudMesh;
+	scene::IBillboardSceneNode *atmosphere;
 	//protected function
 	//does as described
 	void enablePlanetShader();
