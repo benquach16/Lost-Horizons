@@ -45,6 +45,11 @@ TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::str
 					std::wstringstream iss(file->getNodeData());
 					iss >> projectileSpeed;
 				}
+				if(currentSection.equals_ignore_case(L"fireSound"))
+				{
+					std::wstring tmp = file->getNodeData();
+					soundFilename = std::string(tmp.begin(), tmp.end());
+				}
 				if(currentTree.equals_ignore_case(L"projectileStats") && currentSection.equals_ignore_case(L"scaleX"))
 				{
 					std::wstringstream iss(file->getNodeData());
@@ -72,6 +77,10 @@ TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::str
 				{
 					turretClass = getTurretClass(file->getAttributeValue(L"class"));
 					currentTree=L"turretStats";
+				}
+				if(core::stringw(L"fireSound").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"fireSound";
 				}
 				if(core::stringw(L"projectileStats").equals_ignore_case(file->getNodeName()))
 				{
@@ -165,6 +174,7 @@ E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
 	}
 }
 
+//accessors
 const int& TurretProperties::getMaxTurn() const
 {
 	return turnSpeed;
@@ -193,6 +203,11 @@ const int& TurretProperties::getProjectileSpeed() const
 const std::wstring& TurretProperties::getProjectileTex() const
 {
 	return projectileTexture;
+}
+
+const std::string& TurretProperties::getSoundFilename() const
+{
+	return soundFilename;
 }
 
 const core::vector3df& TurretProperties::getProjectileScale() const

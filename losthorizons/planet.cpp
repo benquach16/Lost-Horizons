@@ -15,7 +15,7 @@ Planet::Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df& positio
 	cloudMesh->setMaterialTexture(0,vdriver->getTexture(ObjectManager::planetList[planetType].getCloudMap().c_str()));
 	cloudMesh->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 
-	atmosphere = scenemngr->addBillboardSceneNode(mesh, dimension2df(13000,13000));
+	atmosphere = scenemngr->addBillboardSceneNode(mesh, dimension2df(13500,13500));
 	atmosphere->setMaterialTexture(0,vdriver->getTexture("res/textures/atmos.png"));
 	atmosphere->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	atmosphere->setMaterialFlag(video::EMF_LIGHTING, false);

@@ -4,6 +4,7 @@
 #define scenemngr gConfig.SceneManager
 #define guienv gConfig.GUIEnvironment
 #define timer gConfig.Timer
+#define soundmngr gConfig.SoundEngine
 #define iWidth gConfig.screen.Width
 #define iHeight gConfig.screen.Height
 #define game gConfig.gGame
@@ -12,6 +13,7 @@
 
 #include <string>
 #include "irrlicht.h"
+#include "irrklang.h"
 #include "gameloop.h"
 
 struct Config
@@ -58,6 +60,7 @@ struct Config
 	irr::scene::ISceneManager* SceneManager;
 	irr::gui::IGUIEnvironment* GUIEnvironment;
 	irr::ITimer* Timer;
+	irrklang::ISoundEngine* SoundEngine;
 	irr::core::dimension2d<unsigned> screen;
 	Gameloop* gGame;
 };

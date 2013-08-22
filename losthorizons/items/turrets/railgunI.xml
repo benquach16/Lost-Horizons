@@ -8,12 +8,12 @@
 		<filename>res/models/equipment/primary_rail.X</filename>
 		<diffuseMap>res/models/ships/shiphull.jpg</diffuseMap>
 		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
-		<fireSound></fireSound>
 		<scaleX>3</scaleX>
 		<scaleY>3</scaleY>
 		<scaleZ>3</scaleZ>
 	</modelStats>
 	<turretStats class="medium">
+		<fireSound>res/sounds/weapons/rail.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
 		<damage>27</damage>
 		<range>1000</range>

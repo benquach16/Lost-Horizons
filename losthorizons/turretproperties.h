@@ -28,6 +28,7 @@ public:
 	const int& getProjectileSpeed() const;
 
 	const std::wstring& getProjectileTex() const;
+	const std::string& getSoundFilename() const;
 	const core::vector3df& getProjectileScale() const;
 protected:
 	E_TURRET_CLASS getTurretClass(const std::wstring &str);
@@ -38,6 +39,7 @@ protected:
 	int projectileSpeed;
 	core::vector3df projectileScale;
 	std::wstring projectileTexture;
+	std::string soundFilename;
 	f32 reloadSpeed;
 };
 

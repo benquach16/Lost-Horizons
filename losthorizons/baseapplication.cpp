@@ -40,6 +40,7 @@ void BaseApplication::killDevice()
 	graphics->closeDevice();
 	graphics->run();
     graphics->drop();
+	sound->drop();
 }
 
 void BaseApplication::run()
@@ -81,6 +82,9 @@ void BaseApplication::run()
 
 void BaseApplication::buildGraphics()
 {
+	sound = irrklang::createIrrKlangDevice();
+	sound->setSoundVolume(1.0f);
+	sound->setDefault3DSoundMinDistance(1000);
 	if (gConfig.bFullScreen)
 		graphics = createDevice(EDT_DIRECT3D9,
 			dimension2d<u32>(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)),
@@ -105,6 +109,7 @@ void BaseApplication::buildGraphics()
 	scenemngr = graphics->getSceneManager();
 	guienv = graphics->getGUIEnvironment();
 	timer = graphics->getTimer();
+	soundmngr = sound;
 	gConfig.screen = vdriver->getScreenSize();
 	
 	graphics->setWindowCaption(L"Lost Horizons");

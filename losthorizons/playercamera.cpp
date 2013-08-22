@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "playercamera.h"
 
 PlayerCamera::PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position) : cameraMode(E_CAMERA_ORBIT),
@@ -28,7 +29,7 @@ void PlayerCamera::run(const vector3df &pos, f32 frameDeltaTime)
 		angle-=360;
 	else if(angleY<0)
 		angleY+=360;
-
+	soundmngr->setListenerPosition(cam->getAbsolutePosition(), (cam->getTarget() - cam->getAbsolutePosition()));
 	if(cameraMode == E_CAMERA_ORBIT)
 	{
 		orbit(pos, frameDeltaTime);
