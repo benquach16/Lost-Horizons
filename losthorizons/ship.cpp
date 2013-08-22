@@ -317,27 +317,52 @@ void Ship::aimTurrets(float frameDeltaTime)
 //do all AI stuff here
 void Ship::runAI()
 {
+	//make sure to comment this thoroughly!
+	//and seperate into seperate functions if it becomes too big!!
 	updateStates();
 	if(info.currentAIState == STATE_FLEEING)
 	{
 		//do fleeing code here
+		//fly away from painful things :(
 	}
 	else if(info.currentAIState == STATE_ATTACKING)
 	{
 		//do attacking code here
 		if(shipTarget)
 		{
+			//do ship target AI;
+			info.velocity = info.maxVelocity;
+			//calculate vector to target
+			vector3df targetVector = shipTarget->getPosition() - getPosition();
+			targetVector = targetVector.getHorizontalAngle();
 
+			setTargetRotation(targetVector);
+			fireTurrets();
 		}
 		else
 		{
 			//if theres no target, change the state
+			info.currentAIState = STATE_PATROLLING;
 		}
 	}
 	else if(info.currentAIState == STATE_PATROLLING)
 	{
 		//crooze
 		info.velocity = info.maxVelocity/2;
+		//search for targets
+		for(std::list<Ship*>::iterator i = allShips.begin(), next; i != allShips.end(); i = next)
+		{
+			next = i;
+			next++;
+			if((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE)
+			{
+				if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+				{
+					setTarget(*i);
+					info.currentAIState = STATE_ATTACKING;
+				}
+			}
+		}
 	}
 }
 
@@ -349,5 +374,8 @@ void Ship::updateStates()
 		//if hull is less than half, try to flee
 		info.currentAIState = STATE_FLEEING;
 	}
-
+	else if(shipTarget)
+	{
+		info.currentAIState = STATE_ATTACKING;
+	}
 }

@@ -26,6 +26,8 @@ public:
 	virtual void run(f32 frameDeltaTime);
 	//overridable function designed to return specific information related to this object to the hud
 	//virtual void information(gui::IGUIImage *targetBkg);
+	//mutators
+	void setFactionTo(const E_GAME_FACTIONS& faction);
 
 	//some accessors
 	const u32 getID() const;

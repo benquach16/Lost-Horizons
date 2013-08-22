@@ -84,6 +84,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="atmosphere.h" />
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="callback.h" />
     <ClInclude Include="config.h" />

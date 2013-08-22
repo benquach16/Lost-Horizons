@@ -28,7 +28,7 @@ void Projectile::run(f32 frameDeltaTime)
 		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
 			if (ID != (*i)->getID() && (*i)->getBoundingBox().isPointInside(getPosition())) {
 				//hit a target
-				std::cout << "HIT TARGET" << std::endl;
+				//std::cout << "HIT TARGET" << std::endl;
 				Impact *impact = new Impact(getPosition());
 				(*i)->damage(damage);
 				delete this;

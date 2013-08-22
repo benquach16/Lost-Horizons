@@ -17,7 +17,7 @@ void TurretSlot::assignTurret(const TurretProperties &props)
 {
 	//make sure that the childturret pointer is clear
 	removeTurret();
-	childTurret = new Turret(props, offset);
+	childTurret = new Turret(props, offset, this);
 }
 
 bool TurretSlot::getCanFire()
@@ -136,8 +136,9 @@ Turret::Turret()
 	//default constructor
 }
 
-Turret::Turret(const TurretProperties &props, ISceneNode *parent) : 
-	Object(props.getFilename().c_str(), vector3df(0,0,0), vector3df(0,0,0), props.getScale()), props(props), shootJoint(0)
+Turret::Turret(const TurretProperties &props, ISceneNode *parent, TurretSlot *parentSlot) : 
+	Object(props.getFilename().c_str(), vector3df(0,0,0), vector3df(0,0,0), props.getScale()), props(props), shootJoint(0),
+	parentSlot(parentSlot)
 {
 	shootJoint = mesh->getJointNode("shoot");
 	mesh->setParent(parent);
@@ -171,7 +172,7 @@ void Turret::fire(const vector3df &rotation)
 	//probably should modify this later
 	if(rand() % (int)props.getReloadSpeed() < 3)
 	{//for now, projectile gets an ID. change to ship pointer later
-		Projectile *p = new Projectile(0, props, shootJoint->getAbsolutePosition(), rotation);
+		Projectile *p = new Projectile(parentSlot->getParent()->getID(), props, shootJoint->getAbsolutePosition(), rotation);
 		soundmngr->play3D(props.getSoundFilename().c_str(), getPosition());
 	}
 }

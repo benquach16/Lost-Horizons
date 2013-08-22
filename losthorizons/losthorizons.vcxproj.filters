@@ -180,6 +180,9 @@
     <ClInclude Include="planetproperties.h">
       <Filter>Header Files\properties</Filter>
     </ClInclude>
+    <ClInclude Include="atmosphere.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

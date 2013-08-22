@@ -18,7 +18,7 @@
 		<damage>27</damage>
 		<range>1000</range>
 		<reloadSpeed>1050</reloadSpeed>
-		<projectileSpeed>180</projectileSpeed>
+		<projectileSpeed>280</projectileSpeed>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.05</scaleX>

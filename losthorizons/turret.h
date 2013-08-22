@@ -68,7 +68,7 @@ public:
 	//default constructor
 	Turret();
 	//if you actually want to create a 3d model
-	Turret(const TurretProperties &props, ISceneNode *parent);
+	Turret(const TurretProperties &props, ISceneNode *parent, TurretSlot *parentSlot);
 	~Turret();
 
 	void aim(const core::vector3df &rotation, float frameDeltaTime);
