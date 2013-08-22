@@ -58,12 +58,13 @@ public:
 
 		material.Lighting = false;                          
 		material.BackfaceCulling=false;             
-		material.Wireframe =false;
+		material.MaterialType = video::EMT_LIGHTMAP_ADD; 
+		setAutomaticCulling(scene::EAC_OFF);
 
-		box.reset(vertices[0].Pos);
+		box.reset(0,0,0);
         
-        for(unsigned i = 0; i < 4; i++)
-			box.addInternalPoint(vertices[i].Pos);
+        //for(unsigned i = 0; i < 4; i++)
+		//	box.addInternalPoint(vertices[i].Pos);
 	}
     void render()
     {
@@ -84,7 +85,7 @@ public:
 	{
 		if(IsVisible)
 		{
-			SceneManager->registerNodeForRendering(this, scene::ESNRP_TRANSPARENT);
+			SceneManager->registerNodeForRendering(this, scene::ESNRP_TRANSPARENT_EFFECT);
 		}
 		ISceneNode::OnRegisterSceneNode();
 	}
