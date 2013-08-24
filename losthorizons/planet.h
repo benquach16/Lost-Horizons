@@ -4,6 +4,7 @@
 #include "object.h"
 #include "targetableobject.h"
 #include "planetproperties.h"
+#include "atmosphere.h"
 
 
 //planet class
@@ -19,6 +20,7 @@ public:
 protected:
 	scene::IAnimatedMeshSceneNode *cloudMesh;
 	scene::IBillboardSceneNode *atmosphere;
+	//Atmosphere *atmosphere;
 	//protected function
 	//does as described
 	void enablePlanetShader();

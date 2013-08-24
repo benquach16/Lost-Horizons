@@ -24,6 +24,10 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	setMediumTurret(ObjectManager::turretList[0],2);
 	setMediumTurret(ObjectManager::turretList[0],1);
 	setMediumTurret(ObjectManager::turretList[0],0);
+	setLightTurret(ObjectManager::turretList[1],0);
+	setLightTurret(ObjectManager::turretList[1],1);
+	setLightTurret(ObjectManager::turretList[1],2);
+	setLightTurret(ObjectManager::turretList[1],3);
 }
 
 Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
@@ -117,6 +121,10 @@ void Ship::fireTurrets()
 	for (unsigned i = 0; i < mediumTurrets.size(); ++i) {
 		mediumTurrets[i]->fire();
 	}
+	for(unsigned i = 0; i < lightTurrets.size(); i++)
+	{
+		lightTurrets[i]->fire();
+	}
 }
 
 void Ship::damage(int val)
@@ -160,7 +168,14 @@ void Ship::removeTarget()
 
 void Ship::setMediumTurret(const TurretProperties &props, int slot)
 {
-	mediumTurrets[slot]->assignTurret(props);
+	if(slot < mediumTurrets.size())
+		mediumTurrets[slot]->assignTurret(props);
+}
+
+void Ship::setLightTurret(const TurretProperties &props, int slot)
+{
+	if(slot < lightTurrets.size())
+		lightTurrets[slot]->assignTurret(props);
 }
 
 void Ship::setFaction(E_GAME_FACTIONS newFaction)
@@ -288,6 +303,12 @@ void Ship::initTurrets()
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxLTurrets(); ++i)
 	{
+		std::string jointName("secondary_turret_0");
+		std::string tmp = std::to_string(i+1);
+		jointName += tmp;
+		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].lightTurrets[i], joint, E_CLASS_LIGHT, this);
+		lightTurrets.push_back(t);
 	}
 }
 
@@ -298,17 +319,33 @@ void Ship::aimTurrets(float frameDeltaTime)
 	if (shipTarget)
 	{
 		//if has target
+		for (unsigned i = 0; i < heavyTurrets.size(); i++)
+		{
+			heavyTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+		}
 		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
 		{
 			mediumTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+		}
+		for (unsigned i = 0; i < lightTurrets.size(); i++)
+		{
+			lightTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
 		}
 	}
 	else
 	{
 		//go back to aiming like normal
+		for (unsigned i = 0; i < heavyTurrets.size(); i++)
+		{
+			heavyTurrets[i]->resetAim();
+		}
 		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
 		{
 			mediumTurrets[i]->resetAim();
+		}
+		for (unsigned i = 0; i < lightTurrets.size(); ++i)
+		{
+			lightTurrets[i]->resetAim();
 		}
 	}
 }
@@ -330,13 +367,29 @@ void Ship::runAI()
 		//do attacking code here
 		if(shipTarget)
 		{
+			if(getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
+			{
+				//break target
+				shipTarget = 0;
+			}
+			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 500)
+			{
+				//too close
+				//turn away
+				setTargetRotation(getTargetRotation() + vector3df(0, rand() % 180, 0));
+			}
+			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) > 1500)
+			{
+				//get closer
+				//calculate vector to target
+				vector3df targetVector = shipTarget->getPosition() - getPosition();
+				targetVector = targetVector.getHorizontalAngle();
+
+				setTargetRotation(targetVector);
+			}
 			//do ship target AI;
 			info.velocity = info.maxVelocity;
-			//calculate vector to target
-			vector3df targetVector = shipTarget->getPosition() - getPosition();
-			targetVector = targetVector.getHorizontalAngle();
 
-			setTargetRotation(targetVector);
 			fireTurrets();
 		}
 		else
@@ -350,19 +403,7 @@ void Ship::runAI()
 		//crooze
 		info.velocity = info.maxVelocity/2;
 		//search for targets
-		for(std::list<Ship*>::iterator i = allShips.begin(), next; i != allShips.end(); i = next)
-		{
-			next = i;
-			next++;
-			if((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE)
-			{
-				if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
-				{
-					setTarget(*i);
-					info.currentAIState = STATE_ATTACKING;
-				}
-			}
-		}
+		searchForTarget();
 	}
 }
 
@@ -377,5 +418,29 @@ void Ship::updateStates()
 	else if(shipTarget)
 	{
 		info.currentAIState = STATE_ATTACKING;
+	}
+}
+
+//private function
+void Ship::searchForTarget()
+{
+	//search for targets
+	for(std::list<Ship*>::iterator i = allShips.begin(), next; i != allShips.end(); i = next)
+	{
+		next = i;
+		next++;
+		if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+		{
+			if((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE)
+			{
+				setTarget(*i);
+				info.currentAIState = STATE_ATTACKING;
+			}
+			if((*i)->getInfo().currentFaction != E_FACTION_PIRATE && this->getInfo().currentFaction == E_FACTION_PIRATE)
+			{
+				setTarget(*i);
+				info.currentAIState = STATE_ATTACKING;
+			}
+		}
 	}
 }

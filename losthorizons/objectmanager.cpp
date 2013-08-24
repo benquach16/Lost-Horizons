@@ -20,6 +20,7 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	turretList.push_back(TurretProperties(graphics, "items/turrets/railgunI.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/antimatterI.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/argrea.xml"));
+	planetList.push_back(PlanetProperties(graphics, "items/planets/farstar.xml"));
 }
 
 ObjectManager::~ObjectManager()

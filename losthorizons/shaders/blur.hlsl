@@ -42,7 +42,8 @@ float4 PixelShaderFunction(VERTEXOUTPUT input) : COLOR
 	float4 color = tex2D(ColorMapSampler2, input.TexCoordinate);
 	bloom = adjustSaturation(bloom, 1.0) * 1.3;
 	color = adjustSaturation(color,1.0);
-	float offset = 0.002;
+	
+	float offset = 0.003;
 	bloom += tex2D(ColorMapSampler, float2(input.TexCoordinate.x + offset, input.TexCoordinate.y += offset));
 	bloom += tex2D(ColorMapSampler, float2(input.TexCoordinate.x - offset, input.TexCoordinate.y -= offset));
 	bloom += tex2D(ColorMapSampler, float2(input.TexCoordinate.x + offset, input.TexCoordinate.y -= offset));
@@ -52,12 +53,12 @@ float4 PixelShaderFunction(VERTEXOUTPUT input) : COLOR
 	bloom += tex2D(ColorMapSampler, float2(input.TexCoordinate.x, input.TexCoordinate.y + offset));
 	bloom += tex2D(ColorMapSampler, float2(input.TexCoordinate.x, input.TexCoordinate.y - offset));
 	bloom = bloom/8;
-	color *= (1-saturate(bloom));
+	//color *= (1-saturate(bloom));
 	
-	//float greyscale = 0.3 * color.r + 0.59 * color.g + 0.11 * color.b;
-	//color.r = greyscale * 0.4 + color.r * (1 - 0.4);
-	//color.g = greyscale * 0.4 + color.g * (1 - 0.4);
-	//color.b = greyscale * 0.4 + color.b * (1 - 0.4);
+	//float greyscale = 0.3 * bloom.r + 0.59 * bloom.g + 0.11 * bloom.b;
+	//bloom.r = greyscale * 0.4 + bloom.r * (1 - 0.4);
+	//bloom.g = greyscale * 0.4 + bloom.g * (1 - 0.4);
+	//bloom.b = greyscale * 0.4 + bloom.b * (1 - 0.4);
 	
 	//color = pow(color, 1.2);
 	return bloom + color;

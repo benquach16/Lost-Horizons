@@ -53,6 +53,7 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 	if(childTurret)
 	{
 		//do some math to find the angle to face this point
+		/*
 		const float x = (point.X-offset->getAbsolutePosition().X);
 		const float y = (point.Y-offset->getAbsolutePosition().Y);
 		const float z = (point.Z-offset->getAbsolutePosition().Z);
@@ -62,24 +63,32 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 		float angleX = std::atan2(tmp,y)*static_cast<float>(180/3.1415);
 
 		angleX -= 90;
-		if(angleY>360)
+		if(angleY>360) 
 			angleY-=360;
 		if(angleY < 0)
 			angleY+=360;
-		currentAim = vector3df(angleX, angleY,0);
-		int difference = (360-properties.arc)/2;
-		//std::cout << difference << std::endl;
+		currentAim = vector3df(angleX, angleY,0);*/
+		int difference = (360 - properties.arc)/2;
+		
+		vector3df diff = point - parent->getPosition();
+		diff = diff.getHorizontalAngle();
+		currentAim = diff;
+		//std::cout << offset->getAbsoluteTransformation().getRotationDegrees().Y << std::endl;
 
 		//normalize angles
-		if(angleY + difference < offset->getAbsoluteTransformation().getRotationDegrees().Y || angleY - difference > offset->getAbsoluteTransformation().getRotationDegrees().Y)
+		float tmp = parent->getRotation().Y + 180 + rotationOffset.Y;
+		if(tmp > 360)
+			tmp -= 360;
+		if((diff.Y + difference) < tmp || (diff.Y - difference) > tmp)
 		{
 			//inside the arc horizontally
 			//pass rotation to the turret so we dont do math again unnecessarily
 			//draw so player knows which turrets can shoot
-			vdriver->draw3DLine(joint->getAbsolutePosition(), point, SColor(255,0,255,0));
-			angleY -= parent->getRotation().Y;
-			angleY += 180 - offset->getRotation().Y;
-			childTurret->aim(vector3df(angleX, angleY,0), frameDeltaTime);
+			//angleY -= parent->getRotation().Y;
+			//angleY += 180 - offset->getRotation().Y;
+			diff.Y -= parent->getRotation().Y;
+			diff.Y += 180;
+			childTurret->aim(diff, frameDeltaTime);
 			canFire = true;
 		}
 		else

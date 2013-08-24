@@ -16,9 +16,9 @@
 		<fireSound>res/sounds/weapons/rail.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
 		<damage>27</damage>
-		<range>1000</range>
+		<range>1500</range>
 		<reloadSpeed>1050</reloadSpeed>
-		<projectileSpeed>280</projectileSpeed>
+		<projectileSpeed>380</projectileSpeed>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.05</scaleX>

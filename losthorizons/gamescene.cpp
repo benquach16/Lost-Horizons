@@ -70,6 +70,8 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 
 		Planet *argrea = new Planet(ObjectManager::E_PLANET_LIST::ARGREA, vector3df(12000,0,500));
 		dynamicObjects.push(argrea);
+		Planet *farstar = new Planet(ObjectManager::E_PLANET_LIST::FARSTAR, vector3df(-40000,0,1000));
+		dynamicObjects.push(farstar);
 	}
 }
 

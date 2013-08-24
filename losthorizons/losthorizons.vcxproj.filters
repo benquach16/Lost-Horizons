@@ -181,7 +181,7 @@
       <Filter>Header Files\properties</Filter>
     </ClInclude>
     <ClInclude Include="atmosphere.h">
-      <Filter>Header Files\objects</Filter>
+      <Filter>Header Files\effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +286,12 @@
     </ClCompile>
     <ClCompile Include="planetproperties.cpp">
       <Filter>Source Files\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="explosion.cpp">
+      <Filter>Source Files\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="atmosphere.cpp">
+      <Filter>Source Files\effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

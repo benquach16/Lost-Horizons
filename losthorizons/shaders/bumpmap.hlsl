@@ -84,12 +84,12 @@ float4 PixelShaderFunction(OUT I) : COLOR
     float Specular = pow(dot(R, I.V), 5); // R.V^n
     float Specular2 = pow(dot(R2, I.V), 5); // R.V^n   
     
-    float4 color1 = color * Di * Dc * Diff + color * Sc * Specular * Ai * Ac; //IF YOU WANT SPECULAR HIGHLIGHTS (shinyness!!)
+    float4 color1 = color * Di * Dc * Diff + color * Sc * Specular * Ai * Ac;
     float4 color2 = color * Di * Dc * Diff2 * (Diff + (.05,.05,.05,.05)) * 6; 
     
         if (usenmap == 1) color2 = (0,0,0,0);
     
-    return color1 + color2 ;// + Sc * Specular;
+    return color1 + color2 ;
  
  
 }

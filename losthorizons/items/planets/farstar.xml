@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<itemStats type="planet">
+	<name>Farstar</name>
+	<description>A planet recently claimed by the Provian Consortium, it is one of their main bases of operations in the system.</description>
+	<cost>-1</cost>
+	<weight>-1</weight>
+  <modelStats>
+    <filename>res/models/planets/habitable.X</filename>
+    <diffuseMap>res/textures/planets/earth.jpg</diffuseMap>
+    <normalMap>res/textures/planets/habitable_1_normal.jpg</normalMap>
+    <scaleX>5000</scaleX>
+    <scaleY>5000</scaleY>
+    <scaleZ>5000</scaleZ>
+  </modelStats>
+  <planetStats>
+	<cloudMap>res/textures/planets/1.png</cloudMap>
+	<maxPopulation>200000</maxPopulation>
+	<maxDevelopmentIndex>100</maxDevelopmentIndex>
+    <maxTechLevel>100</maxTechLevel> 
+  </planetStats>
+</itemStats>

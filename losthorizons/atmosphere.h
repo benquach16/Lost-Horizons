@@ -6,15 +6,20 @@
 
 #include "irrlicht.h"
 
+
 using namespace irr;
+using namespace core;
 
 class Atmosphere
 {
 public:
-	Atmosphere();
+	Atmosphere(const vector3df& position);
 	~Atmosphere();
+	void run();
 
-	virtual void run(f32 frameDeltaTime);
+protected:
+	ISceneNode *atmosphereSceneNode;
+
 };
 
 #endif

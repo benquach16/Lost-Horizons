@@ -37,10 +37,12 @@ public:
 	enum E_TURRET_LIST
 	{
 		RAILGUNI,
+		ANTIMATTERI,
 	};
 	enum E_PLANET_LIST
 	{
 		ARGREA,
+		FARSTAR,
 	};
 	
 	static std::vector<ItemProperties> itemList;

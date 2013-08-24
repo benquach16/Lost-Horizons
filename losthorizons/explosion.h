@@ -5,13 +5,13 @@
 
 using namespace irr;
 using namespace scene;
-
+using namespace core;
 
 //explosion class
 class Explosion : public Effect
 {
 public:
-	Explosion();
+	Explosion(const vector3df& position);
 	~Explosion();
 	virtual bool run();
 

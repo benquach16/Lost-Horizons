@@ -83,7 +83,9 @@ public:
 	void removeTarget();
 
 	//equip funcs
+	void setHeavyTurret(const TurretProperties& props, int slot);
 	void setMediumTurret(const TurretProperties& props, int slot);
+	void setLightTurret(const TurretProperties& props, int slot);
 
 	//some setters
 	void setFaction(E_GAME_FACTIONS currentFaction);
@@ -128,5 +130,6 @@ private:
 	//AI functions
 	void runAI();
 	void updateStates();
+	void searchForTarget();
 };
 #endif
