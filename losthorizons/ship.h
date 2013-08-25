@@ -12,6 +12,7 @@
 #include "shipproperties.h"
 #include "objectmanager.h"
 #include "projectile.h"
+#include "explosion.h"
 
 //for finite state machine implementation
 enum E_AI_STATES
@@ -83,9 +84,9 @@ public:
 	void removeTarget();
 
 	//equip funcs
-	void setHeavyTurret(const TurretProperties& props, int slot);
-	void setMediumTurret(const TurretProperties& props, int slot);
-	void setLightTurret(const TurretProperties& props, int slot);
+	void setHeavyTurret(const TurretProperties& props, unsigned slot);
+	void setMediumTurret(const TurretProperties& props, unsigned slot);
+	void setLightTurret(const TurretProperties& props, unsigned slot);
 
 	//some setters
 	void setFaction(E_GAME_FACTIONS currentFaction);

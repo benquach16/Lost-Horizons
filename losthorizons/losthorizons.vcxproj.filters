@@ -183,6 +183,24 @@
     <ClInclude Include="atmosphere.h">
       <Filter>Header Files\effects</Filter>
     </ClInclude>
+    <ClInclude Include="spacestation.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="lensflare.h">
+      <Filter>Header Files\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="spacestationproperties.h">
+      <Filter>Header Files\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="visualsmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="muzzleflash.h">
+      <Filter>Header Files\effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -292,6 +310,12 @@
     </ClCompile>
     <ClCompile Include="atmosphere.cpp">
       <Filter>Source Files\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="spacestationproperties.cpp">
+      <Filter>Source Files\properties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

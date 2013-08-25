@@ -97,14 +97,17 @@
     <ClInclude Include="gamescenemanager.h" />
     <ClInclude Include="hud.h" />
     <ClInclude Include="impact.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="itemproperties.h" />
     <ClInclude Include="keylistener.h" />
+    <ClInclude Include="lensflare.h" />
     <ClInclude Include="lib\ini_io.h" />
     <ClInclude Include="lib\string_util.h" />
     <ClInclude Include="menuwindow.h" />
     <ClInclude Include="messagemenu.h" />
     <ClInclude Include="modelproperties.h" />
+    <ClInclude Include="muzzleflash.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="objectmanager.h" />
     <ClInclude Include="optionmenu.h" />
@@ -119,6 +122,8 @@
     <ClInclude Include="screenquadnode.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="shipproperties.h" />
+    <ClInclude Include="spacestation.h" />
+    <ClInclude Include="spacestationproperties.h" />
     <ClInclude Include="startmenu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="sun.h" />
@@ -127,6 +132,7 @@
     <ClInclude Include="turningmarker.h" />
     <ClInclude Include="turret.h" />
     <ClInclude Include="turretproperties.h" />
+    <ClInclude Include="visualsmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atmosphere.cpp" />
@@ -141,6 +147,7 @@
     <ClCompile Include="gamescenemanager.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="impact.cpp" />
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="itemproperties.cpp" />
     <ClCompile Include="keylistener.cpp" />
     <ClCompile Include="main.cpp" />
@@ -158,6 +165,7 @@
     <ClCompile Include="savemenu.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />
+    <ClCompile Include="spacestationproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="sun.cpp" />

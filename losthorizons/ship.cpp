@@ -98,6 +98,7 @@ void Ship::run(f32 frameDeltaTime)
 		//we have to delete this ship when it asplodes
 		//so create an explosion and delete itself
 		removeThisFromTargets();
+		Explosion *e = new Explosion(getPosition());
 		delete this;
 	}
 }
@@ -166,13 +167,13 @@ void Ship::removeTarget()
 	shipTarget = 0;
 }
 
-void Ship::setMediumTurret(const TurretProperties &props, int slot)
+void Ship::setMediumTurret(const TurretProperties &props, unsigned slot)
 {
 	if(slot < mediumTurrets.size())
 		mediumTurrets[slot]->assignTurret(props);
 }
 
-void Ship::setLightTurret(const TurretProperties &props, int slot)
+void Ship::setLightTurret(const TurretProperties &props, unsigned slot)
 {
 	if(slot < lightTurrets.size())
 		lightTurrets[slot]->assignTurret(props);
@@ -376,7 +377,7 @@ void Ship::runAI()
 			{
 				//too close
 				//turn away
-				setTargetRotation(getTargetRotation() + vector3df(0, rand() % 180, 0));
+				setTargetRotation(getTargetRotation() + vector3df(0, (f32)(rand() % 180), 0));
 			}
 			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) > 1500)
 			{

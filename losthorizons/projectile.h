@@ -7,6 +7,7 @@
 #include "turretproperties.h"
 #include "object.h"
 #include "impact.h"
+#include "explosion.h"
 
 //basic projectile class
 class Projectile : public Object

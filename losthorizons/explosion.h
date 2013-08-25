@@ -17,7 +17,7 @@ public:
 
 protected:
 	scene::IParticleSystemSceneNode *fireParticles;
-
+	scene::ISceneNode *shockwave;
 };
 
 #endif
