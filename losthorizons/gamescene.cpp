@@ -72,6 +72,8 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 		dynamicObjects.push(argrea);
 		Planet *farstar = new Planet(ObjectManager::E_PLANET_LIST::FARSTAR, vector3df(-40000,0,1000));
 		dynamicObjects.push(farstar);
+
+
 	}
 }
 
@@ -91,6 +93,11 @@ GameScene::~GameScene()
 	//delete all ships currently in the scene except for the player
 	while (Ship::allShips.size() > 1)
 		delete Ship::allShips.front();
+
+	while(!Effect::allEffects.empty())
+	{
+		Effect::allEffects.erase(Effect::allEffects.begin());
+	}
 }
 
 void GameScene::run(f32 frameDeltaTime)
@@ -153,6 +160,12 @@ Ship *GameScene::createShip(u32 ID, const ShipInformation &info, const vector3df
 Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)
 {
 	return new Sun(position, scale);
+}
+
+SpaceStation *GameScene::createStation(const E_GAME_FACTIONS faction, ObjectManager::E_STATION_LIST stationType, const vector3df &position,
+									   const vector3df& rotation)
+{
+	return new SpaceStation(faction, stationType, position, rotation);
 }
 
 PlayerCamera *GameScene::getCurrentSceneCamera()

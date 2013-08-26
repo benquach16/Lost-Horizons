@@ -38,6 +38,10 @@ void TurningMarker::run()
 	YZcircle->setPosition(player->getPosition());
 	arrow->setPosition(player->getPosition());
 	YZcircle->setRotation(player->getTargetRotation());
+	matrix4 mat = arrow->getAbsoluteTransformation();
+	//mat.setRotationCenter(player->getPosition(), vector3df(0,0,50));
+	//mat.setRotationDegrees(player->getRotation());
+	//scenemngr->getMeshManipulator()->transform(arrow->getMesh(), mat);
 	arrow->setRotation(player->getTargetRotation());
 	
 	//make sure to hide this when the palyer is close enough to target rotation

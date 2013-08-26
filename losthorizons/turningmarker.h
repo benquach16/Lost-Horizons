@@ -20,7 +20,7 @@ protected:
 	//consists of 3 objects
 	ISceneNode *XYcircle;
 	ISceneNode *YZcircle;
-	ISceneNode *arrow;
+	IMeshSceneNode *arrow;
 };
 
 #endif

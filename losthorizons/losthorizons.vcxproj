@@ -165,6 +165,7 @@
     <ClCompile Include="savemenu.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />
+    <ClCompile Include="spacestation.cpp" />
     <ClCompile Include="spacestationproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="turningmarker.cpp" />
     <ClCompile Include="turret.cpp" />
     <ClCompile Include="turretproperties.cpp" />
+    <ClCompile Include="visualsmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc" />

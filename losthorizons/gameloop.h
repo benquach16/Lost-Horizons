@@ -7,6 +7,7 @@
 #include "datamanager.h"
 #include "gamescenemanager.h"
 #include "objectmanager.h"
+#include "visualsmanager.h"
 #include "hud.h"
 #include "turningmarker.h"
 
@@ -37,6 +38,7 @@ private:
 	DataManager *data;// plan to get rid of this
 	GameSceneManager *gameSceneManager;
 	ObjectManager *objectManager;
+	VisualsManager *visualsManager;
 	PlayerCamera *playerCam;
 	Player *player;
 	HUD *hud;

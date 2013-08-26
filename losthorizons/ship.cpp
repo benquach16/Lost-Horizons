@@ -150,6 +150,10 @@ void Ship::damage(int val)
 void Ship::setTargetRotation(const vector3df &newTargetRotation)
 {
 	info.targetRotation = newTargetRotation;
+	//if(info.targetRotation.Y > 360)
+		//info.targetRotation.Y -= 360;
+	//if(info.targetRotation.Y < -360)
+		//info.targetRotation.Y += 360;
 }
 
 const vector3df &Ship::getTargetRotation() const
@@ -373,13 +377,13 @@ void Ship::runAI()
 				//break target
 				shipTarget = 0;
 			}
-			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 500)
+			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 1000)
 			{
 				//too close
 				//turn away
 				setTargetRotation(getTargetRotation() + vector3df(0, (f32)(rand() % 180), 0));
 			}
-			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) > 1500)
+			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) > 2000)
 			{
 				//get closer
 				//calculate vector to target

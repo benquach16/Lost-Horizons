@@ -8,7 +8,7 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0), turning(0)
+	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager())
 {
 }
 
@@ -19,6 +19,7 @@ Gameloop::~Gameloop()
 	delete player;
 	delete hud;
 	delete turning;
+	delete visualsManager;
 }
 
 void Gameloop::init()
@@ -38,6 +39,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	gameSceneManager->runCurrentScene(frameDeltaTime);
 	hud->run();
 	turning->run();
+	visualsManager->run();
 }
 
 void Gameloop::createNewGame()
@@ -56,6 +58,8 @@ void Gameloop::createNewGame()
 		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(500,0,2000));
 	gameSceneManager->getCurrentScene()->createShip(E_FACTION_PIRATE,
 		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(-1000,0,2300));
+	gameSceneManager->getCurrentScene()->createStation(E_FACTION_TERRAN,
+		ObjectManager::E_STATION_LIST::TRADING, vector3df(1000, 0, 500));
 	init();
 }
 
@@ -100,6 +104,11 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 	}
 	if (receiver->isKeyDown(irr::KEY_SPACE)) {
 		player->fireTurrets();
+	}
+	//do docking
+	if (receiver->isKeyDown(irr::KEY_KEY_V))
+	{
+		//see how close we are to space stations
 	}
 }
 

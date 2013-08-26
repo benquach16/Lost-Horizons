@@ -60,7 +60,7 @@ void HUD::updatePlayerInfo()
 {
 	core::stringw str(L"");
 	str += (int)player->getInfo().velocity;
-	str += L"m/s";
+	str += L"km/s";
 	velocity->setText(str.c_str());
 
 	str= L"Hull [";
@@ -90,7 +90,7 @@ void HUD::updateTargetInfo()
 		int distance = (int)target->getPosition().getDistanceFrom(player->getPosition());
 		core::stringw d(L"");
 		d+=distance;
-		d+= L"m";
+		d+= L"km";
 		targetDistance->setText(d.c_str());
 		//at this point we pull object information from this thing
 	}

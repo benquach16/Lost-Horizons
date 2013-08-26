@@ -6,6 +6,7 @@
 #include "itemproperties.h"
 #include "shipproperties.h"
 #include "turretproperties.h"
+#include "spacestationproperties.h"
 #include "planetproperties.h"
 
 
@@ -28,6 +29,8 @@ public:
 	enum E_ITEM_LIST
 	{
 		WATER,
+		IRIDIUM,
+		NANOALLOYS
 	};	
 	enum E_SHIP_LIST
 	{
@@ -44,11 +47,16 @@ public:
 		ARGREA,
 		FARSTAR,
 	};
+	enum E_STATION_LIST
+	{
+		TRADING,
+	};
 	
 	static std::vector<ItemProperties> itemList;
 	static std::vector<ShipProperties> shipList;
 	static std::vector<TurretProperties> turretList;
 	static std::vector<PlanetProperties> planetList;
+	static std::vector<SpaceStationProperties> stationList;
 };
 
 #endif

@@ -11,6 +11,18 @@ public:
 	~SpaceStationProperties();
 
 protected:
+	//interpret text into bool
+	bool getTrueOrFalse(const wchar_t *text);
+
+	bool spawnShips;
+	bool spawnFighters;
+	bool serviceFitting;
+	bool serviceJobBoard;
+	bool serviceShipYard;
+	float buyMarkupFactor;
+	float sellMarkdownFactor;
+	bool isHQ;
+	unsigned shipSpawnTimer;
 };
 
 

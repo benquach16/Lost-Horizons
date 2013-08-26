@@ -9,6 +9,7 @@
 #include <stack>
 
 #include "player.h"
+#include "spacestation.h"
 #include "projectile.h"
 #include "sun.h"
 #include "planet.h"
@@ -45,6 +46,8 @@ public:
 					 const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &rotation = vector3df(0.f,0.f,0.f));
 	Ship *createShip(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
 	Sun *createSun(const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &scale = vector3df(1.f,1.f,1.f));
+	SpaceStation *createStation(const E_GAME_FACTIONS faction, ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING,
+					const vector3df &position = vector3df(), const vector3df& rotation = vector3df());
 	PlayerCamera *getCurrentSceneCamera();
 	E_GAMESCENES getScene();
 	

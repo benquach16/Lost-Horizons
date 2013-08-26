@@ -6,6 +6,7 @@ std::vector<ItemProperties> ObjectManager::itemList;
 std::vector<ShipProperties> ObjectManager::shipList;
 std::vector<TurretProperties> ObjectManager::turretList;
 std::vector<PlanetProperties> ObjectManager::planetList;
+std::vector<SpaceStationProperties> ObjectManager::stationList;
 
 ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 {
@@ -21,6 +22,7 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	turretList.push_back(TurretProperties(graphics, "items/turrets/antimatterI.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/argrea.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/farstar.xml"));
+	stationList.push_back(SpaceStationProperties(graphics, "items/spacestations/tradingstation.xml"));
 }
 
 ObjectManager::~ObjectManager()
