@@ -41,7 +41,6 @@ struct ShipInformation
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	bool docked;
-	unsigned credits;
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
 		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
@@ -52,7 +51,7 @@ struct ShipInformation
 		  crew(1), maxCrew(ObjectManager::shipList[shipType].getMaxCrew()),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType].getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType].getMaxTurn()),
-		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), credits(100) {}
+		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false){}
 };
 
 //basic ship class

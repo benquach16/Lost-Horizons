@@ -26,10 +26,16 @@ public:
 
 	//overload the subscript operator
 	const unsigned getItemCount(const ItemProperties& item) const;
+	const unsigned operator[](const ItemProperties& item) const;
+
+	int getCredits() const;
+	int addCredits(int modifier);
 protected:
 	//load all the items in the game into an associative array
 	//index in array corresponds to item index
 	std::vector<unsigned> data;
+	//store ship credits too
+	int credits;
 };
 
 #endif

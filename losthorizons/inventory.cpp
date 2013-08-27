@@ -8,6 +8,10 @@ Inventory::Inventory()
 	{
 		data.push_back(0);
 	}
+	for(unsigned i = 0; i < ObjectManager::turretList.size(); i++)
+	{
+		data.push_back(0);
+	}
 }
 
 Inventory::~Inventory()
