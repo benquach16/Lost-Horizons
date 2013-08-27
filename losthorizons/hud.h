@@ -23,6 +23,8 @@ public:
 private:
 	void updatePlayerInfo();
 	void updateTargetInfo();
+
+	const wchar_t *getFactionName(E_GAME_FACTIONS faction);
 	//we're going to have this be the parent of everything in the hud
 	//gui::IGUIElement *window;
 	//the pointer to the background image for showing all the ship information
@@ -38,6 +40,8 @@ private:
 	gui::IGUIStaticText *targetFaction;
 	gui::IGUIStaticText *targetDistance;
 	gui::IGUIStaticText *targetHull;
+	gui::IGUIStaticText *targetArmor;
+	gui::IGUIStaticText *targetShield;
 
 	//pointer to tha player so we can grab information
 	Player *player;

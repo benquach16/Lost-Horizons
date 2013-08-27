@@ -4,7 +4,7 @@
 
 //gunna have a huge initializer list here
 HUD::HUD(Player *player) : shipWheel(0), velocity(0), hull(0), armor(0), shield(0), targetBkg(0), targetName(0), player(player), 
-	targetDistance(0)
+	targetFaction(0), targetDistance(0)
 
 {
 	//window = guienv->addGUIElement(gui::EGUIET_ELEMENT);
@@ -27,7 +27,8 @@ void HUD::initializeDisplay()
 
 	targetBkg = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(iWidth-140,20));
 	targetName = guienv->addStaticText(L"No Target Selected", rect<s32>(0,0,120,120), false, true, targetBkg);
-	targetDistance = guienv->addStaticText(L"", rect<s32>(0,20,120,120), false, true, targetBkg);
+	targetFaction = guienv->addStaticText(L"", rect<s32>(0,15,120,120), false, true, targetBkg);
+	targetDistance = guienv->addStaticText(L"", rect<s32>(0,30,120,120), false, true, targetBkg);
 }
 
 void HUD::run()
@@ -86,6 +87,7 @@ void HUD::updateTargetInfo()
 	{
 		//if a target exists
 		targetName->setText(target->getName().c_str());
+		targetFaction->setText(getFactionName(target->getFaction()));
 		//calculate distance
 		int distance = (int)target->getPosition().getDistanceFrom(player->getPosition());
 		core::stringw d(L"");
@@ -93,11 +95,38 @@ void HUD::updateTargetInfo()
 		d+= L"km";
 		targetDistance->setText(d.c_str());
 		//at this point we pull object information from this thing
+		if(target->getTargetableObjectType() == E_OBJECT_SHIP)
+		{
+			//draw hull armor and shield
+		}
 	}
 	else
 	{
 		//reset the text
 		targetName->setText(L"No Target Selected");
+		targetFaction->setText(L"");
 		targetDistance->setText(L"");
 	}
+}
+
+const wchar_t *HUD::getFactionName(E_GAME_FACTIONS faction)
+{
+	if(faction == E_FACTION_NEUTRAL)
+	{
+		return L"Neutral";
+	}
+	else if(faction == E_FACTION_PIRATE)
+	{
+		return L"Pirate";
+	}
+	else if(faction == E_FACTION_TERRAN)
+	{
+		return L"Terran Federation";
+	}
+	else if(faction == E_FACTION_PROVIAN)
+	{
+		return L"Provian Consortium";
+	}
+	else
+		return L"Unknown";
 }

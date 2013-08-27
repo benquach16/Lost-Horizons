@@ -61,3 +61,8 @@ const vector2di& TargetableObject::getScreenPosition() const
 {
 	return screenPosition;
 }
+
+const E_GAME_FACTIONS TargetableObject::getFaction() const
+{
+	return faction;
+}

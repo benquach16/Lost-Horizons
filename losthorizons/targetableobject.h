@@ -41,6 +41,7 @@ public:
 	const std::wstring& getName() const;
 	const std::wstring& getDesc() const;
 	const vector2di& getScreenPosition() const;
+	const E_GAME_FACTIONS getFaction() const;
 
 	//pure virtual function to find out object type
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const = 0;
