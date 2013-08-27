@@ -8,7 +8,7 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager())
+	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(new StationMenu)
 {
 }
 
@@ -20,6 +20,7 @@ Gameloop::~Gameloop()
 	delete hud;
 	delete turning;
 	delete visualsManager;
+	delete stationMenu;
 }
 
 void Gameloop::init()
@@ -40,6 +41,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	hud->run();
 	turning->run();
 	visualsManager->run();
+	stationMenu->run(player->getShipTarget());
 }
 
 void Gameloop::createNewGame()
@@ -108,7 +110,16 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 	//do docking
 	if (receiver->isKeyDown(irr::KEY_KEY_V))
 	{
-		//see how close we are to space stations
+		if(!player->getInfo().docked)
+		{
+			player->dockWithTarget();
+			stationMenu->setVisible(true);
+		}
+		else
+		{
+			player->undockWithTarget();
+			stationMenu->setVisible(false);
+		}
 	}
 }
 

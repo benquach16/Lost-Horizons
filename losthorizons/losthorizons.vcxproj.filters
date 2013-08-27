@@ -201,6 +201,9 @@
     <ClInclude Include="muzzleflash.h">
       <Filter>Header Files\effects</Filter>
     </ClInclude>
+    <ClInclude Include="stationmenu.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -322,6 +325,9 @@
     </ClCompile>
     <ClCompile Include="spacestation.cpp">
       <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="stationmenu.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

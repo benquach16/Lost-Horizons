@@ -4,6 +4,13 @@
 #include "object.h"
 #include "modelproperties.h"
 
+enum E_TARGETABLEOBJECT_TYPE
+{
+	E_OBJECT_SHIP,
+	E_OBJECT_PLANET,
+	E_OBJECT_SPACESTATION
+};
+
 //object class in which player can target
 class TargetableObject : public Object
 {
@@ -34,6 +41,9 @@ public:
 	const std::wstring& getName() const;
 	const std::wstring& getDesc() const;
 	const vector2di& getScreenPosition() const;
+
+	//pure virtual function to find out object type
+	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const = 0;
 
 protected:
 	//need these for all targetable objects

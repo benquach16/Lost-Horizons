@@ -17,6 +17,7 @@ public:
 	~Planet();
 	virtual void run();
 
+	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 protected:
 	scene::IAnimatedMeshSceneNode *cloudMesh;
 	scene::IBillboardSceneNode *atmosphere;

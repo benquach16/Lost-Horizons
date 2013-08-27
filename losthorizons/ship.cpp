@@ -75,22 +75,29 @@ void Ship::run(f32 frameDeltaTime)
 	TargetableObject::run(frameDeltaTime);
 	if (info.hull > 0)
 	{
-		//make sure its alive to do anything
-		//if the crew is 0 the ship is effectively dead
-		//make it rotate to its targetted rotation first
-		//and movement
-
-		rotate(frameDeltaTime);
-		aimTurrets(frameDeltaTime);
-
-		movement(frameDeltaTime);
-
-		//aim turrets
-
-		//if is not player do ai stuff
-		if (!isPlayer())
+		if(info.docked)
 		{
-			runAI();
+			//if the ship is docked it most certaintly cannot move
+		}
+		else
+		{
+			//make sure its alive to do anything
+			//if the crew is 0 the ship is effectively dead
+			//make it rotate to its targetted rotation first
+			//and movement
+
+			rotate(frameDeltaTime);
+			aimTurrets(frameDeltaTime);
+
+			movement(frameDeltaTime);
+
+			//aim turrets
+
+			//if is not player do ai stuff
+			if (!isPlayer())
+			{
+				runAI();
+			}
 		}
 	}
 	else
@@ -198,6 +205,11 @@ const TargetableObject* Ship::getShipTarget() const
 	return shipTarget;
 }
 
+const E_TARGETABLEOBJECT_TYPE Ship::getTargetableObjectType() const
+{
+	return E_OBJECT_SHIP;
+}
+
 bool Ship::isPlayer() const
 {
 	return ID == 0;
@@ -215,6 +227,22 @@ void Ship::removeThisFromTargets()
 	}
 }
 
+void Ship::dockWithTarget()
+{
+	//check if target is a spaec station
+	if(getShipTarget()->getTargetableObjectType() == E_OBJECT_SPACESTATION)
+	{
+		info.docked = true;
+		setPosition(getShipTarget()->getPosition());
+	}
+}
+
+void Ship::undockWithTarget()
+{
+	info.docked = false;
+}
+
+//all private functions go under here
 //private function
 //rotates ship to point
 void Ship::rotate(f32 frameDeltaTime)

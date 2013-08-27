@@ -17,6 +17,7 @@ public:
 	virtual ~SpaceStation();
 	virtual void run(f32 frameDeltaTime);
 
+	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 protected:
 	//iterator to this
 	std::list<SpaceStation*>::iterator it;

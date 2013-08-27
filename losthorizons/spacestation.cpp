@@ -19,3 +19,8 @@ void SpaceStation::run(f32 frameDeltaTime)
 {
 	TargetableObject::run(frameDeltaTime);
 }
+
+const E_TARGETABLEOBJECT_TYPE SpaceStation::getTargetableObjectType() const
+{
+	return E_OBJECT_SPACESTATION;
+}

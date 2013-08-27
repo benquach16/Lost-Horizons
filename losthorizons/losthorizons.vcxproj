@@ -89,6 +89,7 @@
     <ClInclude Include="callback.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
+    <ClInclude Include="stationmenu.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="gameloop.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="spacestation.cpp" />
     <ClCompile Include="spacestationproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />
+    <ClCompile Include="stationmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="targetableobject.cpp" />

@@ -10,6 +10,7 @@
 #include "visualsmanager.h"
 #include "hud.h"
 #include "turningmarker.h"
+#include "stationmenu.h"
 
 class Gameloop
 {
@@ -43,6 +44,9 @@ private:
 	Player *player;
 	HUD *hud;
 	TurningMarker *turning;
+
+	//ui members
+	StationMenu *stationMenu;
 };
 
 #endif

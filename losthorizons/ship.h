@@ -40,6 +40,7 @@ struct ShipInformation
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
+	bool docked;
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
 		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
@@ -50,7 +51,7 @@ struct ShipInformation
 		  crew(1), maxCrew(ObjectManager::shipList[shipType].getMaxCrew()),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType].getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType].getMaxTurn()),
-		  targetRotation(vector3df(0.f,0.f,0.f)) {}
+		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false) {}
 };
 
 //basic ship class
@@ -94,12 +95,17 @@ public:
 	//some accessors
 	const ShipInformation& getInfo() const;
 	const TargetableObject* getShipTarget() const;
+	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
 	//returns whether the ship is a player or AI
 	bool isPlayer() const;
 	//function to remove this ship from all targets
 	//useful for segfaults and electronic warfare
 	void removeThisFromTargets();
+
+	//docking functions
+	void dockWithTarget();
+	void undockWithTarget();
 protected:
 	//ship stats
 	ShipInformation info;

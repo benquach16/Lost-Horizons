@@ -36,6 +36,12 @@ void Planet::run()
 	//atmosphere->run();
 }
 
+const E_TARGETABLEOBJECT_TYPE Planet::getTargetableObjectType() const
+{
+	return E_OBJECT_PLANET;
+}
+
+//protected function
 void Planet::enablePlanetShader()
 {
 	PlanetCallback *bp = new PlanetCallback;
