@@ -108,7 +108,7 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 		player->fireTurrets();
 	}
 	//do docking
-	if (receiver->isKeyDown(irr::KEY_KEY_V))
+	if (receiver->isKeyReleased(irr::KEY_KEY_V))
 	{
 		if(!player->getInfo().docked)
 		{

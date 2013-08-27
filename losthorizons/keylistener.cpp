@@ -7,13 +7,28 @@ KeyListener::KeyListener()
 	for (unsigned i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i) {
 		keys[i] = false;
 	}
+	for (unsigned i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i) {
+		keysReleased[i] = false;
+	}
+	
 }
 
 bool KeyListener::OnEvent(const SEvent& event)
 {
 	//get events from operating system
     if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-        keys[event.KeyInput.Key] = event.KeyInput.PressedDown;
+	{
+		if(event.KeyInput.PressedDown)
+		{
+			keys[event.KeyInput.Key] = true;
+			keysReleased[event.KeyInput.Key] = true;
+		}
+		else
+		{
+			keys[event.KeyInput.Key] = false;
+		}
+       // keys[event.KeyInput.Key] = event.KeyInput.PressedDown;
+	}
 	if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
 		//mouse events
 		if (event.MouseInput.Event == irr::EMIE_LMOUSE_PRESSED_DOWN) {
@@ -44,6 +59,16 @@ bool KeyListener::OnEvent(const SEvent& event)
 bool KeyListener::isKeyDown(EKEY_CODE keyCode) const
 {
 	return keys[keyCode];
+}
+
+bool KeyListener::isKeyReleased(EKEY_CODE keyCode)
+{
+	if(!keys[keyCode] && keysReleased[keyCode])
+	{
+		keysReleased[keyCode] = false;
+		return true;
+	}
+	return false;
 }
 
 const int KeyListener::getMouseX() const
