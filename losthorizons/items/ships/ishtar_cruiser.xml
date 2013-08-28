@@ -21,6 +21,8 @@
 		<maxEnergy>1000</maxEnergy>
 		<maxCrew>800</maxCrew>
 		<maxFighters>10</maxFighters>
+		<maxCargo>2000</maxCargo>
+		<numEngines>3</numEngines>
 		<heavyTurret num="0">
 		</heavyTurret>
 		<mediumTurret num="4">

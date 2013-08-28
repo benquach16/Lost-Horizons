@@ -133,6 +133,7 @@
     <ClInclude Include="turningmarker.h" />
     <ClInclude Include="turret.h" />
     <ClInclude Include="turretproperties.h" />
+    <ClInclude Include="updatelog.h" />
     <ClInclude Include="visualsmanager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="itemproperties.cpp" />
     <ClCompile Include="keylistener.cpp" />
+    <ClCompile Include="lensflare.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="messagemenu.cpp" />
     <ClCompile Include="modelproperties.cpp" />

@@ -16,6 +16,7 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	std::cout << "Loading item properties...." << std::endl;
 	itemList.push_back(ItemProperties(graphics, "items/water.xml"));
 	itemList.push_back(ItemProperties(graphics, "items/iridium.xml"));
+	itemList.push_back(ItemProperties(graphics, "items/nanoalloys.xml"));
 	shipList.push_back(ShipProperties(graphics, "items/ships/praetorian_cruiser.xml"));
 	shipList.push_back(ShipProperties(graphics, "items/ships/ishtar_cruiser.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/railgunI.xml"));

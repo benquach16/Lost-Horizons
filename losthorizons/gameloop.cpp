@@ -14,6 +14,7 @@ Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager 
 
 Gameloop::~Gameloop()
 {
+	//clear everything we created
 	delete objectManager;
 	delete gameSceneManager;
 	delete player;
@@ -25,6 +26,7 @@ Gameloop::~Gameloop()
 
 void Gameloop::init()
 {
+	//create super important objects
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
 	hud = new HUD(player);
 	turning = new TurningMarker(player);
@@ -32,7 +34,7 @@ void Gameloop::init()
 
 void Gameloop::run(f32 frameDeltaTime)
 {
-
+	//run through all essential objects and functions
 	playerControl(frameDeltaTime);
 	cameraControl();
 	selectTarget();
@@ -41,7 +43,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	hud->run();
 	turning->run();
 	visualsManager->run();
-	stationMenu->run(player->getShipTarget());
+	stationMenu->run(player->getShipTarget(), player);
 }
 
 void Gameloop::createNewGame()
@@ -113,7 +115,9 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 		if(!player->getInfo().docked)
 		{
 			player->dockWithTarget();
-			stationMenu->setVisible(true);
+			//make sure the menu only shows up when the player is actually docked
+			if(player->getInfo().docked)
+				stationMenu->setVisible(true);
 		}
 		else
 		{

@@ -13,6 +13,7 @@
 #include "objectmanager.h"
 #include "projectile.h"
 #include "explosion.h"
+#include "inventory.h"
 
 //for finite state machine implementation
 enum E_AI_STATES
@@ -41,6 +42,7 @@ struct ShipInformation
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	bool docked;
+	Inventory inventory;
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
 		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
@@ -117,12 +119,12 @@ protected:
 
 	//important misc variables
 	TargetableObject *shipTarget;
-
-	//inventory of ship
-	
 	
 	//iterator to 'this'
 	std::list<Ship*>::iterator it;
+
+	//controls how fast we want the shields to recharge
+	unsigned shieldTimer;
 
 private:
 	

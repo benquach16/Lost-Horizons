@@ -5,7 +5,7 @@
 std::list<Ship*> Ship::allShips;
 
 Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0)
+	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -28,10 +28,11 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	setLightTurret(ObjectManager::turretList[1],1);
 	setLightTurret(ObjectManager::turretList[1],2);
 	setLightTurret(ObjectManager::turretList[1],3);
+	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER);
 }
 
 Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(ID, ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info), shipTarget(0)
+	: TargetableObject(ID, ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info), shipTarget(0), shieldTimer(0)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -43,7 +44,7 @@ Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const
 
 //copy constructor
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(nextID++, ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info), shipTarget(0)
+	: TargetableObject(nextID++, ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info), shipTarget(0), shieldTimer(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -91,7 +92,15 @@ void Ship::run(f32 frameDeltaTime)
 
 			movement(frameDeltaTime);
 
-			//aim turrets
+			//recharge shields
+			if(info.shield < info.maxShield)
+			{
+				if(shieldTimer < timer->getTime())
+				{
+					info.shield++;
+					shieldTimer  = timer->getTime() + 100;
+				}
+			}
 
 			//if is not player do ai stuff
 			if (!isPlayer())
@@ -151,6 +160,8 @@ void Ship::damage(int val)
 	{
 		//damage hull
 		info.hull -= val;
+		//since armor and hull are damaged, kill off some of the crew
+		info.crew -= (rand()%info.crew)/4;
 	}
 }
 
@@ -230,10 +241,14 @@ void Ship::removeThisFromTargets()
 void Ship::dockWithTarget()
 {
 	//check if target is a spaec station
+
 	if(getShipTarget()->getTargetableObjectType() == E_OBJECT_SPACESTATION)
 	{
-		info.docked = true;
-		setPosition(getShipTarget()->getPosition());
+		if(getShipTarget()->getPosition().getDistanceFrom(getPosition()) < 500)
+		{
+			info.docked = true;
+			setPosition(getShipTarget()->getPosition());
+		}
 	}
 }
 

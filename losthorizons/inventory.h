@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <map>
 
 #include "objectmanager.h"
 
@@ -20,20 +21,24 @@ public:
 	//overloaded assignment operator
 	Inventory& operator=(const Inventory& i);
 
-	void addItem(const ItemProperties& item);
+	void addItem(ObjectManager::E_ITEM_LIST itemType);
 
-	void removeItem(const ItemProperties& item);
+	void removeItem(ObjectManager::E_ITEM_LIST itemType);
 
 	//overload the subscript operator
-	const unsigned getItemCount(const ItemProperties& item) const;
-	const unsigned operator[](const ItemProperties& item) const;
+	const unsigned getItemCount(ObjectManager::E_ITEM_LIST itemType) const;
+	const unsigned operator[](ObjectManager::E_ITEM_LIST itemType) const;
 
-	int getCredits() const;
-	int addCredits(int modifier);
+	//use this for displaying the inventory in a store or cargo display
+	std::vector<std::wstring> getConvertedInventory() const;
+
+	const int getCredits() const;
+	void addCredits(int modifier);
 protected:
 	//load all the items in the game into an associative array
 	//index in array corresponds to item index
 	std::vector<unsigned> data;
+	//std::map<ItemProperties, unsigned> data;
 	//store ship credits too
 	int credits;
 };

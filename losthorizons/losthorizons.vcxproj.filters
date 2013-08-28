@@ -204,6 +204,9 @@
     <ClInclude Include="stationmenu.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="updatelog.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -328,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="stationmenu.cpp">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="lensflare.cpp">
+      <Filter>Source Files\effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

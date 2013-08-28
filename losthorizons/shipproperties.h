@@ -24,12 +24,14 @@ public:
 	ShipProperties(IrrlichtDevice *graphics, const std::string &f);
 	~ShipProperties();
 
-	//accessors because visual studio is a douchebag
+	//accessors because visual studio
 	const int& getMaxHull() const;
 	const int& getMaxArmor() const;
 	const int& getMaxShield() const;
 	const int& getMaxTurn() const;
 	const f32& getMaxVel() const;
+	const int& getMaxCargo() const;
+	const int& getNumEngines() const;
 
 	const int& getMaxEnergy() const;
 	const int& getMaxCrew() const;
@@ -55,6 +57,8 @@ protected:
 	int maxShield;
 	int maxTurn;
 	f32 maxVelocity;
+	int maxCargo;
+	int numEngines;
 
 	//logistic statistics
 	int maxEnergy;
