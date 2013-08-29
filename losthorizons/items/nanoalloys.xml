@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <itemStats type="item">
-	<name>Iridium</name>
+	<name>Nanoalloys</name>
 	<description>Strong material used in the production of ships and space stations. Mined mainly from moons and asteroids, since planets have smaller deposits of this.</description>
 	<cost>43</cost>
 	<weight>10</weight>

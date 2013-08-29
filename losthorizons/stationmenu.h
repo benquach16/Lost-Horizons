@@ -9,23 +9,33 @@
 class StationMenu : public MenuWindow
 {
 public:
-	StationMenu();
+	StationMenu(Player *player);
 	virtual ~StationMenu();
-	void run(const TargetableObject *target, Player *player);
+	void run(const TargetableObject *target);
 	
 protected:
 	void initializeDisplay();
+	void loadInventories();
+	void runStore();
+	void runHanger();
+	void runMissions();
+	void runShipyard();
+	void runPeople();
+	Player *player;
 
 	gui::IGUITabControl *tabs;
 	gui::IGUITab *store;
 	//we need a way to organize all these pointers between all these tabs
-	//so throw them in pointers
-	struct storePointersStruct
-	{
-		gui::IGUIListBox *playerInventory;
-		gui::IGUIListBox *stationInventory;
-	};
-	storePointersStruct storePointers;
+	//store tab pointers
+	gui::IGUIListBox *playerInventory;
+	gui::IGUIListBox *stationInventory;
+	std::vector<ItemProperties> playerOptimizedInventory;
+	gui::IGUIStaticText *selectedValue;
+	gui::IGUIStaticText *selectedWeight;
+	gui::IGUIStaticText *selectedDescription;
+	gui::IGUIButton *buyButton;
+	gui::IGUIButton *sellButton;
+
 	gui::IGUITab *hanger;
 	gui::IGUITab *missions;
 	gui::IGUITab *shipyard;

@@ -8,7 +8,7 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(new StationMenu)
+	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(0)
 {
 }
 
@@ -30,6 +30,7 @@ void Gameloop::init()
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
 	hud = new HUD(player);
 	turning = new TurningMarker(player);
+	stationMenu = new StationMenu(player);
 }
 
 void Gameloop::run(f32 frameDeltaTime)
@@ -43,7 +44,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	hud->run();
 	turning->run();
 	visualsManager->run();
-	stationMenu->run(player->getShipTarget(), player);
+	stationMenu->run(player->getShipTarget());
 }
 
 void Gameloop::createNewGame()

@@ -31,6 +31,10 @@ public:
 
 	//use this for displaying the inventory in a store or cargo display
 	std::vector<std::wstring> getConvertedInventory() const;
+	const std::vector<unsigned>& getData() const
+	{
+		return data;
+	}
 
 	const int getCredits() const;
 	void addCredits(int modifier);
