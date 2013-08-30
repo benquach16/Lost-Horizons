@@ -4,6 +4,9 @@
 
 std::list<Ship*> Ship::allShips;
 
+//time between ai updates to save cpu speed
+const unsigned AITIMER = 100;
+
 Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0)
 {
@@ -19,6 +22,7 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	
 	//set up the ship turrets
 	initTurrets();
+	initEngineTrails();
 	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType].getNormalMap().c_str()));
 	setMediumTurret(ObjectManager::turretList[0],3);
 	setMediumTurret(ObjectManager::turretList[0],2);
@@ -53,6 +57,7 @@ Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	//add it to the ships list
 	allShips.push_front(this);
 	it = allShips.begin();
+	initTurrets();
 }
 
 //assignmennt operator
@@ -61,7 +66,8 @@ Ship& Ship::operator=(const Ship *s)
 	if (this != s)
 	{
 		//TODO: ASSISNGMENT OPERATOR!!!
-
+		mesh->remove();
+		mesh = s->mesh;
 	}
 	return *this;
 }
@@ -69,6 +75,18 @@ Ship& Ship::operator=(const Ship *s)
 Ship::~Ship()
 {
 	allShips.erase(it);
+	//clear memory we allocated
+	while(!engineParticles.empty())
+	{
+		engineParticles.back()->remove();
+		engineParticles.pop_back();
+	}
+	while(!coronaEffects.empty())
+	{
+		coronaEffects.back()->remove();
+		coronaEffects.pop_back();
+	}
+
 }
 
 void Ship::run(f32 frameDeltaTime)
@@ -102,10 +120,17 @@ void Ship::run(f32 frameDeltaTime)
 				}
 			}
 
+
+
 			//if is not player do ai stuff
 			if (!isPlayer())
 			{
-				runAI();
+				//make sure to only update every so many ticks
+				if(currentTime <timer->getTime())
+				{
+					runAI();
+					currentTime = timer->getTime() + AITIMER;
+				}
 			}
 		}
 	}
@@ -242,7 +267,7 @@ void Ship::dockWithTarget()
 {
 	//check if target is a spaec station
 
-	if(getShipTarget()->getTargetableObjectType() == E_OBJECT_SPACESTATION)
+	if(getShipTarget() && getShipTarget()->getTargetableObjectType() == E_OBJECT_SPACESTATION)
 	{
 		if(getShipTarget()->getPosition().getDistanceFrom(getPosition()) < 500)
 		{
@@ -337,7 +362,13 @@ void Ship::initTurrets()
 	//we create new turret slots and assign them to the ship
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxHTurrets(); ++i)
 	{
-
+		//get the bone name and set it to the string
+		std::string jointName("heavy_turret_0");
+		std::string tmp = std::to_string(i+1);
+		jointName += tmp;
+		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].mediumTurrets[i], joint, E_CLASS_HEAVY, this);
+		mediumTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxMTurrets(); ++i)
 	{
@@ -395,6 +426,43 @@ void Ship::aimTurrets(float frameDeltaTime)
 		{
 			lightTurrets[i]->resetAim();
 		}
+	}
+}
+
+//private function
+//draw engine trails
+void Ship::initEngineTrails()
+{
+	//create particle effecst and billboard effects
+	for(int i = 0; i < ObjectManager::shipList[info.shipType].getNumEngines(); i++)
+	{
+		//get joint
+		std::string jointName("exhaust");
+		jointName += std::to_string(i+1);
+		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
+
+		//create particle system
+		scene::IParticleSystemSceneNode *exhaust=scenemngr->addParticleSystemSceneNode(false,joint);
+		scene::IParticleEmitter *em = exhaust->createBoxEmitter(core::aabbox3d<f32>(-15,-50,-15,15,50,15), core::vector3df(),200,500,
+					video::SColor(0,255,255,255),       // darkest color
+					video::SColor(0,255,255,255),       // brightest color
+					300,500,0,                         // min and max age, angle
+					core::dimension2df(5,5),  core::dimension2df(10,10));    
+		exhaust->setEmitter(em);
+		em->drop();
+		exhaust->setMaterialTexture(0,vdriver->getTexture("res/textures/engine_trails.pcx"));
+		exhaust->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+		exhaust->setMaterialFlag(video::EMF_LIGHTING,false);
+		engineParticles.push_back(exhaust);
+
+		IBillboardSceneNode* corona = scenemngr->addBillboardSceneNode(joint,dimension2d<f32>(120,120),vector3df(0,0,10));
+		corona->setMaterialTexture(0,vdriver->getTexture("res/textures/engine_corona.png"));
+		corona->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+		corona->setMaterialFlag(video::EMF_LIGHTING, false);
+		coronaEffects.push_back(corona);
+
+		//now add occlusion queries to corona effects
+		vdriver->addOcclusionQuery(corona);
 	}
 }
 

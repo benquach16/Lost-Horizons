@@ -68,7 +68,17 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 					std::wstringstream iss(file->getNodeData());
 					iss >> maxFighters;
 				}
-
+				if(currentSection.equals_ignore_case(L"maxCargo"))
+				{
+					//read cargo size
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxCargo;
+				}
+				if(currentSection.equals_ignore_case(L"numEngines"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> numEngines;
+				}
 				break;
 			}
 		case io::EXN_ELEMENT:
@@ -104,6 +114,14 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 				if(core::stringw(L"maxFighters").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"maxFighters";
+				}
+				if(core::stringw(L"maxCargo").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"maxCargo";
+				}
+				if(core::stringw(L"numEngines").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"numEngines";
 				}
 				if(core::stringw(L"heavyTurret").equals_ignore_case(file->getNodeName()))
 				{
@@ -235,6 +253,15 @@ const int& ShipProperties::getMaxEnergy() const
 const int& ShipProperties::getMaxCrew() const
 {
 	return maxCrew;
+}
+
+const int& ShipProperties::getMaxCargo() const
+{
+	return maxCargo;
+}
+const int& ShipProperties::getNumEngines() const
+{
+	return numEngines;
 }
 
 const int& ShipProperties::getMaxLTurrets() const

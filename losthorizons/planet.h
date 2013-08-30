@@ -20,8 +20,8 @@ public:
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 protected:
 	scene::IAnimatedMeshSceneNode *cloudMesh;
-	scene::IBillboardSceneNode *atmosphere;
-	//Atmosphere *atmosphere;
+	//scene::IBillboardSceneNode *atmosphere;
+	Atmosphere *atmosphere;
 	//protected function
 	//does as described
 	void enablePlanetShader();

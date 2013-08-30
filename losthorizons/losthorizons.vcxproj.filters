@@ -335,6 +335,9 @@
     <ClCompile Include="lensflare.cpp">
       <Filter>Source Files\effects</Filter>
     </ClCompile>
+    <ClCompile Include="gamemenu.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">

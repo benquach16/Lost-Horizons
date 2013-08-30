@@ -21,7 +21,13 @@ public:
 	virtual u32 getMaterialCount() const;
 	virtual SMaterial& getMaterial(u32 i);
 
+	void setStrength(float newStrength)
+	{
+		strength = newStrength;
+	}
+
 protected:
+	float strength;
 	aabbox3d<f32> box;
 	S3DVertex2TCoords vertices[4];
 	SMaterial material;

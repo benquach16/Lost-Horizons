@@ -145,6 +145,7 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="gameloop.cpp" />
+    <ClCompile Include="gamemenu.cpp" />
     <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="gamescenemanager.cpp" />
     <ClCompile Include="hud.cpp" />

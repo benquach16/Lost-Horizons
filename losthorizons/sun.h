@@ -18,6 +18,8 @@ public:
 	//deconstructor
 	~Sun();
 
+	virtual void run(f32 frameDeltaTime);
+
 protected:
 	//light source
 	irr::scene::ILightSceneNode *light;

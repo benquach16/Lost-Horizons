@@ -4,7 +4,7 @@
 
 //gunna have a huge initializer list here
 HUD::HUD(Player *player) : shipWheel(0), velocity(0), hull(0), armor(0), shield(0), targetBkg(0), targetName(0), player(player), 
-	targetFaction(0), targetDistance(0)
+	targetFaction(0), targetDistance(0), targetHull(0), targetArmor(0), targetShield(0)
 
 {
 	//window = guienv->addGUIElement(gui::EGUIET_ELEMENT);
@@ -29,6 +29,9 @@ void HUD::initializeDisplay()
 	targetName = guienv->addStaticText(L"No Target Selected", rect<s32>(0,0,120,120), false, true, targetBkg);
 	targetFaction = guienv->addStaticText(L"", rect<s32>(0,15,120,120), false, true, targetBkg);
 	targetDistance = guienv->addStaticText(L"", rect<s32>(0,30,120,120), false, true, targetBkg);
+	targetHull = guienv->addStaticText(L"", rect<s32>(0,45,120,120), false, true, targetBkg);
+	targetArmor = guienv->addStaticText(L"", rect<s32>(0,60,120,120), false, true, targetBkg);
+	targetShield = guienv->addStaticText(L"", rect<s32>(0,75,120,120), false, true, targetBkg);
 }
 
 void HUD::run()
@@ -98,6 +101,26 @@ void HUD::updateTargetInfo()
 		if(target->getTargetableObjectType() == E_OBJECT_SHIP)
 		{
 			//draw hull armor and shield
+			const Ship* shipTarget = (Ship*)target;
+			std::wstring str(L"Hull [");
+			str += std::to_wstring(shipTarget->getInfo().hull);
+			str += L"]";
+			targetHull->setText(str.c_str());
+			str = L"Armor [";
+			str += std::to_wstring(shipTarget->getInfo().armor);
+			str += L"]";
+			targetArmor->setText(str.c_str());
+			str = L"Shield [";
+			str += std::to_wstring(shipTarget->getInfo().shield);
+			str += L"]";
+			targetShield->setText(str.c_str());
+		}
+		else
+		{
+			//not a ship so dont draw hull armor or shield
+			targetHull->setText(L"");
+			targetArmor->setText(L"");
+			targetShield->setText(L"");
 		}
 	}
 	else
@@ -106,6 +129,9 @@ void HUD::updateTargetInfo()
 		targetName->setText(L"No Target Selected");
 		targetFaction->setText(L"");
 		targetDistance->setText(L"");
+		targetHull->setText(L"");
+		targetArmor->setText(L"");
+		targetShield->setText(L"");
 	}
 }
 

@@ -4,11 +4,14 @@
 #include "menuwindow.h"
 //show ingame information in this menu
 
-class GameMenu
+class GameMenu : public MenuWindow
 {
 public:
 	GameMenu();
 	~GameMenu();
+
+protected:
+
 };
 
 

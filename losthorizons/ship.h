@@ -119,6 +119,9 @@ protected:
 
 	//important misc variables
 	TargetableObject *shipTarget;
+	//engine trail variables
+	std::vector<IParticleSystemSceneNode*> engineParticles;
+	std::vector<IBillboardSceneNode*> coronaEffects;
 	
 	//iterator to 'this'
 	std::list<Ship*>::iterator it;
@@ -136,9 +139,14 @@ private:
 	void initTurrets();
 	void aimTurrets(f32 frameDeltaTime);
 
+	//initialize particle effects
+	void initEngineTrails();
+
 	//AI functions
 	void runAI();
 	void updateStates();
 	void searchForTarget();
+
+	f32 currentTime;
 };
 #endif

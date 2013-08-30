@@ -40,8 +40,8 @@ void StationMenu::initializeDisplay()
 	selectedValue = guienv->addStaticText(L"Value :", rect<s32>(400, 420, 600, 440), false, true, store);
 	selectedWeight = guienv->addStaticText(L"Weight :", rect<s32>(620, 420, 780, 440), false, true, store);
 	selectedDescription = guienv->addStaticText(L"", rect<s32>(20, 460, 780, 500), false, true, store);
-	guienv->addButton(rect<s32>(20,520,120,540), store, -1, L"Sell");
-	guienv->addButton(rect<s32>(680, 520, 780, 540), store, -1, L"Buy");
+	sellButton = guienv->addButton(rect<s32>(20,520,120,540), store, -1, L"Sell");
+	buyButton = guienv->addButton(rect<s32>(680, 520, 780, 540), store, -1, L"Buy");
 }
 
 //protected function

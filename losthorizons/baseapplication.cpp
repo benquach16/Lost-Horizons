@@ -74,6 +74,7 @@ void BaseApplication::run()
 			if (receiver->isKeyDown(irr::KEY_ESCAPE))
 				menu->setVisible(true);
 		}
+		vdriver->runAllOcclusionQueries(false);
 		guienv->drawAll();
 
 		vdriver->endScene();
@@ -82,9 +83,12 @@ void BaseApplication::run()
 
 void BaseApplication::buildGraphics()
 {
+	//initialize sound engine
 	sound = irrklang::createIrrKlangDevice();
 	sound->setSoundVolume(1.0f);
-	sound->setDefault3DSoundMinDistance(1000);
+	sound->setDefault3DSoundMinDistance(500);
+
+	//initialize graphics engnie
 	if (gConfig.bFullScreen)
 		graphics = createDevice(EDT_DIRECT3D9,
 			dimension2d<u32>(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)),
