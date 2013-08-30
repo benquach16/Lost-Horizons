@@ -11,6 +11,7 @@
 #include "hud.h"
 #include "turningmarker.h"
 #include "stationmenu.h"
+#include "gamemenu.h"
 
 class Gameloop
 {
@@ -47,6 +48,7 @@ private:
 
 	//ui members
 	StationMenu *stationMenu;
+	GameMenu *gameMenu;
 };
 
 #endif

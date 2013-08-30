@@ -8,7 +8,7 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(0)
+	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(0), gameMenu(0)
 {
 }
 
@@ -22,6 +22,7 @@ Gameloop::~Gameloop()
 	delete turning;
 	delete visualsManager;
 	delete stationMenu;
+	delete gameMenu;
 }
 
 void Gameloop::init()
@@ -31,6 +32,7 @@ void Gameloop::init()
 	hud = new HUD(player);
 	turning = new TurningMarker(player);
 	stationMenu = new StationMenu(player);
+	gameMenu = new GameMenu(player);
 }
 
 void Gameloop::run(f32 frameDeltaTime)
@@ -45,6 +47,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	turning->run();
 	visualsManager->run();
 	stationMenu->run(player->getShipTarget());
+	gameMenu->run();
 }
 
 void Gameloop::createNewGame()
@@ -126,6 +129,18 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 			stationMenu->setVisible(false);
 		}
 	}
+	//draw command console
+	if (receiver->isKeyReleased(irr::KEY_KEY_C))
+	{
+		if(gameMenu->getVisible())
+		{
+			gameMenu->setVisible(false);
+		}
+		else
+		{
+			gameMenu->setVisible(true);
+		}
+	} 
 }
 
 void Gameloop::cameraControl()

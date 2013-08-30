@@ -2,16 +2,21 @@
 #define _GAMEMENU_H_
 
 #include "menuwindow.h"
+#include "player.h"
 //show ingame information in this menu
 
 class GameMenu : public MenuWindow
 {
 public:
-	GameMenu();
+	GameMenu(Player *player);
 	~GameMenu();
 
-protected:
+	virtual void run();
 
+protected:
+	Player *player;
+
+	gui::IGUITabControl *tabs;
 };
 
 
