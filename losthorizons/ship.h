@@ -29,6 +29,7 @@ enum E_AI_STATES
 struct Subsystem
 {
 	int health;
+	std::wstring name;
 	Subsystem() { health = 100; };
 };
 
@@ -98,6 +99,10 @@ public:
 	const ShipInformation& getInfo() const;
 	const TargetableObject* getShipTarget() const;
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
+	//returns an lvalue
+	Inventory& getInventory();
+	//returns an rvalue
+	const Inventory& getInventory() const;
 
 	//returns whether the ship is a player or AI
 	bool isPlayer() const;
@@ -116,6 +121,9 @@ protected:
 	std::vector<TurretSlot*> heavyTurrets;
 	std::vector<TurretSlot*> mediumTurrets;
 	std::vector<TurretSlot*> lightTurrets;
+
+	//data container for ship subsystems
+	std::vector<Subsystem> subsystems;
 
 	//important misc variables
 	TargetableObject *shipTarget;

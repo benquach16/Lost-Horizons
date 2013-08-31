@@ -29,12 +29,12 @@ protected:
 	//store tab pointers
 	gui::IGUIListBox *playerInventory;
 	gui::IGUIListBox *stationInventory;
-	std::vector<ItemProperties> playerOptimizedInventory;
 	gui::IGUIStaticText *selectedValue;
 	gui::IGUIStaticText *selectedWeight;
 	gui::IGUIStaticText *selectedDescription;
 	gui::IGUIButton *buyButton;
 	gui::IGUIButton *sellButton;
+	gui::IGUIStaticText *playerCash;
 
 	gui::IGUITab *hanger;
 	gui::IGUITab *missions;

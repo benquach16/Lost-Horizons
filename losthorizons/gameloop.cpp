@@ -68,6 +68,8 @@ void Gameloop::createNewGame()
 		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(-1000,0,2300));
 	gameSceneManager->getCurrentScene()->createStation(E_FACTION_TERRAN,
 		ObjectManager::E_STATION_LIST::TRADING, vector3df(1000, 0, 500));
+	gameSceneManager->getCurrentScene()->createStation(E_FACTION_TERRAN,
+		ObjectManager::E_STATION_LIST::SHIPYARD, vector3df(2000, -100, -2000));
 	init();
 }
 

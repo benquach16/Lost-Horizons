@@ -6,6 +6,7 @@
 #include <map>
 
 #include "objectmanager.h"
+#include "itemproperties.h"
 
 
 //cargo for each ship
@@ -15,6 +16,8 @@ class Inventory
 public:
 	//constructor
 	Inventory();
+	//parameterized constructor
+	Inventory(int credits);
 	~Inventory();
 	//copy constructor
 	Inventory(const Inventory& i);
@@ -23,25 +26,28 @@ public:
 
 	void addItem(ObjectManager::E_ITEM_LIST itemType);
 
+	//overloaded function
 	void removeItem(ObjectManager::E_ITEM_LIST itemType);
+	//O(1) time remove function
+	void removeItem(int i);
 
 	//overload the subscript operator
-	const unsigned getItemCount(ObjectManager::E_ITEM_LIST itemType) const;
-	const unsigned operator[](ObjectManager::E_ITEM_LIST itemType) const;
+	const unsigned getItemCount(ObjectManager::E_ITEM_LIST itemType);
+	const ItemProperties& operator[](unsigned i) const;
 
 	//use this for displaying the inventory in a store or cargo display
 	std::vector<std::wstring> getConvertedInventory() const;
-	const std::vector<unsigned>& getData() const
-	{
-		return data;
-	}
 
 	const int getCredits() const;
 	void addCredits(int modifier);
 protected:
-	//load all the items in the game into an associative array
-	//index in array corresponds to item index
-	std::vector<unsigned> data;
+	//we have two vectors to act as an associative array;
+	//make sure these two vectors are always in SYNC!!!
+	//we could use one vector with std::pair, but that would cause needless, needless pain
+	//this is much faster and easier
+	std::vector<ItemProperties> data;
+	std::vector<unsigned> count;
+	//std::vector<ItemProperties, unsigned> data;
 	//std::map<ItemProperties, unsigned> data;
 	//store ship credits too
 	int credits;

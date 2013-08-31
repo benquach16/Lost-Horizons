@@ -126,11 +126,11 @@ void Ship::run(f32 frameDeltaTime)
 			if (!isPlayer())
 			{
 				//make sure to only update every so many ticks
-				if(currentTime <timer->getTime())
-				{
+				//if(currentTime <timer->getTime())
+				//{
 					runAI();
-					currentTime = timer->getTime() + AITIMER;
-				}
+					//currentTime = timer->getTime() + AITIMER;
+				//}
 			}
 		}
 	}
@@ -244,6 +244,11 @@ const TargetableObject* Ship::getShipTarget() const
 const E_TARGETABLEOBJECT_TYPE Ship::getTargetableObjectType() const
 {
 	return E_OBJECT_SHIP;
+}
+
+Inventory& Ship::getInventory()
+{
+	return info.inventory;
 }
 
 bool Ship::isPlayer() const

@@ -3,6 +3,9 @@
 #include <iostream>
 #include <sstream>
 
+
+
+
 ItemProperties::ItemProperties()
 {
 }
@@ -96,6 +99,11 @@ const int& ItemProperties::getPrice() const
 const int& ItemProperties::getWeight() const
 {
 	return weight;
+}
+
+const E_ITEM_TYPES& ItemProperties::getItemType() const
+{
+	return itemType;
 }
 
 //private function

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "spacestation.h"
 
 std::list<SpaceStation*> SpaceStation::allStations;
@@ -8,6 +9,8 @@ SpaceStation::SpaceStation(const E_GAME_FACTIONS faction, ObjectManager::E_STATI
 {
 	allStations.push_front(this);
 	it = allStations.begin();
+
+	setNormalMap(vdriver->getTexture(ObjectManager::stationList[stationType].getNormalMap().c_str()));
 }
 
 SpaceStation::~SpaceStation()
@@ -18,6 +21,8 @@ SpaceStation::~SpaceStation()
 void SpaceStation::run(f32 frameDeltaTime)
 {
 	TargetableObject::run(frameDeltaTime);
+	//do ai stuff here
+	
 }
 
 const E_TARGETABLEOBJECT_TYPE SpaceStation::getTargetableObjectType() const

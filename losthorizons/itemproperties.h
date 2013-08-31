@@ -17,6 +17,9 @@ enum E_ITEM_TYPES
 	E_ITEM_PLANET = 4,
 };
 
+
+//itemproperties class
+//all items need this class
 class ItemProperties
 {
 public:
@@ -41,5 +44,17 @@ protected:
 
 	E_ITEM_TYPES itemType;
 };
+
+//overload == operator
+inline bool operator==(const ItemProperties& lhs, const ItemProperties& rhs)
+{
+	if(lhs.getDesc() == rhs.getDesc() && lhs.getName() == rhs.getName() && lhs.getItemType() == rhs.getItemType() &&
+		lhs.getPrice() == rhs.getPrice() && lhs.getWeight() == rhs.getWeight())
+	{
+		return true;
+	}
+	return false;
+}
+
 
 #endif
