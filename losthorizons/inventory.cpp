@@ -10,13 +10,39 @@ Inventory::~Inventory()
 {
 }
 
-Inventory::Inventory(const Inventory& i)
+Inventory::Inventory(const Inventory& inv) : data(inv.data), count(inv.count), credits(inv.credits)
 {
+	//copy constructor
 }
 
-Inventory& Inventory::operator=(const Inventory& i)
+Inventory& Inventory::operator=(const Inventory& inv)
 {
+	//overloaded assignment operator
+	data = inv.data;
+	count = inv.count;
+	credits = inv.credits;
 	return *this;
+}
+
+void Inventory::operator+=(const Inventory& inv)
+{
+	//add inventory contents to this one
+	for(unsigned i = 0; i < inv.data.size(); i++)
+	{
+		addItem(inv.data[i], inv.count[i]);
+	}
+	credits = inv.credits;
+}
+
+Inventory& Inventory::operator+(const Inventory& inv)
+{
+	Inventory ret(inv);
+	for(unsigned i = 0; i < inv.data.size(); i++)
+	{
+		ret.addItem(inv.data[i], inv.count[i]);
+	}	
+	ret.credits = inv.credits;
+	return ret;
 }
 
 void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType)
@@ -35,6 +61,41 @@ void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType)
 	data.push_back(ObjectManager::itemList[itemType]);
 	count.push_back(1);
 }
+
+void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount)
+{
+	//itemtype should be aligned with array index
+	for(unsigned i = 0; i < data.size(); i++)
+	{
+		//we found the same one so increaes count by amount
+		if(data[i] == ObjectManager::itemList[itemType])
+		{
+			count[i]+=amount;
+			return;
+		}
+	}
+	//if we didnt find it add count and itemproperty to data
+	data.push_back(ObjectManager::itemList[itemType]);
+	count.push_back(amount);
+}
+
+void Inventory::addItem(const ItemProperties& item, unsigned amount)
+{
+	//itemtype should be aligned with array index
+	for(unsigned i = 0; i < data.size(); i++)
+	{
+		//we found the same one so increaes count by amount
+		if(data[i] == item)
+		{
+			count[i]+=amount;
+			return;
+		}
+	}
+	//if we didnt find it add count and itemproperty to data
+	data.push_back(item);
+	count.push_back(amount);
+}
+
 
 void Inventory::removeItem(ObjectManager::E_ITEM_LIST itemType)
 {

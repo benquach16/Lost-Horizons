@@ -204,8 +204,11 @@
     <ClInclude Include="stationmenu.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
-    <ClInclude Include="updatelog.h">
+    <ClInclude Include="intercom.h">
       <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="cargo.h">
+      <Filter>Header Files\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="gamemenu.cpp">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="cargo.cpp">
+      <Filter>Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

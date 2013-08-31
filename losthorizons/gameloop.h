@@ -12,6 +12,7 @@
 #include "turningmarker.h"
 #include "stationmenu.h"
 #include "gamemenu.h"
+#include "cargo.h"
 
 class Gameloop
 {

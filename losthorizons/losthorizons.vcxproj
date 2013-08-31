@@ -87,6 +87,7 @@
     <ClInclude Include="atmosphere.h" />
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="callback.h" />
+    <ClInclude Include="cargo.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="stationmenu.h" />
@@ -133,13 +134,14 @@
     <ClInclude Include="turningmarker.h" />
     <ClInclude Include="turret.h" />
     <ClInclude Include="turretproperties.h" />
-    <ClInclude Include="updatelog.h" />
+    <ClInclude Include="intercom.h" />
     <ClInclude Include="visualsmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atmosphere.cpp" />
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="callback.cpp" />
+    <ClCompile Include="cargo.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
     <ClCompile Include="effect.cpp" />

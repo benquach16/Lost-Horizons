@@ -10,6 +10,7 @@ public:
 	Player(const ShipInformation &info, const vector3df &position, const vector3df &rotation);
 	virtual ~Player();
 	virtual void run(f32 frameDeltaTime);
+	virtual const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
 private:
 	

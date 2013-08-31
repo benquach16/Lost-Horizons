@@ -32,7 +32,8 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	setLightTurret(ObjectManager::turretList[1],1);
 	setLightTurret(ObjectManager::turretList[1],2);
 	setLightTurret(ObjectManager::turretList[1],3);
-	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER);
+	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER, 100);
+
 }
 
 Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
@@ -86,7 +87,8 @@ Ship::~Ship()
 		coronaEffects.back()->remove();
 		coronaEffects.pop_back();
 	}
-
+	//lets create some loot to drop
+	Cargo *loot = new Cargo(getPosition(), true);
 }
 
 void Ship::run(f32 frameDeltaTime)

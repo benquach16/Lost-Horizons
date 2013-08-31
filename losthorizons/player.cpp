@@ -29,3 +29,8 @@ void Player::run(f32 frameDeltaTime)
 		vdriver->draw2DLine(vector2d<s32>(0, shipTarget->getScreenPosition().Y), vector2d<s32>(iWidth, shipTarget->getScreenPosition().Y), SColor(128,128,128,140));
 	}
 }
+
+const E_TARGETABLEOBJECT_TYPE Player::getTargetableObjectType() const
+{
+	return E_OBJECT_PLAYER;
+}

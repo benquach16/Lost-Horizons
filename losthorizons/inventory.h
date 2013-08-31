@@ -20,11 +20,20 @@ public:
 	Inventory(int credits);
 	~Inventory();
 	//copy constructor
-	Inventory(const Inventory& i);
+	Inventory(const Inventory& inv);
 	//overloaded assignment operator
-	Inventory& operator=(const Inventory& i);
+	Inventory& operator=(const Inventory& inv);
+	
+	//overload arthimetic operators
+	void operator+=(const Inventory& i);
+	Inventory& operator+(const Inventory& inv);
 
+	//overloaded function
 	void addItem(ObjectManager::E_ITEM_LIST itemType);
+	//we can use this function to add multiple copies of one object
+	void addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount);
+	//use this when we have the itemproperties from another object
+	void addItem(const ItemProperties &item, unsigned amount);
 
 	//overloaded function
 	void removeItem(ObjectManager::E_ITEM_LIST itemType);
