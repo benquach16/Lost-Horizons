@@ -2,6 +2,7 @@
 #define _SUN_H_
 
 #include "object.h"
+#include "lensflare.h"
 
 //just a sun
 //its really just an object with a couple of other parameters
@@ -25,6 +26,8 @@ protected:
 	irr::scene::ILightSceneNode *light;
 	irr::scene::IBillboardSceneNode *corona;
 	irr::scene::IBillboardSceneNode *corona2;
+	//lens flare effect
+	LensFlare *lensFlare;
 };
 
 #endif

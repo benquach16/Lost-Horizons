@@ -50,6 +50,7 @@ public:
 	enum E_STATION_LIST
 	{
 		TRADING,
+		SHIPYARD
 	};
 	
 	static std::vector<ItemProperties> itemList;

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<itemStats type="fighter"> 
+	<name>Dragonfly Class Fighter</name>
+	<description>The Dragonfly is a fast Terran fighter that is very well rounded and capable of any task.</description> 
+	<cost>1200</cost> 
+	<weight>100</weight>
+	<modelStats>
+		<filename>res/models/ships/fighter.x</filename>
+		<diffuseMap>res/models/ships/shiphull.png</diffuseMap>
+		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
+		<scaleX>0.15</scaleX>
+		<scaleY>0.15</scaleY>
+		<scaleZ>0.15</scaleZ>
+	</modelStats>
+	<fighterStats>
+		<hullPoints>20</hullPoints>
+		<maxTurn>50</maxTurn>
+		<maxVelocity>110</maxVelocity>
+		<maxFuel>360000</maxFuel>
+	</fighterStats>
+</itemStats>

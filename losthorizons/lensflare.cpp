@@ -47,13 +47,22 @@ LensFlare::LensFlare(scene::ISceneNode* parent, scene::ISceneManager* mgr, s32 i
 
 void LensFlare::render()
 {
+	video::IVideoDriver* drv = getSceneManager()->getVideoDriver();
+	core::matrix4 proj;
+	u16 indices[] = {0,1,2,3,1,2};
+	drv->setMaterial(material);
 
+	drv->setTransform(video::ETS_PROJECTION, core::IdentityMatrix);
+	drv->setTransform(video::ETS_VIEW, core::IdentityMatrix);
+	drv->setTransform(video::ETS_WORLD, core::IdentityMatrix);
+
+	drv->drawIndexedTriangleList(&vertices[0],4,&indices[0],2);
 }
 
 void LensFlare::OnRegisterSceneNode()
 {
-	if(IsVisible)
-		SceneManager->registerNodeForRendering(this, ESNRP_TRANSPARENT);
+	if(IsVisible && strength > 0)
+		SceneManager->registerNodeForRendering(this, ESNRP_TRANSPARENT_EFFECT);
 	ISceneNode::OnRegisterSceneNode();
 }
 

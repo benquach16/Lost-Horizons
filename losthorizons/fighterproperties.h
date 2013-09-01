@@ -1,0 +1,20 @@
+#ifndef _FIGHTERPROPERTIES_H_
+#define _FIGHTERPROPERTIES_H_
+
+#include "modelproperties.h"
+
+class FighterProperties : public ModelProperties
+{
+public:
+	FighterProperties(irr::IrrlichtDevice *graphics, const std::string &f);
+	virtual ~FighterProperties();
+
+
+protected:
+	int maxHull;
+	int maxTurn;
+	int maxVelocity;
+	unsigned maxFuel;
+};
+
+#endif

@@ -24,6 +24,7 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	planetList.push_back(PlanetProperties(graphics, "items/planets/argrea.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/farstar.xml"));
 	stationList.push_back(SpaceStationProperties(graphics, "items/spacestations/tradingstation.xml"));
+	stationList.push_back(SpaceStationProperties(graphics, "items/spacestations/shipyard.xml"));
 }
 
 ObjectManager::~ObjectManager()

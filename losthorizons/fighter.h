@@ -9,8 +9,8 @@ class Fighter : public TargetableObject
 {
 public:
 	Fighter();
-	~Fighter();
-
+	virtual ~Fighter();
+	virtual void run(f32 frameDeltaTime);
 protected:
 
 };

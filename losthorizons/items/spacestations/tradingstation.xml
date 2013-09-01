@@ -7,7 +7,7 @@
 	<modelStats>
 		<filename>res/models/stations/trade.X</filename>
 		<diffuseMap>res/models/ships/shiphull.png</diffuseMap>
-		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
+		<normalMap>res/models/stations/trade_normal.jpg</normalMap>
 		<scaleX>4</scaleX>
 		<scaleY>4</scaleY>
 		<scaleZ>4</scaleZ>

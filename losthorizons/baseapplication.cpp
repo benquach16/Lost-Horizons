@@ -69,12 +69,15 @@ void BaseApplication::run()
 		then = now;
 		menu->run();
 		effect->render();
+		//scenemngr->drawAll();
+		vdriver->runAllOcclusionQueries(false);
+		vdriver->updateAllOcclusionQueries(false);
 		if (!menu->getVisible()) {
 			game->run(frameDeltaTime);
 			if (receiver->isKeyDown(irr::KEY_ESCAPE))
 				menu->setVisible(true);
 		}
-		vdriver->runAllOcclusionQueries(false);
+
 		guienv->drawAll();
 
 		vdriver->endScene();

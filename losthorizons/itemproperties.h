@@ -10,11 +10,12 @@ using namespace io;
 //so we can call specific parts of the item
 enum E_ITEM_TYPES
 {
-	E_ITEM_SHIP = 0,
-	E_ITEM_TURRET = 1,
-	E_ITEM_MODULE = 2,
-	E_ITEM = 3,
-	E_ITEM_PLANET = 4,
+	E_ITEM_SHIP,
+	E_ITEM_TURRET,
+	E_ITEM_MODULE,
+	E_ITEM,
+	E_ITEM_PLANET,
+	E_ITEM_FIGHTER
 };
 
 

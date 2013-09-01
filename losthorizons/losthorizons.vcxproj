@@ -91,6 +91,7 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="fighter.h" />
+    <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="stationmenu.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="explosion.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="datamanager.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="explosion.cpp" />
+    <ClCompile Include="fighterproperties.cpp" />
     <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="gamemenu.cpp" />
     <ClCompile Include="gamescene.cpp" />

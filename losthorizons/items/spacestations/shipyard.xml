@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <itemStats type="ship"> 
-	<name>Trading Station</name>
-	<description>These trading stations are widespread throughout the explored universe and are a hub for any system they are in.</description> 
-	<cost>75000</cost> 
+	<name>Shipyard</name>
+	<description>Shipyards are military installations that can produce ships at a rate necessary to reinforce fleets.</description> 
+	<cost>7500000</cost> 
 	<weight>1200000</weight>
 	<modelStats>
-		<filename>res/models/stations/trade.X</filename>
+		<filename>res/models/stations/shipyard.X</filename>
 		<diffuseMap>res/models/ships/shiphull.png</diffuseMap>
 		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
-		<scaleX>4</scaleX>
-		<scaleY>4</scaleY>
-		<scaleZ>4</scaleZ>
+		<scaleX>2</scaleX>
+		<scaleY>2</scaleY>
+		<scaleZ>2</scaleZ>
 	</modelStats>
 	<stationStats>
-		<spawnShips>false</spawnShips>
-		<spawnFighters>false</spawnFighters>
+		<spawnShips>true</spawnShips>
+		<spawnFighters>true</spawnFighters>
 		<serviceFitting>true</serviceFitting>
-		<serviceJobBoard>true</serviceJobBoard>
-		<serviceShipyard>false</serviceShipyard>
+		<serviceJobBoard>false</serviceJobBoard>
+		<serviceShipyard>true</serviceShipyard>
 		<buyMarkupFactor>1.25</buyMarkupFactor>
-		<sellMarkdownFactor>0.75</sellMarkdownFactor>
-		<isHQ>false</isHQ>
+		<sellMarkdownFactor>0.25</sellMarkdownFactor>
+		<isHQ>true</isHQ>
 		<shipSpawnTimer>60000</shipSpawnTimer>
 	</stationStats>
 </itemStats>
