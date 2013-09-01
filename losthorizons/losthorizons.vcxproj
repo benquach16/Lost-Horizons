@@ -92,6 +92,7 @@
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
+    <ClInclude Include="menutab.h" />
     <ClInclude Include="stationmenu.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="explosion.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="spacestationproperties.h" />
     <ClInclude Include="startmenu.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="storetab.h" />
     <ClInclude Include="sun.h" />
     <ClInclude Include="targetableobject.h" />
     <ClInclude Include="targetver.h" />
@@ -180,6 +182,7 @@
     <ClCompile Include="startmenu.cpp" />
     <ClCompile Include="stationmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="storetab.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="targetableobject.cpp" />
     <ClCompile Include="turningmarker.cpp" />

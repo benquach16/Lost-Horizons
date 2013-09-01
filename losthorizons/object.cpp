@@ -60,7 +60,7 @@ Object::Object(const Object *obj) : position(obj->getPosition()), rotation(obj->
 //assignment operator
 Object& Object::operator=(const Object *obj)
 {
-	if(this != obj)
+	if(obj && this != obj)
 	{
 		position = obj->position;
 		rotation = obj->rotation;

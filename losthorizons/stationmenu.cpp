@@ -9,12 +9,13 @@ StationMenu::StationMenu(Player *player) : MenuWindow(), tabs(0), player(player)
 	window->setDrawBackground(false);
 
 	tabs = guienv->addTabControl(rect<s32>(0,0,iWidth/2+800,iHeight/2+600), window, true);
-	store = tabs->addTab(L"Store", 1);
+	//store = tabs->addTab(L"Store", 1);
+	store = new StoreTab(tabs);
 	hanger = tabs->addTab(L"Hanger", 2);
 	missions = tabs->addTab(L"Missions", 3);
 	shipyard = tabs->addTab(L"Shipyard", 4);
 	people = tabs->addTab(L"People", 5);
-
+	
 	window->setVisible(false);
 
 	initializeDisplay();
@@ -31,13 +32,14 @@ void StationMenu::run(const TargetableObject *target)
 	{
 		//SpaceStation *stationTarget = (SpaceStation*)target;
 
-		runStore();
+		//runStore();
 	}
 }
 
 //protected function
 void StationMenu::initializeDisplay()
 {
+	/*
 	playerInventory = guienv->addListBox(rect<s32>(20,40, 380, 400), store);
 	stationInventory = guienv->addListBox(rect<s32>(420, 40, 780, 400), store);
 	guienv->addStaticText(L"Your Cargo", rect<s32>(20,20,380,40), false, true, store);
@@ -48,6 +50,7 @@ void StationMenu::initializeDisplay()
 	sellButton = guienv->addButton(rect<s32>(20,520,120,540), store, -1, L"Sell");
 	buyButton = guienv->addButton(rect<s32>(680, 520, 780, 540), store, -1, L"Buy");
 	playerCash = guienv->addStaticText(L"Your Credits :", rect<s32>(140, 520, 440, 540), false, true, store);
+	*/
 }
 
 //protected function

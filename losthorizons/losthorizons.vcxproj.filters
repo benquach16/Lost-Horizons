@@ -49,6 +49,18 @@
     <Filter Include="Source Files\postprocess">
       <UniqueIdentifier>{98fbb9a9-472f-420a-8d9b-3ae20183284b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ui\tabs">
+      <UniqueIdentifier>{d8713c48-a5e7-4317-8fc2-397595c320a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ui\tabs">
+      <UniqueIdentifier>{ac078cc8-f61e-4ae8-aaa2-02fb7956d893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ui\tabs\stationmenu">
+      <UniqueIdentifier>{8222ea11-4e8c-41cc-94eb-dceeef0d4186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ui\tabs\stationmenu">
+      <UniqueIdentifier>{36431fbe-f395-423c-971f-47d276e47ff9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -216,6 +228,12 @@
     <ClInclude Include="fighterproperties.h">
       <Filter>Header Files\properties</Filter>
     </ClInclude>
+    <ClInclude Include="storetab.h">
+      <Filter>Header Files\ui\tabs\stationmenu</Filter>
+    </ClInclude>
+    <ClInclude Include="menutab.h">
+      <Filter>Header Files\ui\tabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -355,6 +373,9 @@
     </ClCompile>
     <ClCompile Include="fighterproperties.cpp">
       <Filter>Source Files\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="storetab.cpp">
+      <Filter>Source Files\ui\tabs\stationmenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #include "fighterproperties.h"
+#include <sstream>
 
 FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
 {
@@ -11,6 +12,12 @@ FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::s
 		{
 		case io::EXN_TEXT:
 			{
+				if(currentSection.equals_ignore_case(L"maxHull"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxHull;
+				}
+
 				break;
 			}
 		case io::EXN_ELEMENT:
@@ -19,7 +26,14 @@ FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::s
 				{
 					currentSection = L"maxHull";
 				}
-
+				if(core::stringw(L"maxTurn").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection = L"maxTurn";
+				}
+				if(core::stringw(L"maxVelocity").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection = L"maxVelocity";
+				}
 				break;
 			}
 		case io::EXN_ELEMENT_END:

@@ -64,7 +64,7 @@ Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 //assignmennt operator
 Ship& Ship::operator=(const Ship *s)
 {
-	if (this != s)
+	if (s && this != s)
 	{
 		//TODO: ASSISNGMENT OPERATOR!!!
 		mesh->remove();

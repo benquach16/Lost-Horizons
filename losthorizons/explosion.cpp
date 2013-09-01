@@ -9,8 +9,8 @@ Explosion::Explosion(const vector3df& position) : Effect(EXPLOSIONLENGTH), fireP
 	soundmngr->play3D("res/sounds/reactor_explo.wav", position);
 	fireParticles = scenemngr->addParticleSystemSceneNode(false, 0, -1, position);
 	IParticleEmitter *emitter = fireParticles->createSphereEmitter(vector3df(0,0,0), 20.f,
-		vector3df(0,0,0), 50.f, 100.f, SColor(0,255,255,255), SColor(0,255,255,255),
-		(u32)2000U, (u32)4000U, 0, dimension2df(75,75), dimension2df(150,150));
+		vector3df(0,0,0), 100.f, 200.f, SColor(0,255,255,255), SColor(0,255,255,255),
+		(u32)2000, (u32)4000, 0, dimension2df(75,75), dimension2df(150,150));
 	fireParticles->setEmitter(emitter);
 
 	fireParticles->setMaterialTexture(0, vdriver->getTexture("res/textures/engine_trails.pcx"));

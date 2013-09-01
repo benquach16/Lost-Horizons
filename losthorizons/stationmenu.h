@@ -4,6 +4,7 @@
 #include "player.h"
 #include "spacestation.h"
 #include "menuwindow.h"
+#include "storetab.h"
 
 //ui menu that is opened when the player is docked at a space staiton
 class StationMenu : public MenuWindow
@@ -24,7 +25,8 @@ protected:
 	Player *player;
 
 	gui::IGUITabControl *tabs;
-	gui::IGUITab *store;
+	//gui::IGUITab *store;
+	StoreTab *store;
 	//we need a way to organize all these pointers between all these tabs
 	//store tab pointers
 	gui::IGUIListBox *playerInventory;
