@@ -5,6 +5,7 @@
 #include "object.h"
 #include "menuwindow.h"
 #include "player.h"
+#include "intercom.h"
 
 using namespace irr;
 using namespace gui;
@@ -42,6 +43,8 @@ private:
 	gui::IGUIStaticText *targetHull;
 	gui::IGUIStaticText *targetArmor;
 	gui::IGUIStaticText *targetShield;
+
+	Intercom *intercom;
 
 	//pointer to tha player so we can grab information
 	Player *player;

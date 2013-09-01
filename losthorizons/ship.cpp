@@ -87,8 +87,7 @@ Ship::~Ship()
 		coronaEffects.back()->remove();
 		coronaEffects.pop_back();
 	}
-	//lets create some loot to drop
-	Cargo *loot = new Cargo(getPosition(), true);
+
 }
 
 void Ship::run(f32 frameDeltaTime)
@@ -142,6 +141,8 @@ void Ship::run(f32 frameDeltaTime)
 		//so create an explosion and delete itself
 		removeThisFromTargets();
 		Explosion *e = new Explosion(getPosition());
+		//lets create some loot to drop
+		Cargo *loot = new Cargo(getPosition(), true);
 		delete this;
 	}
 }

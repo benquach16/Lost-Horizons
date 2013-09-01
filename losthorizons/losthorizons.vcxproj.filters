@@ -210,6 +210,9 @@
     <ClInclude Include="cargo.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="fighter.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -343,6 +346,9 @@
     </ClCompile>
     <ClCompile Include="cargo.cpp">
       <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="intercom.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

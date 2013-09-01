@@ -14,9 +14,12 @@ public:
 	virtual void run();
 
 protected:
+	void initializeDisplay();
 	Player *player;
 
 	gui::IGUITabControl *tabs;
+	gui::IGUITab *ship;
+	gui::IGUITab *cargo;
 };
 
 

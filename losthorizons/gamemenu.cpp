@@ -9,8 +9,8 @@ GameMenu::GameMenu(Player *player) : MenuWindow(), player(player)
 	window->setDrawBackground(false);
 
 	tabs = guienv->addTabControl(rect<s32>(0,0,iWidth/2+800,iHeight/2+600), window, true);
-	tabs->addTab(L"Ship", 1);
-	tabs->addTab(L"Cargo", 2);
+	ship = tabs->addTab(L"Ship", 1);
+	cargo = tabs->addTab(L"Cargo", 2);
 	tabs->addTab(L"Crew", 3);
 	tabs->addTab(L"Loadout", 4);
 	tabs->addTab(L"Hanger", 5);
@@ -26,4 +26,9 @@ GameMenu::~GameMenu()
 void GameMenu::run()
 {
 	MenuWindow::run();
+}
+
+void GameMenu::initializeDisplay()
+{
+
 }

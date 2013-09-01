@@ -90,6 +90,7 @@
     <ClInclude Include="cargo.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
+    <ClInclude Include="fighter.h" />
     <ClInclude Include="stationmenu.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="explosion.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="gamescenemanager.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="impact.cpp" />
+    <ClCompile Include="intercom.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="itemproperties.cpp" />
     <ClCompile Include="keylistener.cpp" />
