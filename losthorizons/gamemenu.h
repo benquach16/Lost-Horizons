@@ -8,18 +8,26 @@
 class GameMenu : public MenuWindow
 {
 public:
-	GameMenu(Player *player);
+	GameMenu(Player* player);
 	~GameMenu();
 
 	virtual void run();
 
 protected:
 	void initializeDisplay();
+	
+
 	Player *player;
 
-	gui::IGUITabControl *tabs;
-	gui::IGUITab *ship;
-	gui::IGUITab *cargo;
+	gui::IGUITabControl* tabs;
+	gui::IGUITab* ship;
+	gui::IGUITab* cargo;
+	gui::IGUITab* crew;
+	gui::IGUITab* loadout;
+	gui::IGUITab* hanger;
+	gui::IGUITab* missionLog;
+
+	
 };
 
 
