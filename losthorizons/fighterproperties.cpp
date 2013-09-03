@@ -17,7 +17,21 @@ FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::s
 					std::wstringstream iss(file->getNodeData());
 					iss >> maxHull;
 				}
-
+				if(currentSection.equals_ignore_case(L"maxTurn"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxTurn;
+				}
+				if(currentSection.equals_ignore_case(L"maxVelocity"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxVelocity;
+				}
+				if(currentSection.equals_ignore_case(L"maxFuel"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> maxFuel;
+				}
 				break;
 			}
 		case io::EXN_ELEMENT:
@@ -34,6 +48,10 @@ FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::s
 				{
 					currentSection = L"maxVelocity";
 				}
+				if(core::stringw(L"maxFuel").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection = L"maxFuel";
+				}
 				break;
 			}
 		case io::EXN_ELEMENT_END:
@@ -49,4 +67,24 @@ FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::s
 
 FighterProperties::~FighterProperties()
 {
+}
+
+const int FighterProperties::getMaxHull() const
+{
+	return maxHull;
+}
+
+const int FighterProperties::getMaxTurn() const
+{
+	return maxTurn;
+}
+
+const int FighterProperties::getMaxVelocity() const
+{
+	return maxVelocity;
+}
+
+const unsigned FighterProperties::getMaxFuel() const
+{
+	return maxFuel;
 }

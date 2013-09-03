@@ -377,6 +377,9 @@
     <ClCompile Include="storetab.cpp">
       <Filter>Source Files\ui\tabs\stationmenu</Filter>
     </ClCompile>
+    <ClCompile Include="fighter.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">

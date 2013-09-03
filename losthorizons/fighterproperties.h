@@ -9,7 +9,10 @@ public:
 	FighterProperties(irr::IrrlichtDevice *graphics, const std::string &f);
 	virtual ~FighterProperties();
 
-
+	const int getMaxHull() const;
+	const int getMaxTurn() const;
+	const int getMaxVelocity() const;
+	const unsigned getMaxFuel() const;
 protected:
 	int maxHull;
 	int maxTurn;

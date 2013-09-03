@@ -131,7 +131,7 @@ void GameScene::run(f32 frameDeltaTime)
 	{
 		if(!Effect::allEffects[i]->run())
 		{
-			
+			delete Effect::allEffects[i];
 			Effect::allEffects.erase(Effect::allEffects.begin()+i);
 		}
 	}
