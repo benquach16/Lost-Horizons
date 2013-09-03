@@ -32,6 +32,10 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	setLightTurret(ObjectManager::turretList[1],1);
 	setLightTurret(ObjectManager::turretList[1],2);
 	setLightTurret(ObjectManager::turretList[1],3);
+	setPDTurret(ObjectManager::turretList[2], 0);
+	setPDTurret(ObjectManager::turretList[2], 1);
+	setPDTurret(ObjectManager::turretList[2], 2);
+	setPDTurret(ObjectManager::turretList[2], 3);
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER, 100);
 
 }
@@ -217,6 +221,7 @@ void Ship::removeTarget()
 	shipTarget = 0;
 }
 
+//turret setter functions
 void Ship::setMediumTurret(const TurretProperties &props, unsigned slot)
 {
 	if(slot < mediumTurrets.size())
@@ -227,6 +232,12 @@ void Ship::setLightTurret(const TurretProperties &props, unsigned slot)
 {
 	if(slot < lightTurrets.size())
 		lightTurrets[slot]->assignTurret(props);
+}
+
+void Ship::setPDTurret(const TurretProperties &props, unsigned slot)
+{
+	if(slot < pdTurrets.size())
+		pdTurrets[slot]->assignTurret(props);
 }
 
 void Ship::setFaction(E_GAME_FACTIONS newFaction)
@@ -396,6 +407,15 @@ void Ship::initTurrets()
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
 		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].lightTurrets[i], joint, E_CLASS_LIGHT, this);
 		lightTurrets.push_back(t);
+	}
+	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxPTurrets(); ++i)
+	{
+		std::string jointName("light_turret_0");
+		std::string tmp = std::to_string(i+1);
+		jointName += tmp;
+		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
+		TurretSlot *t = new TurretSlot(turretInformation(), joint, E_CLASS_PD, this);
+		pdTurrets.push_back(t);
 	}
 }
 

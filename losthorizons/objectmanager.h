@@ -2,12 +2,14 @@
 #define _OBJECTMANAGER_H_
 
 #include <vector>
+
 #include "irrlicht.h"
 #include "itemproperties.h"
 #include "shipproperties.h"
 #include "turretproperties.h"
 #include "spacestationproperties.h"
 #include "planetproperties.h"
+#include "fighterproperties.h"
 
 
 //load all objects from xml files
@@ -37,10 +39,15 @@ public:
 		PRAE_CRUISER,
 		ISHTAR_CRUISER,
 	};
+	enum E_FIGHTER_LIST
+	{
+		DRAGONFLY,
+	};
 	enum E_TURRET_LIST
 	{
 		RAILGUNI,
 		ANTIMATTERI,
+		GATLINGI,
 	};
 	enum E_PLANET_LIST
 	{
@@ -53,8 +60,10 @@ public:
 		SHIPYARD
 	};
 	
+	
 	static std::vector<ItemProperties> itemList;
 	static std::vector<ShipProperties> shipList;
+	static std::vector<FighterProperties> fighterList;
 	static std::vector<TurretProperties> turretList;
 	static std::vector<PlanetProperties> planetList;
 	static std::vector<SpaceStationProperties> stationList;

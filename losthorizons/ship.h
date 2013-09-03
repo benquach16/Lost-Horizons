@@ -92,6 +92,7 @@ public:
 	void setHeavyTurret(const TurretProperties& props, unsigned slot);
 	void setMediumTurret(const TurretProperties& props, unsigned slot);
 	void setLightTurret(const TurretProperties& props, unsigned slot);
+	void setPDTurret(const TurretProperties& props, unsigned slot);
 
 	//some setters
 	void setFaction(E_GAME_FACTIONS currentFaction);
@@ -122,6 +123,7 @@ protected:
 	std::vector<TurretSlot*> heavyTurrets;
 	std::vector<TurretSlot*> mediumTurrets;
 	std::vector<TurretSlot*> lightTurrets;
+	std::vector<TurretSlot*> pdTurrets;
 
 	//data container for ship subsystems
 	std::vector<Subsystem> subsystems;

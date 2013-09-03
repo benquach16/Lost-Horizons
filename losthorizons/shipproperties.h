@@ -9,6 +9,8 @@ struct turretInformation
 {
 	core::vector3df rotation;
 	int arc;
+	//for empty turret infos
+	turretInformation() : rotation(), arc(360){}
 };
 
 //ship properties class

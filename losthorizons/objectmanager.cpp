@@ -4,6 +4,7 @@
 
 std::vector<ItemProperties> ObjectManager::itemList;
 std::vector<ShipProperties> ObjectManager::shipList;
+std::vector<FighterProperties> ObjectManager::fighterList;
 std::vector<TurretProperties> ObjectManager::turretList;
 std::vector<PlanetProperties> ObjectManager::planetList;
 std::vector<SpaceStationProperties> ObjectManager::stationList;
@@ -19,8 +20,10 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	itemList.push_back(ItemProperties(graphics, "items/nanoalloys.xml"));
 	shipList.push_back(ShipProperties(graphics, "items/ships/praetorian_cruiser.xml"));
 	shipList.push_back(ShipProperties(graphics, "items/ships/ishtar_cruiser.xml"));
+	fighterList.push_back(FighterProperties(graphics, "item/fighters/dragonfly.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/railgunI.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/antimatterI.xml"));
+	turretList.push_back(TurretProperties(graphics, "items/turrets/gatlingI.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/argrea.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/farstar.xml"));
 	stationList.push_back(SpaceStationProperties(graphics, "items/spacestations/tradingstation.xml"));

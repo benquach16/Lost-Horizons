@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<itemStats type="turret">
+	<name>Aegis Gatling Turret Mk I</name>
+	<description>Created by the infamous Aegis Industries, the popular gatling design proved itself very effective at taking down fighters and missiles for warships.</description>
+	<cost>900</cost>
+	<weight>10</weight>
+	<modelStats>
+		<filename>res/models/equipment/light_gatling.X</filename>
+		<diffuseMap>res/models/ships/shiphull.jpg</diffuseMap>
+		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
+		<scaleX>3</scaleX>
+		<scaleY>3</scaleY>
+		<scaleZ>3</scaleZ>
+	</modelStats>
+	<turretStats class="pd">
+		<fireSound>res/sounds/weapons/gatling.wav</fireSound>
+		<turnSpeed>5</turnSpeed>
+		<damage>5</damage>
+		<range>500</range>
+		<reloadSpeed>50</reloadSpeed>
+		<projectileSpeed>900</projectileSpeed>
+	</turretStats>
+	<projectileStats>
+		<scaleX>0.01</scaleX>
+		<scaleY>0.01</scaleY>
+		<scaleZ>0.05</scaleZ>
+		<diffuseMap>res/textures/fx/railgun.png</diffuseMap>
+	</projectileStats>
+</itemStats>

@@ -380,6 +380,9 @@
     <ClCompile Include="fighter.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
+    <ClCompile Include="muzzleflash.cpp">
+      <Filter>Source Files\effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">

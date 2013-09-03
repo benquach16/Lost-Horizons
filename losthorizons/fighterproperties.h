@@ -3,12 +3,13 @@
 
 #include "modelproperties.h"
 
+//fighter properties class
 class FighterProperties : public ModelProperties
 {
 public:
 	FighterProperties(irr::IrrlichtDevice *graphics, const std::string &f);
 	virtual ~FighterProperties();
-
+	//accessors
 	const int getMaxHull() const;
 	const int getMaxTurn() const;
 	const int getMaxVelocity() const;

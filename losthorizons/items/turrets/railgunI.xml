@@ -22,8 +22,8 @@
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.05</scaleX>
-		<scaleY>0.2</scaleY>
-		<scaleZ>0.05</scaleZ>
+		<scaleY>0.05</scaleY>
+		<scaleZ>0.1</scaleZ>
 		<diffuseMap>res/textures/fx/railgun.png</diffuseMap>
 	</projectileStats>
 </itemStats>
