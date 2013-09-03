@@ -7,6 +7,8 @@
 class FighterProperties : public ModelProperties
 {
 public:
+	//default constructor
+	FighterProperties();
 	FighterProperties(irr::IrrlichtDevice *graphics, const std::string &f);
 	virtual ~FighterProperties();
 	//accessors

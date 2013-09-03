@@ -6,6 +6,7 @@
 #include "turretproperties.h"
 #include "shipproperties.h"
 #include "projectile.h"
+#include "muzzleflash.h"
 
 class Turret;
 class Ship;

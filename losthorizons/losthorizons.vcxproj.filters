@@ -234,6 +234,12 @@
     <ClInclude Include="menutab.h">
       <Filter>Header Files\ui\tabs</Filter>
     </ClInclude>
+    <ClInclude Include="smallexplosion.h">
+      <Filter>Header Files\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="hangertab.h">
+      <Filter>Header Files\ui\tabs\stationmenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

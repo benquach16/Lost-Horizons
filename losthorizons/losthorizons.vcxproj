@@ -92,7 +92,9 @@
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
+    <ClInclude Include="hangertab.h" />
     <ClInclude Include="menutab.h" />
+    <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="explosion.h" />

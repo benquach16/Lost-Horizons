@@ -20,7 +20,7 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	itemList.push_back(ItemProperties(graphics, "items/nanoalloys.xml"));
 	shipList.push_back(ShipProperties(graphics, "items/ships/praetorian_cruiser.xml"));
 	shipList.push_back(ShipProperties(graphics, "items/ships/ishtar_cruiser.xml"));
-	fighterList.push_back(FighterProperties(graphics, "item/fighters/dragonfly.xml"));
+	fighterList.push_back(FighterProperties(graphics, "items/fighters/dragonfly.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/railgunI.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/antimatterI.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/gatlingI.xml"));

@@ -182,6 +182,7 @@ void Turret::fire(const vector3df &rotation)
 	if(rand() % (int)props.getReloadSpeed() < 3)
 	{//for now, projectile gets an ID. change to ship pointer later
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(), props, shootJoint->getAbsolutePosition(), rotation);
+		Muzzleflash *m = new Muzzleflash(shootJoint);
 		soundmngr->play3D(props.getSoundFilename().c_str(), getPosition());
 	}
 }

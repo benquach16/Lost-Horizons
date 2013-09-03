@@ -12,12 +12,13 @@ class Muzzleflash : public Effect
 {
 public:
 	//public funcs
-	Muzzleflash(const IBoneSceneNode *parent);
-	~Muzzleflash();
+	Muzzleflash(IBoneSceneNode *parent);
+	virtual ~Muzzleflash();
 	virtual bool run();
 protected:
 	//we parent the effect to a joint so it doesnt lag
-	const IBoneSceneNode *parent;
+	IBoneSceneNode *parent;
+	scene::IAnimatedMeshSceneNode *mesh;
 };
 
 #endif

@@ -130,6 +130,10 @@ E_ITEM_TYPES ItemProperties::getItemType(const std::wstring &str)
 	{
 		return E_ITEM_PLANET;
 	}
+	else if(str == L"fighter")
+	{
+		return E_ITEM_FIGHTER;
+	}
 	else
 	{
 		//something broke here

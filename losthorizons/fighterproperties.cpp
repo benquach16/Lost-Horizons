@@ -1,6 +1,10 @@
 #include "fighterproperties.h"
 #include <sstream>
 
+FighterProperties::FighterProperties() : maxHull(0), maxTurn(0), maxVelocity(0), maxFuel(0), ModelProperties()
+{
+}
+
 FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
 {
 	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
