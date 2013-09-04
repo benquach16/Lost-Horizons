@@ -13,7 +13,7 @@
 		<scaleZ>0.15</scaleZ>
 	</modelStats>
 	<fighterStats>
-		<hullPoints>20</hullPoints>
+		<maxHull>20</maxHull>
 		<maxTurn>50</maxTurn>
 		<maxVelocity>110</maxVelocity>
 		<maxFuel>360000</maxFuel>

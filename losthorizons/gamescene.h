@@ -9,6 +9,7 @@
 #include <stack>
 
 #include "player.h"
+#include "fighter.h"
 #include "spacestation.h"
 #include "projectile.h"
 #include "sun.h"

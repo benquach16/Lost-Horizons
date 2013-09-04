@@ -15,6 +15,7 @@
 #include "explosion.h"
 #include "inventory.h"
 #include "cargo.h"
+#include "fighter.h"
 
 //for finite state machine implementation
 enum E_AI_STATES

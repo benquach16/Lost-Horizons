@@ -3,6 +3,7 @@
 
 #include "keylistener.h"
 #include "player.h"
+#include "fighter.h"
 #include "gamescene.h"
 #include "datamanager.h"
 #include "gamescenemanager.h"

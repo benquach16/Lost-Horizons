@@ -12,7 +12,7 @@ class Muzzleflash : public Effect
 {
 public:
 	//public funcs
-	Muzzleflash(IBoneSceneNode *parent);
+	Muzzleflash(IBoneSceneNode *parent, const vector3df &rotation);
 	virtual ~Muzzleflash();
 	virtual bool run();
 protected:
