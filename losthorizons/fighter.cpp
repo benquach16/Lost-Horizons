@@ -6,7 +6,7 @@ std::list<Fighter*> Fighter::allFighters;
 const unsigned PATROLDISTANCE = 500;
 
 //large constructor
-Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, u32 homeBaseID,
+Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, 
 				 Ship* homeBase) : TargetableObject(nextID++, ObjectManager::fighterList[fighterType], position, rotation, faction), 
 				 hull(ObjectManager::fighterList[fighterType].getMaxHull()),
 	maxHull(ObjectManager::fighterList[fighterType].getMaxHull()),
@@ -29,6 +29,7 @@ void Fighter::run(f32 frameDeltaTime)
 	//run basic control and ai here
 	if(hull > 1)
 	{
+
 		rotate(frameDeltaTime);
 		movement(frameDeltaTime);
 		if(fighterTarget)
@@ -95,5 +96,6 @@ void Fighter::patrol()
 	if(getPosition().getDistanceFrom(homeBase->getPosition()) > PATROLDISTANCE)
 	{
 		//too far from home so reorient
+
 	}
 }

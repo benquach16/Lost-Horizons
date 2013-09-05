@@ -389,6 +389,9 @@
     <ClCompile Include="muzzleflash.cpp">
       <Filter>Source Files\effects</Filter>
     </ClCompile>
+    <ClCompile Include="hangertab.cpp">
+      <Filter>Source Files\ui\tabs\stationmenu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">

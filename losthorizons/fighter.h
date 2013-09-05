@@ -15,7 +15,7 @@ class Fighter : public TargetableObject
 public:
 	static std::list<Fighter*> allFighters;
 
-	Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, u32 homeBaseID,
+	Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction,
 		Ship *homeBase);
 	virtual ~Fighter();
 	virtual void run(f32 frameDeltaTime);
@@ -30,13 +30,13 @@ protected:
 
 	std::list<Fighter*>::iterator it;
 
-	u32 homeBaseID;
 	int maxHull, hull;
 	int maxVelocity, velocity;
 	int maxTurn;
 	unsigned maxFuel, fuel;
+	vector3df targetRotation;
 	Fighter *fighterTarget;
-	Ship *homeBase
+	Ship *homeBase;
 };
 
 #endif

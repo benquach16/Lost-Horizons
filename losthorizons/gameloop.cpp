@@ -143,6 +143,11 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 			gameMenu->setVisible(true);
 		}
 	} 
+	//launch fighters
+	if (receiver->isKeyReleased(irr::KEY_KEY_N))
+	{
+		
+	}
 }
 
 void Gameloop::cameraControl()

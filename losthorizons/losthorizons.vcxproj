@@ -158,6 +158,7 @@
     <ClCompile Include="gamemenu.cpp" />
     <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="gamescenemanager.cpp" />
+    <ClCompile Include="hangertab.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="impact.cpp" />
     <ClCompile Include="intercom.cpp" />

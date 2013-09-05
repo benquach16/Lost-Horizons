@@ -13,10 +13,21 @@ using namespace gui;
 class StoreTab : public MenuTab
 {
 public:
-	StoreTab(gui::IGUITabControl *tabs);
+	StoreTab(gui::IGUITabControl *tabs, Player *player);
 	~StoreTab();
 	virtual void run();
 protected:
+	Player *player;
+	void loadInventories();
+
+	gui::IGUIListBox *playerInventory;
+	gui::IGUIListBox *stationInventory;
+	gui::IGUIStaticText *selectedValue;
+	gui::IGUIStaticText *selectedWeight;
+	gui::IGUIStaticText *selectedDescription;
+	gui::IGUIButton *buyButton;
+	gui::IGUIButton *sellButton;
+	gui::IGUIStaticText *playerCash;
 
 };
 

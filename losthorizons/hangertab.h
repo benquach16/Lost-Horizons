@@ -3,10 +3,16 @@
 
 #include "menutab.h"
 
+//class for the station refit menu
 class HangerTab : public MenuTab
 {
 public:
-	HangerTab();
+	HangerTab(gui::IGUITabControl *tabs);
+	~HangerTab();
+	virtual void run();
+
+protected:
+
 };
 
 #endif
