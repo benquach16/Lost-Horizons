@@ -92,7 +92,7 @@
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
-    <ClInclude Include="hangertab.h" />
+    <ClInclude Include="hangartab.h" />
     <ClInclude Include="menutab.h" />
     <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />
@@ -158,7 +158,7 @@
     <ClCompile Include="gamemenu.cpp" />
     <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="gamescenemanager.cpp" />
-    <ClCompile Include="hangertab.cpp" />
+    <ClCompile Include="hangartab.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="impact.cpp" />
     <ClCompile Include="intercom.cpp" />

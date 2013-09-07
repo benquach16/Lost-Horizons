@@ -5,7 +5,7 @@
 #include "spacestation.h"
 #include "menuwindow.h"
 #include "storetab.h"
-#include "hangertab.h"
+#include "hangartab.h"
 
 //ui menu that is opened when the player is docked at a space staiton
 class StationMenu : public MenuWindow
@@ -33,7 +33,7 @@ protected:
 	gui::IGUIButton *sellButton;
 	gui::IGUIStaticText *playerCash;
 
-	gui::IGUITab *hanger;
+	gui::IGUITab *hangar;
 	gui::IGUITab *missions;
 	gui::IGUITab *shipyard;
 	gui::IGUITab *people;

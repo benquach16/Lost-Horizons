@@ -13,7 +13,7 @@ GameMenu::GameMenu(Player* player) : MenuWindow(), player(player)
 	cargo = tabs->addTab(L"Cargo", 2);
 	crew = tabs->addTab(L"Crew", 3);
 	loadout = tabs->addTab(L"Loadout", 4);
-	hanger = tabs->addTab(L"Hanger", 5);
+	hangar = tabs->addTab(L"Hangar", 5);
 	missionLog = tabs->addTab(L"Mission Log", 6);
 
 	window->setVisible(false);

@@ -24,7 +24,7 @@ protected:
 	gui::IGUITab* cargo;
 	gui::IGUITab* crew;
 	gui::IGUITab* loadout;
-	gui::IGUITab* hanger;
+	gui::IGUITab* hangar;
 	gui::IGUITab* missionLog;
 
 	

@@ -11,7 +11,7 @@ StationMenu::StationMenu(Player *player) : MenuWindow(), tabs(0), player(player)
 	tabs = guienv->addTabControl(rect<s32>(0,0,iWidth/2+800,iHeight/2+600), window, true);
 	//store = tabs->addTab(L"Store", 1);
 	store = new StoreTab(tabs, player);
-	hanger = tabs->addTab(L"Hanger", 2);
+	hangar = tabs->addTab(L"Hangar", 2);
 	missions = tabs->addTab(L"Missions", 3);
 	shipyard = tabs->addTab(L"Shipyard", 4);
 	people = tabs->addTab(L"People", 5);

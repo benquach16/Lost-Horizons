@@ -237,7 +237,7 @@
     <ClInclude Include="smallexplosion.h">
       <Filter>Header Files\effects</Filter>
     </ClInclude>
-    <ClInclude Include="hangertab.h">
+    <ClInclude Include="hangartab.h">
       <Filter>Header Files\ui\tabs\stationmenu</Filter>
     </ClInclude>
   </ItemGroup>
@@ -389,7 +389,7 @@
     <ClCompile Include="muzzleflash.cpp">
       <Filter>Source Files\effects</Filter>
     </ClCompile>
-    <ClCompile Include="hangertab.cpp">
+    <ClCompile Include="hangartab.cpp">
       <Filter>Source Files\ui\tabs\stationmenu</Filter>
     </ClCompile>
   </ItemGroup>
