@@ -94,6 +94,9 @@
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="hangartab.h" />
     <ClInclude Include="menutab.h" />
+    <ClInclude Include="mission.h" />
+    <ClInclude Include="missionmanager.h" />
+    <ClInclude Include="missionproperties.h" />
     <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />
     <ClInclude Include="effect.h" />

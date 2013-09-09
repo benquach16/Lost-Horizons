@@ -61,6 +61,9 @@
     <Filter Include="Source Files\ui\tabs\stationmenu">
       <UniqueIdentifier>{36431fbe-f395-423c-971f-47d276e47ff9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\missions">
+      <UniqueIdentifier>{e01ef637-00ac-4b3b-b240-4bcfb51097f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -239,6 +242,15 @@
     </ClInclude>
     <ClInclude Include="hangartab.h">
       <Filter>Header Files\ui\tabs\stationmenu</Filter>
+    </ClInclude>
+    <ClInclude Include="mission.h">
+      <Filter>Header Files\missions</Filter>
+    </ClInclude>
+    <ClInclude Include="missionmanager.h">
+      <Filter>Header Files\missions</Filter>
+    </ClInclude>
+    <ClInclude Include="missionproperties.h">
+      <Filter>Header Files\properties</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

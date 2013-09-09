@@ -29,7 +29,7 @@ void Fighter::run(f32 frameDeltaTime)
 	//run basic control and ai here
 	if(hull > 1)
 	{
-
+		velocity = maxVelocity;
 		rotate(frameDeltaTime);
 		movement(frameDeltaTime);
 		if(fighterTarget)
