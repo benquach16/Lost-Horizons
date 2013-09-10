@@ -95,6 +95,8 @@ GameScene::~GameScene()
 		delete Ship::allShips.front();
 	while (SpaceStation::allStations.size() > 1)
 		delete SpaceStation::allStations.front();
+	while (Fighter::allFighters.size() > 1)
+		delete Fighter::allFighters.front();
 
 	while(!Effect::allEffects.empty())
 	{

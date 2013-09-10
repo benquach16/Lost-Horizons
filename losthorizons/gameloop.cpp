@@ -81,32 +81,32 @@ void Gameloop::createLoadedGame(const std::string &filename)
 void Gameloop::playerControl(f32 frameDeltaTime)
 {
 	//all actions the player can do are stored here
-	if (receiver->isKeyDown(irr::KEY_KEY_X)) {
+	if (receiver->isKeyDown(irr::KEY_KEY_X) && !player->getInfo().warping) {
 		//accelerate
 		player->increaseVelocity(frameDeltaTime);
-	} else if (receiver->isKeyDown(irr::KEY_KEY_Z)) {
+	} else if (receiver->isKeyDown(irr::KEY_KEY_Z)&& !player->getInfo().warping) {
 		//decelerate
 		player->decreaseVelocity(frameDeltaTime);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_A)) {
+	if (receiver->isKeyDown(irr::KEY_KEY_A)&& !player->getInfo().warping) {
 		//rotate left
 		vector3df rot = player->getTargetRotation();
 		rot.Y -= 35*frameDeltaTime;
 		player->setTargetRotation(rot);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_D)) {
+	if (receiver->isKeyDown(irr::KEY_KEY_D)&& !player->getInfo().warping) {
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.Y += 35*frameDeltaTime;
 		player->setTargetRotation(rot);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_W)) {
+	if (receiver->isKeyDown(irr::KEY_KEY_W)&& !player->getInfo().warping) {
 		//rotate up
 		vector3df rot = player->getTargetRotation();
 		rot.X -= 35*frameDeltaTime;
 		player->setTargetRotation(rot);
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_S)) {
+	if (receiver->isKeyDown(irr::KEY_KEY_S)&& !player->getInfo().warping) {
 		//rotate down
 		vector3df rot = player->getTargetRotation();
 		rot.X += 35*frameDeltaTime;
@@ -146,7 +146,11 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 	//launch fighters
 	if (receiver->isKeyReleased(irr::KEY_KEY_N))
 	{
-		
+		player->launchFighters();
+	}
+	if (receiver->isKeyReleased(irr::KEY_KEY_J))
+	{
+		player->warpToTarget();
 	}
 }
 

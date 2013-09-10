@@ -4,6 +4,7 @@
 std::list<Fighter*> Fighter::allFighters;
 
 const unsigned PATROLDISTANCE = 500;
+const unsigned AITIMER = 200;
 
 //large constructor
 Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, 

@@ -109,9 +109,26 @@ void Ship::run(f32 frameDeltaTime)
 			//if the crew is 0 the ship is effectively dead
 			//make it rotate to its targetted rotation first
 			//and movement
-
 			rotate(frameDeltaTime);
 			aimTurrets(frameDeltaTime);
+			if(info.warping)
+			{
+				//ok so we're warping
+				//check if we're aligned to the target
+				if(!(getRotation().Y - 3 > getTargetRotation().Y || getRotation().Y + 3 < getTargetRotation().Y ||
+					getRotation().X - 3 > getTargetRotation().X || getRotation().X + 3 < getTargetRotation().X))
+				{
+					if(info.velocity < 500)
+					{
+						info.velocity += (5+abs(info.velocity)/2)*frameDeltaTime;
+					}
+					if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 10000)
+					{
+						info.warping = false;
+						info.velocity = 0;
+					}
+				}
+			}
 
 			movement(frameDeltaTime);
 
@@ -130,12 +147,7 @@ void Ship::run(f32 frameDeltaTime)
 			//if is not player do ai stuff
 			if (!isPlayer())
 			{
-				//make sure to only update every so many ticks
-				//if(currentTime <timer->getTime())
-				//{
-					runAI();
-					//currentTime = timer->getTime() + AITIMER;
-				//}
+				runAI();
 			}
 		}
 	}
@@ -309,6 +321,26 @@ void Ship::launchFighters()
 			getPosition() + rand()%400-200, getRotation(), info.currentFaction, this);
 	}
 	info.fighters = 0;
+}
+
+void Ship::warpToTarget()
+{
+	if(shipTarget)
+	{
+		//make sure we have a target
+		//save to variable first to avoid multiple sqrt operations
+		float dist = getPosition().getDistanceFrom(shipTarget->getPosition());
+
+		if( dist > 10000 )
+		{
+			//make sure we can't 'point jump' ship targets
+			vector3df diff = shipTarget->getPosition() - getPosition();
+			diff = diff.getHorizontalAngle();
+			info.targetRotation = diff;
+			info.velocity = 0;
+			info.warping = true;
+		}
+	}
 }
 
 //all private functions go under here
@@ -557,7 +589,11 @@ void Ship::runAI()
 		//crooze
 		info.velocity = info.maxVelocity/2;
 		//search for targets
-		searchForTarget();
+		if(currentTime < timer->getTime())
+		{
+			searchForTarget();
+			currentTime = timer->getTime() + AITIMER;
+		}
 	}
 }
 

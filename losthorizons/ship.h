@@ -45,6 +45,7 @@ struct ShipInformation
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	bool docked;
+	bool warping;
 	Inventory inventory;
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
@@ -57,7 +58,7 @@ struct ShipInformation
 		  crew(1), maxCrew(ObjectManager::shipList[shipType].getMaxCrew()),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType].getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType].getMaxTurn()),
-		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false){}
+		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false){}
 };
 
 //basic ship class
@@ -118,7 +119,10 @@ public:
 	void dockWithTarget();
 	void undockWithTarget();
 
+	//launch fighters
 	void launchFighters();
+	
+	void warpToTarget();
 protected:
 	//ship stats
 	ShipInformation info;
