@@ -301,6 +301,16 @@ void Ship::undockWithTarget()
 	info.docked = false;
 }
 
+void Ship::launchFighters()
+{
+	for(s32 i = 0; i < info.fighters; ++i)
+	{
+		Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
+			getPosition() + rand()%400-200, getRotation(), info.currentFaction, this);
+	}
+	info.fighters = 0;
+}
+
 //all private functions go under here
 //private function
 //rotates ship to point
@@ -533,7 +543,7 @@ void Ship::runAI()
 			}
 			//do ship target AI;
 			info.velocity = info.maxVelocity;
-
+			launchFighters();
 			fireTurrets();
 		}
 		else
@@ -573,14 +583,12 @@ void Ship::searchForTarget()
 	{
 		next = i;
 		next++;
-		if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+		//make sure we check factions first
+		//because sqrts are expensive
+		if((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE || 
+			(*i)->getInfo().currentFaction != E_FACTION_PIRATE && this->getInfo().currentFaction == E_FACTION_PIRATE)
 		{
-			if((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE)
-			{
-				setTarget(*i);
-				info.currentAIState = STATE_ATTACKING;
-			}
-			if((*i)->getInfo().currentFaction != E_FACTION_PIRATE && this->getInfo().currentFaction == E_FACTION_PIRATE)
+			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{
 				setTarget(*i);
 				info.currentAIState = STATE_ATTACKING;

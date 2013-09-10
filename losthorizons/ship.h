@@ -41,7 +41,7 @@ struct ShipInformation
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTIONS currentFaction;
 	E_AI_STATES currentAIState;
-	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew;
+	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	bool docked;
@@ -53,6 +53,7 @@ struct ShipInformation
 		  armor(ObjectManager::shipList[shipType].getMaxArmor()), maxArmor(armor),
 		  shield(ObjectManager::shipList[shipType].getMaxShield()), maxShield(shield),
 		  energy(ObjectManager::shipList[shipType].getMaxEnergy()), maxEnergy(energy),
+		  fighters(ObjectManager::shipList[shipType].getMaxFighters()), maxFighters(fighters),
 		  crew(1), maxCrew(ObjectManager::shipList[shipType].getMaxCrew()),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType].getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType].getMaxTurn()),
@@ -116,6 +117,8 @@ public:
 	//docking functions
 	void dockWithTarget();
 	void undockWithTarget();
+
+	void launchFighters();
 protected:
 	//ship stats
 	ShipInformation info;
@@ -159,6 +162,8 @@ private:
 	void updateStates();
 	void searchForTarget();
 
+	//timekeeping variables
 	f32 currentTime;
+	f32 fighterLaunchTime;
 };
 #endif

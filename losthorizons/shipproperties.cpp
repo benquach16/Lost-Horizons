@@ -280,3 +280,8 @@ const int& ShipProperties::getMaxPTurrets() const
 {
 	return maxPDTurrets;
 }
+
+const int& ShipProperties::getMaxFighters() const
+{
+	return maxFighters;
+}

@@ -13,13 +13,13 @@ public:
 	virtual ~FighterProperties();
 	//accessors
 	const int getMaxHull() const;
-	const int getMaxTurn() const;
-	const int getMaxVelocity() const;
+	const f32 getMaxTurn() const;
+	const f32 getMaxVelocity() const;
 	const unsigned getMaxFuel() const;
 protected:
 	int maxHull;
-	int maxTurn;
-	int maxVelocity;
+	f32 maxTurn;
+	f32 maxVelocity;
 	unsigned maxFuel;
 };
 

@@ -78,12 +78,12 @@ const int FighterProperties::getMaxHull() const
 	return maxHull;
 }
 
-const int FighterProperties::getMaxTurn() const
+const f32 FighterProperties::getMaxTurn() const
 {
 	return maxTurn;
 }
 
-const int FighterProperties::getMaxVelocity() const
+const f32 FighterProperties::getMaxVelocity() const
 {
 	return maxVelocity;
 }
