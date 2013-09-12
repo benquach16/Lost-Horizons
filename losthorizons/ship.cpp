@@ -8,7 +8,8 @@ std::list<Ship*> Ship::allShips;
 const unsigned AITIMER = 100;
 
 Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0)
+	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0),
+	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -336,7 +337,7 @@ void Ship::warpToTarget()
 			//make sure we can't 'point jump' ship targets
 			vector3df diff = shipTarget->getPosition() - getPosition();
 			diff = diff.getHorizontalAngle();
-			info.targetRotation = diff;
+			setTargetRotation(diff);
 			info.velocity = 0;
 			info.warping = true;
 		}
@@ -484,7 +485,7 @@ void Ship::aimTurrets(float frameDeltaTime)
 	else
 	{
 		//go back to aiming like normal
-		for (unsigned i = 0; i < heavyTurrets.size(); i++)
+		for (unsigned i = 0; i < heavyTurrets.size(); ++i)
 		{
 			heavyTurrets[i]->resetAim();
 		}
@@ -495,6 +496,26 @@ void Ship::aimTurrets(float frameDeltaTime)
 		for (unsigned i = 0; i < lightTurrets.size(); ++i)
 		{
 			lightTurrets[i]->resetAim();
+		}
+	}
+
+	//aim point defense at fighters
+	for(std::list<Fighter*>::iterator i = Fighter::allFighters.begin(), next; i != Fighter::allFighters.end(); i = next)
+	{
+		next = i;
+		++next;
+		if(getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
+		{
+			for(unsigned n = 0; n < pdTurrets.size(); ++n)
+			{
+				pdTurrets[n]->aim((*i)->getPosition(), frameDeltaTime);
+				pdTurrets[n]->fire();
+				if(fighterDamageTime < timer->getTime())
+				{
+					(*i)->damage(20);
+					fighterDamageTime = timer->getTime() + 400;
+				}
+			}
 		}
 	}
 }
@@ -621,8 +642,8 @@ void Ship::searchForTarget()
 		next++;
 		//make sure we check factions first
 		//because sqrts are expensive
-		if((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE || 
-			(*i)->getInfo().currentFaction != E_FACTION_PIRATE && this->getInfo().currentFaction == E_FACTION_PIRATE)
+		if(((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE) || 
+			((*i)->getInfo().currentFaction != E_FACTION_PIRATE && this->getInfo().currentFaction == E_FACTION_PIRATE))
 		{
 			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{

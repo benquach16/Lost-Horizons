@@ -38,7 +38,7 @@ public:
 		Ship *homeBase);
 	virtual ~Fighter();
 	virtual void run(f32 frameDeltaTime);
-
+	void damage(int modifier);
 	//must override this 
 	const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 protected:
@@ -54,6 +54,9 @@ protected:
 	FighterInformation info;
 	Fighter *fighterTarget;
 	Ship *homeBase;
+
+	//create timekeeping variables
+	u32 shootTimer;
 };
 
 #endif

@@ -34,9 +34,26 @@ void Fighter::run(f32 frameDeltaTime)
 		{
 			//if theres another fighter to fight
 			//fly at it
-			vector3df diff = fighterTarget->getPosition() - getPosition();
-			diff = diff.getHorizontalAngle();
-			info.targetRotation = diff;
+			f32 dist = getPosition().getDistanceFromSQ(fighterTarget->getPosition());
+
+			if(dist > 10000000)
+			{
+				vector3df diff = fighterTarget->getPosition() - getPosition();
+				diff = diff.getHorizontalAngle();
+				info.targetRotation = diff;
+			}
+			else if(dist < 40000)
+			{
+				vector3df diff = fighterTarget->getPosition() - getPosition();
+				diff = diff.getHorizontalAngle();
+				diff.Y += rand()%180+ 90;
+				info.targetRotation = diff;
+			}
+			if(dist < 250000)
+			{
+				//close than 500 so we can shoot
+				fighterTarget->damage(20);
+			}
 		}
 		else
 		{
@@ -52,7 +69,22 @@ void Fighter::run(f32 frameDeltaTime)
 	else
 	{
 		std::cout << info.hull <<std::endl;
+		for(std::list<Fighter*>::iterator i = allFighters.begin(); i != allFighters.end(); ++i)
+		{
+			if((*i)->fighterTarget == this)
+			{
+				(*i)->fighterTarget = 0;
+			}
+		}
 		delete this;
+	}
+}
+
+void Fighter::damage(int modifier)
+{
+	if(info.hull > 0)
+	{
+		info.hull -= modifier;
 	}
 }
 
@@ -137,9 +169,9 @@ void Fighter::searchForFighterTargets()
 	for(std::list<Fighter*>::iterator i = allFighters.begin(), next; i != allFighters.end(); i = next)
 	{
 		next = i;
-		++next;
-		if((*i)->faction == E_FACTION_PIRATE && faction != E_FACTION_PIRATE || 
-			(*i)->faction != E_FACTION_PIRATE && faction == E_FACTION_PIRATE)
+		next++;
+		if(((*i)->faction == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
+			((*i)->faction != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
 		{
 			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{

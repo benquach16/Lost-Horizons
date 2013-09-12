@@ -17,13 +17,13 @@
 		<turnSpeed>5</turnSpeed>
 		<damage>5</damage>
 		<range>500</range>
-		<reloadSpeed>50</reloadSpeed>
+		<reloadSpeed>500</reloadSpeed>
 		<projectileSpeed>900</projectileSpeed>
 	</turretStats>
 	<projectileStats>
-		<scaleX>0.01</scaleX>
-		<scaleY>0.01</scaleY>
-		<scaleZ>0.05</scaleZ>
-		<diffuseMap>res/textures/fx/railgun.png</diffuseMap>
+		<scaleX>0.03</scaleX>
+		<scaleY>0.03</scaleY>
+		<scaleZ>0.04</scaleZ>
+		<diffuseMap>res/textures/fx/fire.png</diffuseMap>
 	</projectileStats>
 </itemStats>

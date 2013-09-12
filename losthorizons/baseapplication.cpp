@@ -28,7 +28,7 @@ void BaseApplication::init()
 	buildGraphics();
 	menu = new StartMenu(graphics, receiver, data);
 	game = new Gameloop(graphics, receiver, data);
-	effect = new PostProcessEffect;
+	//effect = new PostProcessEffect;
 	gConfig.bFirstRun = false;
 }
 
@@ -36,7 +36,7 @@ void BaseApplication::killDevice()
 {
 	delete menu;
 	delete game;
-	delete effect;
+	//delete effect;
 	graphics->closeDevice();
 	graphics->run();
     graphics->drop();
@@ -68,8 +68,8 @@ void BaseApplication::run()
 		const f32 frameDeltaTime = (now-then)/1000.f; // Time in seconds
 		then = now;
 		menu->run();
-		effect->render();
-		//scenemngr->drawAll();
+		//effect->render();
+		scenemngr->drawAll();
 		vdriver->runAllOcclusionQueries(false);
 		vdriver->updateAllOcclusionQueries(false);
 		if (!menu->getVisible()) {

@@ -2,7 +2,7 @@
 <itemStats type="fighter"> 
 	<name>Raptor Class Fighter</name>
 	<description>The Raptor Class Fighter is an extremely fast fighter used by the Provian Consortium.</description> 
-	<cost>1200</cost> 
+	<cost>1500</cost> 
 	<weight>100</weight>
 	<modelStats>
 		<filename>res/models/ships/raptor.x</filename>

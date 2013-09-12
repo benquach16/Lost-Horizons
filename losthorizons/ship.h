@@ -167,7 +167,8 @@ private:
 	void searchForTarget();
 
 	//timekeeping variables
-	f32 currentTime;
-	f32 fighterLaunchTime;
+	u32 currentTime;
+	u32 fighterLaunchTime;
+	u32 fighterDamageTime;
 };
 #endif
