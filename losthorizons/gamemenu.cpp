@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "gamemenu.h"
 
-GameMenu::GameMenu(Player* player) : MenuWindow(), player(player)
+GameMenu::GameMenu(Player* player) 
+: MenuWindow(), player(player)
 {
 	window = guienv->addWindow(rect<s32>(iWidth/2-400,iHeight/2-300,iWidth/2+400,iHeight/2+300), true, L"Player Ship");
 	window->setDrawTitlebar(false);
@@ -13,7 +14,7 @@ GameMenu::GameMenu(Player* player) : MenuWindow(), player(player)
 	cargo = tabs->addTab(L"Cargo", 2);
 	crew = tabs->addTab(L"Crew", 3);
 	loadout = tabs->addTab(L"Loadout", 4);
-	hangar = tabs->addTab(L"Hangar", 5);
+	hanger = tabs->addTab(L"Hanger", 5);
 	missionLog = tabs->addTab(L"Mission Log", 6);
 
 	window->setVisible(false);
@@ -24,6 +25,7 @@ GameMenu::GameMenu(Player* player) : MenuWindow(), player(player)
 //virtual destructor called in some base
 GameMenu::~GameMenu()
 {
+	delete mainShipPTR;
 }
 
 void GameMenu::run()
@@ -33,5 +35,5 @@ void GameMenu::run()
 
 void GameMenu::initializeDisplay()
 {
-
+	mainShipPTR = new ShipTab(ship);
 }

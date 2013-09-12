@@ -64,6 +64,12 @@
     <Filter Include="Header Files\missions">
       <UniqueIdentifier>{e01ef637-00ac-4b3b-b240-4bcfb51097f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ui\tabs\gamemenu">
+      <UniqueIdentifier>{cbe6da59-b00e-4e02-8163-bd2412c78db0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ui\tabs\gamemenu">
+      <UniqueIdentifier>{d62538af-428d-47ed-9a3a-99026c6c3b07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -252,6 +258,9 @@
     <ClInclude Include="missionproperties.h">
       <Filter>Header Files\properties</Filter>
     </ClInclude>
+    <ClInclude Include="shiptab.h">
+      <Filter>Header Files\ui\tabs\gamemenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -403,6 +412,9 @@
     </ClCompile>
     <ClCompile Include="hangartab.cpp">
       <Filter>Source Files\ui\tabs\stationmenu</Filter>
+    </ClCompile>
+    <ClCompile Include="shiptab.cpp">
+      <Filter>Source Files\ui\tabs\gamemenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

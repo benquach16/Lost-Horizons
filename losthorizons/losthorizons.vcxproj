@@ -97,6 +97,7 @@
     <ClInclude Include="mission.h" />
     <ClInclude Include="missionmanager.h" />
     <ClInclude Include="missionproperties.h" />
+    <ClInclude Include="shiptab.h" />
     <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />
     <ClInclude Include="effect.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="savemenu.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />
+    <ClCompile Include="shiptab.cpp" />
     <ClCompile Include="spacestation.cpp" />
     <ClCompile Include="spacestationproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />

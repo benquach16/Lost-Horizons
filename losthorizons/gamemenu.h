@@ -3,6 +3,7 @@
 
 #include "menuwindow.h"
 #include "player.h"
+#include "shiptab.h"
 //show ingame information in this menu
 
 class GameMenu : public MenuWindow
@@ -17,14 +18,19 @@ protected:
 	void initializeDisplay();
 	
 
-	Player *player;
+	Player* player;
 
 	gui::IGUITabControl* tabs;
+
+	//initializing tabs
+	ShipTab* mainShipPTR;
+
+	//initializing holderptrs
 	gui::IGUITab* ship;
 	gui::IGUITab* cargo;
 	gui::IGUITab* crew;
 	gui::IGUITab* loadout;
-	gui::IGUITab* hangar;
+	gui::IGUITab* hanger;
 	gui::IGUITab* missionLog;
 
 	
