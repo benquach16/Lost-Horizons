@@ -316,12 +316,18 @@ void Ship::undockWithTarget()
 
 void Ship::launchFighters()
 {
-	for(s32 i = 0; i < info.fighters; ++i)
+	if(info.fighters > 0)
 	{
-		Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
-			getPosition() + rand()%400-200, getRotation(), info.currentFaction, this);
+		if(fighterLaunchTime < timer->getTime())
+		{
+			Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
+				getPosition(), getRotation(), info.currentFaction, this);
+			fighterLaunchTime = timer->getTime() + 500;
+			info.fighters--;
+		}
+	
 	}
-	info.fighters = 0;
+
 }
 
 void Ship::warpToTarget()
@@ -504,16 +510,20 @@ void Ship::aimTurrets(float frameDeltaTime)
 	{
 		next = i;
 		++next;
-		if(getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
+		if(((*i)->getFaction() == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
+			((*i)->getFaction() != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
 		{
-			for(unsigned n = 0; n < pdTurrets.size(); ++n)
+			if(getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
 			{
-				pdTurrets[n]->aim((*i)->getPosition(), frameDeltaTime);
-				pdTurrets[n]->fire();
-				if(fighterDamageTime < timer->getTime())
+				for(unsigned n = 0; n < pdTurrets.size(); ++n)
 				{
-					(*i)->damage(20);
-					fighterDamageTime = timer->getTime() + 400;
+					pdTurrets[n]->aim((*i)->getPosition(), frameDeltaTime);
+					pdTurrets[n]->fire();
+					if(fighterDamageTime < timer->getTime())
+					{
+						(*i)->damage(10);
+						fighterDamageTime = timer->getTime() + 720;
+					}
 				}
 			}
 		}

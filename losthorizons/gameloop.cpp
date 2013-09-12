@@ -41,7 +41,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	playerControl(frameDeltaTime);
 	cameraControl();
 	selectTarget();
-	playerCam->run(player->getPosition(), frameDeltaTime);
+	playerCam->run(player->getPosition(), frameDeltaTime); 
 	gameSceneManager->runCurrentScene(frameDeltaTime);
 	hud->run();
 	turning->run();
