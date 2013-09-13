@@ -53,6 +53,7 @@ protected:
 
 	FighterInformation info;
 	Fighter *fighterTarget;
+	Ship *shipTarget;
 	Ship *homeBase;
 
 	//create timekeeping variables

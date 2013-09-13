@@ -27,12 +27,29 @@ enum E_AI_STATES
 	STATE_ASSAULTING
 };
 
+
+enum E_SUBSYSTEM_TYPES
+{
+	E_SUBSYSTEM_BRIDGE,
+	E_SUBSYSTEM_DECK1,
+	E_SUBSYSTEM_DECK2,
+	E_SUBSYSTEM_ELEVATOR,
+	E_SUBSYSTEM_ENGINE,
+	E_SUBSYSTEM_WARPDRIVE,
+	E_SUBSYSTEM_SHIELD,
+	E_SUBSYSTEM_POWERPLANT,
+	E_SUBSYSTEM_HEAVYWEAPONS,
+	E_SUBSYSTEM_MEDIUMWEAPONS,
+	E_SUBSYSTEM_LIGHTWEAPONS,
+	E_SUBSYSTEM_POINTDEFENSE
+};
 //each ship has several subsystems
 struct Subsystem
 {
 	int health;
 	std::wstring name;
-	Subsystem() { health = 100; };
+	Subsystem() : health(100) {}
+	Subsystem(const std::wstring &name) : name(name), health(100) {}
 };
 
 //store all the ship info in a struct so we can save it easily
@@ -160,6 +177,9 @@ private:
 
 	//initialize particle effects
 	void initEngineTrails();
+
+	//initialize subsystems
+	void initSubsystems();
 
 	//AI functions
 	void runAI();

@@ -24,6 +24,8 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	//set up the ship turrets
 	initTurrets();
 	initEngineTrails();
+	initSubsystems();
+
 	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType].getNormalMap().c_str()));
 	setMediumTurret(ObjectManager::turretList[0],3);
 	setMediumTurret(ObjectManager::turretList[0],2);
@@ -50,6 +52,8 @@ Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const
 
 	//set up the ship turrets
 	initTurrets();
+	initEngineTrails();
+	initSubsystems();
 }
 
 //copy constructor
@@ -64,6 +68,8 @@ Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	allShips.push_front(this);
 	it = allShips.begin();
 	initTurrets();
+	initEngineTrails();
+	initSubsystems();
 }
 
 //assignmennt operator
@@ -74,6 +80,8 @@ Ship& Ship::operator=(const Ship *s)
 		//TODO: ASSISNGMENT OPERATOR!!!
 		mesh->remove();
 		mesh = s->mesh;
+		info = s->info;
+
 	}
 	return *this;
 }
@@ -134,12 +142,15 @@ void Ship::run(f32 frameDeltaTime)
 			movement(frameDeltaTime);
 
 			//recharge shields
-			if(info.shield < info.maxShield)
+			if(subsystems[E_SUBSYSTEM_SHIELD].health > 0)
 			{
-				if(shieldTimer < timer->getTime())
+				if(info.shield < info.maxShield)
 				{
-					info.shield++;
-					shieldTimer  = timer->getTime() + 100;
+					if(shieldTimer < timer->getTime())
+					{
+						info.shield++;
+						shieldTimer  = timer->getTime() + 100;
+					}
 				}
 			}
 
@@ -565,6 +576,24 @@ void Ship::initEngineTrails()
 		//now add occlusion queries to corona effects
 		vdriver->addOcclusionQuery(corona);
 	}
+}
+
+//private function
+//add subsystems
+void Ship::initSubsystems()
+{
+	subsystems.push_back(Subsystem(L"Bridge"));
+	subsystems.push_back(Subsystem(L"Deck 1"));
+	subsystems.push_back(Subsystem(L"Deck 2"));
+	subsystems.push_back(Subsystem(L"Elevator"));
+	subsystems.push_back(Subsystem(L"Engine"));
+	subsystems.push_back(Subsystem(L"Warp Drive"));
+	subsystems.push_back(Subsystem(L"Shield Generator"));
+	subsystems.push_back(Subsystem(L"Power Plant"));
+	subsystems.push_back(Subsystem(L"Heavy Weapons"));
+	subsystems.push_back(Subsystem(L"Medium Weapons"));
+	subsystems.push_back(Subsystem(L"Light Weapons"));
+	subsystems.push_back(Subsystem(L"Point Defense"));
 }
 
 //private function

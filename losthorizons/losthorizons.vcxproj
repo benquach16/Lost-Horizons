@@ -97,6 +97,7 @@
     <ClInclude Include="mission.h" />
     <ClInclude Include="missionmanager.h" />
     <ClInclude Include="missionproperties.h" />
+    <ClInclude Include="objective.h" />
     <ClInclude Include="shiptab.h" />
     <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />

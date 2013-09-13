@@ -9,7 +9,7 @@ const unsigned AITIMER = 200;
 //large constructor
 Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, 
 				 Ship* homeBase) : TargetableObject(nextID++, ObjectManager::fighterList[fighterType], position, rotation, faction), info(fighterType),
-	fighterTarget(0), homeBase(homeBase)
+	fighterTarget(0), homeBase(homeBase), shipTarget(0)
 {
 	allFighters.push_front(this);
 	it = allFighters.begin();
@@ -38,6 +38,30 @@ void Fighter::run(f32 frameDeltaTime)
 
 			if(dist > 10000000)
 			{
+				vector3df diff = getPosition() - fighterTarget->getPosition();
+				diff = diff.getHorizontalAngle();
+				setRotation(diff);
+			}
+			else if(dist < 40000)
+			{
+				vector3df diff = fighterTarget->getPosition() - getPosition();
+				diff = diff.getHorizontalAngle();
+				diff.Y += rand()%180+ 90;
+				info.targetRotation = diff;
+			}
+			if(dist < 250000)
+			{
+				//close than 500 so we can shoot
+				fighterTarget->damage(20);
+			}
+		}
+		else if(shipTarget)
+		{
+			//attack the ship
+			searchForFighterTargets();
+			f32 dist = getPosition().getDistanceFromSQ(shipTarget->getPosition());
+			if(dist > 10000000)
+			{
 				vector3df diff = fighterTarget->getPosition() - getPosition();
 				diff = diff.getHorizontalAngle();
 				info.targetRotation = diff;
@@ -51,8 +75,7 @@ void Fighter::run(f32 frameDeltaTime)
 			}
 			if(dist < 250000)
 			{
-				//close than 500 so we can shoot
-				fighterTarget->damage(20);
+				//fire projectile or missile
 			}
 		}
 		else

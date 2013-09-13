@@ -261,6 +261,9 @@
     <ClInclude Include="shiptab.h">
       <Filter>Header Files\ui\tabs\gamemenu</Filter>
     </ClInclude>
+    <ClInclude Include="objective.h">
+      <Filter>Header Files\missions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -1,15 +1,10 @@
 #ifndef _MISSION_H_
 #define _MISSION_H_
 
+#include <vector>
 
-enum E_MISSION_TYPES
-{
-	E_MISSIONTYPE_SWEEP,
-	E_MISSIONTYPE_COURIER,
-	E_MISSIONTYPE_NAVIGATE,
-	E_MISSIONTYPE_RETREVIAL,
-	E_MISSIONTYPE_DEFEND
-};
+#include "objective.h"
+
 
 //mission class
 class Mission
@@ -19,6 +14,10 @@ public:
 	//paramaterized constructor
 	Mission(bool generateMission);
 	~Mission();
+
+protected:
+	std::vector<Objective> objectives;
+
 };
 
 #endif
