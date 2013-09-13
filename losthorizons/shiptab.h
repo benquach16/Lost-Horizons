@@ -31,13 +31,21 @@ public:
 	~ShipTab();
 
 	void run();
-//helper function
+
+//helper functions
 private:
-	//return pointer 
+	//return pointers
 	IGUIStaticText* text(wchar_t* name,
 						 unsigned x1, unsigned y1, unsigned x2, unsigned y2,
 						 bool border,
 						 bool word_wrap,
 						 IGUITab* ptr) const;
+	IGUIListBox* list(unsigned x1, unsigned y1, unsigned x2, unsigned y2,
+					  IGUITab* ptr) const;
+	IGUIButton* button(unsigned x1, unsigned y1, unsigned x2, unsigned y2,
+					   IGUITab* ptr,
+					   s32 id,
+					   const wchar_t* tmptxt) const;
+
 };
 #endif
