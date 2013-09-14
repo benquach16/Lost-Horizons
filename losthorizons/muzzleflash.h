@@ -18,7 +18,8 @@ public:
 protected:
 	//we parent the effect to a joint so it doesnt lag
 	IBoneSceneNode *parent;
-	scene::IAnimatedMeshSceneNode *mesh;
+	//scene::IAnimatedMeshSceneNode *mesh;
+	scene::IParticleSystemSceneNode *particle;
 };
 
 #endif

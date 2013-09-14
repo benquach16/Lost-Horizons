@@ -8,7 +8,8 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(0), gameMenu(0)
+	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(0), gameMenu(0),
+	  intercom(0)
 {
 }
 
@@ -19,6 +20,7 @@ Gameloop::~Gameloop()
 	delete gameSceneManager;
 	delete player;
 	delete hud;
+	delete intercom;
 	delete turning;
 	delete visualsManager;
 	delete stationMenu;
@@ -33,6 +35,7 @@ void Gameloop::init()
 	turning = new TurningMarker(player);
 	stationMenu = new StationMenu(player);
 	gameMenu = new GameMenu(player);
+	intercom = new Intercom(player);
 }
 
 void Gameloop::run(f32 frameDeltaTime)
@@ -44,6 +47,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	playerCam->run(player->getPosition(), frameDeltaTime); 
 	gameSceneManager->runCurrentScene(frameDeltaTime);
 	hud->run();
+	intercom->run();
 	turning->run();
 	visualsManager->run();
 	stationMenu->run(player->getShipTarget());
@@ -114,6 +118,7 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 	}
 	if (receiver->isKeyDown(irr::KEY_SPACE)) {
 		player->fireTurrets();
+		intercom->addText(L"Firing all available batteries sir!");
 	}
 	//do docking
 	if (receiver->isKeyReleased(irr::KEY_KEY_V))
@@ -123,7 +128,15 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 			player->dockWithTarget();
 			//make sure the menu only shows up when the player is actually docked
 			if(player->getInfo().docked)
+			{
 				stationMenu->setVisible(true);
+				intercom->addText(L"Yes sir, aligning ship to dock with station");
+			}
+			else
+			{
+				//did not dock
+				intercom->addText(L"Sir, we are too far away to dock with that station");
+			}
 		}
 		else
 		{
@@ -147,10 +160,12 @@ void Gameloop::playerControl(f32 frameDeltaTime)
 	if (receiver->isKeyReleased(irr::KEY_KEY_N))
 	{
 		player->launchFighters();
+		intercom->addText(L"Launching available fighters, sir");
 	}
 	if (receiver->isKeyReleased(irr::KEY_KEY_J))
 	{
 		player->warpToTarget();
+		intercom->addText(L"Yes sir, initiating warp sequence");
 	}
 }
 

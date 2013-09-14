@@ -70,7 +70,7 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 		currentAim = vector3df(angleX, angleY,0);*/
 		int difference = (360 - properties.arc)/2;
 		
-		vector3df diff = point - parent->getPosition();
+		vector3df diff = point - offset->getAbsolutePosition();
 		diff = diff.getHorizontalAngle();
 		currentAim = diff;
 		//std::cout << offset->getAbsoluteTransformation().getRotationDegrees().Y << std::endl;
@@ -79,6 +79,8 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 		float tmp = parent->getRotation().Y + 180 + rotationOffset.Y;
 		if(tmp > 360)
 			tmp -= 360;
+		if(tmp < 0)
+			tmp += 360;
 		if((diff.Y + difference) < tmp || (diff.Y - difference) > tmp)
 		{
 			//inside the arc horizontally
@@ -87,7 +89,7 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 			//angleY -= parent->getRotation().Y;
 			//angleY += 180 - offset->getRotation().Y;
 			diff.Y -= parent->getRotation().Y;
-			diff.Y += 180;
+			diff.Y += 180 + offset->getRotation().Y;
 			childTurret->aim(diff, frameDeltaTime);
 			canFire = true;
 		}

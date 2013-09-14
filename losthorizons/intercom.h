@@ -14,6 +14,7 @@ public:
 	~Intercom();
 
 	void run();
+	void addText(const wchar_t *text);
 
 private:
 	Player *player;

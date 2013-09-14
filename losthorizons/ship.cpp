@@ -120,6 +120,7 @@ void Ship::run(f32 frameDeltaTime)
 			//and movement
 			rotate(frameDeltaTime);
 			aimTurrets(frameDeltaTime);
+			
 			if(info.warping)
 			{
 				//ok so we're warping
@@ -218,6 +219,8 @@ void Ship::damage(int val)
 		info.hull -= val;
 		//since armor and hull are damaged, kill off some of the crew
 		info.crew -= (rand()%info.crew)/4;
+		//and damage a subsystem
+		subsystems[rand()%subsystems.size()].health -= rand()%100;
 	}
 }
 
@@ -343,7 +346,8 @@ void Ship::launchFighters()
 
 void Ship::warpToTarget()
 {
-	if(shipTarget)
+
+	if(shipTarget && subsystems[E_SUBSYSTEM_WARPDRIVE].health > 0)
 	{
 		//make sure we have a target
 		//save to variable first to avoid multiple sqrt operations
@@ -359,6 +363,7 @@ void Ship::warpToTarget()
 			info.warping = true;
 		}
 	}
+	
 }
 
 //all private functions go under here

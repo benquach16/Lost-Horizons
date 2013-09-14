@@ -72,7 +72,7 @@ struct ShipInformation
 		  shield(ObjectManager::shipList[shipType].getMaxShield()), maxShield(shield),
 		  energy(ObjectManager::shipList[shipType].getMaxEnergy()), maxEnergy(energy),
 		  fighters(ObjectManager::shipList[shipType].getMaxFighters()), maxFighters(fighters),
-		  crew(1), maxCrew(ObjectManager::shipList[shipType].getMaxCrew()),
+		  crew(ObjectManager::shipList[shipType].getMaxCrew()), maxCrew(crew),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType].getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType].getMaxTurn()),
 		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false){}

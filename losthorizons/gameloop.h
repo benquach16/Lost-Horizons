@@ -10,6 +10,7 @@
 #include "objectmanager.h"
 #include "visualsmanager.h"
 #include "hud.h"
+#include "intercom.h"
 #include "turningmarker.h"
 #include "stationmenu.h"
 #include "gamemenu.h"
@@ -46,6 +47,7 @@ private:
 	PlayerCamera *playerCam;
 	Player *player;
 	HUD *hud;
+	Intercom *intercom;
 	TurningMarker *turning;
 
 	//ui members

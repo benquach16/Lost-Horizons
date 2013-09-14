@@ -98,6 +98,7 @@
     <ClInclude Include="missionmanager.h" />
     <ClInclude Include="missionproperties.h" />
     <ClInclude Include="objective.h" />
+    <ClInclude Include="officer.h" />
     <ClInclude Include="shiptab.h" />
     <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="sun.h" />
     <ClInclude Include="targetableobject.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="trigger.h" />
     <ClInclude Include="turningmarker.h" />
     <ClInclude Include="turret.h" />
     <ClInclude Include="turretproperties.h" />
