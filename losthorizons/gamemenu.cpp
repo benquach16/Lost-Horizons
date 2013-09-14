@@ -4,7 +4,10 @@
 GameMenu::GameMenu(Player* player) 
 : MenuWindow(), player(player)
 {
-	window = guienv->addWindow(rect<s32>(iWidth/2-400,iHeight/2-300,iWidth/2+400,iHeight/2+300), true, L"Player Ship");
+	if(!gConfig.bFullScreen)
+		window = guienv->addWindow(rect<s32>(iWidth/2-400,iHeight/2-300,iWidth/2+400,iHeight/2+300), true, L"Player Ship");
+	else
+		window = guienv->addWindow(rect<s32>(iWidth/2-575,iHeight/2-320,iWidth/2+575,iHeight/2+320), true, L"Player Ship");
 	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
 	window->setDrawBackground(false);

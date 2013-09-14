@@ -10,12 +10,12 @@ ShipTab::ShipTab(IGUITab* ptr)
 	shiptxt = text(L"", 10, 20, iWidth - 10, 100, false, true, ptr);
 	description = text(L"", 10, 60, iWidth - 10, 100, false, true, ptr);
 	subsystems = text(L"Ship Subsystems", 10, 120, iWidth - 10, iHeight - 10, true, true, ptr);
-	systems_list = list(20, 140, (iWidth/2) - 10, iHeight - 20, ptr);
-	systems_health = text(L"Integrity : ", iWidth / 2, 140, iHeight - 40, 220, false, true, ptr);
-	crew_req = text(L"Crew Required : ",iWidth / 2, 200, iWidth - 40,220, false, true, ptr);
-	crew_avail = text(L"Crew Available : ",iWidth / 2,170, iWidth - 40, 190, false, true, ptr);
-	repair = button(iWidth - 240, iHeight - 60,iWidth - 140,iHeight - 40, ptr, -1,L"Repair");
-	replace = button(iWidth - 120, iHeight - 60, iWidth - 20,iHeight - 40, ptr, -1,L"Replace");
+	systems_list = list(20, 140, (iWidth / 2) - 125, iHeight - 20, ptr);
+	systems_health = text(L"Integrity : ", (iWidth / 2) - 115, 140, iHeight - 40, 220, false, true, ptr);
+	crew_req = text(L"Crew Required : ",(iWidth / 2) - 115, 200, iWidth - 40,220, false, true, ptr);
+	crew_avail = text(L"Crew Available : ",(iWidth / 2) - 115,170, iWidth - 40, 190, false, true, ptr);
+	repair = button(iWidth - 460, iHeight - 205,iWidth - 360,iHeight - 185, ptr, -1,L"Repair");
+	replace = button(iWidth - 340, iHeight - 205, iWidth - 240,iHeight - 185, ptr, -1,L"Replace");
 
 
 	//initializing
@@ -35,6 +35,14 @@ ShipTab::ShipTab(IGUITab* ptr)
 //DESTRUCTOR
 ShipTab::~ShipTab()
 {
+	delete shiptxt;
+	delete description;
+	delete subsystems;
+	delete systems_list;
+	delete crew_req;
+	delete crew_avail;
+	delete repair;
+	delete replace;
 }
 
 void ShipTab::run()
