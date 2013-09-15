@@ -10,49 +10,28 @@ Inventory::~Inventory()
 {
 }
 
-Inventory::Inventory(const Inventory& inv) : data(inv.data), count(inv.count), credits(inv.credits)
+Inventory& Inventory::operator+=(const Inventory& rhs)
 {
-	//copy constructor
-}
-
-Inventory& Inventory::operator=(const Inventory& inv)
-{
-	//overloaded assignment operator
-	data = inv.data;
-	count = inv.count;
-	credits = inv.credits;
+	//add inventory contents to this one
+	for (unsigned i = 0; i < rhs.data.size(); ++i) {
+		addItem(rhs.data[i], rhs.count[i]);
+	}
+	credits += rhs.credits;
 	return *this;
 }
 
-void Inventory::operator+=(const Inventory& inv)
+Inventory operator+(Inventory lhs, const Inventory& rhs)
 {
-	//add inventory contents to this one
-	for(unsigned i = 0; i < inv.data.size(); i++)
-	{
-		addItem(inv.data[i], inv.count[i]);
-	}
-	credits += inv.credits;
-}
-
-Inventory& Inventory::operator+(const Inventory& inv)
-{
-	Inventory ret(inv);
-	for(unsigned i = 0; i < inv.data.size(); i++)
-	{
-		ret.addItem(inv.data[i], inv.count[i]);
-	}	
-	ret.credits += inv.credits;
-	return ret;
+	lhs += rhs;
+	return lhs;
 }
 
 void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType)
 {
 	//itemtype should be aligned with array index
-	for(unsigned i = 0; i < data.size(); i++)
-	{
+	for (unsigned i = 0; i < data.size(); ++i) {
 		//we found the same one so increment the count
-		if(data[i] == ObjectManager::itemList[itemType])
-		{
+		if (data[i] == ObjectManager::itemList[itemType]) {
 			count[i]++;
 			return;
 		}
@@ -65,12 +44,10 @@ void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType)
 void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount)
 {
 	//itemtype should be aligned with array index
-	for(unsigned i = 0; i < data.size(); i++)
-	{
+	for (unsigned i = 0; i < data.size(); ++i) {
 		//we found the same one so increaes count by amount
-		if(data[i] == ObjectManager::itemList[itemType])
-		{
-			count[i]+=amount;
+		if (data[i] == ObjectManager::itemList[itemType]) {
+			count[i] += amount;
 			return;
 		}
 	}
@@ -82,12 +59,10 @@ void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount)
 void Inventory::addItem(const ItemProperties& item, unsigned amount)
 {
 	//itemtype should be aligned with array index
-	for(unsigned i = 0; i < data.size(); i++)
-	{
+	for (unsigned i = 0; i < data.size(); ++i) {
 		//we found the same one so increaes count by amount
-		if(data[i] == item)
-		{
-			count[i]+=amount;
+		if (data[i] == item) {
+			count[i] += amount;
 			return;
 		}
 	}
@@ -100,17 +75,12 @@ void Inventory::addItem(const ItemProperties& item, unsigned amount)
 void Inventory::removeItem(ObjectManager::E_ITEM_LIST itemType)
 {
 	//make sure we dont accidently increase the number to the maximum unsigned value
-	for(unsigned i = 0; i < data.size(); i++)
-	{
-		if(data[i] == ObjectManager::itemList[itemType])
-		{
-			if(count[i] > 1)
-			{
+	for (unsigned i = 0; i < data.size(); ++i) {
+		if (data[i] == ObjectManager::itemList[itemType]) {
+			if (count[i] > 1) {
 				count[i]--;
 				return;
-			}
-			else
-			{
+			} else {
 				//remove it from the list
 				data.erase(data.begin() + i);
 				count.erase(count.begin() + i);
@@ -123,25 +93,20 @@ void Inventory::removeItem(ObjectManager::E_ITEM_LIST itemType)
 void Inventory::removeItem(int i)
 {
 	//cconstant time removal function
-	if(count[i] > 1)
-	{
+	if (count[i] > 1) {
 		count[i]--;
 		return;
-	}
-	else
-	{
+	} else {
 		data.erase(data.begin() + i);
-		count.erase(count.begin() +i);
+		count.erase(count.begin() + i);
 	}
 }
 
 
 const unsigned Inventory::getItemCount(ObjectManager::E_ITEM_LIST itemType)
 {
-	for(unsigned i = 0; i < data.size(); i++)
-	{
-		if(data[i] == ObjectManager::itemList[itemType])
-		{
+	for(unsigned i = 0; i < data.size(); ++i) {
+		if (data[i] == ObjectManager::itemList[itemType]) {
 			return count[i];
 		}
 	}
@@ -158,7 +123,7 @@ std::vector<std::wstring> Inventory::getConvertedInventory() const
 	//create an array where we remove the elements that don't need to be there
 	//and stack items
 	std::vector<std::wstring> ret;
-	for(unsigned i = 0; i < data.size(); i++)
+	for (unsigned i = 0; i < data.size(); ++i)
 	{
 		std::wstring tmp = data[i].getName();
 		tmp += L" x";

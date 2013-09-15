@@ -17,24 +17,16 @@ public:
 protected:
 	void initializeDisplay();
 	
-
 	Player* player;
 
 	gui::IGUITabControl* tabs;
 
 	//initializing tabs
-	ShipTab* mainShipPTR;
-
-	//initializing holderptrs
-	gui::IGUITab* ship;
-	gui::IGUITab* cargo;
-	gui::IGUITab* crew;
-	gui::IGUITab* loadout;
-	gui::IGUITab* hanger;
-	gui::IGUITab* missionLog;
-
-	
+	ShipTab* ship;
+	//MenuTab* cargo;
+	//MenuTab* crew;
+	//MenuTab* loadout;
+	//MenuTab* hangar;
+	//MenuTab* missionLog;
 };
-
-
 #endif

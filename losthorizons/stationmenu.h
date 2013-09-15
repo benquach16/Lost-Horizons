@@ -16,7 +16,6 @@ public:
 	void run(const TargetableObject *target);
 	
 protected:
-
 	Player *player;
 
 	gui::IGUITabControl *tabs;

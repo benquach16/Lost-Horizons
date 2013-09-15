@@ -15,7 +15,7 @@ public:
 	}
 	~MenuTab()
 	{
-		if(tab)
+		if (tab)
 			tab->remove();
 	}
 	//pure virtual function

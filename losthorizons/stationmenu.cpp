@@ -4,10 +4,9 @@
 StationMenu::StationMenu(Player *player) : MenuWindow(), tabs(0), player(player)
 {
 	window = guienv->addWindow(rect<s32>(iWidth/2-400,iHeight/2-300,iWidth/2+400,iHeight/2+300), true, L"Space Station");
-	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
 	window->setDrawBackground(false);
-
+	// this is terrible. make consistent with the new way we do menutabs as shown in gamemenu and shiptab
 	tabs = guienv->addTabControl(rect<s32>(0,0,iWidth/2+800,iHeight/2+600), window, true);
 	//store = tabs->addTab(L"Store", 1);
 	store = new StoreTab(tabs, player);
@@ -17,7 +16,6 @@ StationMenu::StationMenu(Player *player) : MenuWindow(), tabs(0), player(player)
 	people = tabs->addTab(L"People", 5);
 	
 	window->setVisible(false);
-
 }
 
 StationMenu::~StationMenu()

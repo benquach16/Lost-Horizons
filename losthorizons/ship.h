@@ -58,11 +58,11 @@ struct ShipInformation
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTIONS currentFaction;
 	E_AI_STATES currentAIState;
+	std::vector<Subsystem> subsystems;
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
-	bool docked;
-	bool warping;
+	bool docked, warping;
 	Inventory inventory;
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
@@ -149,9 +149,6 @@ protected:
 	std::vector<TurretSlot*> mediumTurrets;
 	std::vector<TurretSlot*> lightTurrets;
 	std::vector<TurretSlot*> pdTurrets;
-
-	//data container for ship subsystems
-	std::vector<Subsystem> subsystems;
 
 	//important misc variables
 	TargetableObject *shipTarget;

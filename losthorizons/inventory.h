@@ -19,14 +19,9 @@ public:
 	//parameterized constructor
 	Inventory(int credits);
 	~Inventory();
-	//copy constructor
-	Inventory(const Inventory& inv);
-	//overloaded assignment operator
-	Inventory& operator=(const Inventory& inv);
 	
 	//overload arthimetic operators
-	void operator+=(const Inventory& i);
-	Inventory& operator+(const Inventory& inv);
+	Inventory& operator+=(const Inventory& rhs);
 
 	//overloaded function
 	void addItem(ObjectManager::E_ITEM_LIST itemType);

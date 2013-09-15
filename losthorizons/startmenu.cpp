@@ -76,7 +76,7 @@ void StartMenu::run()
 {
 	MenuWindow::run();
 	if (getVisible()) {
-		window->getParent()->getParent()->bringToFront(window->getParent());
+		window->getParent()->getParent()->bringToFront(window->getParent()); // dafuq is dis shit omg so bad
 		if (resume->isPressed()) {
 			saved = false;
 			setVisible(false);

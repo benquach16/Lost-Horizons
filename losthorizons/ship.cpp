@@ -40,7 +40,6 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	setPDTurret(ObjectManager::turretList[2], 2);
 	setPDTurret(ObjectManager::turretList[2], 3);
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER, 100);
-
 }
 
 Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
@@ -90,17 +89,17 @@ Ship::~Ship()
 {
 	allShips.erase(it);
 	//clear memory we allocated
-	while(!engineParticles.empty())
+	while (!engineParticles.empty())
 	{
 		engineParticles.back()->remove();
 		engineParticles.pop_back();
 	}
-	while(!coronaEffects.empty())
+	while (!coronaEffects.empty())
 	{
 		coronaEffects.back()->remove();
 		coronaEffects.pop_back();
 	}
-
+	removeThisFromTargets();
 }
 
 void Ship::run(f32 frameDeltaTime)
@@ -108,7 +107,7 @@ void Ship::run(f32 frameDeltaTime)
 	TargetableObject::run(frameDeltaTime);
 	if (info.hull > 0)
 	{
-		if(info.docked)
+		if (info.docked)
 		{
 			//if the ship is docked it most certaintly cannot move
 		}
@@ -121,18 +120,18 @@ void Ship::run(f32 frameDeltaTime)
 			rotate(frameDeltaTime);
 			aimTurrets(frameDeltaTime);
 			
-			if(info.warping)
+			if (info.warping)
 			{
 				//ok so we're warping
 				//check if we're aligned to the target
-				if(!(getRotation().Y - 3 > getTargetRotation().Y || getRotation().Y + 3 < getTargetRotation().Y ||
+				if (!(getRotation().Y - 3 > getTargetRotation().Y || getRotation().Y + 3 < getTargetRotation().Y ||
 					getRotation().X - 3 > getTargetRotation().X || getRotation().X + 3 < getTargetRotation().X))
 				{
-					if(info.velocity < 500)
+					if (info.velocity < 500)
 					{
 						info.velocity += (5+abs(info.velocity)/2)*frameDeltaTime;
 					}
-					if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 10000)
+					if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 10000)
 					{
 						info.warping = false;
 						info.velocity = 0;
@@ -143,7 +142,7 @@ void Ship::run(f32 frameDeltaTime)
 			movement(frameDeltaTime);
 
 			//recharge shields
-			if(subsystems[E_SUBSYSTEM_SHIELD].health > 0)
+			if (info.subsystems[E_SUBSYSTEM_SHIELD].health > 0)
 			{
 				if(info.shield < info.maxShield)
 				{
@@ -154,7 +153,6 @@ void Ship::run(f32 frameDeltaTime)
 					}
 				}
 			}
-
 
 
 			//if is not player do ai stuff
@@ -168,7 +166,6 @@ void Ship::run(f32 frameDeltaTime)
 	{
 		//we have to delete this ship when it asplodes
 		//so create an explosion and delete itself
-		removeThisFromTargets();
 		Explosion *e = new Explosion(getPosition());
 		//lets create some loot to drop
 		Cargo *loot = new Cargo(getPosition(), true);
@@ -195,7 +192,7 @@ void Ship::fireTurrets()
 	for (unsigned i = 0; i < mediumTurrets.size(); ++i) {
 		mediumTurrets[i]->fire();
 	}
-	for(unsigned i = 0; i < lightTurrets.size(); i++)
+	for (unsigned i = 0; i < lightTurrets.size(); i++)
 	{
 		lightTurrets[i]->fire();
 	}
@@ -220,7 +217,7 @@ void Ship::damage(int val)
 		//since armor and hull are damaged, kill off some of the crew
 		info.crew -= (rand()%info.crew)/4;
 		//and damage a subsystem
-		subsystems[rand()%subsystems.size()].health -= rand()%100;
+		info.subsystems[rand()%info.subsystems.size()].health -= rand()%100;
 	}
 }
 
@@ -251,19 +248,19 @@ void Ship::removeTarget()
 //turret setter functions
 void Ship::setMediumTurret(const TurretProperties &props, unsigned slot)
 {
-	if(slot < mediumTurrets.size())
+	if (slot < mediumTurrets.size())
 		mediumTurrets[slot]->assignTurret(props);
 }
 
 void Ship::setLightTurret(const TurretProperties &props, unsigned slot)
 {
-	if(slot < lightTurrets.size())
+	if (slot < lightTurrets.size())
 		lightTurrets[slot]->assignTurret(props);
 }
 
 void Ship::setPDTurret(const TurretProperties &props, unsigned slot)
 {
-	if(slot < pdTurrets.size())
+	if (slot < pdTurrets.size())
 		pdTurrets[slot]->assignTurret(props);
 }
 
@@ -299,13 +296,11 @@ bool Ship::isPlayer() const
 
 void Ship::removeThisFromTargets()
 {
-	//loop thru ship lista nd remove this ship if it is a target
-	for(std::list<Ship*>::iterator i = allShips.begin(); i != allShips.end(); i++)
+	//loop thru ship list and remove this ship if it is a target
+	for (std::list<Ship*>::iterator i = allShips.begin(); i != allShips.end(); ++i)
 	{
-		if((*i)->getShipTarget() == this)
-		{
+		if ((*i)->getShipTarget() == this)
 			(*i)->setTarget(0);
-		}
 	}
 }
 
@@ -313,9 +308,9 @@ void Ship::dockWithTarget()
 {
 	//check if target is a spaec station
 
-	if(getShipTarget() && getShipTarget()->getTargetableObjectType() == E_OBJECT_SPACESTATION)
+	if (getShipTarget() && getShipTarget()->getTargetableObjectType() == E_OBJECT_SPACESTATION)
 	{
-		if(getShipTarget()->getPosition().getDistanceFrom(getPosition()) < 500)
+		if (getShipTarget()->getPosition().getDistanceFrom(getPosition()) < 500)
 		{
 			info.docked = true;
 			setPosition(getShipTarget()->getPosition());
@@ -330,9 +325,9 @@ void Ship::undockWithTarget()
 
 void Ship::launchFighters()
 {
-	if(info.fighters > 0)
+	if (info.fighters > 0)
 	{
-		if(fighterLaunchTime < timer->getTime())
+		if (fighterLaunchTime < timer->getTime())
 		{
 			Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
 				getPosition(), getRotation(), info.currentFaction, this);
@@ -347,13 +342,13 @@ void Ship::launchFighters()
 void Ship::warpToTarget()
 {
 
-	if(shipTarget && subsystems[E_SUBSYSTEM_WARPDRIVE].health > 0)
+	if (shipTarget && info.subsystems[E_SUBSYSTEM_WARPDRIVE].health > 0)
 	{
 		//make sure we have a target
 		//save to variable first to avoid multiple sqrt operations
-		float dist = getPosition().getDistanceFrom(shipTarget->getPosition());
+		f32 dist = getPosition().getDistanceFrom(shipTarget->getPosition());
 
-		if( dist > 10000 )
+		if (dist > 10000)
 		{
 			//make sure we can't 'point jump' ship targets
 			vector3df diff = shipTarget->getPosition() - getPosition();
@@ -522,20 +517,20 @@ void Ship::aimTurrets(float frameDeltaTime)
 	}
 
 	//aim point defense at fighters
-	for(std::list<Fighter*>::iterator i = Fighter::allFighters.begin(), next; i != Fighter::allFighters.end(); i = next)
+	for (std::list<Fighter*>::iterator i = Fighter::allFighters.begin(), next; i != Fighter::allFighters.end(); i = next)
 	{
 		next = i;
 		++next;
-		if(((*i)->getFaction() == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
+		if (((*i)->getFaction() == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
 			((*i)->getFaction() != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
 		{
-			if(getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
+			if (getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
 			{
-				for(unsigned n = 0; n < pdTurrets.size(); ++n)
+				for (unsigned n = 0; n < pdTurrets.size(); ++n)
 				{
 					pdTurrets[n]->aim((*i)->getPosition(), frameDeltaTime);
 					pdTurrets[n]->fire();
-					if(fighterDamageTime < timer->getTime())
+					if (fighterDamageTime < timer->getTime())
 					{
 						(*i)->damage(10);
 						fighterDamageTime = timer->getTime() + 720;
@@ -551,7 +546,7 @@ void Ship::aimTurrets(float frameDeltaTime)
 void Ship::initEngineTrails()
 {
 	//create particle effecst and billboard effects
-	for(int i = 0; i < ObjectManager::shipList[info.shipType].getNumEngines(); i++)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType].getNumEngines(); ++i)
 	{
 		//get joint
 		std::string jointName("exhaust");
@@ -587,18 +582,18 @@ void Ship::initEngineTrails()
 //add subsystems
 void Ship::initSubsystems()
 {
-	subsystems.push_back(Subsystem(L"Bridge"));
-	subsystems.push_back(Subsystem(L"Deck 1"));
-	subsystems.push_back(Subsystem(L"Deck 2"));
-	subsystems.push_back(Subsystem(L"Elevator"));
-	subsystems.push_back(Subsystem(L"Engine"));
-	subsystems.push_back(Subsystem(L"Warp Drive"));
-	subsystems.push_back(Subsystem(L"Shield Generator"));
-	subsystems.push_back(Subsystem(L"Power Plant"));
-	subsystems.push_back(Subsystem(L"Heavy Weapons"));
-	subsystems.push_back(Subsystem(L"Medium Weapons"));
-	subsystems.push_back(Subsystem(L"Light Weapons"));
-	subsystems.push_back(Subsystem(L"Point Defense"));
+	info.subsystems.push_back(Subsystem(L"Bridge"));
+	info.subsystems.push_back(Subsystem(L"Deck 1"));
+	info.subsystems.push_back(Subsystem(L"Deck 2"));
+	info.subsystems.push_back(Subsystem(L"Elevator"));
+	info.subsystems.push_back(Subsystem(L"Engine"));
+	info.subsystems.push_back(Subsystem(L"Warp Drive"));
+	info.subsystems.push_back(Subsystem(L"Shield Generator"));
+	info.subsystems.push_back(Subsystem(L"Power Plant"));
+	info.subsystems.push_back(Subsystem(L"Heavy Weapons"));
+	info.subsystems.push_back(Subsystem(L"Medium Weapons"));
+	info.subsystems.push_back(Subsystem(L"Light Weapons"));
+	info.subsystems.push_back(Subsystem(L"Point Defense"));
 }
 
 //private function
@@ -608,28 +603,28 @@ void Ship::runAI()
 	//make sure to comment this thoroughly!
 	//and seperate into seperate functions if it becomes too big!!
 	updateStates();
-	if(info.currentAIState == STATE_FLEEING)
+	if (info.currentAIState == STATE_FLEEING)
 	{
 		//do fleeing code here
 		//fly away from painful things :(
 	}
-	else if(info.currentAIState == STATE_ATTACKING)
+	else if (info.currentAIState == STATE_ATTACKING)
 	{
 		//do attacking code here
-		if(shipTarget)
+		if (shipTarget)
 		{
-			if(getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
+			if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
 			{
 				//break target
 				shipTarget = 0;
 			}
-			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 1000)
+			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1000)
 			{
 				//too close
 				//turn away
 				setTargetRotation(getTargetRotation() + vector3df(0, (f32)(rand() % 180), 0));
 			}
-			else if(getPosition().getDistanceFrom(shipTarget->getPosition()) > 2000)
+			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2000)
 			{
 				//get closer
 				//calculate vector to target
@@ -649,12 +644,12 @@ void Ship::runAI()
 			info.currentAIState = STATE_PATROLLING;
 		}
 	}
-	else if(info.currentAIState == STATE_PATROLLING)
+	else if (info.currentAIState == STATE_PATROLLING)
 	{
 		//crooze
 		info.velocity = info.maxVelocity/2;
 		//search for targets
-		if(currentTime < timer->getTime())
+		if (currentTime < timer->getTime())
 		{
 			searchForTarget();
 			currentTime = timer->getTime() + AITIMER;
@@ -665,12 +660,12 @@ void Ship::runAI()
 //private function
 void Ship::updateStates()
 {
-	if(info.hull < info.maxHull/2)
+	if (info.hull < info.maxHull/2)
 	{
 		//if hull is less than half, try to flee
 		info.currentAIState = STATE_FLEEING;
 	}
-	else if(shipTarget)
+	else if (shipTarget)
 	{
 		info.currentAIState = STATE_ATTACKING;
 	}
@@ -680,16 +675,14 @@ void Ship::updateStates()
 void Ship::searchForTarget()
 {
 	//search for targets
-	for(std::list<Ship*>::iterator i = allShips.begin(), next; i != allShips.end(); i = next)
+	for (std::list<Ship*>::iterator i = allShips.begin(); i != allShips.end(); ++i)
 	{
-		next = i;
-		next++;
 		//make sure we check factions first
 		//because sqrts are expensive
-		if(((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE) || 
+		if (((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE) || 
 			((*i)->getInfo().currentFaction != E_FACTION_PIRATE && this->getInfo().currentFaction == E_FACTION_PIRATE))
 		{
-			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+			if ((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{
 				setTarget(*i);
 				info.currentAIState = STATE_ATTACKING;
