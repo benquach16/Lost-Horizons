@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "startmenu.h"
+#include <iostream>
 
 StartMenu::StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: MenuWindow(), graphics(graphics), receiver(receiver), data(data), saved(true), close(false), config(0), confirmClose(0)
@@ -75,6 +76,7 @@ void StartMenu::run()
 {
 	MenuWindow::run();
 	if (getVisible()) {
+		window->getParent()->getParent()->bringToFront(window->getParent());
 		if (resume->isPressed()) {
 			saved = false;
 			setVisible(false);

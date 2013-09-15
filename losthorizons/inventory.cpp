@@ -31,7 +31,7 @@ void Inventory::operator+=(const Inventory& inv)
 	{
 		addItem(inv.data[i], inv.count[i]);
 	}
-	credits = inv.credits;
+	credits += inv.credits;
 }
 
 Inventory& Inventory::operator+(const Inventory& inv)
@@ -41,7 +41,7 @@ Inventory& Inventory::operator+(const Inventory& inv)
 	{
 		ret.addItem(inv.data[i], inv.count[i]);
 	}	
-	ret.credits = inv.credits;
+	ret.credits += inv.credits;
 	return ret;
 }
 
