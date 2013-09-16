@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "objective.h"
+#include "missionproperties.h"
 
 
 //mission class
@@ -13,9 +14,12 @@ public:
 	Mission();
 	//paramaterized constructor
 	Mission(bool generateMission);
+	Mission(const MissionProperties& missionInfo);
 	~Mission();
 
 protected:
+	std::wstring name;
+	std::wstring description;
 	std::vector<Objective> objectives;
 
 };

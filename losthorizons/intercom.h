@@ -23,6 +23,8 @@ private:
 	gui::IGUITabControl *tabs;
 	gui::IGUITab *ship;
 	gui::IGUITab *external;
+
+	u32 deleteTimer;
 };
 
 #endif

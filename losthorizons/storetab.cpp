@@ -5,16 +5,16 @@ StoreTab::StoreTab(gui::IGUITabControl *tabs, Player *player) : MenuTab(), playe
 {
 	//initialize this
 	tab = tabs->addTab(L"Store");
-	playerInventory = guienv->addListBox(rect<s32>(20,40, 380, 400), tab);
-	stationInventory = guienv->addListBox(rect<s32>(420, 40, 780, 400), tab);
+	playerInventory = guienv->addListBox(rect<s32>(20,40, 380, 300), tab);
+	stationInventory = guienv->addListBox(rect<s32>(420, 40, 780, 300), tab);
 	guienv->addStaticText(L"Your Cargo", rect<s32>(20,20,380,40), false, true, tab);
 	guienv->addStaticText(L"For Sale", rect<s32>(420, 20, 780, 40), false, true, tab);
-	selectedValue = guienv->addStaticText(L"Value :", rect<s32>(400, 420, 600, 440), false, true, tab);
-	selectedWeight = guienv->addStaticText(L"Weight :", rect<s32>(620, 420, 780, 440), false, true, tab);
-	selectedDescription = guienv->addStaticText(L"", rect<s32>(20, 460, 780, 500), false, true, tab);
-	sellButton = guienv->addButton(rect<s32>(20,520,120,540), tab, -1, L"Sell");
-	buyButton = guienv->addButton(rect<s32>(680, 520, 780, 540), tab, -1, L"Buy");
-	playerCash = guienv->addStaticText(L"Your Credits :", rect<s32>(140, 520, 440, 540), false, true, tab);
+	selectedValue = guienv->addStaticText(L"Value :", rect<s32>(400, 320, 600, 340), false, true, tab);
+	selectedWeight = guienv->addStaticText(L"Weight :", rect<s32>(620, 320, 780, 340), false, true, tab);
+	selectedDescription = guienv->addStaticText(L"", rect<s32>(20, 360, 780, 400), false, true, tab);
+	sellButton = guienv->addButton(rect<s32>(20,420,120,440), tab, -1, L"Sell");
+	buyButton = guienv->addButton(rect<s32>(680, 420, 780, 440), tab, -1, L"Buy");
+	playerCash = guienv->addStaticText(L"Your Credits :", rect<s32>(140, 420, 440, 440), false, true, tab);
 }
 
 StoreTab::~StoreTab()

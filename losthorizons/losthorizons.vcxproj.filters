@@ -70,6 +70,9 @@
     <Filter Include="Source Files\ui\tabs\gamemenu">
       <UniqueIdentifier>{d62538af-428d-47ed-9a3a-99026c6c3b07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\missions">
+      <UniqueIdentifier>{eca20573-9178-43a3-85ca-aae492db8e42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -424,6 +427,12 @@
     </ClCompile>
     <ClCompile Include="shiptab.cpp">
       <Filter>Source Files\ui\tabs\gamemenu</Filter>
+    </ClCompile>
+    <ClCompile Include="mission.cpp">
+      <Filter>Source Files\missions</Filter>
+    </ClCompile>
+    <ClCompile Include="missionproperties.cpp">
+      <Filter>Source Files\properties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

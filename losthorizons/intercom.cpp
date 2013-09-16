@@ -2,7 +2,7 @@
 #include "intercom.h"
 #include <iostream>
 
-Intercom::Intercom(Player *player) : player(player), listBox(0), tabs(0)
+Intercom::Intercom(Player *player) : player(player), listBox(0), tabs(0), deleteTimer(0)
 {
 	listBox = guienv->addListBox(rect<s32>(iWidth-300, iHeight-180, iWidth, iHeight));
 	listBox->setAutoScrollEnabled(true);
@@ -21,6 +21,11 @@ void Intercom::run()
 	{
 		listBox->removeItem(0);
 	}
+	if(deleteTimer < timer->getTime())
+	{
+		listBox->removeItem(0);
+		deleteTimer = timer->getTime() + 5000;
+	}
 	if(player->getInfo().shield < 10)
 	{
 		addText(L"Sir, our shields are down");
@@ -30,15 +35,14 @@ void Intercom::run()
 void Intercom::addText(const wchar_t *text)
 {
 	//make sure we cant repeat text over and over
-	const wchar_t *tmp =listBox->getListItem(listBox->getItemCount()-1);
-	//we have to dereference this to properly compare
-	if(!tmp)
+	for(u32 i = 0; i < listBox->getItemCount(); ++i)
 	{
-		listBox->addItem(text);
+		if(*listBox->getListItem(i) == *text)
+		{
+			return;
+		}
 	}
-	else if(*tmp != *text)
-	{
-		std::cout <<tmp <<std::endl;
-		listBox->addItem(text);
-	}
+	listBox->addItem(text);
+	deleteTimer = timer->getTime() + 5000;
+
 }
