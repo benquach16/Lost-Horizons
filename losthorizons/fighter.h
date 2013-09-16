@@ -46,6 +46,7 @@ protected:
 	void rotate(f32 frameDeltaTime);
 	void movement(f32 frameDeltaTime);
 	void searchForFighterTargets();
+	void searchForShipTargets();
 	void patrol();
 
 	//iterator to this
