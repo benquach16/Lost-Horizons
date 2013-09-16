@@ -532,8 +532,8 @@ void Ship::aimTurrets(float frameDeltaTime)
 					pdTurrets[n]->fire();
 					if (fighterDamageTime < timer->getTime())
 					{
-						(*i)->damage(10);
-						fighterDamageTime = timer->getTime() + 720;
+						(*i)->damage(2);
+						fighterDamageTime = timer->getTime() + 2520;
 					}
 				}
 			}

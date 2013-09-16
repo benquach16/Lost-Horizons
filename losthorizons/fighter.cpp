@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "fighter.h"
 #include <iostream>
 
@@ -9,7 +10,7 @@ const unsigned AITIMER = 200;
 //large constructor
 Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, 
 				 Ship* homeBase) : TargetableObject(nextID++, ObjectManager::fighterList[fighterType], position, rotation, faction), info(fighterType),
-	fighterTarget(0), homeBase(homeBase), shipTarget(0)
+	fighterTarget(0), homeBase(homeBase), shipTarget(0), shootTimer(0)
 {
 	allFighters.push_front(this);
 	it = allFighters.begin();
@@ -36,13 +37,13 @@ void Fighter::run(f32 frameDeltaTime)
 			//fly at it
 			f32 dist = getPosition().getDistanceFromSQ(fighterTarget->getPosition());
 
-			if(dist > 10000000)
+			if(dist > 25000)
 			{
-				vector3df diff = getPosition() - fighterTarget->getPosition();
+				vector3df diff = fighterTarget->getPosition() - getPosition();
 				diff = diff.getHorizontalAngle();
-				setRotation(diff);
+				info.targetRotation = diff;
 			}
-			else if(dist < 40000)
+			else if(dist < 4000)
 			{
 				vector3df diff = fighterTarget->getPosition() - getPosition();
 				diff = diff.getHorizontalAngle();
@@ -52,7 +53,11 @@ void Fighter::run(f32 frameDeltaTime)
 			if(dist < 250000)
 			{
 				//close than 500 so we can shoot
-				fighterTarget->damage(20);
+				if(shootTimer < timer->getTime())
+				{
+					fighterTarget->damage(2);
+					shootTimer = timer->getTime() + 1000;
+				}
 			}
 		}
 		else if(shipTarget)
@@ -60,15 +65,15 @@ void Fighter::run(f32 frameDeltaTime)
 			//attack the ship
 			searchForFighterTargets();
 			f32 dist = getPosition().getDistanceFromSQ(shipTarget->getPosition());
-			if(dist > 10000000)
+			if(dist > 250000)
 			{
-				vector3df diff = fighterTarget->getPosition() - getPosition();
+				vector3df diff = shipTarget->getPosition() - getPosition();
 				diff = diff.getHorizontalAngle();
 				info.targetRotation = diff;
 			}
 			else if(dist < 40000)
 			{
-				vector3df diff = fighterTarget->getPosition() - getPosition();
+				vector3df diff = shipTarget->getPosition() - getPosition();
 				diff = diff.getHorizontalAngle();
 				diff.Y += rand()%180+ 90;
 				info.targetRotation = diff;
@@ -81,6 +86,7 @@ void Fighter::run(f32 frameDeltaTime)
 		else
 		{
 			searchForFighterTargets();
+			searchForShipTargets();
 			//patrol for targets around home ship
 			if(homeBase)
 			{
@@ -91,7 +97,6 @@ void Fighter::run(f32 frameDeltaTime)
 	}
 	else
 	{
-		std::cout << info.hull <<std::endl;
 		for(std::list<Fighter*>::iterator i = allFighters.begin(); i != allFighters.end(); ++i)
 		{
 			if((*i)->fighterTarget == this)
@@ -196,9 +201,26 @@ void Fighter::searchForFighterTargets()
 		if(((*i)->faction == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
 			((*i)->faction != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
 		{
-			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+			if((*i)->getPosition().getDistanceFrom(getPosition()) < 1000)
 			{
 				fighterTarget = (*i);
+			}
+		}
+	}
+}
+//protected function
+void Fighter::searchForShipTargets()
+{
+	for(std::list<Ship*>::iterator i = Ship::allShips.begin(), next; i != Ship::allShips.end(); i = next)
+	{
+		next = i;
+		next++;
+		if(((*i)->getFaction() == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
+			((*i)->getFaction() != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
+		{
+			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+			{
+				shipTarget = (*i);
 			}
 		}
 	}
