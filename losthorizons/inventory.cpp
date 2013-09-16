@@ -20,12 +20,6 @@ Inventory& Inventory::operator+=(const Inventory& rhs)
 	return *this;
 }
 
-Inventory operator+(Inventory lhs, const Inventory& rhs)
-{
-	lhs += rhs;
-	return lhs;
-}
-
 void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType)
 {
 	//itemtype should be aligned with array index

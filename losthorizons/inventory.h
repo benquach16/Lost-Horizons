@@ -57,4 +57,10 @@ protected:
 	int credits;
 };
 
+inline Inventory operator+(Inventory lhs, const Inventory& rhs)
+{
+	lhs += rhs;
+	return lhs;
+}
+
 #endif

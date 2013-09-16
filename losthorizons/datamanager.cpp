@@ -115,6 +115,7 @@ void DataManager::load(const std::string &filename)
 	std::ifstream ifs(filename.c_str(), std::ios::binary);
 	ifs >> scene >> ships >> TargetableObject::nextID;
 	ifs.close();
+	gConfig.bPlay = true;
 	push();
 }
 
