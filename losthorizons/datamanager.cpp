@@ -80,22 +80,26 @@ std::ifstream& operator>>(std::ifstream& ifs, std::deque<T>& d)
 
 void DataManager::pull()
 {
-	scene = game->getGameSceneManager()->getCurrentScene()->getScene();
-	ShipData tmp;
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
-		ships.push_front(tmp << *i);
+	if (gConfig.bPlay) {
+		scene = game->getGameSceneManager()->getCurrentScene()->getScene();
+		ShipData tmp;
+		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
+			ships.push_front(tmp << *i);
+	}
 }
 
 void DataManager::push()
 {
-	game->getGameSceneManager()->changeCurrentScene(scene);
-	while (!ships.empty()) {
-		game->getGameSceneManager()->getCurrentScene()->createShip(ships.front().ID, ships.front().info, ships.front().position, ships.front().rotation);
-		shipTargets.push(std::pair<bool,u32>(ships.front().targetting, ships.front().target));
-		ships.pop_front();
+	if (gConfig.bPlay) {
+		game->getGameSceneManager()->changeCurrentScene(scene);
+		while (!ships.empty()) {
+			game->getGameSceneManager()->getCurrentScene()->createShip(ships.front().ID, ships.front().info, ships.front().position, ships.front().rotation);
+			shipTargets.push(std::pair<bool,u32>(ships.front().targetting, ships.front().target));
+			ships.pop_front();
+		}
+		setShipTargets();
+		game->init();
 	}
-	setShipTargets();
-	game->init();
 }
 
 void DataManager::save(const std::string &filename)

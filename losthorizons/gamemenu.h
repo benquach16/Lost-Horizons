@@ -20,8 +20,6 @@ protected:
 	Player* player;
 
 	gui::IGUITabControl* tabs;
-
-	//initializing tabs
 	ShipTab* ship;
 	//MenuTab* cargo;
 	//MenuTab* crew;
