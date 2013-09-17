@@ -9,7 +9,7 @@ const unsigned AITIMER = 100;
 
 Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0),
-	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0)
+	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -27,18 +27,18 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	initSubsystems();
 
 	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType].getNormalMap().c_str()));
-	setMediumTurret(ObjectManager::turretList[0],3);
-	setMediumTurret(ObjectManager::turretList[0],2);
-	setMediumTurret(ObjectManager::turretList[0],1);
-	setMediumTurret(ObjectManager::turretList[0],0);
-	setLightTurret(ObjectManager::turretList[1],0);
-	setLightTurret(ObjectManager::turretList[1],1);
-	setLightTurret(ObjectManager::turretList[1],2);
-	setLightTurret(ObjectManager::turretList[1],3);
-	setPDTurret(ObjectManager::turretList[2], 0);
-	setPDTurret(ObjectManager::turretList[2], 1);
-	setPDTurret(ObjectManager::turretList[2], 2);
-	setPDTurret(ObjectManager::turretList[2], 3);
+	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,3);
+	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,2);
+	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,1);
+	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,0);
+	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,0);
+	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,1);
+	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,2);
+	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,3);
+	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 0);
+	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 1);
+	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 2);
+	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 3);
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER, 100);
 }
 
@@ -189,12 +189,13 @@ void Ship::decreaseVelocity(f32 frameDeltaTime)
 void Ship::fireTurrets()
 {
 	//lets do this in a way that doesn't involve middlemen
-	for (unsigned i = 0; i < mediumTurrets.size(); ++i) {
-		mediumTurrets[i]->fire();
-	}
-	for (unsigned i = 0; i < lightTurrets.size(); i++)
+	for (unsigned i = 0; i < info.mediumTurrets.size(); ++i) 
 	{
-		lightTurrets[i]->fire();
+		info.mediumTurrets[i]->fire();
+	}
+	for (unsigned i = 0; i < info.lightTurrets.size(); i++)
+	{
+		info.lightTurrets[i]->fire();
 	}
 }
 
@@ -246,22 +247,22 @@ void Ship::removeTarget()
 }
 
 //turret setter functions
-void Ship::setMediumTurret(const TurretProperties &props, unsigned slot)
+void Ship::setMediumTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot)
 {
-	if (slot < mediumTurrets.size())
-		mediumTurrets[slot]->assignTurret(props);
+	if (slot < info.mediumTurrets.size())
+		info.mediumTurrets[slot]->assignTurret(turretType);
 }
 
-void Ship::setLightTurret(const TurretProperties &props, unsigned slot)
+void Ship::setLightTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot)
 {
-	if (slot < lightTurrets.size())
-		lightTurrets[slot]->assignTurret(props);
+	if (slot < info.lightTurrets.size())
+		info.lightTurrets[slot]->assignTurret(turretType);
 }
 
-void Ship::setPDTurret(const TurretProperties &props, unsigned slot)
+void Ship::setPDTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot)
 {
-	if (slot < pdTurrets.size())
-		pdTurrets[slot]->assignTurret(props);
+	if (slot < info.pdTurrets.size())
+		info.pdTurrets[slot]->assignTurret(turretType);
 }
 
 void Ship::setFaction(E_GAME_FACTIONS newFaction)
@@ -447,7 +448,7 @@ void Ship::initTurrets()
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
 		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].mediumTurrets[i], joint, E_CLASS_HEAVY, this);
-		mediumTurrets.push_back(t);
+		info.mediumTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxMTurrets(); ++i)
 	{
@@ -457,7 +458,7 @@ void Ship::initTurrets()
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
 		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].mediumTurrets[i], joint, E_CLASS_MEDIUM, this);
-		mediumTurrets.push_back(t);
+		info.mediumTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxLTurrets(); ++i)
 	{
@@ -466,7 +467,7 @@ void Ship::initTurrets()
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
 		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].lightTurrets[i], joint, E_CLASS_LIGHT, this);
-		lightTurrets.push_back(t);
+		info.lightTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxPTurrets(); ++i)
 	{
@@ -475,7 +476,7 @@ void Ship::initTurrets()
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
 		TurretSlot *t = new TurretSlot(turretInformation(), joint, E_CLASS_PD, this);
-		pdTurrets.push_back(t);
+		info.pdTurrets.push_back(t);
 	}
 }
 
@@ -486,33 +487,33 @@ void Ship::aimTurrets(float frameDeltaTime)
 	if (shipTarget)
 	{
 		//if has target
-		for (unsigned i = 0; i < heavyTurrets.size(); i++)
+		for (unsigned i = 0; i < info.heavyTurrets.size(); i++)
 		{
-			heavyTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+			info.heavyTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
 		}
-		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
+		for (unsigned i = 0; i < info.mediumTurrets.size(); ++i)
 		{
-			mediumTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+			info.mediumTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
 		}
-		for (unsigned i = 0; i < lightTurrets.size(); i++)
+		for (unsigned i = 0; i < info.lightTurrets.size(); i++)
 		{
-			lightTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+			info.lightTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
 		}
 	}
 	else
 	{
 		//go back to aiming like normal
-		for (unsigned i = 0; i < heavyTurrets.size(); ++i)
+		for (unsigned i = 0; i < info.heavyTurrets.size(); ++i)
 		{
-			heavyTurrets[i]->resetAim();
+			info.heavyTurrets[i]->resetAim();
 		}
-		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
+		for (unsigned i = 0; i < info.mediumTurrets.size(); ++i)
 		{
-			mediumTurrets[i]->resetAim();
+			info.mediumTurrets[i]->resetAim();
 		}
-		for (unsigned i = 0; i < lightTurrets.size(); ++i)
+		for (unsigned i = 0; i < info.lightTurrets.size(); ++i)
 		{
-			lightTurrets[i]->resetAim();
+			info.lightTurrets[i]->resetAim();
 		}
 	}
 
@@ -526,10 +527,10 @@ void Ship::aimTurrets(float frameDeltaTime)
 		{
 			if (getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
 			{
-				for (unsigned n = 0; n < pdTurrets.size(); ++n)
+				for (unsigned n = 0; n < info.pdTurrets.size(); ++n)
 				{
-					pdTurrets[n]->aim((*i)->getPosition(), frameDeltaTime);
-					pdTurrets[n]->fire();
+					info.pdTurrets[n]->aim((*i)->getPosition(), frameDeltaTime);
+					info.pdTurrets[n]->fire();
 					if (fighterDamageTime < timer->getTime())
 					{
 						(*i)->damage(2);

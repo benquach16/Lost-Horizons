@@ -64,6 +64,11 @@ struct ShipInformation
 	vector3df targetRotation;
 	bool docked, warping;
 	Inventory inventory;
+	//data containers for the turrets of the ship
+	std::vector<TurretSlot*> heavyTurrets;
+	std::vector<TurretSlot*> mediumTurrets;
+	std::vector<TurretSlot*> lightTurrets;
+	std::vector<TurretSlot*> pdTurrets;
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
 		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
@@ -109,10 +114,10 @@ public:
 	void removeTarget();
 
 	//equip funcs
-	void setHeavyTurret(const TurretProperties& props, unsigned slot);
-	void setMediumTurret(const TurretProperties& props, unsigned slot);
-	void setLightTurret(const TurretProperties& props, unsigned slot);
-	void setPDTurret(const TurretProperties& props, unsigned slot);
+	void setHeavyTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
+	void setMediumTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
+	void setLightTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
+	void setPDTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
 
 	//some setters
 	void setFaction(E_GAME_FACTIONS currentFaction);
@@ -144,11 +149,7 @@ protected:
 	//ship stats
 	ShipInformation info;
 
-	//data containers for the turrets of the ship
-	std::vector<TurretSlot*> heavyTurrets;
-	std::vector<TurretSlot*> mediumTurrets;
-	std::vector<TurretSlot*> lightTurrets;
-	std::vector<TurretSlot*> pdTurrets;
+
 
 	//important misc variables
 	TargetableObject *shipTarget;
@@ -187,5 +188,6 @@ private:
 	u32 currentTime;
 	u32 fighterLaunchTime;
 	u32 fighterDamageTime;
+	u32 fighterUpdateTime;
 };
 #endif

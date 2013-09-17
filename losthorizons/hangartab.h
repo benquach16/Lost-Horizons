@@ -12,6 +12,9 @@ public:
 	virtual void run();
 
 protected:
+	void loadInventories();
+	void loadWeaponLists();
+
 	Player *player;
 
 	gui::IGUIComboBox *heavySlot;

@@ -13,11 +13,11 @@ TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *join
 	offset->setRotation(rotationOffset);
 }
 
-void TurretSlot::assignTurret(const TurretProperties &props)
+void TurretSlot::assignTurret(const ObjectManager::E_TURRET_LIST turretType)
 {
 	//make sure that the childturret pointer is clear
 	removeTurret();
-	childTurret = new Turret(props, offset, this);
+	childTurret = new Turret(turretType, offset, this);
 }
 
 bool TurretSlot::getCanFire()
@@ -142,18 +142,18 @@ const vector3df& TurretSlot::getPosition() const
 
 
 //BEGIN TURRET
-Turret::Turret()
+Turret::Turret() : turretType(ObjectManager::E_TURRET_LIST::ANTIMATTERI)
 {
 	//default constructor
 }
 
-Turret::Turret(const TurretProperties &props, ISceneNode *parent, TurretSlot *parentSlot) : 
-	Object(props.getFilename().c_str(), vector3df(0,0,0), vector3df(0,0,0), props.getScale()), props(props), shootJoint(0),
-	parentSlot(parentSlot)
+Turret::Turret(const ObjectManager::E_TURRET_LIST turretType, ISceneNode *parent, TurretSlot *parentSlot) : 
+	Object(ObjectManager::turretList[turretType].getFilename().c_str(), vector3df(0,0,0), vector3df(0,0,0), ObjectManager::turretList[turretType].getScale()),
+	turretType(turretType), shootJoint(0), parentSlot(parentSlot)
 {
 	shootJoint = mesh->getJointNode("shoot");
 	mesh->setParent(parent);
-	setNormalMap(vdriver->getTexture(props.getNormalMap().c_str()));
+	setNormalMap(vdriver->getTexture(ObjectManager::turretList[turretType].getNormalMap().c_str()));
 }
 
 Turret::~Turret()
@@ -165,11 +165,11 @@ void Turret::aim(const core::vector3df &rotation, float frameDeltaTime)
 	core::vector3df rot(getRotation());
 	if(getRotation().Y < rotation.Y)
 	{
-		rot.Y += props.getMaxTurn() * frameDeltaTime;
+		rot.Y += ObjectManager::turretList[turretType].getMaxTurn() * frameDeltaTime;
 	}
 	if(getRotation().Y > rotation.Y)
 	{
-		rot.Y -= props.getMaxTurn() * frameDeltaTime;
+		rot.Y -= ObjectManager::turretList[turretType].getMaxTurn() * frameDeltaTime;
 	}
 	rot.Y = rotation.Y;
 	setRotation(rot);
@@ -180,11 +180,11 @@ void Turret::fire(const vector3df &rotation)
 	//stopgap fix so we can have dynamically firing weapons
 	//since volley fire looks pretty unrealistic
 	//probably should modify this later
-	if(rand() % (int)props.getReloadSpeed() < 3)
+	if(rand() % (int)ObjectManager::turretList[turretType].getReloadSpeed() < 3)
 	{//for now, projectile gets an ID. change to ship pointer later
-		Projectile *p = new Projectile(parentSlot->getParent()->getID(), props, shootJoint->getAbsolutePosition(), rotation);
+		Projectile *p = new Projectile(parentSlot->getParent()->getID(),ObjectManager::turretList[turretType], shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
-		soundmngr->play3D(props.getSoundFilename().c_str(), getPosition());
+		soundmngr->play3D(ObjectManager::turretList[turretType].getSoundFilename().c_str(), getPosition());
 	}
 }
 
