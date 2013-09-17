@@ -5,6 +5,9 @@
 
 #include "irrlicht.h"
 
+using namespace irr;
+using namespace core;
+
 enum E_OBJECTIVE_TYPES
 {
 	E_OBJECTIVETYPE_SWEEP,
@@ -14,15 +17,22 @@ enum E_OBJECTIVE_TYPES
 	E_OBJECTIVETYPE_DEFEND
 };
 
+//objective class
+//we run through the functions needed to check objective completeness
 class Objective
 {
 public:
-	Objective();
+	Objective(const std::wstring &description, E_OBJECTIVE_TYPES objectiveType, const vector3df& position, const unsigned radius);
 	~Objective();
-	void run();
+
+	//run function
+	//return true if player completed the objective
+	bool run();
 protected:
 	std::wstring description;
+	E_OBJECTIVE_TYPES objectiveType;
 	irr::core::vector3df position;
+	unsigned radius;
 };
 
 #endif

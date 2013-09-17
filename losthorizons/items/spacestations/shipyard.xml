@@ -21,6 +21,6 @@
 		<buyMarkupFactor>1.25</buyMarkupFactor>
 		<sellMarkdownFactor>0.25</sellMarkdownFactor>
 		<isHQ>true</isHQ>
-		<shipSpawnTimer>60000</shipSpawnTimer>
+		<shipSpawnTimer>360000</shipSpawnTimer>
 	</stationStats>
 </itemStats>

@@ -607,6 +607,17 @@ void Ship::runAI()
 	{
 		//do fleeing code here
 		//fly away from painful things :(
+		//recall fighters
+		if (shipTarget)
+		{
+			//fly away from it and stop shooting
+			vector3df targetVector = getPosition() - shipTarget->getPosition();
+			targetVector = targetVector.getHorizontalAngle();
+
+			setTargetRotation(targetVector);
+		}
+		//second objective is to find a friendly planet to warp to
+
 	}
 	else if (info.currentAIState == STATE_ATTACKING)
 	{

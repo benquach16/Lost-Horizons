@@ -10,6 +10,20 @@ public:
 	SpaceStationProperties(irr::IrrlichtDevice *graphics, const std::string &f);
 	~SpaceStationProperties();
 
+	//accessors
+	const bool getSpawnShips() const;
+	const bool getSpawnFighters() const;
+
+	const bool getServiceFitting() const;
+	const bool getServiceJobBoard() const;
+	const bool getServiceShipYard() const;
+
+	const float getBuyMarkupFactor() const;
+	const float getSellMarkdownFactor() const;
+
+	const bool getIsHQ() const;
+	const unsigned getShipSpawnTimer() const;
+
 protected:
 	//interpret text into bool
 	bool getTrueOrFalse(const wchar_t *text);

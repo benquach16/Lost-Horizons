@@ -11,11 +11,13 @@
 class Mission
 {
 public:
+	//default constructor is for random mission generation
 	Mission();
 	//paramaterized constructor
-	Mission(bool generateMission);
 	Mission(const MissionProperties& missionInfo);
 	~Mission();
+
+	void run();
 
 protected:
 	std::wstring name;

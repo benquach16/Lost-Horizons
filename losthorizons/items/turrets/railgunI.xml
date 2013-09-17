@@ -17,7 +17,7 @@
 		<turnSpeed>5</turnSpeed>
 		<damage>27</damage>
 		<range>1500</range>
-		<reloadSpeed>1050</reloadSpeed>
+		<reloadSpeed>750</reloadSpeed>
 		<projectileSpeed>380</projectileSpeed>
 	</turretStats>
 	<projectileStats>

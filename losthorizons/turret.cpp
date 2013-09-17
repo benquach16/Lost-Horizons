@@ -158,7 +158,6 @@ Turret::Turret(const TurretProperties &props, ISceneNode *parent, TurretSlot *pa
 
 Turret::~Turret()
 {
-	mesh->remove();
 }
 
 void Turret::aim(const core::vector3df &rotation, float frameDeltaTime)

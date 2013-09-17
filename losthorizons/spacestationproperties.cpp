@@ -56,6 +56,7 @@ SpaceStationProperties::SpaceStationProperties(irr::IrrlichtDevice *graphics, co
 			}
 		case io::EXN_ELEMENT:
 			{
+				//set currentsection so we can read data
 				if(core::stringw(L"spawnShips").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection = L"spawnShips";
@@ -101,6 +102,7 @@ SpaceStationProperties::SpaceStationProperties(irr::IrrlichtDevice *graphics, co
 			}
 		}
 	}
+	//drop memory
 	file->drop();
 }
 
@@ -108,13 +110,59 @@ SpaceStationProperties::~SpaceStationProperties()
 {
 }
 
+//accessors go here
+const bool SpaceStationProperties::getSpawnShips() const
+{
+	return spawnShips;
+}
+
+const bool SpaceStationProperties::getSpawnFighters() const
+{
+	return spawnFighters;
+}
+
+const bool SpaceStationProperties::getServiceFitting() const
+{
+	return serviceFitting;
+}
+
+const bool SpaceStationProperties::getServiceJobBoard() const
+{
+	return serviceJobBoard;
+}
+
+const bool SpaceStationProperties::getServiceShipYard() const
+{
+	return serviceJobBoard;
+}
+
+const float SpaceStationProperties::getBuyMarkupFactor() const
+{
+	return buyMarkupFactor;
+}
+
+const float SpaceStationProperties::getSellMarkdownFactor() const
+{
+	return sellMarkdownFactor;
+}
+
+const bool SpaceStationProperties::getIsHQ() const
+{
+	return isHQ;
+}
+
+const unsigned SpaceStationProperties::getShipSpawnTimer() const
+{
+	return shipSpawnTimer;
+}
+
 //protected function
 bool SpaceStationProperties::getTrueOrFalse(const wchar_t *text)
 {
-	if(text == L"false")
+	if(text[0] == L't')
 	{
-		return false;
+		return true;
 	}
 	else
-		return true;
+		return false;
 }

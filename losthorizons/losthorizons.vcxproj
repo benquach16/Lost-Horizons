@@ -180,6 +180,7 @@
     <ClCompile Include="modelproperties.cpp" />
     <ClCompile Include="muzzleflash.cpp" />
     <ClCompile Include="object.cpp" />
+    <ClCompile Include="objective.cpp" />
     <ClCompile Include="objectmanager.cpp" />
     <ClCompile Include="optionmenu.cpp" />
     <ClCompile Include="planet.cpp" />

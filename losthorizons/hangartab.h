@@ -7,12 +7,21 @@
 class HangarTab : public MenuTab
 {
 public:
-	HangarTab(gui::IGUITabControl *tabs);
+	HangarTab(gui::IGUITabControl *tabs, Player *player);
 	~HangarTab();
 	virtual void run();
 
 protected:
+	Player *player;
 
+	gui::IGUIComboBox *heavySlot;
+	gui::IGUIComboBox *heavySlotWeapon;
+
+	gui::IGUIComboBox *mediumSlot;
+	gui::IGUIComboBox *mediumSlotWeapon;
+
+	gui::IGUIComboBox *lightSlot;
+	gui::IGUIComboBox *lightSlotWeapon;
 };
 
 #endif

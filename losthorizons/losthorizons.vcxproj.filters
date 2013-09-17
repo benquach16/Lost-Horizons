@@ -434,6 +434,9 @@
     <ClCompile Include="missionproperties.cpp">
       <Filter>Source Files\properties</Filter>
     </ClCompile>
+    <ClCompile Include="objective.cpp">
+      <Filter>Source Files\missions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">
