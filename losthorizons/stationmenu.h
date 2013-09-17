@@ -16,26 +16,13 @@ public:
 	void run(const TargetableObject *target);
 	
 protected:
+	void initializeDisplay();
 	Player *player;
 
 	gui::IGUITabControl *tabs;
-	//gui::IGUITab *store;
 	StoreTab *store;
-	//we need a way to organize all these pointers between all these tabs
-	//store tab pointers
-	gui::IGUIListBox *playerInventory;
-	gui::IGUIListBox *stationInventory;
-	gui::IGUIStaticText *selectedValue;
-	gui::IGUIStaticText *selectedWeight;
-	gui::IGUIStaticText *selectedDescription;
-	gui::IGUIButton *buyButton;
-	gui::IGUIButton *sellButton;
-	gui::IGUIStaticText *playerCash;
+	HangarTab *hangar;
 
-	gui::IGUITab *hangar;
-	gui::IGUITab *missions;
-	gui::IGUITab *shipyard;
-	gui::IGUITab *people;
 };
 
 #endif
