@@ -22,15 +22,18 @@ GameMenu::GameMenu(Player* player)
 GameMenu::~GameMenu()
 {
 	delete ship;
+	delete cargo;
 }
 
 void GameMenu::run()
 {
 	MenuWindow::run();
 	ship -> run();
+	//cargo -> run();
 }
 
 void GameMenu::initializeDisplay()
 {
 	ship = new ShipTab(tabs, player);
+	cargo = new CargoTab(tabs, player);
 }

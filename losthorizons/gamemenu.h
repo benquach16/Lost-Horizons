@@ -4,6 +4,7 @@
 #include "menuwindow.h"
 #include "player.h"
 #include "shiptab.h"
+#include "cargotab.h"
 //show ingame information in this menu
 
 class GameMenu : public MenuWindow
@@ -21,7 +22,7 @@ protected:
 
 	gui::IGUITabControl* tabs;
 	ShipTab* ship;
-	//MenuTab* cargo;
+	CargoTab* cargo;
 	//MenuTab* crew;
 	//MenuTab* loadout;
 	//MenuTab* hangar;

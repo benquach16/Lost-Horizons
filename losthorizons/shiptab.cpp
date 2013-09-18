@@ -15,7 +15,7 @@ ShipTab::ShipTab(gui::IGUITabControl *tabs, Player* player)
 	crewRq = guienv->addStaticText(L"Crew Required : ", core::rect<s32>(iWidth/2-115,200,iWidth-40,220), false, true, tab); // crew_req
 	crewAv = guienv->addStaticText(L"Crew Available : ", core::rect<s32>(iWidth/2-115,170,iWidth-40,190), false, true, tab); // crew_avail
 	repair = guienv->addButton(core::rect<s32>(iWidth-460,iHeight-205,iWidth-360,iHeight-185), tab, -1,L"Repair"); // repair
-	guienv->addButton(core::rect<s32>(iWidth-340,iHeight-205,iWidth-240,iHeight-185), tab, -1,L"Replace"); // replace
+	replace = guienv->addButton(core::rect<s32>(iWidth-340,iHeight-205,iWidth-240,iHeight-185), tab, -1,L"Replace"); // replace
 
 	//initializing
 	for (unsigned i = 0; i < player->getInfo().subsystems.size(); ++i)

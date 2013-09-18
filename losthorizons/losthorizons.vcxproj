@@ -156,6 +156,7 @@
     <ClInclude Include="baseapplication.h" />
     <ClInclude Include="callback.h" />
     <ClInclude Include="cargo.h" />
+    <ClInclude Include="cargotab.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="fighter.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="baseapplication.cpp" />
     <ClCompile Include="callback.cpp" />
     <ClCompile Include="cargo.cpp" />
+    <ClCompile Include="cargotab.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
     <ClCompile Include="effect.cpp" />

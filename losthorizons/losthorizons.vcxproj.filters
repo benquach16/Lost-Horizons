@@ -273,6 +273,9 @@
     <ClInclude Include="officer.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="cargotab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -436,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="objective.cpp">
       <Filter>Source Files\missions</Filter>
+    </ClCompile>
+    <ClCompile Include="cargotab.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

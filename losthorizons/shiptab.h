@@ -20,6 +20,7 @@ private:
 	IGUIStaticText* crewAv;
 	IGUIStaticText* systemsHealth;
 	IGUIButton* repair;
+	IGUIButton* replace;
 	void textUpdate();
 };
 #endif
