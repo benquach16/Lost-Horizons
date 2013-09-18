@@ -27,6 +27,7 @@ GameMenu::~GameMenu()
 void GameMenu::run()
 {
 	MenuWindow::run();
+	ship -> run();
 }
 
 void GameMenu::initializeDisplay()

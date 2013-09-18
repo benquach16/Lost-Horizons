@@ -285,6 +285,11 @@ const E_TARGETABLEOBJECT_TYPE Ship::getTargetableObjectType() const
 	return E_OBJECT_SHIP;
 }
 
+Subsystem& Ship::getSubsystem(int index)
+{
+	return info.subsystems.at(index);
+}
+
 Inventory& Ship::getInventory()
 {
 	return info.inventory;

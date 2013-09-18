@@ -126,6 +126,7 @@ public:
 	const ShipInformation& getInfo() const;
 	const TargetableObject* getShipTarget() const;
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
+	Subsystem& getSubsystem(int index);
 	//returns an lvalue
 	Inventory& getInventory();
 	//returns an rvalue

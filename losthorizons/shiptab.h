@@ -10,8 +10,16 @@ public:
 	~ShipTab();
 
 	void run();
-
 private:
 	Player* player;
+
+	IGUIStaticText* shipName;
+	IGUIStaticText* description;
+	IGUIListBox* systemsList;
+	IGUIStaticText* crewRq;
+	IGUIStaticText* crewAv;
+	IGUIStaticText* systemsHealth;
+	IGUIButton* repair;
+	void textUpdate();
 };
 #endif
