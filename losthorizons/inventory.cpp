@@ -127,6 +127,22 @@ std::vector<std::wstring> Inventory::getConvertedInventory() const
 	return ret;
 }
 
+std::vector<std::wstring> Inventory::getWeaponsList() const
+{
+	std::vector<std::wstring> ret;
+	for( unsigned i = 0; i < data.size(); ++i)
+	{
+		if(data[i].getItemType() == E_ITEM_TURRET)
+		{
+			std::wstring tmp = data[i].getName();
+			tmp += L" x";
+			tmp += std::to_wstring(count[i]);
+			ret.push_back(tmp); 
+		}
+	}
+	return ret;
+}
+
 const int Inventory::getCredits() const
 {
 	return credits;

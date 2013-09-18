@@ -48,6 +48,7 @@ public:
 		RAILGUNI,
 		ANTIMATTERI,
 		GATLINGI,
+		PHOTONI,
 	};
 	enum E_PLANET_LIST
 	{

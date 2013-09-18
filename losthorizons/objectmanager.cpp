@@ -24,6 +24,7 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 	turretList.push_back(TurretProperties(graphics, "items/turrets/railgunI.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/antimatterI.xml"));
 	turretList.push_back(TurretProperties(graphics, "items/turrets/gatlingI.xml"));
+	turretList.push_back(TurretProperties(graphics, "items/turrets/photonI.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/argrea.xml"));
 	planetList.push_back(PlanetProperties(graphics, "items/planets/farstar.xml"));
 	stationList.push_back(SpaceStationProperties(graphics, "items/spacestations/tradingstation.xml"));

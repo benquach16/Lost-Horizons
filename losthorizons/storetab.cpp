@@ -21,11 +21,11 @@ StoreTab::~StoreTab()
 {
 }
 
-void StoreTab::run()
+void StoreTab::run(SpaceStation *target)
 {
 	//run through the store tab
 	//uis tend to have a ton of bloated code
-	loadInventories();
+	loadInventories(target);
 
 	std::wstring str(L"Your Credits :");
 	str += std::to_wstring(player->getInfo().inventory.getCredits());
@@ -46,8 +46,10 @@ void StoreTab::run()
 		{
 			//sell selected item
 			player->getInventory().addCredits(player->getInfo().inventory[i].getPrice());
+			target->getInventory().addItem(player->getInfo().inventory[i], 1);
 			player->getInventory().removeItem(i);
 			playerInventory->clear();
+			stationInventory->clear();
 		}
 	}
 	else
@@ -57,10 +59,32 @@ void StoreTab::run()
 		selectedWeight->setText(L"Weight :");
 		selectedDescription->setText(L"");
 	}
+	i = stationInventory->getSelected();
+	if(i != -1)
+	{
+		//has something selected so we load its information
+		std::wstring tmp(L"Value :");
+		tmp += std::to_wstring(target->getInfo().inventory[i].getPrice());
+		selectedValue->setText(tmp.c_str());
+		tmp = L"Weight :";
+		tmp += std::to_wstring(target->getInfo().inventory[i].getWeight());
+		selectedWeight->setText(tmp.c_str());
+		selectedDescription->setText(target->getInfo().inventory[i].getDesc().c_str());
+		if(buyButton->isPressed())
+		{
+			//sell selected item
+			ItemProperties t = target->getInfo().inventory[i];
+			player->getInventory().addCredits(-t.getPrice());
+			player->getInventory().addItem(t, 1);
+			target->getInventory().removeItem(i);
+			playerInventory->clear();
+			stationInventory->clear();
+		}
+	}
 }
 
 //protected function
-void StoreTab::loadInventories()
+void StoreTab::loadInventories(SpaceStation *target)
 {
 	//updating is slow!
 	//only update when something is for sure changed!
@@ -72,5 +96,14 @@ void StoreTab::loadInventories()
 		{
 			playerInventory->addItem(data[i].c_str());
 		}
+	}
+
+	data = target->getInfo().inventory.getConvertedInventory();
+	if(!stationInventory->getItemCount())
+	{
+		for(unsigned i = 0; i < data.size(); i++)
+		{
+			stationInventory->addItem(data[i].c_str());
+		}		
 	}
 }

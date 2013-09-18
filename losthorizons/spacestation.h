@@ -29,6 +29,7 @@ public:
 
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 	const SpaceStationInformation& getInfo() const;
+	Inventory& getInventory();
 protected:
 	//iterator to this
 	std::list<SpaceStation*>::iterator it;

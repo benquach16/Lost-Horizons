@@ -15,10 +15,10 @@ class StoreTab : public MenuTab
 public:
 	StoreTab(gui::IGUITabControl *tabs, Player *player);
 	~StoreTab();
-	virtual void run();
+	virtual void run(SpaceStation *target);
 protected:
 	Player *player;
-	void loadInventories();
+	void loadInventories(SpaceStation *target);
 
 	gui::IGUIListBox *playerInventory;
 	gui::IGUIListBox *stationInventory;

@@ -9,7 +9,7 @@ class HangarTab : public MenuTab
 public:
 	HangarTab(gui::IGUITabControl *tabs, Player *player);
 	~HangarTab();
-	virtual void run();
+	virtual void run(SpaceStation *target);
 
 protected:
 	void loadInventories();

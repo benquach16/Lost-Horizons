@@ -12,6 +12,7 @@ SpaceStation::SpaceStation(const E_GAME_FACTIONS faction, ObjectManager::E_STATI
 	it = allStations.begin();
 
 	setNormalMap(vdriver->getTexture(ObjectManager::stationList[stationType].getNormalMap().c_str()));
+	info.inventory.addItem(ObjectManager::E_ITEM_LIST::IRIDIUM, 100);
 }
 
 SpaceStation::~SpaceStation()
@@ -45,4 +46,9 @@ const E_TARGETABLEOBJECT_TYPE SpaceStation::getTargetableObjectType() const
 const SpaceStationInformation& SpaceStation::getInfo() const
 {
 	return info;
+}
+
+Inventory& SpaceStation::getInventory()
+{
+	return info.inventory;
 }

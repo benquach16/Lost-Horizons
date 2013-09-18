@@ -17,7 +17,7 @@ public:
 	{
 	}
 	//pure virtual function
-	virtual void run() = 0;
+	void run();
 
 protected:
 	gui::IGUITab *tab;

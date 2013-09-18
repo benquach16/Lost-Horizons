@@ -40,6 +40,7 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 2);
 	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 3);
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER, 100);
+	info.inventory.addItem(ObjectManager::turretList[3], 4);
 }
 
 Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
@@ -289,6 +290,7 @@ Subsystem& Ship::getSubsystem(int index)
 {
 	return info.subsystems.at(index);
 }
+
 
 Inventory& Ship::getInventory()
 {

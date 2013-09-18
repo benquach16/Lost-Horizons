@@ -31,11 +31,12 @@ void Gameloop::init()
 {
 	//create super important objects
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
+	intercom = new Intercom(player);
 	hud = new HUD(player);
 	turning = new TurningMarker(player);
 	stationMenu = new StationMenu(player);
 	gameMenu = new GameMenu(player);
-	intercom = new Intercom(player);
+
 }
 
 void Gameloop::run(f32 frameDeltaTime)
@@ -183,7 +184,7 @@ void Gameloop::cameraControl()
 void Gameloop::selectTarget()
 {
 	//do target selection code here
-	if (receiver->getLeftMouseButton()) {
+	if (receiver->getLeftMouseButton() && !stationMenu->getVisible()) {
 		//see if there's a square here
 		for (std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); ++i) {
 			const int x = receiver->getMouseX() - (*i)->getScreenPosition().X;

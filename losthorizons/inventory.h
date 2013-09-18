@@ -27,6 +27,7 @@ public:
 	void addItem(ObjectManager::E_ITEM_LIST itemType);
 	//we can use this function to add multiple copies of one object
 	void addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount);
+	void addItem(ObjectManager::E_TURRET_LIST turretType, unsigned amount);
 	//use this when we have the itemproperties from another object
 	void addItem(const ItemProperties &item, unsigned amount);
 
@@ -41,6 +42,7 @@ public:
 
 	//use this for displaying the inventory in a store or cargo display
 	std::vector<std::wstring> getConvertedInventory() const;
+	std::vector<std::wstring> getWeaponsList() const;
 
 	const int getCredits() const;
 	void addCredits(int modifier);
