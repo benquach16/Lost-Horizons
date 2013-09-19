@@ -13,7 +13,6 @@ public:
 private:
 	Player* player;
 
-	IGUIListBox* heavyMetalList;
 	IGUIListBox* costList;
 	IGUIListBox* weightList;
 	IGUIListBox* descriptionList;
