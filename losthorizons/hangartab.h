@@ -25,6 +25,11 @@ protected:
 
 	gui::IGUIComboBox *lightSlot;
 	gui::IGUIComboBox *lightSlotWeapon;
+
+	gui::IGUIButton *refit;
+	gui::IGUIButton *repair;
+
+	int currentSelection[4];
 };
 
 #endif

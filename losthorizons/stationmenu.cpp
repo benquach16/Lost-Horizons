@@ -24,6 +24,7 @@ void StationMenu::run(const TargetableObject *target)
 		SpaceStation *stationTarget = (SpaceStation*)target;
 
 		store->run(stationTarget);
+		hangar->run(stationTarget);
 	}
 }
 
