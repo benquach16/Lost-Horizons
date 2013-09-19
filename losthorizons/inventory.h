@@ -27,12 +27,13 @@ public:
 	void addItem(ObjectManager::E_ITEM_LIST itemType);
 	//we can use this function to add multiple copies of one object
 	void addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount);
-	void addItem(ObjectManager::E_TURRET_LIST turretType, unsigned amount);
+	void addItem(ObjectManager::E_TURRET_LIST itemType, unsigned amount);
 	//use this when we have the itemproperties from another object
 	void addItem(const ItemProperties &item, unsigned amount);
 
 	//overloaded function
 	void removeItem(ObjectManager::E_ITEM_LIST itemType);
+	void removeItem(ObjectManager::E_TURRET_LIST itemType);
 	//O(1) time remove function
 	void removeItem(int i);
 

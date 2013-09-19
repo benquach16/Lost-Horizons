@@ -138,6 +138,18 @@ const vector3df& TurretSlot::getPosition() const
 	return aimPoint->getPosition();
 }
 
+const ObjectManager::E_TURRET_LIST TurretSlot::getTurretType() const
+{
+	if(childTurret)
+	{
+		return childTurret->getTurretType();
+	}
+	else
+	{
+		//welp
+	}
+}
+
 //END TURRETSLOT
 
 

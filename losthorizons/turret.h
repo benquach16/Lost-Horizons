@@ -40,6 +40,8 @@ public:
 	const core::vector3df& getCurrentAim() const;
 	const core::vector3df& getPosition() const;
 
+	const ObjectManager::E_TURRET_LIST getTurretType() const;
+
 protected:
 	//a dummy scene node to have the turret face in a particular direction
 	ISceneNode *offset;
@@ -78,6 +80,11 @@ public:
 	void fire(const vector3df &rotation);
 
 	const Ship* getParent() const;
+
+	const ObjectManager::E_TURRET_LIST getTurretType() const
+	{
+		return turretType;
+	}
 
 protected:
 	TurretSlot *parentSlot;

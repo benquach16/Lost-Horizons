@@ -50,6 +50,21 @@ void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount)
 	count.push_back(amount);
 }
 
+void Inventory::addItem(ObjectManager::E_TURRET_LIST itemType, unsigned amount)
+{
+	//itemtype should be aligned with array index
+	for (unsigned i = 0; i < data.size(); ++i) {
+		//we found the same one so increaes count by amount
+		if (data[i] == ObjectManager::turretList[itemType]) {
+			count[i] += amount;
+			return;
+		}
+	}
+	//if we didnt find it add count and itemproperty to data
+	data.push_back(ObjectManager::turretList[itemType]);
+	count.push_back(amount);
+}
+
 void Inventory::addItem(const ItemProperties& item, unsigned amount)
 {
 	//itemtype should be aligned with array index
@@ -71,6 +86,24 @@ void Inventory::removeItem(ObjectManager::E_ITEM_LIST itemType)
 	//make sure we dont accidently increase the number to the maximum unsigned value
 	for (unsigned i = 0; i < data.size(); ++i) {
 		if (data[i] == ObjectManager::itemList[itemType]) {
+			if (count[i] > 1) {
+				count[i]--;
+				return;
+			} else {
+				//remove it from the list
+				data.erase(data.begin() + i);
+				count.erase(count.begin() + i);
+				return;
+			}
+		}
+	}
+}
+
+void Inventory::removeItem(ObjectManager::E_TURRET_LIST itemType)
+{
+	//make sure we dont accidently increase the number to the maximum unsigned value
+	for (unsigned i = 0; i < data.size(); ++i) {
+		if (data[i] == ObjectManager::turretList[itemType]) {
 			if (count[i] > 1) {
 				count[i]--;
 				return;

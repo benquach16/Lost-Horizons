@@ -2,7 +2,8 @@
 #include "hangartab.h"
 
 HangarTab::HangarTab(gui::IGUITabControl *tabs, Player *player) : MenuTab(), player(player),
-	heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0)
+	heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0), 
+	repair(0), refit(0)
 {
 	tab = tabs->addTab(L"Hangar");
 	//add hangar stuff
@@ -20,7 +21,7 @@ HangarTab::HangarTab(gui::IGUITabControl *tabs, Player *player) : MenuTab(), pla
 	lightSlot = guienv->addComboBox(rect<s32>(20,120,60,140), tab);
 	lightSlotWeapon = guienv->addComboBox(rect<s32>(70,120,270,140), tab);
 
-
+	refit = guienv->addButton(rect<s32>(290,40,390,60), tab, -1, L"Refit");
 }
 
 HangarTab::~HangarTab()
@@ -32,6 +33,16 @@ void HangarTab::run(SpaceStation *target)
 {
 	loadInventories();
 	loadWeaponLists();
+
+	if(refit->isPressed())
+	{
+		//refit for currently selected slot
+		//add the item back to inventory
+		player->getInventory().addItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType(), 1);
+		player->setMediumTurret(ObjectManager::E_TURRET_LIST::PHOTONI, mediumSlot->getSelected());
+		player->getInventory().removeItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType());
+		mediumSlotWeapon->clear();
+	}
 }
 
 //protected function
@@ -66,13 +77,23 @@ void HangarTab::loadWeaponLists()
 {
 	//update the combobox to allow the player to choose weapons
 	//create unique lists for each weaponslot
-	if(mediumSlot->getSelected() > -1)
+
+	if(mediumSlot->getSelected() != -1)
 	{
-		mediumSlotWeapon->clear();
-		mediumSlotWeapon->addItem(ObjectManager::turretList[mediumSlot->getSelected()].getName().c_str());
-		for (unsigned i = 0; i < player->getInventory().getWeaponsList().size(); ++i)
+		if(!mediumSlotWeapon->getItemCount())
 		{
-			mediumSlotWeapon->addItem(player->getInventory().getWeaponsList()[i].c_str());
+			mediumSlotWeapon->addItem(ObjectManager::turretList[mediumSlot->getSelected()].getName().c_str());
+			for (unsigned i = 0; i < player->getInventory().getWeaponsList().size(); ++i)
+			{
+				mediumSlotWeapon->addItem(player->getInventory().getWeaponsList()[i].c_str());
+			}
+		}
+	}
+	if(lightSlot->getSelected() != -1)
+	{
+		if(lightSlotWeapon->getItemCount())
+		{
+			lightSlotWeapon->addItem(ObjectManager::turretList[lightSlot->getSelected()].getName().c_str());
 		}
 	}
 }
