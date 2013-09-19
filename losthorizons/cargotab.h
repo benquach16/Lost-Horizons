@@ -12,5 +12,10 @@ public:
 	void run();
 private:
 	Player* player;
+
+	IGUIListBox* heavyMetalList;
+	IGUIListBox* costList;
+	IGUIListBox* weightList;
+	IGUIListBox* descriptionList;
 };
 #endif

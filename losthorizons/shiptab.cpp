@@ -10,13 +10,14 @@ ShipTab::ShipTab(gui::IGUITabControl *tabs, Player* player)
 	shipName = guienv->addStaticText(L"", core::rect<s32>(10,20,490,100), false, true, tab); // shiptxt
 	description = guienv->addStaticText(L"", core::rect<s32>(10,50,490,90), false, true, tab); // description
 	guienv->addStaticText(L"Ship Subsystems", core::rect<s32>(10,100,490,120), false, true, tab); // subsystems
-	systemsList = guienv->addListBox(core::rect<s32>(20,120,400,500), tab); // systems_list
+	systemsList = guienv->addListBox(core::rect<s32>(20,120,400,440), tab); // systems_list
 	systemsHealth = guienv->addStaticText(L"Integrity : ", core::rect<s32>(410,120,800,140), false, true, tab); // systems_health
 	crewRq = guienv->addStaticText(L"Crew Required : ", core::rect<s32>(410,180,800,200), false, true, tab); // crew_req
 	crewAv = guienv->addStaticText(L"Crew Available : ", core::rect<s32>(410,150,800,170), false, true, tab); // crew_avail
 	repair = guienv->addButton(core::rect<s32>(560,450,660,470), tab, -1,L"Repair"); // repair
 	replace = guienv->addButton(core::rect<s32>(680,450,780,470), tab, -1,L"Replace"); // replace
 	//replace not used in txtupdate function
+	//CONTINUE
 
 	//initializing
 	for (unsigned i = 0; i < player->getInfo().subsystems.size(); ++i)
