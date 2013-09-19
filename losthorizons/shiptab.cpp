@@ -16,7 +16,8 @@ ShipTab::ShipTab(gui::IGUITabControl *tabs, Player* player)
 	crewAv = guienv->addStaticText(L"Crew Available : ", core::rect<s32>(410,150,800,170), false, true, tab); // crew_avail
 	repair = guienv->addButton(core::rect<s32>(560,450,660,470), tab, -1,L"Repair"); // repair
 	replace = guienv->addButton(core::rect<s32>(680,450,780,470), tab, -1,L"Replace"); // replace
-	//(iWidth/2)-125
+	//replace not used in txtupdate function
+
 	//initializing
 	for (unsigned i = 0; i < player->getInfo().subsystems.size(); ++i)
 		systemsList->addItem(player->getInfo().subsystems[i].name.c_str());
@@ -46,8 +47,6 @@ void ShipTab::textUpdate()
 	int index = systemsList->getSelected();
 	if(index >= 0)
 	{
-		//access the sub menu at index tmp
-		systemsList[index];
 		//replace the string -- health
 		stringw systemsHealthStr = L"Integrity: ";
 		systemsHealthStr += player -> getInfo().subsystems.at(index).health;
