@@ -14,9 +14,10 @@ private:
 	Player* player;
 
 	IGUIListBox* itemList;
-	IGUIListBox* costList;
-	IGUIListBox* weightList;
-	IGUIListBox* descriptionList;
+	IGUIStaticText* costTxtBox;
+	IGUIStaticText* weightTxtBox;
+	IGUIStaticText* descriptionTxtBox;
+
 	void itemListUpdate();
 	void showItemInfo();
 };

@@ -10,13 +10,14 @@ CargoTab::CargoTab(gui::IGUITabControl *tabs, Player* player)
 
 	//creating
 	guienv->addStaticText(L"Items", core::rect<s32>(10,10,190,30), false, true, tab); // list title1
-	itemList = guienv->addListBox(core::rect<s32>(0,30,200,440), tab); // items
 	guienv->addStaticText(L"Cost", core::rect<s32>(210,10,290,30), false, true, tab); // list title2
-	costList = guienv->addListBox(core::rect<s32>(200,30,300,440), tab); // cost
 	guienv->addStaticText(L"Weight", core::rect<s32>(310,10,390,30), false, true, tab); // list title3
-	weightList = guienv->addListBox(core::rect<s32>(300,30,400,440), tab); // weight
 	guienv->addStaticText(L"Description", core::rect<s32>(410,10,790,30), false, true, tab); // list title4
-	descriptionList = guienv->addListBox(core::rect<s32>(400,30,800,440), tab); // description
+
+	itemList = guienv->addListBox(core::rect<s32>(0,30,200,440), tab); // items
+	costTxtBox = guienv->addStaticText(L"", core::rect<s32>(200,30,300,440), true, true, tab); // cost
+	weightTxtBox = guienv->addStaticText(L"", core::rect<s32>(300,30,400,440), true, true, tab); // weight
+	descriptionTxtBox = guienv->addStaticText(L"", core::rect<s32>(400,30,790,440), true, true, tab); //description
 }
 
 CargoTab::~CargoTab()
@@ -45,15 +46,15 @@ void CargoTab::itemListUpdate()
 
 void CargoTab::showItemInfo()
 {
-	//resetting the info listboxes when looped
-	costList -> clear();
-	weightList -> clear();
-	descriptionList -> clear();
-
 	//setting the stats
 	int index = itemList -> getSelected();
 	if(index != -1)
 	{
+		//clearing the textboxes
+		costTxtBox -> setText(L"");
+		weightTxtBox -> setText(L"");
+		descriptionTxtBox -> setText(L"");
+
 		//declaring txt variables for info of an item when selected
 		stringw costTxt, weightTxt, descriptionTxt;
 
@@ -62,9 +63,9 @@ void CargoTab::showItemInfo()
 		weightTxt = static_cast<stringw>(player -> getInventory().getItemPropertiesPtr().at(index) -> getWeight()) + " Kg";
 		descriptionTxt = player -> getInventory().getItemPropertiesPtr().at(index) -> getDesc().c_str();
 
-		//add them to listboxes accordingly
-		costList -> addItem(costTxt.c_str());
-		weightList -> addItem(weightTxt.c_str());
-		descriptionList -> addItem(descriptionTxt.c_str());
+		//fill in the testboxes
+		costTxtBox -> setText(costTxt.c_str());
+		weightTxtBox -> setText(weightTxt.c_str());
+		descriptionTxtBox -> setText(descriptionTxt.c_str());
 	}
 }
