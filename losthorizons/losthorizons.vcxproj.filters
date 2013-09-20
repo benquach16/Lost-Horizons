@@ -274,7 +274,7 @@
       <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="cargotab.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ui\tabs\gamemenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -441,7 +441,7 @@
       <Filter>Source Files\missions</Filter>
     </ClCompile>
     <ClCompile Include="cargotab.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ui\tabs\gamemenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

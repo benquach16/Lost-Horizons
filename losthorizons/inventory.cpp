@@ -14,7 +14,7 @@ Inventory& Inventory::operator+=(const Inventory& rhs)
 {
 	//add inventory contents to this one
 	for (unsigned i = 0; i < rhs.data.size(); ++i) {
-		addItem(rhs.data[i], rhs.count[i]);
+		addItem(*rhs.data[i], rhs.count[i]);
 	}
 	credits += rhs.credits;
 	return *this;
@@ -25,13 +25,13 @@ void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType)
 	//itemtype should be aligned with array index
 	for (unsigned i = 0; i < data.size(); ++i) {
 		//we found the same one so increment the count
-		if (data[i] == ObjectManager::itemList[itemType]) {
+		if (*data[i] == ObjectManager::itemList[itemType]) {
 			count[i]++;
 			return;
 		}
 	}
 	//if we didnt find it add another count and itemproperty to data
-	data.push_back(ObjectManager::itemList[itemType]);
+	data.push_back(new ItemProperties(ObjectManager::itemList[itemType]));
 	count.push_back(1);
 }
 
@@ -40,13 +40,13 @@ void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount)
 	//itemtype should be aligned with array index
 	for (unsigned i = 0; i < data.size(); ++i) {
 		//we found the same one so increaes count by amount
-		if (data[i] == ObjectManager::itemList[itemType]) {
+		if (*data[i] == ObjectManager::itemList[itemType]) {
 			count[i] += amount;
 			return;
 		}
 	}
 	//if we didnt find it add count and itemproperty to data
-	data.push_back(ObjectManager::itemList[itemType]);
+	data.push_back(new ItemProperties(ObjectManager::itemList[itemType]));
 	count.push_back(amount);
 }
 
@@ -55,13 +55,13 @@ void Inventory::addItem(ObjectManager::E_TURRET_LIST itemType, unsigned amount)
 	//itemtype should be aligned with array index
 	for (unsigned i = 0; i < data.size(); ++i) {
 		//we found the same one so increaes count by amount
-		if (data[i] == ObjectManager::turretList[itemType]) {
+		if (*data[i] == ObjectManager::turretList[itemType]) {
 			count[i] += amount;
 			return;
 		}
 	}
 	//if we didnt find it add count and itemproperty to data
-	data.push_back(ObjectManager::turretList[itemType]);
+	data.push_back(new TurretProperties(ObjectManager::turretList[itemType]));
 	count.push_back(amount);
 }
 
@@ -70,13 +70,13 @@ void Inventory::addItem(const ItemProperties& item, unsigned amount)
 	//itemtype should be aligned with array index
 	for (unsigned i = 0; i < data.size(); ++i) {
 		//we found the same one so increaes count by amount
-		if (data[i] == item) {
+		if (*data[i] == item) {
 			count[i] += amount;
 			return;
 		}
 	}
 	//if we didnt find it add count and itemproperty to data
-	data.push_back(item);
+	data.push_back(new ItemProperties(item));
 	count.push_back(amount);
 }
 
@@ -85,12 +85,13 @@ void Inventory::removeItem(ObjectManager::E_ITEM_LIST itemType)
 {
 	//make sure we dont accidently increase the number to the maximum unsigned value
 	for (unsigned i = 0; i < data.size(); ++i) {
-		if (data[i] == ObjectManager::itemList[itemType]) {
+		if (*data[i] == ObjectManager::itemList[itemType]) {
 			if (count[i] > 1) {
 				count[i]--;
 				return;
 			} else {
 				//remove it from the list
+				delete data[i];
 				data.erase(data.begin() + i);
 				count.erase(count.begin() + i);
 				return;
@@ -103,12 +104,13 @@ void Inventory::removeItem(ObjectManager::E_TURRET_LIST itemType)
 {
 	//make sure we dont accidently increase the number to the maximum unsigned value
 	for (unsigned i = 0; i < data.size(); ++i) {
-		if (data[i] == ObjectManager::turretList[itemType]) {
+		if (*data[i] == ObjectManager::turretList[itemType]) {
 			if (count[i] > 1) {
 				count[i]--;
 				return;
 			} else {
 				//remove it from the list
+				delete data[i];
 				data.erase(data.begin() + i);
 				count.erase(count.begin() + i);
 				return;
@@ -124,6 +126,7 @@ void Inventory::removeItem(int i)
 		count[i]--;
 		return;
 	} else {
+		delete data[i];
 		data.erase(data.begin() + i);
 		count.erase(count.begin() + i);
 	}
@@ -133,7 +136,7 @@ void Inventory::removeItem(int i)
 const unsigned Inventory::getItemCount(ObjectManager::E_ITEM_LIST itemType)
 {
 	for(unsigned i = 0; i < data.size(); ++i) {
-		if (data[i] == ObjectManager::itemList[itemType]) {
+		if (*data[i] == ObjectManager::itemList[itemType]) {
 			return count[i];
 		}
 	}
@@ -142,7 +145,7 @@ const unsigned Inventory::getItemCount(ObjectManager::E_ITEM_LIST itemType)
 
 const ItemProperties& Inventory::operator[](unsigned i) const
 {
-	return data[i];
+	return *data[i];
 }
 
 std::vector<std::wstring> Inventory::getConvertedInventory() const
@@ -152,7 +155,7 @@ std::vector<std::wstring> Inventory::getConvertedInventory() const
 	std::vector<std::wstring> ret;
 	for (unsigned i = 0; i < data.size(); ++i)
 	{
-		std::wstring tmp = data[i].getName();
+		std::wstring tmp = data[i]->getName();
 		tmp += L" x";
 		tmp += std::to_wstring(count[i]);
 		ret.push_back(tmp);
@@ -165,14 +168,27 @@ std::vector<std::wstring> Inventory::getWeaponsList() const
 	std::vector<std::wstring> ret;
 	for( unsigned i = 0; i < data.size(); ++i)
 	{
-		if(data[i].getItemType() == E_ITEM_TURRET)
+		if(data[i]->getItemType() == E_ITEM_TURRET)
 		{
-			std::wstring tmp = data[i].getName();
+			std::wstring tmp = data[i]->getName();
 			tmp += L" x";
 			tmp += std::to_wstring(count[i]);
 			ret.push_back(tmp); 
 		}
 	}
+	return ret;
+}
+
+std::vector<ObjectManager::E_TURRET_LIST> Inventory::getMediumWeapons()
+{
+	std::vector<ObjectManager::E_TURRET_LIST> ret;
+	for (unsigned i = 0; i < data.size(); i++)
+	{
+		if(data[i]->getItemType() == E_ITEM_TURRET)
+		{
+		}
+	}
+
 	return ret;
 }
 

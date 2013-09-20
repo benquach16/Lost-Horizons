@@ -44,6 +44,9 @@ public:
 	//use this for displaying the inventory in a store or cargo display
 	std::vector<std::wstring> getConvertedInventory() const;
 	std::vector<std::wstring> getWeaponsList() const;
+	//we need several more vectors from this so we can do weapon swapping
+	std::vector<ObjectManager::E_TURRET_LIST> getMediumWeapons();
+	std::vector<ObjectManager::E_TURRET_LIST> getLightWeapons() const;
 
 	const int getCredits() const;
 	void addCredits(int modifier);
@@ -52,7 +55,7 @@ protected:
 	//make sure these two vectors are always in SYNC!!!
 	//we could use one vector with std::pair, but that would cause needless, needless pain
 	//this is much faster and easier
-	std::vector<ItemProperties> data;
+	std::vector<ItemProperties*> data;
 	std::vector<unsigned> count;
 	//std::vector<ItemProperties, unsigned> data;
 	//std::map<ItemProperties, unsigned> data;

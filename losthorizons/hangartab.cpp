@@ -42,6 +42,8 @@ void HangarTab::run(SpaceStation *target)
 		player->setMediumTurret(ObjectManager::E_TURRET_LIST::PHOTONI, mediumSlot->getSelected());
 		player->getInventory().removeItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType());
 		mediumSlotWeapon->clear();
+		mediumSlot->clear();
+
 	}
 }
 
@@ -82,7 +84,8 @@ void HangarTab::loadWeaponLists()
 	{
 		if(!mediumSlotWeapon->getItemCount())
 		{
-			mediumSlotWeapon->addItem(ObjectManager::turretList[mediumSlot->getSelected()].getName().c_str());
+			int current = player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType();
+			mediumSlotWeapon->addItem(ObjectManager::turretList[current].getName().c_str());
 			for (unsigned i = 0; i < player->getInventory().getWeaponsList().size(); ++i)
 			{
 				mediumSlotWeapon->addItem(player->getInventory().getWeaponsList()[i].c_str());
@@ -91,9 +94,10 @@ void HangarTab::loadWeaponLists()
 	}
 	if(lightSlot->getSelected() != -1)
 	{
-		if(lightSlotWeapon->getItemCount())
+		if(!lightSlotWeapon->getItemCount())
 		{
-			lightSlotWeapon->addItem(ObjectManager::turretList[lightSlot->getSelected()].getName().c_str());
+			int current = player->getInfo().lightTurrets[lightSlot->getSelected()]->getTurretType();
+			lightSlotWeapon->addItem(ObjectManager::turretList[current].getName().c_str());
 		}
 	}
 }
