@@ -49,8 +49,9 @@ void ShipTab::textUpdate()
 	if(index >= 0)
 	{
 		//replace the string -- health
-		stringw systemsHealthStr = L"Integrity: ";
+		stringw systemsHealthStr = L"Integrity : ";
 		systemsHealthStr += player -> getInfo().subsystems.at(index).health;
+		systemsHealthStr += L"%";
 		systemsHealth -> setText(systemsHealthStr.c_str());
 	}
 
