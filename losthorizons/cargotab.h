@@ -17,5 +17,7 @@ private:
 	IGUIListBox* costList;
 	IGUIListBox* weightList;
 	IGUIListBox* descriptionList;
+	void itemListUpdate();
+	void showItemInfo();
 };
 #endif
