@@ -148,6 +148,11 @@ const ItemProperties& Inventory::operator[](unsigned i) const
 	return *data[i];
 }
 
+const std::vector<ItemProperties*> Inventory::getItemPropertiesPtr() const
+{
+	return data;
+}
+
 std::vector<std::wstring> Inventory::getConvertedInventory() const
 {
 	//create an array where we remove the elements that don't need to be there

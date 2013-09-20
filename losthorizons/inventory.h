@@ -41,6 +41,9 @@ public:
 	const unsigned getItemCount(ObjectManager::E_ITEM_LIST itemType);
 	const ItemProperties& operator[](unsigned i) const;
 
+	//return rvalue
+	const std::vector<ItemProperties*> getItemPropertiesPtr() const;
+
 	//use this for displaying the inventory in a store or cargo display
 	std::vector<std::wstring> getConvertedInventory() const;
 	std::vector<std::wstring> getWeaponsList() const;

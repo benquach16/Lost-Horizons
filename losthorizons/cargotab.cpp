@@ -56,11 +56,11 @@ void CargoTab::showItemInfo()
 	{
 		//declaring txt variables for info of an item when selected
 		stringw costTxt, weightTxt, descriptionTxt;
-		costTxt = player -> getInventory().getConvertedInventory().at(index).c_str();
-		costTxt += L" Credits";
-		weightTxt = player -> getInventory().getConvertedInventory().at(index).c_str();
-		weightTxt += L" Kg";
-		descriptionTxt = player -> getInventory().getConvertedInventory().at(index).c_str();
+
+		//initializing
+		costTxt = static_cast<stringw>(player -> getInventory().getItemPropertiesPtr().at(index) -> getPrice()) + " Credits";
+		weightTxt = static_cast<stringw>(player -> getInventory().getItemPropertiesPtr().at(index) -> getWeight()) + " Kg";
+		descriptionTxt = player -> getInventory().getItemPropertiesPtr().at(index) -> getDesc().c_str();
 
 		//add them to listboxes accordingly
 		costList -> addItem(costTxt.c_str());
