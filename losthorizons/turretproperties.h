@@ -19,6 +19,7 @@ public:
 	TurretProperties();
 	//load from file
 	TurretProperties(irr::IrrlichtDevice *graphics, const std::string &f);
+	//make sure we have a valid copy constructor so we can copy
 	~TurretProperties();
 
 	const int& getMaxTurn() const;
@@ -30,6 +31,8 @@ public:
 	const std::wstring& getProjectileTex() const;
 	const std::string& getSoundFilename() const;
 	const core::vector3df& getProjectileScale() const;
+
+	const E_TURRET_CLASS getTurretClass() const;
 protected:
 	E_TURRET_CLASS getTurretClass(const std::wstring &str);
 	E_TURRET_CLASS turretClass;
@@ -42,6 +45,14 @@ protected:
 	std::string soundFilename;
 	f32 reloadSpeed;
 };
+
+//overloaded comparision operator
+inline bool operator==(const TurretProperties &lhs, const TurretProperties &rhs)
+{
+	if(lhs.getName() == rhs.getName())
+		return true;
+	return false;
+}
 
 
 #endif

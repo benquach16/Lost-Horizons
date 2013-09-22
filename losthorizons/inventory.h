@@ -48,7 +48,7 @@ public:
 	std::vector<std::wstring> getConvertedInventory() const;
 	std::vector<std::wstring> getWeaponsList() const;
 	//we need several more vectors from this so we can do weapon swapping
-	std::vector<ObjectManager::E_TURRET_LIST> getMediumWeapons();
+	std::vector<TurretProperties*> getMediumWeapons() const;
 	std::vector<ObjectManager::E_TURRET_LIST> getLightWeapons() const;
 
 	const int getCredits() const;

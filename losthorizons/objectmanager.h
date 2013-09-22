@@ -32,7 +32,8 @@ public:
 	{
 		WATER,
 		IRIDIUM,
-		NANOALLOYS
+		NANOALLOYS,
+		TOTALITEMS,
 	};	
 	enum E_SHIP_LIST
 	{
@@ -49,6 +50,7 @@ public:
 		ANTIMATTERI,
 		GATLINGI,
 		PHOTONI,
+		TOTALTURRETS,
 	};
 	enum E_PLANET_LIST
 	{

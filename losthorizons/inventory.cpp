@@ -8,6 +8,12 @@ Inventory::Inventory() : credits(0)
 
 Inventory::~Inventory()
 {
+	while(!data.empty())
+	{
+		//pop
+		delete data[0];
+		data.erase(data.begin());
+	}
 }
 
 Inventory& Inventory::operator+=(const Inventory& rhs)
@@ -135,6 +141,7 @@ void Inventory::removeItem(int i)
 
 const unsigned Inventory::getItemCount(ObjectManager::E_ITEM_LIST itemType)
 {
+	//just loop and scan
 	for(unsigned i = 0; i < data.size(); ++i) {
 		if (*data[i] == ObjectManager::itemList[itemType]) {
 			return count[i];
@@ -184,13 +191,17 @@ std::vector<std::wstring> Inventory::getWeaponsList() const
 	return ret;
 }
 
-std::vector<ObjectManager::E_TURRET_LIST> Inventory::getMediumWeapons()
+std::vector<TurretProperties*> Inventory::getMediumWeapons() const
 {
-	std::vector<ObjectManager::E_TURRET_LIST> ret;
+	//hackish function intended to let weapon swapping be intuitive and easier
+	//its not super hackish but its getting there
+	std::vector<TurretProperties*> ret;
 	for (unsigned i = 0; i < data.size(); i++)
 	{
 		if(data[i]->getItemType() == E_ITEM_TURRET)
 		{
+			ModelProperties *t = (ModelProperties*)data[i];
+			ret.push_back(((TurretProperties*)data[i]));
 		}
 	}
 

@@ -143,36 +143,12 @@ TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::str
 	file->drop();
 }
 
+
 TurretProperties::~TurretProperties()
 {
 }
 
-//protected function
-E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
-{
-	if(str == L"light")
-	{
-		return E_CLASS_LIGHT;
-	}
-	else if(str == L"medium")
-	{
-		return E_CLASS_MEDIUM;
-	}
-	else if(str == L"heavy")
-	{
-		return E_CLASS_HEAVY;
-	}
-	else if(str == L"pd")
-	{
-		return E_CLASS_PD;
-	}
-	else
-	{
-		//error!
-		std::cout << "Error loading files!" << std::endl;
-		std::exit(1);
-	}
-}
+
 
 //accessors
 const int& TurretProperties::getMaxTurn() const
@@ -213,4 +189,36 @@ const std::string& TurretProperties::getSoundFilename() const
 const core::vector3df& TurretProperties::getProjectileScale() const
 {
 	return projectileScale;
+}
+
+const E_TURRET_CLASS TurretProperties::getTurretClass() const
+{
+	return turretClass;
+}
+
+//protected function
+E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
+{
+	if(str == L"light")
+	{
+		return E_CLASS_LIGHT;
+	}
+	else if(str == L"medium")
+	{
+		return E_CLASS_MEDIUM;
+	}
+	else if(str == L"heavy")
+	{
+		return E_CLASS_HEAVY;
+	}
+	else if(str == L"pd")
+	{
+		return E_CLASS_PD;
+	}
+	else
+	{
+		//error!
+		std::cout << "Error loading files!" << std::endl;
+		std::exit(1);
+	}
 }

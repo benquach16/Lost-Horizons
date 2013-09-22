@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "hangartab.h"
+#include <iostream>
 
 HangarTab::HangarTab(gui::IGUITabControl *tabs, Player *player) : MenuTab(), player(player),
 	heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0), 
@@ -38,11 +39,24 @@ void HangarTab::run(SpaceStation *target)
 	{
 		//refit for currently selected slot
 		//add the item back to inventory
+		std::vector<TurretProperties*> weaponsList = player->getInventory().getMediumWeapons();
 		player->getInventory().addItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType(), 1);
-		player->setMediumTurret(ObjectManager::E_TURRET_LIST::PHOTONI, mediumSlot->getSelected());
+		
+		//temporary fix for now
+		//loop through the enums
+		for(int i = 0; i < ObjectManager::E_TURRET_LIST::TOTALTURRETS; ++ i)
+		{
+			if(ObjectManager::turretList[i] == *weaponsList[mediumSlotWeapon->getSelected()])
+			{
+				std::cout << "switching weapons for " << i << std::endl;
+				player->setMediumTurret((ObjectManager::E_TURRET_LIST)i, mediumSlot->getSelected());
+			}
+		}
 		player->getInventory().removeItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType());
+	
 		mediumSlotWeapon->clear();
 		mediumSlot->clear();
+		
 
 	}
 }
@@ -84,11 +98,10 @@ void HangarTab::loadWeaponLists()
 	{
 		if(!mediumSlotWeapon->getItemCount())
 		{
-			int current = player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType();
-			mediumSlotWeapon->addItem(ObjectManager::turretList[current].getName().c_str());
-			for (unsigned i = 0; i < player->getInventory().getWeaponsList().size(); ++i)
+			std::vector<TurretProperties*> weaponsList = player->getInventory().getMediumWeapons();
+			for(unsigned i = 0; i < weaponsList.size(); i++)
 			{
-				mediumSlotWeapon->addItem(player->getInventory().getWeaponsList()[i].c_str());
+				mediumSlotWeapon->addItem(weaponsList[i]->getName().c_str());
 			}
 		}
 	}
