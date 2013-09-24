@@ -35,19 +35,19 @@ void StoreTab::run(SpaceStation *target)
 	{
 		//has something selected so we load its information
 		std::wstring tmp(L"Value :");
-		tmp += std::to_wstring(player->getInfo().inventory[i].getPrice());
+		//tmp += std::to_wstring(ObjectManager::itemList[i]->getPrice());
 		selectedValue->setText(tmp.c_str());
 		tmp = L"Weight :";
-		tmp += std::to_wstring(player->getInfo().inventory[i].getWeight());
+		//tmp += std::to_wstring(ObjectManager::itemList[i]->getWeight());
 		selectedWeight->setText(tmp.c_str());
-		selectedDescription->setText(player->getInfo().inventory[i].getDesc().c_str());
+		//selectedDescription->setText(ObjectManager::itemList[i]->getDesc().c_str());
 
 		if(sellButton->isPressed())
 		{
 			//sell selected item
-			player->getInventory().addCredits(player->getInfo().inventory[i].getPrice());
-			target->getInventory().addItem(player->getInfo().inventory[i], 1);
-			player->getInventory().removeItem(i);
+			//player->getInventory().addCredits(ObjectManager::itemList[i]->getPrice());
+			//target->getInventory().addItem((ObjectManager::E_ITEM_LIST)i, 1);
+			//player->getInventory().removeItem();
 			playerInventory->clear();
 			stationInventory->clear();
 		}
@@ -62,6 +62,7 @@ void StoreTab::run(SpaceStation *target)
 	i = stationInventory->getSelected();
 	if(i != -1)
 	{
+		/*
 		//has something selected so we load its information
 		std::wstring tmp(L"Value :");
 		tmp += std::to_wstring(target->getInfo().inventory[i].getPrice());
@@ -80,6 +81,7 @@ void StoreTab::run(SpaceStation *target)
 			playerInventory->clear();
 			stationInventory->clear();
 		}
+		*/
 	}
 }
 

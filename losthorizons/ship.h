@@ -72,14 +72,14 @@ struct ShipInformation
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
 		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
-		  hull(ObjectManager::shipList[shipType].getMaxHull()), maxHull(hull),
-		  armor(ObjectManager::shipList[shipType].getMaxArmor()), maxArmor(armor),
-		  shield(ObjectManager::shipList[shipType].getMaxShield()), maxShield(shield),
-		  energy(ObjectManager::shipList[shipType].getMaxEnergy()), maxEnergy(energy),
-		  fighters(ObjectManager::shipList[shipType].getMaxFighters()), maxFighters(fighters),
-		  crew(ObjectManager::shipList[shipType].getMaxCrew()), maxCrew(crew),
-		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType].getMaxVel()),
-		  maxTurn((f32)ObjectManager::shipList[shipType].getMaxTurn()),
+		  hull(ObjectManager::shipList[shipType]->getMaxHull()), maxHull(hull),
+		  armor(ObjectManager::shipList[shipType]->getMaxArmor()), maxArmor(armor),
+		  shield(ObjectManager::shipList[shipType]->getMaxShield()), maxShield(shield),
+		  energy(ObjectManager::shipList[shipType]->getMaxEnergy()), maxEnergy(energy),
+		  fighters(ObjectManager::shipList[shipType]->getMaxFighters()), maxFighters(fighters),
+		  crew(ObjectManager::shipList[shipType]->getMaxCrew()), maxCrew(crew),
+		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType]->getMaxVel()),
+		  maxTurn((f32)ObjectManager::shipList[shipType]->getMaxTurn()),
 		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false){}
 };
 
@@ -114,10 +114,10 @@ public:
 	void removeTarget();
 
 	//equip funcs
-	void setHeavyTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
-	void setMediumTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
-	void setLightTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
-	void setPDTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot);
+	void setHeavyTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
+	void setMediumTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
+	void setLightTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
+	void setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
 
 	//some setters
 	void setFaction(E_GAME_FACTIONS currentFaction);

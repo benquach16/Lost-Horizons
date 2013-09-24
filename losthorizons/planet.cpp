@@ -3,16 +3,16 @@
 
 //constructor
 Planet::Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df& position) : 
-	TargetableObject(nextID++, ObjectManager::planetList[planetType], position, vector3df(), E_FACTION_NEUTRAL), cloudMesh(0),
+	TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), E_FACTION_NEUTRAL), cloudMesh(0),
 	atmosphere(new Atmosphere(position))
 {
-	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType].getDiffuseMap().c_str()));
+	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap().c_str()));
 	//setNormalMap(vdriver->getTexture(ObjectManager::planetList[planetType].getNormalMap().c_str()));
 	//create cloudmesh
-	cloudMesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(ObjectManager::planetList[planetType].getFilename().c_str()));
+	cloudMesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(ObjectManager::planetList[planetType]->getFilename().c_str()));
 	cloudMesh->setPosition(position);
-	cloudMesh->setScale(ObjectManager::planetList[planetType].getScale() + 50);
-	cloudMesh->setMaterialTexture(0,vdriver->getTexture(ObjectManager::planetList[planetType].getCloudMap().c_str()));
+	cloudMesh->setScale(ObjectManager::planetList[planetType]->getScale() + 50);
+	cloudMesh->setMaterialTexture(0,vdriver->getTexture(ObjectManager::planetList[planetType]->getCloudMap().c_str()));
 	cloudMesh->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	
 	//atmosphere = scenemngr->addBillboardSceneNode(mesh, dimension2df(13000,13000));

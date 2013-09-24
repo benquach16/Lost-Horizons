@@ -32,32 +32,14 @@ HangarTab::~HangarTab()
 
 void HangarTab::run(SpaceStation *target)
 {
+	//run thru everything
 	loadInventories();
 	loadWeaponLists();
 
 	if(refit->isPressed())
 	{
-		//refit for currently selected slot
-		//add the item back to inventory
-		std::vector<TurretProperties*> weaponsList = player->getInventory().getMediumWeapons();
-		player->getInventory().addItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType(), 1);
-		
-		//temporary fix for now
-		//loop through the enums
-		for(int i = 0; i < ObjectManager::E_TURRET_LIST::TOTALTURRETS; ++ i)
-		{
-			if(ObjectManager::turretList[i] == *weaponsList[mediumSlotWeapon->getSelected()])
-			{
-				std::cout << "switching weapons for " << i << std::endl;
-				player->setMediumTurret((ObjectManager::E_TURRET_LIST)i, mediumSlot->getSelected());
-			}
-		}
-		player->getInventory().removeItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType());
-	
-		mediumSlotWeapon->clear();
-		mediumSlot->clear();
-		
 
+		refitWeapons();
 	}
 }
 
@@ -98,10 +80,10 @@ void HangarTab::loadWeaponLists()
 	{
 		if(!mediumSlotWeapon->getItemCount())
 		{
-			std::vector<TurretProperties*> weaponsList = player->getInventory().getMediumWeapons();
+			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
 			for(unsigned i = 0; i < weaponsList.size(); i++)
 			{
-				mediumSlotWeapon->addItem(weaponsList[i]->getName().c_str());
+				mediumSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName().c_str());
 			}
 		}
 	}
@@ -109,8 +91,20 @@ void HangarTab::loadWeaponLists()
 	{
 		if(!lightSlotWeapon->getItemCount())
 		{
-			int current = player->getInfo().lightTurrets[lightSlot->getSelected()]->getTurretType();
-			lightSlotWeapon->addItem(ObjectManager::turretList[current].getName().c_str());
 		}
 	}
+}
+
+void HangarTab::refitWeapons()
+{
+	//refit for currently selected slot
+	//add the item back to inventory
+	std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
+	player->getInventory().addItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType(), 1);
+		
+	player->getInventory().removeItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType());
+	
+	mediumSlotWeapon->clear();
+	mediumSlot->clear();
+		
 }

@@ -13,8 +13,8 @@ Cargo::Cargo(const vector3df &position, bool randomizeContents) : TargetableObje
 		//self explanitory
 		//make the inventory all random n shit
 		inventory.addCredits(rand()%10000 + 1);
-		unsigned i = rand()%ObjectManager::itemList.size();
-		inventory.addItem(ObjectManager::itemList[i], rand()%10);
+		unsigned i = rand()%ObjectManager::E_ITEM_LIST::TOTALITEMS;
+		inventory.addItem((ObjectManager::E_ITEM_LIST)i, rand()%10);
 	}
 }
 

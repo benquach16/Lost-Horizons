@@ -9,7 +9,7 @@ const unsigned AITIMER = 200;
 
 //large constructor
 Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, 
-				 Ship* homeBase) : TargetableObject(nextID++, ObjectManager::fighterList[fighterType], position, rotation, faction), info(fighterType),
+				 Ship* homeBase) : TargetableObject(nextID++, *ObjectManager::fighterList[fighterType], position, rotation, faction), info(fighterType),
 	fighterTarget(0), homeBase(homeBase), shipTarget(0), shootTimer(0)
 {
 	allFighters.push_front(this);

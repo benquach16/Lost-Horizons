@@ -8,7 +8,7 @@ std::list<Ship*> Ship::allShips;
 const unsigned AITIMER = 100;
 
 Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(nextID++, ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0),
+	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0),
 	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
@@ -26,25 +26,25 @@ Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, 
 	initEngineTrails();
 	initSubsystems();
 
-	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType].getNormalMap().c_str()));
-	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,3);
-	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,2);
-	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,1);
-	setMediumTurret(ObjectManager::E_TURRET_LIST::RAILGUNI,0);
-	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,0);
-	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,1);
-	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,2);
-	setLightTurret(ObjectManager::E_TURRET_LIST::ANTIMATTERI,3);
-	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 0);
-	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 1);
-	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 2);
-	setPDTurret(ObjectManager::E_TURRET_LIST::GATLINGI, 3);
+	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType]->getNormalMap().c_str()));
+	setMediumTurret(ObjectManager::E_ITEM_LIST::RAILGUNI,3);
+	setMediumTurret(ObjectManager::E_ITEM_LIST::RAILGUNI,2);
+	setMediumTurret(ObjectManager::E_ITEM_LIST::RAILGUNI,1);
+	setMediumTurret(ObjectManager::E_ITEM_LIST::RAILGUNI,0);
+	setLightTurret(ObjectManager::E_ITEM_LIST::ANTIMATTERI,0);
+	setLightTurret(ObjectManager::E_ITEM_LIST::ANTIMATTERI,1);
+	setLightTurret(ObjectManager::E_ITEM_LIST::ANTIMATTERI,2);
+	setLightTurret(ObjectManager::E_ITEM_LIST::ANTIMATTERI,3);
+	setPDTurret(ObjectManager::E_ITEM_LIST::GATLINGI, 0);
+	setPDTurret(ObjectManager::E_ITEM_LIST::GATLINGI, 1);
+	setPDTurret(ObjectManager::E_ITEM_LIST::GATLINGI, 2);
+	setPDTurret(ObjectManager::E_ITEM_LIST::GATLINGI, 3);
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::WATER, 100);
-	info.inventory.addItem(ObjectManager::turretList[3], 4);
+	info.inventory.addItem(ObjectManager::E_ITEM_LIST::PHOTONI, 4);
 }
 
 Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(ID, ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info), shipTarget(0), shieldTimer(0)
+	: TargetableObject(ID, *ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info), shipTarget(0), shieldTimer(0)
 {
 	//add it to the ships list
 	allShips.push_front(this);
@@ -58,7 +58,7 @@ Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const
 
 //copy constructor
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
-	: TargetableObject(nextID++, ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info), shipTarget(0), shieldTimer(0)
+	: TargetableObject(nextID++, *ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info), shipTarget(0), shieldTimer(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -248,19 +248,19 @@ void Ship::removeTarget()
 }
 
 //turret setter functions
-void Ship::setMediumTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot)
+void Ship::setMediumTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot)
 {
 	if (slot < info.mediumTurrets.size())
 		info.mediumTurrets[slot]->assignTurret(turretType);
 }
 
-void Ship::setLightTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot)
+void Ship::setLightTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot)
 {
 	if (slot < info.lightTurrets.size())
 		info.lightTurrets[slot]->assignTurret(turretType);
 }
 
-void Ship::setPDTurret(const ObjectManager::E_TURRET_LIST turretType, unsigned slot)
+void Ship::setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot)
 {
 	if (slot < info.pdTurrets.size())
 		info.pdTurrets[slot]->assignTurret(turretType);
@@ -447,36 +447,36 @@ void Ship::movement(f32 frameDeltaTime)
 void Ship::initTurrets()
 {
 	//we create new turret slots and assign them to the ship
-	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxHTurrets(); ++i)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxHTurrets(); ++i)
 	{
 		//get the bone name and set it to the string
 		std::string jointName("heavy_turret_0");
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].mediumTurrets[i], joint, E_CLASS_HEAVY, this);
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->mediumTurrets[i], joint, E_CLASS_HEAVY, this);
 		info.mediumTurrets.push_back(t);
 	}
-	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxMTurrets(); ++i)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxMTurrets(); ++i)
 	{
 		//get the bone name and set it to the string
 		std::string jointName("turret_0");
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].mediumTurrets[i], joint, E_CLASS_MEDIUM, this);
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->mediumTurrets[i], joint, E_CLASS_MEDIUM, this);
 		info.mediumTurrets.push_back(t);
 	}
-	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxLTurrets(); ++i)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxLTurrets(); ++i)
 	{
 		std::string jointName("secondary_turret_0");
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType].lightTurrets[i], joint, E_CLASS_LIGHT, this);
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->lightTurrets[i], joint, E_CLASS_LIGHT, this);
 		info.lightTurrets.push_back(t);
 	}
-	for (int i = 0; i < ObjectManager::shipList[info.shipType].getMaxPTurrets(); ++i)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxPTurrets(); ++i)
 	{
 		std::string jointName("light_turret_0");
 		std::string tmp = std::to_string(i+1);
@@ -554,7 +554,7 @@ void Ship::aimTurrets(float frameDeltaTime)
 void Ship::initEngineTrails()
 {
 	//create particle effecst and billboard effects
-	for (int i = 0; i < ObjectManager::shipList[info.shipType].getNumEngines(); ++i)
+	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getNumEngines(); ++i)
 	{
 		//get joint
 		std::string jointName("exhaust");
