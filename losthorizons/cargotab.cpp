@@ -59,9 +59,10 @@ void CargoTab::showItemInfo()
 		stringw costTxt, weightTxt, descriptionTxt;
 
 		//initializing
-		//costTxt = static_cast<stringw>(player -> getInventory().getItemPropertiesPtr().at(index) -> getPrice()) + " Credits";
-		//weightTxt = static_cast<stringw>(player -> getInventory().getItemPropertiesPtr().at(index) -> getWeight()) + " Kg";
-		//descriptionTxt = player -> getInventory().getItemPropertiesPtr().at(index) -> getDesc().c_str();
+		std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = player->getInventory().getConvertedInventoryNoSpaces();
+		costTxt = static_cast<stringw>( ObjectManager::itemList[syncedInventory[index]]->getPrice()) + " Credits";
+		weightTxt = static_cast<stringw>(ObjectManager::itemList[syncedInventory[index]]->getWeight()) + " Kg";
+		descriptionTxt =ObjectManager::itemList[syncedInventory[index]]-> getDesc().c_str();
 
 		//fill in the testboxes
 		costTxtBox -> setText(costTxt.c_str());

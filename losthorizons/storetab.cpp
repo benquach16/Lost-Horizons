@@ -31,23 +31,26 @@ void StoreTab::run(SpaceStation *target)
 	str += std::to_wstring(player->getInfo().inventory.getCredits());
 	playerCash->setText(str.c_str());
 	int i = playerInventory->getSelected();
+
+	//this is needed to maintain syncing between the index and objectmanager enum
+	std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = player->getInventory().getConvertedInventoryNoSpaces();
 	if(i != -1)
 	{
 		//has something selected so we load its information
 		std::wstring tmp(L"Value :");
-		//tmp += std::to_wstring(ObjectManager::itemList[i]->getPrice());
+		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getPrice());
 		selectedValue->setText(tmp.c_str());
 		tmp = L"Weight :";
-		//tmp += std::to_wstring(ObjectManager::itemList[i]->getWeight());
+		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getWeight());
 		selectedWeight->setText(tmp.c_str());
-		//selectedDescription->setText(ObjectManager::itemList[i]->getDesc().c_str());
+		selectedDescription->setText(ObjectManager::itemList[syncedInventory[i]]->getDesc().c_str());
 
 		if(sellButton->isPressed())
 		{
 			//sell selected item
-			//player->getInventory().addCredits(ObjectManager::itemList[i]->getPrice());
-			//target->getInventory().addItem((ObjectManager::E_ITEM_LIST)i, 1);
-			//player->getInventory().removeItem();
+			player->getInventory().addCredits(ObjectManager::itemList[syncedInventory[i]]->getPrice());
+			target->getInventory().addItem(syncedInventory[i], 1);
+			player->getInventory().removeItem(syncedInventory[i]);
 			playerInventory->clear();
 			stationInventory->clear();
 		}
@@ -60,28 +63,28 @@ void StoreTab::run(SpaceStation *target)
 		selectedDescription->setText(L"");
 	}
 	i = stationInventory->getSelected();
+	syncedInventory = target->getInventory().getConvertedInventoryNoSpaces();
 	if(i != -1)
 	{
-		/*
+		
 		//has something selected so we load its information
 		std::wstring tmp(L"Value :");
-		tmp += std::to_wstring(target->getInfo().inventory[i].getPrice());
+		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getPrice());
 		selectedValue->setText(tmp.c_str());
 		tmp = L"Weight :";
-		tmp += std::to_wstring(target->getInfo().inventory[i].getWeight());
+		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getWeight());
 		selectedWeight->setText(tmp.c_str());
-		selectedDescription->setText(target->getInfo().inventory[i].getDesc().c_str());
+		selectedDescription->setText(ObjectManager::itemList[syncedInventory[i]]->getDesc().c_str());
 		if(buyButton->isPressed())
 		{
 			//sell selected item
-			ItemProperties t = target->getInfo().inventory[i];
-			player->getInventory().addCredits(-t.getPrice());
-			player->getInventory().addItem(t, 1);
-			target->getInventory().removeItem(i);
+			player->getInventory().addCredits(-ObjectManager::itemList[syncedInventory[i]]->getPrice());
+			player->getInventory().addItem(syncedInventory[i], 1);
+			target->getInventory().removeItem(syncedInventory[i]);
 			playerInventory->clear();
 			stationInventory->clear();
 		}
-		*/
+		
 	}
 }
 

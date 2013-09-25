@@ -27,41 +27,37 @@ public:
 	void addItem(ObjectManager::E_ITEM_LIST itemType);
 	//we can use this function to add multiple copies of one object
 	void addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount);
-	void addItem(ObjectManager::E_TURRET_LIST itemType, unsigned amount);
 	//use this when we have the itemproperties from another object
 	void addItem(const ItemProperties &item, unsigned amount);
 
 	//overloaded function
 	void removeItem(ObjectManager::E_ITEM_LIST itemType);
-	void removeItem(ObjectManager::E_TURRET_LIST itemType);
-	//O(1) time remove function
-	void removeItem(int i);
 
 	//overload the subscript operator
 	const unsigned getItemCount(ObjectManager::E_ITEM_LIST itemType);
-	const ItemProperties& operator[](unsigned i) const;
+	const unsigned operator[](unsigned i) const;
 
+	//depreciated
 	//return rvalue
-	const std::vector<ItemProperties*> getItemPropertiesPtr() const;
+	//const std::vector<ItemProperties*> getItemPropertiesPtr() const;
 
 	//use this for displaying the inventory in a store or cargo display
+	//we have two functions that are used for inventories!
+	//one to indicate how much quantity the player has, the other to remove the 0s in between the data so we can select without issues
 	std::vector<std::wstring> getConvertedInventory() const;
+	//this returns all the items that have a count > 0
+	std::vector<ObjectManager::E_ITEM_LIST> getConvertedInventoryNoSpaces() const;
+	//depreciated
 	std::vector<std::wstring> getWeaponsList() const;
 	//we need several more vectors from this so we can do weapon swapping
-	std::vector<TurretProperties*> getMediumWeapons() const;
-	std::vector<ObjectManager::E_TURRET_LIST> getLightWeapons() const;
+	std::vector<ObjectManager::E_ITEM_LIST> getMediumWeapons() const;
+	std::vector<TurretProperties*> getLightWeapons() const;
 
 	const int getCredits() const;
 	void addCredits(int modifier);
 protected:
-	//we have two vectors to act as an associative array;
-	//make sure these two vectors are always in SYNC!!!
-	//we could use one vector with std::pair, but that would cause needless, needless pain
-	//this is much faster and easier
-	std::vector<ItemProperties*> data;
-	std::vector<unsigned> count;
-	//std::vector<ItemProperties, unsigned> data;
-	//std::map<ItemProperties, unsigned> data;
+	//each index corresponds to an item
+	std::vector<unsigned> data;
 	//store ship credits too
 	int credits;
 };

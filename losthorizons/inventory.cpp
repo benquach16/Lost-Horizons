@@ -92,6 +92,20 @@ std::vector<std::wstring> Inventory::getConvertedInventory() const
 	return ret;
 }
 
+std::vector<ObjectManager::E_ITEM_LIST> Inventory::getConvertedInventoryNoSpaces() const
+{
+	std::vector<ObjectManager::E_ITEM_LIST> ret;
+	for (unsigned i = 0; i < data.size(); ++i)
+	{
+		if(data[i] > 0)
+		{
+			//index corresponds to enum
+			ret.push_back((ObjectManager::E_ITEM_LIST)i);
+		}
+	}
+	return ret;
+}
+
 std::vector<std::wstring> Inventory::getWeaponsList() const
 {
 	std::vector<std::wstring> ret;
