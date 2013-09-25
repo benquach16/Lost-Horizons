@@ -101,9 +101,9 @@ void HangarTab::refitWeapons()
 	//add the item back to inventory
 	std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
 	player->getInventory().addItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType(), 1);
-		
-	player->getInventory().removeItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType());
-	
+	player->getInventory().removeItem(weaponsList[mediumSlotWeapon->getSelected()]);
+	player->setMediumTurret(weaponsList[mediumSlotWeapon->getSelected()], mediumSlot->getSelected());
+
 	mediumSlotWeapon->clear();
 	mediumSlot->clear();
 		

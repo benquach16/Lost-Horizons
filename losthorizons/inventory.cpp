@@ -129,7 +129,7 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getMediumWeapons() const
 	std::vector<ObjectManager::E_ITEM_LIST> ret;
 	for (unsigned i = 0; i < data.size(); i++)
 	{
-		if(ObjectManager::itemList[i]->getItemType() == E_ITEM_TURRET)
+		if(ObjectManager::itemList[i]->getItemType() == E_ITEM_TURRET && data[i] > 0)
 		{
 			ModelProperties *t = (ModelProperties*)ObjectManager::itemList[i];
 			ret.push_back((ObjectManager::E_ITEM_LIST)i);
@@ -139,9 +139,9 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getMediumWeapons() const
 	return ret;
 }
 
-std::vector<TurretProperties*> Inventory::getLightWeapons() const
+std::vector<ObjectManager::E_ITEM_LIST> Inventory::getLightWeapons() const
 {
-	std::vector<TurretProperties*> ret;
+	std::vector<ObjectManager::E_ITEM_LIST> ret;
 	return ret;
 }
 

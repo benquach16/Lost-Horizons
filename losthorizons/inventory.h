@@ -51,7 +51,7 @@ public:
 	std::vector<std::wstring> getWeaponsList() const;
 	//we need several more vectors from this so we can do weapon swapping
 	std::vector<ObjectManager::E_ITEM_LIST> getMediumWeapons() const;
-	std::vector<TurretProperties*> getLightWeapons() const;
+	std::vector<ObjectManager::E_ITEM_LIST> getLightWeapons() const;
 
 	const int getCredits() const;
 	void addCredits(int modifier);
