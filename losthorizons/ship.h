@@ -118,6 +118,7 @@ public:
 	void setMediumTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
 	void setLightTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
 	void setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
+	void repairShip();
 
 	//some setters
 	void setFaction(E_GAME_FACTIONS currentFaction);

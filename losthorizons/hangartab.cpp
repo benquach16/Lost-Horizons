@@ -23,6 +23,7 @@ HangarTab::HangarTab(gui::IGUITabControl *tabs, Player *player) : MenuTab(), pla
 	lightSlotWeapon = guienv->addComboBox(rect<s32>(70,120,270,140), tab);
 
 	refit = guienv->addButton(rect<s32>(290,40,390,60), tab, -1, L"Refit");
+	repair = guienv->addButton(rect<s32>(680, 480, 780, 500), tab, -1, L"Repair");
 }
 
 HangarTab::~HangarTab()
@@ -91,6 +92,11 @@ void HangarTab::loadWeaponLists()
 	{
 		if(!lightSlotWeapon->getItemCount())
 		{
+			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getLightWeapons();
+			for(unsigned i = 0; i < weaponsList.size(); i++)
+			{
+				lightSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName().c_str());
+			}
 		}
 	}
 }
@@ -106,5 +112,12 @@ void HangarTab::refitWeapons()
 
 	mediumSlotWeapon->clear();
 	mediumSlot->clear();
-		
+	
+	weaponsList = player->getInventory().getLightWeapons();
+	player->getInventory().addItem(player->getInfo().lightTurrets[lightSlot->getSelected()]->getTurretType(), 1);
+	player->getInventory().removeItem(weaponsList[lightSlotWeapon->getSelected()]);
+	player->setLightTurret(weaponsList[lightSlotWeapon->getSelected()], lightSlot->getSelected());
+
+	lightSlotWeapon->clear();
+	lightSlot->clear();
 }

@@ -104,6 +104,8 @@ void Fighter::run(f32 frameDeltaTime)
 				(*i)->fighterTarget = 0;
 			}
 		}
+		if((*Ship::allShips.begin())->getShipTarget() == this)
+			(*Ship::allShips.begin())->setTarget(0);
 		delete this;
 	}
 }

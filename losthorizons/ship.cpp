@@ -266,6 +266,12 @@ void Ship::setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slo
 		info.pdTurrets[slot]->assignTurret(turretType);
 }
 
+void Ship::repairShip()
+{
+	info.hull = info.maxHull;
+	info.armor = info.maxArmor;
+}
+
 void Ship::setFaction(E_GAME_FACTIONS newFaction)
 {
 	info.currentFaction = newFaction;
