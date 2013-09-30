@@ -443,6 +443,9 @@
     <ClCompile Include="cargotab.cpp">
       <Filter>Source Files\ui\tabs\gamemenu</Filter>
     </ClCompile>
+    <ClCompile Include="missionmanager.cpp">
+      <Filter>Source Files\missions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">

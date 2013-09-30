@@ -246,6 +246,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="messagemenu.cpp" />
     <ClCompile Include="mission.cpp" />
+    <ClCompile Include="missionmanager.cpp" />
     <ClCompile Include="missionproperties.cpp" />
     <ClCompile Include="modelproperties.cpp" />
     <ClCompile Include="muzzleflash.cpp" />

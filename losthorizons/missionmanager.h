@@ -12,6 +12,10 @@ class MissionManager
 public:
 	MissionManager();
 	~MissionManager();
+
+	void run();
+	//returns an rvalue
+	const std::vector<Mission>& getMissions() const;
 protected:
 	std::vector<Mission> data;
 };

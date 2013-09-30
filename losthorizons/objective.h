@@ -4,6 +4,7 @@
 #include <string>
 
 #include "irrlicht.h"
+#include "ship.h"
 
 using namespace irr;
 using namespace core;
