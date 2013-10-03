@@ -32,5 +32,30 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 
 ObjectManager::~ObjectManager()
 {
-
+	//treat them like stax
+	while(!itemList.empty())
+	{
+		delete itemList[0];
+		itemList.erase(itemList.begin());
+	}
+	while(!shipList.empty())
+	{
+		delete shipList[0];
+		shipList.erase(shipList.begin());
+	}
+	while(!fighterList.empty())
+	{
+		delete fighterList[0];
+		fighterList.erase(fighterList.begin());
+	}
+	while(!planetList.empty())
+	{
+		delete planetList[0];
+		planetList.erase(planetList.begin());
+	}
+	while(!stationList.empty())
+	{
+		delete stationList[0];
+		stationList.erase(stationList.begin());
+	}
 }
