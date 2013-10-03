@@ -5,15 +5,11 @@
 #include <string>
 #include <vector>
 
-#include "object.h"
 #include "targetableobject.h"
 #include "turret.h"
-#include "item.h"
 #include "shipproperties.h"
 #include "objectmanager.h"
 #include "projectile.h"
-#include "explosion.h"
-#include "inventory.h"
 #include "cargo.h"
 #include "fighter.h"
 
@@ -94,7 +90,7 @@ public:
 	static std::list<Ship*> allShips;
 
 	Ship(const E_GAME_FACTION& faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
-	Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
+	Ship(u16 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
 	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();

@@ -152,7 +152,7 @@ Ship *GameScene::createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP
 		return new Ship(faction, shipType, position, rotation);
 }
 
-Ship *GameScene::createShip(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
+Ship *GameScene::createShip(u16 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
 {
 	if (Ship::allShips.empty())
 		return new Player(info, position, rotation);

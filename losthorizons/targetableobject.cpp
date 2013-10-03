@@ -8,7 +8,7 @@ TargetableObject::TargetableObject()
 {
 }
 
-TargetableObject::TargetableObject(u32 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation,
+TargetableObject::TargetableObject(u16 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation,
 								   const E_GAME_FACTION& faction)
 	: Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()),
 	  ID(ID), name(modelProps.getName()), description(modelProps.getDesc()), faction(faction)

@@ -43,7 +43,7 @@ Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, c
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::PHOTONI, 4);
 }
 
-Ship::Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
+Ship::Ship(u16 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(ID, *ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info), shipTarget(0), shieldTimer(0)
 {
 	//add it to the ships list

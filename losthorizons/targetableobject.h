@@ -21,13 +21,13 @@ public:
 	//list of all available objects
 	static std::list<TargetableObject*> allTargets;
 	//next available ID
-	static u32 nextID;
+	static u16 nextID;
 
 	//default constructor
 	TargetableObject();
 	//parameterized constructor
 	//constructor with a model properties
-	TargetableObject(u32 ID, const ModelProperties &modelProps, const vector3df &position, const vector3df &rotation,
+	TargetableObject(u16 ID, const ModelProperties &modelProps, const vector3df &position, const vector3df &rotation,
 		const E_GAME_FACTION& faction);
 	//raw constructor with all the other inputs
 	TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
@@ -40,7 +40,7 @@ public:
 	void setFactionTo(const E_GAME_FACTION& faction);
 
 	//some accessors
-	const u32 getID() const;
+	const u16 getID() const;
 	const std::wstring& getName() const;
 	const std::wstring& getDesc() const;
 	const vector2di& getScreenPosition() const;
@@ -51,7 +51,7 @@ public:
 
 protected:
 	//need these for all targetable objects
-	u32 ID;
+	u16 ID;
 	std::wstring name;
 	std::wstring description;
 	E_GAME_FACTION faction;

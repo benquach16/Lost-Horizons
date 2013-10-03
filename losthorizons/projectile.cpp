@@ -4,7 +4,7 @@
 
 std::list<Projectile*> Projectile::allProjectiles;
 
-Projectile::Projectile(u32 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation)
+Projectile::Projectile(u16 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation)
 	: Object(L"res/models/projectile.X", turretProps.getProjectileTex().c_str(), position, rotation, turretProps.getProjectileScale()),
 	originalPosition(position), ID(ID), velocity(turretProps.getProjectileSpeed()), range(turretProps.getRange()), damage(turretProps.getDamage())
 {

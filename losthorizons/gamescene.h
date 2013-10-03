@@ -45,7 +45,7 @@ public:
 	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
 	Ship *createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER,
 					 const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &rotation = vector3df(0.f,0.f,0.f));
-	Ship *createShip(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
+	Ship *createShip(u16 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
 	Sun *createSun(const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &scale = vector3df(1.f,1.f,1.f));
 	SpaceStation *createStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING,
 					const vector3df &position = vector3df(), const vector3df& rotation = vector3df());
