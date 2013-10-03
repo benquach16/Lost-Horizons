@@ -57,7 +57,7 @@ void ShipTab::textUpdate()
 
 	//replace the string -- crew required
 	stringw crewReqStr = L"Crew Required : ";
-	if(index >= 0 && index < 12)
+	if(index >= 0 && index < SUBSYSTEM_COUNT)
 	{
 		int repairCount = 5 * (100 - player->getSubsystem(index));
 		crewReqStr += repairCount;

@@ -4,7 +4,7 @@
 
 //set up static elements
 std::list<Ship*> Ship::allShips;
-std::wstring Ship::subsystemNames[12] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator",
+std::wstring Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator",
 	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
