@@ -58,22 +58,22 @@ void Gameloop::run(f32 frameDeltaTime)
 void Gameloop::createNewGame()
 {
 	//create player and camera
-	gameSceneManager->changeCurrentScene(E_TAU_CETI_SCENE);
+	gameSceneManager->changeCurrentScene(SCENE_TAU_CETI);
 	TargetableObject::nextID = 0;
 	//create player ship
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_TERRAN);
+	gameSceneManager->getCurrentScene()->createShip(FACTION_TERRAN);
 	//temporary for testing purposes only
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_TERRAN,
+	gameSceneManager->getCurrentScene()->createShip(FACTION_TERRAN,
 		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_TERRAN,
+	gameSceneManager->getCurrentScene()->createShip(FACTION_TERRAN,
 		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_PIRATE,
+	gameSceneManager->getCurrentScene()->createShip(FACTION_PIRATE,
 		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(500,0,2000));
-	gameSceneManager->getCurrentScene()->createShip(E_FACTION_PIRATE,
+	gameSceneManager->getCurrentScene()->createShip(FACTION_PIRATE,
 		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(-1000,0,2300));
-	gameSceneManager->getCurrentScene()->createStation(E_FACTION_TERRAN,
+	gameSceneManager->getCurrentScene()->createStation(FACTION_TERRAN,
 		ObjectManager::E_STATION_LIST::TRADING, vector3df(1000, 0, 500));
-	gameSceneManager->getCurrentScene()->createStation(E_FACTION_TERRAN,
+	gameSceneManager->getCurrentScene()->createStation(FACTION_TERRAN,
 		ObjectManager::E_STATION_LIST::SHIPYARD, vector3df(2000, -100, -2000));
 	init();
 }

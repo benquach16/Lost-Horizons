@@ -34,7 +34,7 @@ class Fighter : public TargetableObject
 public:
 	static std::list<Fighter*> allFighters;
 
-	Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction,
+	Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTION faction,
 		Ship *homeBase);
 	virtual ~Fighter();
 	virtual void run(f32 frameDeltaTime);

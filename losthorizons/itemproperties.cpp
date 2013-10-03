@@ -101,38 +101,38 @@ const int& ItemProperties::getWeight() const
 	return weight;
 }
 
-const E_ITEM_TYPES& ItemProperties::getItemType() const
+const E_ITEM_TYPE& ItemProperties::getItemType() const
 {
 	return itemType;
 }
 
 //private function
-E_ITEM_TYPES ItemProperties::getItemType(const std::wstring &str)
+E_ITEM_TYPE ItemProperties::getItemType(const std::wstring &str)
 {
 	//private conversion function
 	if(str == L"item")
 	{
-		return E_ITEM;
+		return ITEM_CARGO;
 	}
 	else if(str == L"turret")
 	{
-		return E_ITEM_TURRET;
+		return ITEM_TURRET;
 	}
 	else if(str == L"module")
 	{
-		return E_ITEM_MODULE;
+		return ITEM_MODULE;
 	}
 	else if(str == L"ship")
 	{
-		return E_ITEM_SHIP;
+		return ITEM_SHIP;
 	}
 	else if(str == L"planet")
 	{
-		return E_ITEM_PLANET;
+		return ITEM_PLANET;
 	}
 	else if(str == L"fighter")
 	{
-		return E_ITEM_FIGHTER;
+		return ITEM_FIGHTER;
 	}
 	else
 	{

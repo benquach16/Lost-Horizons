@@ -73,10 +73,10 @@ MissionProperties::~MissionProperties()
 }
 
 //protected function
-E_OBJECTIVE_TYPES MissionProperties::getObjectiveType(const wchar_t *text)
+E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 {
 	if(text == L"sweep")
-		return E_OBJECTIVETYPE_SWEEP;
+		return OBJECTIVE_SWEEP;
 	else
 	{
 		std::cout << "Failed to read from mission file!" << std::endl;

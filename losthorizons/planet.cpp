@@ -3,7 +3,7 @@
 
 //constructor
 Planet::Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df& position) : 
-	TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), E_FACTION_NEUTRAL), cloudMesh(0),
+	TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), FACTION_NEUTRAL), cloudMesh(0),
 	atmosphere(new Atmosphere(position))
 {
 	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap().c_str()));
@@ -39,7 +39,7 @@ void Planet::run()
 
 const E_TARGETABLEOBJECT_TYPE Planet::getTargetableObjectType() const
 {
-	return E_OBJECT_PLANET;
+	return TARGETABLEOBJECT_PLANET;
 }
 
 //protected function

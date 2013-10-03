@@ -18,7 +18,7 @@ public:
 	~MissionProperties();
 
 protected:
-	E_OBJECTIVE_TYPES getObjectiveType(const wchar_t *text);
+	E_OBJECTIVE_TYPE getObjectiveType(const wchar_t *text);
 	std::wstring name;
 	std::wstring description;
 	unsigned numOfObjectives;

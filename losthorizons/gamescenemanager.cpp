@@ -11,7 +11,7 @@ GameSceneManager::GameSceneManager(irr::IrrlichtDevice *graphics) : currentScene
 	//create scene
 }
 
-GameSceneManager::GameSceneManager(irr::IrrlichtDevice *graphics, E_GAMESCENES scene) : currentScene(new GameScene(graphics, scene)),
+GameSceneManager::GameSceneManager(irr::IrrlichtDevice *graphics, E_GAME_SCENE scene) : currentScene(new GameScene(graphics, scene)),
 	graphics(graphics)
 {
 	//create specific scene
@@ -28,7 +28,7 @@ void GameSceneManager::runCurrentScene(f32 frameDeltaTime)
 		currentScene->run(frameDeltaTime);
 }
 
-void GameSceneManager::changeCurrentScene(E_GAMESCENES scene)
+void GameSceneManager::changeCurrentScene(E_GAME_SCENE scene)
 {
 	//need to delete the entire scene
 	if (currentScene)

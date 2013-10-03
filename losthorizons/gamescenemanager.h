@@ -10,11 +10,11 @@ public:
 	GameSceneManager();
 	//parameterized constructors
 	GameSceneManager(irr::IrrlichtDevice *graphics);
-	GameSceneManager(irr::IrrlichtDevice *graphics, E_GAMESCENES scene);
+	GameSceneManager(irr::IrrlichtDevice *graphics, E_GAME_SCENE scene);
 	~GameSceneManager();
 
 	void runCurrentScene(f32 frameDeltaTime);
-	void changeCurrentScene(E_GAMESCENES scene);
+	void changeCurrentScene(E_GAME_SCENE scene);
 	GameScene *getCurrentScene();
 
 private:

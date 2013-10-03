@@ -19,10 +19,10 @@
 #include "keylistener.h"
 #include "effect.h"
 
-enum E_GAMESCENES
+enum E_GAME_SCENE
 {
-	E_MAINMENU_SCENE,
-	E_TAU_CETI_SCENE,
+	SCENE_MAINMENU,
+	SCENE_TAU_CETI,
 };
 
 using namespace irr;
@@ -36,24 +36,24 @@ public:
 	GameScene();
 	//parameterized constructor
 	//for creating a specific scene
-	GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene = E_MAINMENU_SCENE);
+	GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene = SCENE_MAINMENU);
 	~GameScene();
 	void loadScene();
 	void saveScene();
 	void run(f32 frameDeltaTime);
 
 	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
-	Ship *createShip(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER,
+	Ship *createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER,
 					 const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &rotation = vector3df(0.f,0.f,0.f));
 	Ship *createShip(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
 	Sun *createSun(const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &scale = vector3df(1.f,1.f,1.f));
-	SpaceStation *createStation(const E_GAME_FACTIONS faction, ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING,
+	SpaceStation *createStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING,
 					const vector3df &position = vector3df(), const vector3df& rotation = vector3df());
 	PlayerCamera *getCurrentSceneCamera();
-	E_GAMESCENES getScene();
+	E_GAME_SCENE getScene();
 	
 private:
-	E_GAMESCENES scene;
+	E_GAME_SCENE scene;
 	PlayerCamera *playerCam;
 	IrrlichtDevice *graphics;
 	ISceneNode *skybox;

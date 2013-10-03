@@ -8,14 +8,14 @@ using namespace irr;
 using namespace io;
 
 //so we can call specific parts of the item
-enum E_ITEM_TYPES
+enum E_ITEM_TYPE
 {
-	E_ITEM_SHIP,
-	E_ITEM_TURRET,
-	E_ITEM_MODULE,
-	E_ITEM,
-	E_ITEM_PLANET,
-	E_ITEM_FIGHTER
+	ITEM_CARGO,
+	ITEM_SHIP,
+	ITEM_TURRET,
+	ITEM_MODULE,
+	ITEM_PLANET,
+	ITEM_FIGHTER
 };
 
 
@@ -32,18 +32,18 @@ public:
 	const std::wstring& getDesc() const;
 	const int& getPrice() const;
 	const int& getWeight() const;
-	const E_ITEM_TYPES& getItemType() const;
+	const E_ITEM_TYPE& getItemType() const;
 
 protected:
 	//converter function
-	E_ITEM_TYPES getItemType(const std::wstring &str);
+	E_ITEM_TYPE getItemType(const std::wstring &str);
 	std::wstring name;
 	std::wstring description;
 
 	int price;
 	int weight;
 
-	E_ITEM_TYPES itemType;
+	E_ITEM_TYPE itemType;
 };
 
 //overload == operator

@@ -6,11 +6,11 @@ GameScene::GameScene()
 {
 }
 
-GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(graphics), scene(scene)
+GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene) : graphics(graphics), scene(scene)
 {
 	//setup camera for menu scene
 	playerCam = createPlayerCam();
-	if (scene == E_MAINMENU_SCENE)
+	if (scene == SCENE_MAINMENU)
 	{
 		//create sun for menu background
 		IBillboardSceneNode *corona = scenemngr->addBillboardSceneNode(0, dimension2d<f32>(50000,50000), vector3df(-20000,500,70000));
@@ -56,7 +56,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAMESCENES scene) : graphics(gr
 		sceneObjects.push(asteroids);
 
 	}
-	else if (scene == E_TAU_CETI_SCENE)
+	else if (scene == SCENE_TAU_CETI)
 	{
 		skybox = scenemngr->addSkyBoxSceneNode(
 			vdriver->getTexture("res/textures/skyboxes/1/space_top3.jpg"),
@@ -144,7 +144,7 @@ PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 	return new PlayerCamera(graphics, position);
 }
 
-Ship *GameScene::createShip(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+Ship *GameScene::createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 {
 	if (Ship::allShips.empty())
 		return new Player(faction, shipType, position, rotation);
@@ -165,7 +165,7 @@ Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)
 	return new Sun(position, scale);
 }
 
-SpaceStation *GameScene::createStation(const E_GAME_FACTIONS faction, ObjectManager::E_STATION_LIST stationType, const vector3df &position,
+SpaceStation *GameScene::createStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType, const vector3df &position,
 									   const vector3df& rotation)
 {
 	return new SpaceStation(faction, stationType, position, rotation);
@@ -176,7 +176,7 @@ PlayerCamera *GameScene::getCurrentSceneCamera()
 	return playerCam;
 }
 
-E_GAMESCENES GameScene::getScene()
+E_GAME_SCENE GameScene::getScene()
 {
 	return scene;
 }

@@ -19,7 +19,7 @@ StationMenu::~StationMenu()
 void StationMenu::run(const TargetableObject *target)
 {
 	MenuWindow::run();
-	if(target && target->getTargetableObjectType() == E_OBJECT_SPACESTATION)
+	if(target && target->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION)
 	{
 		SpaceStation *stationTarget = (SpaceStation*)target;
 

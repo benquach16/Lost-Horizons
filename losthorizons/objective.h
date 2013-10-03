@@ -9,13 +9,13 @@
 using namespace irr;
 using namespace core;
 
-enum E_OBJECTIVE_TYPES
+enum E_OBJECTIVE_TYPE
 {
-	E_OBJECTIVETYPE_SWEEP,
-	E_OBJECTIVETYPE_COURIER,
-	E_OBJECTIVETYPE_NAVIGATE,
-	E_OBJECTIVETYPE_RETRIEVAL,
-	E_OBJECTIVETYPE_DEFEND
+	OBJECTIVE_SWEEP,
+	OBJECTIVE_COURIER,
+	OBJECTIVE_NAVIGATE,
+	OBJECTIVE_RETRIEVAL,
+	OBJECTIVE_DEFEND
 };
 
 //objective class
@@ -23,7 +23,7 @@ enum E_OBJECTIVE_TYPES
 class Objective
 {
 public:
-	Objective(const std::wstring &description, E_OBJECTIVE_TYPES objectiveType, const vector3df& position, const unsigned radius);
+	Objective(const std::wstring &description, E_OBJECTIVE_TYPE type, const vector3df& position, const unsigned radius);
 	~Objective();
 
 	//run function
@@ -31,7 +31,7 @@ public:
 	bool run();
 protected:
 	std::wstring description;
-	E_OBJECTIVE_TYPES objectiveType;
+	E_OBJECTIVE_TYPE type;
 	irr::core::vector3df position;
 	unsigned radius;
 };

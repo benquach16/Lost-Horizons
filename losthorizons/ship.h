@@ -18,30 +18,32 @@
 #include "fighter.h"
 
 //for finite state machine implementation
-enum E_AI_STATES
+enum E_AI_STATE
 {
-	STATE_PATROLLING,
-	STATE_FLEEING,
-	STATE_ATTACKING,
-	STATE_DEFENDING,
-	STATE_ASSAULTING
+	AI_PATROLLING,
+	AI_FLEEING,
+	AI_ATTACKING,
+	AI_DEFENDING,
+	AI_ASSAULTING
 };
 
 
-enum E_SUBSYSTEM_TYPES
+enum E_SUBSYSTEM_TYPE
 {
-	E_SUBSYSTEM_BRIDGE,
-	E_SUBSYSTEM_DECK1,
-	E_SUBSYSTEM_DECK2,
-	E_SUBSYSTEM_ELEVATOR,
-	E_SUBSYSTEM_ENGINE,
-	E_SUBSYSTEM_WARPDRIVE,
-	E_SUBSYSTEM_SHIELD,
-	E_SUBSYSTEM_POWERPLANT,
-	E_SUBSYSTEM_HEAVYWEAPONS,
-	E_SUBSYSTEM_MEDIUMWEAPONS,
-	E_SUBSYSTEM_LIGHTWEAPONS,
-	E_SUBSYSTEM_POINTDEFENSE
+	SUBSYSTEM_BRIDGE,
+	SUBSYSTEM_DECK1,
+	SUBSYSTEM_DECK2,
+	SUBSYSTEM_ELEVATOR,
+	SUBSYSTEM_ENGINE,
+	SUBSYSTEM_WARPDRIVE,
+	SUBSYSTEM_SHIELD,
+	SUBSYSTEM_POWERPLANT,
+	SUBSYSTEM_HEAVYWEAPONS,
+	SUBSYSTEM_MEDIUMWEAPONS,
+	SUBSYSTEM_LIGHTWEAPONS,
+	SUBSYSTEM_POINTDEFENSE,
+	//number of subsystems
+	SUBSYSTEM_COUNT
 };
 //each ship has several subsystems
 struct Subsystem
@@ -56,9 +58,9 @@ struct Subsystem
 struct ShipInformation
 {
 	ObjectManager::E_SHIP_LIST shipType;
-	E_GAME_FACTIONS currentFaction;
-	E_AI_STATES currentAIState;
-	Subsystem subsystems[12];
+	E_GAME_FACTION currentFaction;
+	E_AI_STATE currentAIState;
+	Subsystem subsystems[SUBSYSTEM_COUNT];
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
@@ -70,8 +72,8 @@ struct ShipInformation
 	std::vector<TurretSlot*> lightTurrets;
 	std::vector<TurretSlot*> pdTurrets;
 	ShipInformation() {}
-	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTIONS faction)
-		: shipType(shipType), currentFaction(faction), currentAIState(STATE_PATROLLING),
+	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTION faction)
+		: shipType(shipType), currentFaction(faction), currentAIState(AI_PATROLLING),
 		  hull(ObjectManager::shipList[shipType]->getMaxHull()), maxHull(hull),
 		  armor(ObjectManager::shipList[shipType]->getMaxArmor()), maxArmor(armor),
 		  shield(ObjectManager::shipList[shipType]->getMaxShield()), maxShield(shield),
@@ -91,7 +93,7 @@ public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
 
-	Ship(const E_GAME_FACTIONS& faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
+	Ship(const E_GAME_FACTION& faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
 	Ship(u32 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
 	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);
@@ -122,7 +124,7 @@ public:
 	void repairShip();
 
 	//some setters
-	void setFaction(E_GAME_FACTIONS currentFaction);
+	void setFaction(E_GAME_FACTION currentFaction);
 
 	//some accessors
 	const ShipInformation& getInfo() const;

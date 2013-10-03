@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 
-Player::Player(E_GAME_FACTIONS faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+Player::Player(E_GAME_FACTION faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: Ship(faction, shipType, position, rotation)
 {
 	game->setPlayer(this);
@@ -32,5 +32,5 @@ void Player::run(f32 frameDeltaTime)
 
 const E_TARGETABLEOBJECT_TYPE Player::getTargetableObjectType() const
 {
-	return E_OBJECT_PLAYER;
+	return TARGETABLEOBJECT_PLAYER;
 }

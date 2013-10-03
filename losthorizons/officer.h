@@ -3,26 +3,26 @@
 
 #include <string>
 
-enum E_OFFICER_TYPES
+enum E_OFFICER_TYPE
 {
-	E_OFFICER_HELMSMAN,
-	E_OFFICER_FIRECONTROL,
-	E_OFFICER_ENGINEERING,
-	E_OFFICER_NAVIGATION,
+	OFFICER_HELMSMAN,
+	OFFICER_FIRECONTROL,
+	OFFICER_ENGINEERING,
+	OFFICER_NAVIGATION
 };
 
 //the player is allowed to hire officers, with each officer having different roles
 class Officer
 {
 public:
-	Officer(const std::wstring &officerName, const E_OFFICER_TYPES officerType);
+	Officer(const std::wstring &name, const E_OFFICER_TYPE type);
 	~Officer();
 
 protected:
-	std::wstring officerName;
+	std::wstring name;
 	unsigned currentExperience;
 	unsigned experienceToLevel;
-	E_OFFICER_TYPES officerType;
+	E_OFFICER_TYPE type;
 };
 
 #endif

@@ -201,19 +201,19 @@ E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
 {
 	if(str == L"light")
 	{
-		return E_CLASS_LIGHT;
+		return TURRET_LIGHT;
 	}
 	else if(str == L"medium")
 	{
-		return E_CLASS_MEDIUM;
+		return TURRET_MEDIUM;
 	}
 	else if(str == L"heavy")
 	{
-		return E_CLASS_HEAVY;
+		return TURRET_HEAVY;
 	}
 	else if(str == L"pd")
 	{
-		return E_CLASS_PD;
+		return TURRET_PD;
 	}
 	else
 	{

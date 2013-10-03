@@ -98,7 +98,7 @@ void HUD::updateTargetInfo()
 		d+= L"km";
 		targetDistance->setText(d.c_str());
 		//at this point we pull object information from this thing
-		if(target->getTargetableObjectType() == E_OBJECT_SHIP)
+		if(target->getTargetableObjectType() == TARGETABLEOBJECT_SHIP)
 		{
 			//draw hull armor and shield
 			const Ship* shipTarget = (Ship*)target;
@@ -135,21 +135,21 @@ void HUD::updateTargetInfo()
 	}
 }
 
-const wchar_t *HUD::getFactionName(E_GAME_FACTIONS faction)
+const wchar_t *HUD::getFactionName(E_GAME_FACTION faction)
 {
-	if(faction == E_FACTION_NEUTRAL)
+	if(faction == FACTION_NEUTRAL)
 	{
 		return L"Neutral";
 	}
-	else if(faction == E_FACTION_PIRATE)
+	else if(faction == FACTION_PIRATE)
 	{
 		return L"Pirate";
 	}
-	else if(faction == E_FACTION_TERRAN)
+	else if(faction == FACTION_TERRAN)
 	{
 		return L"Terran Federation";
 	}
-	else if(faction == E_FACTION_PROVIAN)
+	else if(faction == FACTION_PROVIAN)
 	{
 		return L"Provian Consortium";
 	}

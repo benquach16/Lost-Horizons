@@ -10,7 +10,7 @@ using namespace core;
 class MessageMenu : public MenuWindow
 {
 public:
-	enum FLAGS
+	enum MSGBOX_FLAG
 	{
 		CLOSE = 1,
 		OKAY,

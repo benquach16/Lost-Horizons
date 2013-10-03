@@ -4,7 +4,7 @@
 std::list<SpaceStation*> SpaceStation::allStations;
 
 //constructor
-SpaceStation::SpaceStation(const E_GAME_FACTIONS faction, ObjectManager::E_STATION_LIST stationType, const vector3df& position,
+SpaceStation::SpaceStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType, const vector3df& position,
 						   const vector3df& rotation) : TargetableObject(nextID++, *ObjectManager::stationList[stationType], position, rotation,
 						   faction), info(stationType), shipSpawnTimer(0)
 {
@@ -40,7 +40,7 @@ void SpaceStation::run(f32 frameDeltaTime)
 
 const E_TARGETABLEOBJECT_TYPE SpaceStation::getTargetableObjectType() const
 {
-	return E_OBJECT_SPACESTATION;
+	return TARGETABLEOBJECT_SPACESTATION;
 }
 
 const SpaceStationInformation& SpaceStation::getInfo() const

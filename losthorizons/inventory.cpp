@@ -4,7 +4,7 @@
 Inventory::Inventory() : credits(0)
 {
 	//set the counts for all the items in the game
-	for(unsigned i = 0; i < ObjectManager::E_ITEM_LIST::TOTALITEMS; ++i)
+	for(unsigned i = 0; i < ObjectManager::E_ITEM_LIST::ITEM_COUNT; ++i)
 	{
 		data.push_back(0);
 	}
@@ -111,7 +111,7 @@ std::vector<std::wstring> Inventory::getWeaponsList() const
 	std::vector<std::wstring> ret;
 	for( unsigned i = 0; i < data.size(); ++i)
 	{
-		if(ObjectManager::itemList[i]->getItemType() == E_ITEM_TURRET)
+		if(ObjectManager::itemList[i]->getItemType() == ITEM_TURRET)
 		{
 			std::wstring tmp = ObjectManager::itemList[i]->getName();
 			tmp += L" x";
@@ -129,10 +129,10 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getMediumWeapons() const
 	std::vector<ObjectManager::E_ITEM_LIST> ret;
 	for (unsigned i = 0; i < data.size(); i++)
 	{
-		if(ObjectManager::itemList[i]->getItemType() == E_ITEM_TURRET && data[i] > 0)
+		if(ObjectManager::itemList[i]->getItemType() == ITEM_TURRET && data[i] > 0)
 		{
 			TurretProperties *t = (TurretProperties*)ObjectManager::itemList[i];
-			if(t->getTurretClass()==E_CLASS_MEDIUM)
+			if(t->getTurretClass() == TURRET_MEDIUM)
 				ret.push_back((ObjectManager::E_ITEM_LIST)i);
 		}
 	}
@@ -145,10 +145,10 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getLightWeapons() const
 	std::vector<ObjectManager::E_ITEM_LIST> ret;
 	for (unsigned i = 0; i < data.size(); i++)
 	{
-		if(ObjectManager::itemList[i]->getItemType() == E_ITEM_TURRET && data[i] > 0)
+		if(ObjectManager::itemList[i]->getItemType() == ITEM_TURRET && data[i] > 0)
 		{
 			TurretProperties *t = (TurretProperties*)ObjectManager::itemList[i];
-			if(t->getTurretClass()==E_CLASS_LIGHT)
+			if(t->getTurretClass() == TURRET_LIGHT)
 				ret.push_back((ObjectManager::E_ITEM_LIST)i);
 		}		
 	}

@@ -8,7 +8,7 @@ const unsigned PATROLDISTANCE = 500;
 const unsigned AITIMER = 200;
 
 //large constructor
-Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTIONS faction, 
+Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTION faction, 
 				 Ship* homeBase) : TargetableObject(nextID++, *ObjectManager::fighterList[fighterType], position, rotation, faction), info(fighterType),
 	fighterTarget(0), homeBase(homeBase), shipTarget(0), shootTimer(0)
 {
@@ -120,7 +120,7 @@ void Fighter::damage(int modifier)
 
 const E_TARGETABLEOBJECT_TYPE Fighter::getTargetableObjectType() const
 {
-	return E_OBJECT_FIGHTER;
+	return TARGETABLEOBJECT_FIGHTER;
 }
 
 //protected function
@@ -200,8 +200,8 @@ void Fighter::searchForFighterTargets()
 	{
 		next = i;
 		next++;
-		if(((*i)->faction == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
-			((*i)->faction != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
+		if(((*i)->faction == FACTION_PIRATE && faction != FACTION_PIRATE) || 
+			((*i)->faction != FACTION_PIRATE && faction == FACTION_PIRATE))
 		{
 			if((*i)->getPosition().getDistanceFrom(getPosition()) < 1000)
 			{
@@ -217,8 +217,8 @@ void Fighter::searchForShipTargets()
 	{
 		next = i;
 		next++;
-		if(((*i)->getFaction() == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
-			((*i)->getFaction() != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
+		if(((*i)->getFaction() == FACTION_PIRATE && faction != FACTION_PIRATE) || 
+			((*i)->getFaction() != FACTION_PIRATE && faction == FACTION_PIRATE))
 		{
 			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{

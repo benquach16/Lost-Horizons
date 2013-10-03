@@ -13,12 +13,12 @@ using namespace core;
 using namespace scene;
 
 //all objects are associated with a faction
-enum E_GAME_FACTIONS
+enum E_GAME_FACTION
 {
-	E_FACTION_TERRAN,
-	E_FACTION_PROVIAN,
-	E_FACTION_PIRATE,
-	E_FACTION_NEUTRAL
+	FACTION_TERRAN,
+	FACTION_PROVIAN,
+	FACTION_PIRATE,
+	FACTION_NEUTRAL
 };
 
 //This is the base class of all renderable (3d really) objects in the game

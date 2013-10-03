@@ -7,7 +7,7 @@ std::list<Ship*> Ship::allShips;
 //time between ai updates to save cpu speed
 const unsigned AITIMER = 100;
 
-Ship::Ship(const E_GAME_FACTIONS &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction), shipTarget(0), shieldTimer(0),
 	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0)
 {
@@ -143,7 +143,7 @@ void Ship::run(f32 frameDeltaTime)
 			movement(frameDeltaTime);
 
 			//recharge shields
-			if (info.subsystems[E_SUBSYSTEM_SHIELD].health > 0)
+			if (info.subsystems[SUBSYSTEM_SHIELD].health > 0)
 			{
 				if(info.shield < info.maxShield)
 				{
@@ -219,7 +219,7 @@ void Ship::damage(int val)
 		//since armor and hull are damaged, kill off some of the crew
 		info.crew -= (rand()%info.crew)/4;
 		//and damage a subsystem
-		info.subsystems[rand()%12].health -= rand()%100;
+		info.subsystems[rand()%SUBSYSTEM_COUNT].health -= rand()%100;
 	}
 }
 
@@ -272,7 +272,7 @@ void Ship::repairShip()
 	info.armor = info.maxArmor;
 }
 
-void Ship::setFaction(E_GAME_FACTIONS newFaction)
+void Ship::setFaction(E_GAME_FACTION newFaction)
 {
 	info.currentFaction = newFaction;
 }
@@ -289,7 +289,7 @@ const TargetableObject* Ship::getShipTarget() const
 
 const E_TARGETABLEOBJECT_TYPE Ship::getTargetableObjectType() const
 {
-	return E_OBJECT_SHIP;
+	return TARGETABLEOBJECT_SHIP;
 }
 
 Subsystem& Ship::getSubsystem(int index)
@@ -322,7 +322,7 @@ void Ship::dockWithTarget()
 {
 	//check if target is a spaec station
 
-	if (getShipTarget() && getShipTarget()->getTargetableObjectType() == E_OBJECT_SPACESTATION)
+	if (getShipTarget() && getShipTarget()->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION)
 	{
 		if (getShipTarget()->getPosition().getDistanceFrom(getPosition()) < 500)
 		{
@@ -356,7 +356,7 @@ void Ship::launchFighters()
 void Ship::warpToTarget()
 {
 
-	if (shipTarget && info.subsystems[E_SUBSYSTEM_WARPDRIVE].health > 0)
+	if (shipTarget && info.subsystems[SUBSYSTEM_WARPDRIVE].health > 0)
 	{
 		//make sure we have a target
 		//save to variable first to avoid multiple sqrt operations
@@ -460,7 +460,7 @@ void Ship::initTurrets()
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->mediumTurrets[i], joint, E_CLASS_HEAVY, this);
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->mediumTurrets[i], joint, TURRET_HEAVY, this);
 		info.mediumTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxMTurrets(); ++i)
@@ -470,7 +470,7 @@ void Ship::initTurrets()
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->mediumTurrets[i], joint, E_CLASS_MEDIUM, this);
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->mediumTurrets[i], joint, TURRET_MEDIUM, this);
 		info.mediumTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxLTurrets(); ++i)
@@ -479,7 +479,7 @@ void Ship::initTurrets()
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->lightTurrets[i], joint, E_CLASS_LIGHT, this);
+		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->lightTurrets[i], joint, TURRET_LIGHT, this);
 		info.lightTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxPTurrets(); ++i)
@@ -488,7 +488,7 @@ void Ship::initTurrets()
 		std::string tmp = std::to_string(i+1);
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
-		TurretSlot *t = new TurretSlot(turretInformation(), joint, E_CLASS_PD, this);
+		TurretSlot *t = new TurretSlot(turretInformation(), joint, TURRET_PD, this);
 		info.pdTurrets.push_back(t);
 	}
 }
@@ -535,8 +535,8 @@ void Ship::aimTurrets(float frameDeltaTime)
 	{
 		next = i;
 		++next;
-		if (((*i)->getFaction() == E_FACTION_PIRATE && faction != E_FACTION_PIRATE) || 
-			((*i)->getFaction() != E_FACTION_PIRATE && faction == E_FACTION_PIRATE))
+		if (((*i)->getFaction() == FACTION_PIRATE && faction != FACTION_PIRATE) || 
+			((*i)->getFaction() != FACTION_PIRATE && faction == FACTION_PIRATE))
 		{
 			if (getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
 			{
@@ -618,7 +618,7 @@ void Ship::runAI()
 	//make sure to comment this thoroughly!
 	//and seperate into seperate functions if it becomes too big!!
 	updateStates();
-	if (info.currentAIState == STATE_FLEEING)
+	if (info.currentAIState == AI_FLEEING)
 	{
 		//do fleeing code here
 		//fly away from painful things :(
@@ -634,7 +634,7 @@ void Ship::runAI()
 		//second objective is to find a friendly planet to warp to
 
 	}
-	else if (info.currentAIState == STATE_ATTACKING)
+	else if (info.currentAIState == AI_ATTACKING)
 	{
 		//do attacking code here
 		if (shipTarget)
@@ -667,10 +667,10 @@ void Ship::runAI()
 		else
 		{
 			//if theres no target, change the state
-			info.currentAIState = STATE_PATROLLING;
+			info.currentAIState = AI_PATROLLING;
 		}
 	}
-	else if (info.currentAIState == STATE_PATROLLING)
+	else if (info.currentAIState == AI_PATROLLING)
 	{
 		//crooze
 		info.velocity = info.maxVelocity/2;
@@ -689,11 +689,11 @@ void Ship::updateStates()
 	if (info.hull < info.maxHull/2)
 	{
 		//if hull is less than half, try to flee
-		info.currentAIState = STATE_FLEEING;
+		info.currentAIState = AI_FLEEING;
 	}
 	else if (shipTarget)
 	{
-		info.currentAIState = STATE_ATTACKING;
+		info.currentAIState = AI_ATTACKING;
 	}
 }
 
@@ -705,13 +705,13 @@ void Ship::searchForTarget()
 	{
 		//make sure we check factions first
 		//because sqrts are expensive
-		if (((*i)->getInfo().currentFaction == E_FACTION_PIRATE && this->getInfo().currentFaction != E_FACTION_PIRATE) || 
-			((*i)->getInfo().currentFaction != E_FACTION_PIRATE && this->getInfo().currentFaction == E_FACTION_PIRATE))
+		if (((*i)->getInfo().currentFaction == FACTION_PIRATE && this->getInfo().currentFaction != FACTION_PIRATE) || 
+			((*i)->getInfo().currentFaction != FACTION_PIRATE && this->getInfo().currentFaction == FACTION_PIRATE))
 		{
 			if ((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{
 				setTarget(*i);
-				info.currentAIState = STATE_ATTACKING;
+				info.currentAIState = AI_ATTACKING;
 			}
 		}
 	}

@@ -37,8 +37,9 @@ public:
 		ANTIMATTERI,
 		GATLINGI,
 		PHOTONI,
-		TOTALITEMS,
-	};	
+		//number of items
+		ITEM_COUNT
+	};
 	enum E_SHIP_LIST
 	{
 		PRAE_CRUISER,

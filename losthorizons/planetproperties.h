@@ -5,13 +5,13 @@
 
 //planets
 //each planet type has a different hardcoded value of production, index, etc
-enum E_PLANET_TYPES
+enum E_PLANET_TYPE
 {
-	E_PLANET_TERRAN,
-	E_PLANET_GAS,
-	E_PLANET_MOON,
-	E_PLANET_BARREN,
-	E_PLANET_ICE
+	PLANET_TERRAN,
+	PLANET_GAS,
+	PLANET_MOON,
+	PLANET_BARREN,
+	PLANET_ICE
 };
 
 class PlanetProperties : public ModelProperties

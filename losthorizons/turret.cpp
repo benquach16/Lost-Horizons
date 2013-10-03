@@ -16,7 +16,7 @@ TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *join
 void TurretSlot::assignTurret(const ObjectManager::E_ITEM_LIST turretType)
 {
 	//ensure that its a turret or else we will crash
-	if(ObjectManager::itemList[turretType]->getItemType() == E_ITEM_TURRET)
+	if(ObjectManager::itemList[turretType]->getItemType() == ITEM_TURRET)
 	{
 		//make sure that the childturret pointer is clear
 		removeTurret();

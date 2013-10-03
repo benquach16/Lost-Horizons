@@ -28,7 +28,7 @@ public:
 	void load(const std::string &filename);
 
 private:
-	E_GAMESCENES scene;
+	E_GAME_SCENE scene;
 	std::deque<ShipData> ships;
 	std::stack< std::pair<bool,u32> > shipTargets;
 	std::list<TargetableObject*> *targets;

@@ -14,11 +14,11 @@ class PlayerCamera
 {
 public:
 
-	enum E_CAMERA_MODES
+	enum E_CAMERA_MODE
 	{
-		E_CAMERA_ORBIT = 0,
-		E_CAMERA_CHASE = 1,
-		E_CAMERA_TOP = 2
+		CAMERA_ORBIT,
+		CAMERA_CHASE,
+		CAMERA_TOP
 	};
 
 	PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position = vector3df(0,0,0));
@@ -34,7 +34,7 @@ public:
 private:
 	scene::ICameraSceneNode *cam; 
 	f32 distance;		//distance from camera to player
-	E_CAMERA_MODES cameraMode;
+	E_CAMERA_MODE cameraMode;
 
 	//we need two angles cause there are two circles
 	f32 angle, angleY;

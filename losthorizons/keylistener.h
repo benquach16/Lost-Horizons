@@ -5,11 +5,11 @@
 
 using namespace irr;
 
-enum E_KEY_STATES
+enum E_KEY_STATE
 {
-	E_KEY_DOWN,
-	E_KEY_UP,
-	E_KEY_RELEASED
+	KEY_DOWN,
+	KEY_UP,
+	KEY_RELEASED
 };
 
 class KeyListener : public IEventReceiver

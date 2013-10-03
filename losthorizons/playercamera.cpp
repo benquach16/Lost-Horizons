@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "playercamera.h"
 
-PlayerCamera::PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position) : cameraMode(E_CAMERA_ORBIT),
+PlayerCamera::PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position) : cameraMode(CAMERA_ORBIT),
 	angle(0), angleY(0), distance(200), mouseX(0), mouseY(0), oldMouseWheel(0)
 {
 	cam = graphics->getSceneManager()->addCameraSceneNode(0, position);
@@ -30,7 +30,7 @@ void PlayerCamera::run(const vector3df &pos, f32 frameDeltaTime)
 	else if(angleY<0)
 		angleY+=360;
 	soundmngr->setListenerPosition(cam->getAbsolutePosition(), (cam->getTarget() - cam->getAbsolutePosition()));
-	if(cameraMode == E_CAMERA_ORBIT)
+	if(cameraMode == CAMERA_ORBIT)
 	{
 		orbit(pos, frameDeltaTime);
 	}

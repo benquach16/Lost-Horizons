@@ -25,7 +25,7 @@ private:
 	void updatePlayerInfo();
 	void updateTargetInfo();
 
-	const wchar_t *getFactionName(E_GAME_FACTIONS faction);
+	const wchar_t *getFactionName(E_GAME_FACTION faction);
 	//we're going to have this be the parent of everything in the hud
 	//gui::IGUIElement *window;
 	//the pointer to the background image for showing all the ship information
