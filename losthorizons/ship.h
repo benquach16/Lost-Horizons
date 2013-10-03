@@ -41,14 +41,17 @@ enum E_SUBSYSTEM_TYPE
 	//number of subsystems
 	SUBSYSTEM_COUNT
 };
-//each ship has several subsystems
+
+
+/*
+depreciated, delete when certain we can
 struct Subsystem
 {
 	int health;
 	std::wstring name;
 	Subsystem() : health(100) {}
 	Subsystem(const std::wstring &name) : name(name), health(100) {}
-};
+};*/
 
 //store all the ship info in a struct so we can save it easily
 struct ShipInformation
@@ -56,7 +59,7 @@ struct ShipInformation
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTION currentFaction;
 	E_AI_STATE currentAIState;
-	Subsystem subsystems[SUBSYSTEM_COUNT];
+	int subsystems[SUBSYSTEM_COUNT];
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
@@ -88,6 +91,8 @@ class Ship : public TargetableObject
 public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
+	//use this to pull names of the subsystem
+	static std::wstring subsystemNames[12];
 
 	Ship(const E_GAME_FACTION& faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
 	Ship(u16 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
@@ -126,7 +131,7 @@ public:
 	const ShipInformation& getInfo() const;
 	const TargetableObject* getShipTarget() const;
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
-	Subsystem& getSubsystem(int index);
+	int& getSubsystem(int index);
 	//returns an lvalue
 	Inventory& getInventory();
 	//returns an rvalue

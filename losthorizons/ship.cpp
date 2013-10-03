@@ -2,7 +2,11 @@
 #include "ship.h"
 #include <iostream>
 
+//set up static elements
 std::list<Ship*> Ship::allShips;
+std::wstring Ship::subsystemNames[12] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator",
+	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
+	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
 //time between ai updates to save cpu speed
 const unsigned AITIMER = 100;
@@ -143,7 +147,7 @@ void Ship::run(f32 frameDeltaTime)
 			movement(frameDeltaTime);
 
 			//recharge shields
-			if (info.subsystems[SUBSYSTEM_SHIELD].health > 0)
+			if (info.subsystems[SUBSYSTEM_SHIELD] > 0)
 			{
 				if(info.shield < info.maxShield)
 				{
@@ -219,7 +223,7 @@ void Ship::damage(int val)
 		//since armor and hull are damaged, kill off some of the crew
 		info.crew -= (rand()%info.crew)/4;
 		//and damage a subsystem
-		info.subsystems[rand()%SUBSYSTEM_COUNT].health -= rand()%100;
+		info.subsystems[rand()%SUBSYSTEM_COUNT] -= rand()%100;
 	}
 }
 
@@ -292,7 +296,7 @@ const E_TARGETABLEOBJECT_TYPE Ship::getTargetableObjectType() const
 	return TARGETABLEOBJECT_SHIP;
 }
 
-Subsystem& Ship::getSubsystem(int index)
+int& Ship::getSubsystem(int index)
 {
 	return info.subsystems[index];
 }
@@ -356,7 +360,7 @@ void Ship::launchFighters()
 void Ship::warpToTarget()
 {
 
-	if (shipTarget && info.subsystems[SUBSYSTEM_WARPDRIVE].health > 0)
+	if (shipTarget && info.subsystems[SUBSYSTEM_WARPDRIVE] > 0)
 	{
 		//make sure we have a target
 		//save to variable first to avoid multiple sqrt operations
@@ -596,19 +600,11 @@ void Ship::initEngineTrails()
 //add subsystems
 void Ship::initSubsystems()
 {
-	
-	info.subsystems[0] = Subsystem(L"Bridge");
-	info.subsystems[1] = Subsystem(L"Deck 1");
-	info.subsystems[2] = Subsystem(L"Deck 2");
-	info.subsystems[3] = Subsystem(L"Elevator");
-	info.subsystems[4] = Subsystem(L"Engine");
-	info.subsystems[5] = Subsystem(L"Warp Drive");
-	info.subsystems[6] = Subsystem(L"Shield Generator");
-	info.subsystems[7] = Subsystem(L"Power Plant");
-	info.subsystems[8] = Subsystem(L"Heavy Weapons");
-	info.subsystems[9] = Subsystem(L"Medium Weapons");
-	info.subsystems[10] = Subsystem(L"Light Weapons");
-	info.subsystems[11] = Subsystem(L"Point Defense");
+	//initialize health to 100
+	for(unsigned i = 0; i < SUBSYSTEM_COUNT; i++)
+	{
+		info.subsystems[i] = 100;
+	}
 }
 
 //private function

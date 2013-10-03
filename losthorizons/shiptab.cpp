@@ -21,7 +21,7 @@ ShipTab::ShipTab(gui::IGUITabControl *tabs, Player* player)
 
 	//initializing
 	for (unsigned i = 0; i < 12; ++i)
-		systemsList->addItem(player->getInfo().subsystems[i].name.c_str());
+		systemsList->addItem(Ship::subsystemNames[i].c_str());
 
 }
 
@@ -50,22 +50,22 @@ void ShipTab::textUpdate()
 	{
 		//replace the string -- health
 		stringw systemsHealthStr = L"Integrity : ";
-		systemsHealthStr += player -> getInfo().subsystems[index].health;
+		systemsHealthStr += player->getSubsystem(index);
 		systemsHealthStr += L"%";
 		systemsHealth -> setText(systemsHealthStr.c_str());
 	}
 
 	//replace the string -- crew required
 	stringw crewReqStr = L"Crew Required : ";
-	if(index >= 0 && index < static_cast<int>(12))
+	if(index >= 0 && index < 12)
 	{
-		int repairCount = 5 * (100 - player -> getInfo().subsystems[index].health);
+		int repairCount = 5 * (100 - player->getSubsystem(index));
 		crewReqStr += repairCount;
 		crewRq -> setText(crewReqStr.c_str());
 
 		if(repair -> isPressed())
 			if(repairCount < player -> getInfo().crew)
-				player -> getSubsystem(index).health = 100;
+				player->getSubsystem(index) = 100;
 	}
 	
 
