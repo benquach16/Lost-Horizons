@@ -75,7 +75,9 @@ void BaseApplication::run()
 		if (!menu->getVisible()) {
 			game->run(frameDeltaTime);
 			if (receiver->isKeyDown(irr::KEY_ESCAPE))
+			{
 				menu->setVisible(true);
+			}
 		}
 
 		guienv->drawAll();

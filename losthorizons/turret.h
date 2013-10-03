@@ -21,7 +21,7 @@ public:
 	//constructor for point defense oriented turretslots
 
 	//assigns a turret to this slot
-	void assignTurret(const ObjectManager::E_TURRET_LIST turretType);
+	void assignTurret(const ObjectManager::E_ITEM_LIST turretType);
 	//just checks if this turret slot is filled
 	bool getCanFire();
 	bool fire();
@@ -40,7 +40,7 @@ public:
 	const core::vector3df& getCurrentAim() const;
 	const core::vector3df& getPosition() const;
 
-	const ObjectManager::E_TURRET_LIST getTurretType() const;
+	const ObjectManager::E_ITEM_LIST getTurretType() const;
 
 protected:
 	//a dummy scene node to have the turret face in a particular direction
@@ -73,7 +73,7 @@ public:
 	//default constructor
 	Turret();
 	//if you actually want to create a 3d model
-	Turret(const ObjectManager::E_TURRET_LIST turretType, ISceneNode *parent, TurretSlot *parentSlot);
+	Turret(const ObjectManager::E_ITEM_LIST turretType, ISceneNode *parent, TurretSlot *parentSlot);
 	~Turret();
 
 	void aim(const core::vector3df &rotation, float frameDeltaTime);
@@ -81,14 +81,14 @@ public:
 
 	const Ship* getParent() const;
 
-	const ObjectManager::E_TURRET_LIST getTurretType() const
+	const ObjectManager::E_ITEM_LIST getTurretType() const
 	{
 		return turretType;
 	}
 
 protected:
 	TurretSlot *parentSlot;
-	const ObjectManager::E_TURRET_LIST turretType;
+	const ObjectManager::E_ITEM_LIST turretType;
 
 	//pointer to joint that our fire position is
 	IBoneSceneNode *shootJoint;

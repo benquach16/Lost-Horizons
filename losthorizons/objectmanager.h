@@ -33,6 +33,10 @@ public:
 		WATER,
 		IRIDIUM,
 		NANOALLOYS,
+		RAILGUNI,	//weapons should start here for organization
+		ANTIMATTERI,
+		GATLINGI,
+		PHOTONI,
 		TOTALITEMS,
 	};	
 	enum E_SHIP_LIST
@@ -43,14 +47,6 @@ public:
 	enum E_FIGHTER_LIST
 	{
 		DRAGONFLY,
-	};
-	enum E_TURRET_LIST
-	{
-		RAILGUNI,
-		ANTIMATTERI,
-		GATLINGI,
-		PHOTONI,
-		TOTALTURRETS,
 	};
 	enum E_PLANET_LIST
 	{
@@ -64,12 +60,11 @@ public:
 	};
 	
 	
-	static std::vector<ItemProperties> itemList;
-	static std::vector<ShipProperties> shipList;
-	static std::vector<FighterProperties> fighterList;
-	static std::vector<TurretProperties> turretList;
-	static std::vector<PlanetProperties> planetList;
-	static std::vector<SpaceStationProperties> stationList;
+	static std::vector<ItemProperties*> itemList;
+	static std::vector<ShipProperties*> shipList;
+	static std::vector<FighterProperties*> fighterList;
+	static std::vector<PlanetProperties*> planetList;
+	static std::vector<SpaceStationProperties*> stationList;
 };
 
 #endif

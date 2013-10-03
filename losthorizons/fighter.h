@@ -20,10 +20,10 @@ struct FighterInformation
 	vector3df targetRotation;
 	FighterInformation() {}
 	FighterInformation(ObjectManager::E_FIGHTER_LIST fighterType) 
-		: maxHull(ObjectManager::fighterList[fighterType].getMaxHull()), hull(maxHull),
-		maxVelocity(ObjectManager::fighterList[fighterType].getMaxVelocity()), velocity(0),
-		maxTurn(ObjectManager::fighterList[fighterType].getMaxTurn()),
-		maxFuel(ObjectManager::fighterList[fighterType].getMaxFuel()), fuel(maxFuel)
+		: maxHull(ObjectManager::fighterList[fighterType]->getMaxHull()), hull(maxHull),
+		maxVelocity(ObjectManager::fighterList[fighterType]->getMaxVelocity()), velocity(0),
+		maxTurn(ObjectManager::fighterList[fighterType]->getMaxTurn()),
+		maxFuel(ObjectManager::fighterList[fighterType]->getMaxFuel()), fuel(maxFuel)
 	{}
 };
 

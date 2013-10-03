@@ -14,6 +14,7 @@ public:
 protected:
 	void loadInventories();
 	void loadWeaponLists();
+	void refitWeapons();
 
 	Player *player;
 
