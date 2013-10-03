@@ -2,7 +2,7 @@
 #include "targetableobject.h"
 
 std::list<TargetableObject*> TargetableObject::allTargets;
-u32 TargetableObject::nextID(0);
+u16 TargetableObject::nextID(0);
 
 TargetableObject::TargetableObject()
 {
@@ -42,7 +42,7 @@ void TargetableObject::run(f32 frameDeltaTime)
 		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, SColor(255,255,255,255), true);
 }
 
-const u32 TargetableObject::getID() const
+const u16 TargetableObject::getID() const
 {
 	return ID;
 }
