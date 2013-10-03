@@ -219,7 +219,7 @@ void Ship::damage(int val)
 		//since armor and hull are damaged, kill off some of the crew
 		info.crew -= (rand()%info.crew)/4;
 		//and damage a subsystem
-		info.subsystems[rand()%info.subsystems.size()].health -= rand()%100;
+		info.subsystems[rand()%12].health -= rand()%100;
 	}
 }
 
@@ -294,7 +294,7 @@ const E_TARGETABLEOBJECT_TYPE Ship::getTargetableObjectType() const
 
 Subsystem& Ship::getSubsystem(int index)
 {
-	return info.subsystems.at(index);
+	return info.subsystems[index];
 }
 
 
@@ -596,18 +596,19 @@ void Ship::initEngineTrails()
 //add subsystems
 void Ship::initSubsystems()
 {
-	info.subsystems.push_back(Subsystem(L"Bridge"));
-	info.subsystems.push_back(Subsystem(L"Deck 1"));
-	info.subsystems.push_back(Subsystem(L"Deck 2"));
-	info.subsystems.push_back(Subsystem(L"Elevator"));
-	info.subsystems.push_back(Subsystem(L"Engine"));
-	info.subsystems.push_back(Subsystem(L"Warp Drive"));
-	info.subsystems.push_back(Subsystem(L"Shield Generator"));
-	info.subsystems.push_back(Subsystem(L"Power Plant"));
-	info.subsystems.push_back(Subsystem(L"Heavy Weapons"));
-	info.subsystems.push_back(Subsystem(L"Medium Weapons"));
-	info.subsystems.push_back(Subsystem(L"Light Weapons"));
-	info.subsystems.push_back(Subsystem(L"Point Defense"));
+	
+	info.subsystems[0] = Subsystem(L"Bridge");
+	info.subsystems[1] = Subsystem(L"Deck 1");
+	info.subsystems[2] = Subsystem(L"Deck 2");
+	info.subsystems[3] = Subsystem(L"Elevator");
+	info.subsystems[4] = Subsystem(L"Engine");
+	info.subsystems[5] = Subsystem(L"Warp Drive");
+	info.subsystems[6] = Subsystem(L"Shield Generator");
+	info.subsystems[7] = Subsystem(L"Power Plant");
+	info.subsystems[8] = Subsystem(L"Heavy Weapons");
+	info.subsystems[9] = Subsystem(L"Medium Weapons");
+	info.subsystems[10] = Subsystem(L"Light Weapons");
+	info.subsystems[11] = Subsystem(L"Point Defense");
 }
 
 //private function

@@ -58,7 +58,7 @@ struct ShipInformation
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTIONS currentFaction;
 	E_AI_STATES currentAIState;
-	std::vector<Subsystem> subsystems;
+	Subsystem subsystems[12];
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
@@ -80,7 +80,8 @@ struct ShipInformation
 		  crew(ObjectManager::shipList[shipType]->getMaxCrew()), maxCrew(crew),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType]->getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType]->getMaxTurn()),
-		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false){}
+		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false)
+	{}
 };
 
 //basic ship class

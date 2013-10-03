@@ -42,6 +42,10 @@ void HangarTab::run(SpaceStation *target)
 
 		refitWeapons();
 	}
+	if(repair->isPressed())
+	{
+		player->repairShip();
+	}
 }
 
 //protected function

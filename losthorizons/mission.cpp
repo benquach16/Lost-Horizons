@@ -3,6 +3,7 @@
 Mission::Mission()
 {
 	//randomly generate mission
+	
 }
 
 Mission::Mission(const MissionProperties& missionInfo)
@@ -23,5 +24,9 @@ void Mission::run()
 			//objective completed
 			objectives.erase(objectives.begin());
 		}
+	}
+	else
+	{
+		//mission complete
 	}
 }

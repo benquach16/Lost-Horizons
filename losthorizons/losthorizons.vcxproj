@@ -162,6 +162,7 @@
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="hangartab.h" />
+    <ClInclude Include="jobtab.h" />
     <ClInclude Include="menutab.h" />
     <ClInclude Include="mission.h" />
     <ClInclude Include="missionmanager.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="storetab.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="targetableobject.cpp" />
+    <ClCompile Include="trigger.cpp" />
     <ClCompile Include="turningmarker.cpp" />
     <ClCompile Include="turret.cpp" />
     <ClCompile Include="turretproperties.cpp" />
