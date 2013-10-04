@@ -34,10 +34,15 @@ public:
 		const vector3df &position, const vector3df &rotation, const vector3df &scale, const E_GAME_FACTION faction);
 	virtual ~TargetableObject();
 	virtual void run(f32 frameDeltaTime);
+
 	//overridable function designed to return specific information related to this object to the hud
 	//virtual void information(gui::IGUIImage *targetBkg);
+
+	//function to remove this from all targets
+	void removeThisFromTargets();
+
 	//mutators
-	void setFactionTo(const E_GAME_FACTION faction);
+	//void setFactionTo(const E_GAME_FACTION faction);
 
 	//some accessors
 	const u16 getID() const;

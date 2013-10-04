@@ -72,7 +72,6 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene, const vector3
 		Planet *farstar = new Planet(ObjectManager::E_PLANET_LIST::FARSTAR, vector3df(-40000,0,1000));
 		dynamicObjects.push(farstar);
 
-
 	}
 }
 
@@ -93,14 +92,15 @@ GameScene::~GameScene()
 	//delete all ships currently in the scene except for the player
 	while (Ship::allShips.size() > 1)
 		delete Ship::allShips.front();
-	while (SpaceStation::allStations.size() > 1)
+	while (!SpaceStation::allStations.empty())
 		delete SpaceStation::allStations.front();
-	while (Fighter::allFighters.size() > 1)
+	while (!Fighter::allFighters.empty())
 		delete Fighter::allFighters.front();
-
-	while(!Effect::allEffects.empty())
-	{
-		Effect::allEffects.erase(Effect::allEffects.begin());
+	while (!Projectile::allProjectiles.empty())
+		delete Projectile::allProjectiles.front();
+	while(!Effect::allEffects.empty()) {
+		delete Effect::allEffects.back();
+		Effect::allEffects.pop_back();
 	}
 }
 

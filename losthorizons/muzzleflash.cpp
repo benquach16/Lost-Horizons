@@ -12,7 +12,7 @@ Muzzleflash::Muzzleflash(IBoneSceneNode *parent, const vector3df &rotation) : Ef
 	mesh->setRotation(rotation + vector3df(0,180,0));
 	mesh->setScale(vector3df(0.5,0.5,0.5));
 	mesh->setPosition(parent->getAbsolutePosition());*/
-	particle = scenemngr->addParticleSystemSceneNode(false,parent);
+	particle = scenemngr->addParticleSystemSceneNode(false, parent);
 	scene::IParticleEmitter *emitter = particle->createSphereEmitter(vector3df(0,0,0), 
 		1.f, vector3df(0,0,0), 20, 200, video::SColor(255,0,0,0),video::SColor(255,255,255,255),500,1000,0,
 		core::dimension2df(2,2),
@@ -29,7 +29,6 @@ Muzzleflash::Muzzleflash(IBoneSceneNode *parent, const vector3df &rotation) : Ef
 
 Muzzleflash::~Muzzleflash()
 {
-	particle->remove();
 }
 
 bool Muzzleflash::run()

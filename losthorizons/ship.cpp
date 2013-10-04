@@ -106,7 +106,6 @@ Ship::~Ship()
 		coronaEffects.back()->remove();
 		coronaEffects.pop_back();
 	}
-	removeThisFromTargets();
 }
 
 void Ship::run(f32 frameDeltaTime)
@@ -323,16 +322,6 @@ std::vector<TurretSlot*>& Ship::getTurrets(E_TURRET_CLASS turretClass)
 bool Ship::isPlayer() const
 {
 	return ID == 0;
-}
-
-void Ship::removeThisFromTargets()
-{
-	//loop thru ship list and remove this ship if it is a target
-	for (std::list<Ship*>::iterator i = allShips.begin(); i != allShips.end(); ++i)
-	{
-		if ((*i)->getShipTarget() == this)
-			(*i)->setTarget(0);
-	}
 }
 
 void Ship::dockWithTarget()

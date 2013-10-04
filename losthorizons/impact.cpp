@@ -31,6 +31,7 @@ Impact::Impact(const vector3df &position) : Effect(IMPACTLENGTH), fireParticles(
 Impact::~Impact()
 {
 	fireParticles->remove();
+	//debrisParticles->remove();
 }
 
 

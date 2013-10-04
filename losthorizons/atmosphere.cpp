@@ -13,7 +13,7 @@ Atmosphere::Atmosphere(const vector3df& position) : atmosphereSceneNode(0)
 
 Atmosphere::~Atmosphere()
 {
-
+	atmosphereSceneNode->remove();
 }
 
 void Atmosphere::run()

@@ -130,9 +130,6 @@ public:
 
 	//returns whether the ship is a player or AI
 	bool isPlayer() const;
-	//function to remove this ship from all targets
-	//useful for segfaults and electronic warfare
-	void removeThisFromTargets();
 
 	//docking functions
 	void dockWithTarget();

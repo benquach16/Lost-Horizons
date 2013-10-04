@@ -28,6 +28,7 @@ TargetableObject::TargetableObject(const std::wstring& name, const std::wstring 
 TargetableObject::~TargetableObject()
 {
 	allTargets.erase(it);
+	removeThisFromTargets();
 }
 
 void TargetableObject::run(f32 frameDeltaTime)
@@ -36,10 +37,18 @@ void TargetableObject::run(f32 frameDeltaTime)
 	//update 2d position of this object
 	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
 	//draw a 2d target array on this object
-	if(faction == FACTION_PIRATE)
+	if (faction == FACTION_PIRATE)
 		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_enemy.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, SColor(255,255,255,255), true);
 	else
 		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, SColor(255,255,255,255), true);
+}
+
+void TargetableObject::removeThisFromTargets()
+{
+	//loop thru ship list and remove this if it is a target
+	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
+		if ((*i)->getShipTarget() == this)
+			(*i)->setTarget(0);
 }
 
 const u16 TargetableObject::getID() const
