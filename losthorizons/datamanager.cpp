@@ -90,6 +90,7 @@ std::ifstream& operator>>(std::ifstream& ifs, std::deque<T>& d)
 std::ifstream& operator>>(std::ifstream& ifs, DataManager::ShipData& shipData)
 {
     ifs >> shipData.ID >> shipData.target >> shipData.targetting >> shipData.position >> shipData.rotation >> shipData.info;
+	shipData.subsystems.resize(SUBSYSTEM_COUNT);
 	for (u32 i = 0; i < SUBSYSTEM_COUNT; ++i)
 		ifs >> shipData.subsystems[i];
     return ifs;

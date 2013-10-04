@@ -88,16 +88,21 @@ void StartMenu::run()
 			setVisible(false);
 		}
 		if (loadgame->isPressed()) {
-			if (!gConfig.bPlay) {
+			if (gConfig.bPlay) {
+				delete game;
+				game = new Gameloop(graphics, receiver, data);
+			} else {
 				gConfig.bPlay = true;
 				shift();
 			}
 			//game->createLoadedGame();
+			data->load("saves/___TEST_SAVE___.lsv");//temporary
 			setVisible(false);
 		}
 		if (savegame->isPressed()) {
-			//function for saving
 			saved = true;
+			//function for saving
+			data->save("saves/___TEST_SAVE___.lsv");//temporary
 			setVisible(false);
 		}
 		if (closegame->isPressed() && gConfig.bPlay) {
