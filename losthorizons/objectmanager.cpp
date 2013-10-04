@@ -32,29 +32,19 @@ ObjectManager::ObjectManager(IrrlichtDevice *graphics)
 
 ObjectManager::~ObjectManager()
 {
-	while(!itemList.empty())
-	{
-		delete itemList.back();
-		itemList.pop_back();
-	}
-	while(!shipList.empty())
-	{
+	for (u32 i = 0; i < itemList.size(); ++i)
+		delete itemList[i];
+	itemList.clear();
+	for (u32 i = 0; i < shipList.empty(); ++i)
 		delete shipList.back();
-		shipList.pop_back();
-	}
-	while(!fighterList.empty())
-	{
+	shipList.clear();
+	for (u32 i = 0; i < fighterList.empty(); ++i)
 		delete fighterList.back();
-		fighterList.pop_back();
-	}
-	while(!planetList.empty())
-	{
+	fighterList.clear();
+	for (u32 i = 0; i < planetList.empty(); ++i)
 		delete planetList.back();
-		planetList.pop_back();
-	}
-	while(!stationList.empty())
-	{
+	planetList.clear();
+	for (u32 i = 0; i < stationList.empty(); ++i)
 		delete stationList.back();
-		stationList.pop_back();
-	}
+	stationList.clear();
 }

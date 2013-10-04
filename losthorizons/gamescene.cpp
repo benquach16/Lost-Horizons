@@ -98,10 +98,9 @@ GameScene::~GameScene()
 		delete Fighter::allFighters.front();
 	while (!Projectile::allProjectiles.empty())
 		delete Projectile::allProjectiles.front();
-	while(!Effect::allEffects.empty()) {
-		delete Effect::allEffects.back();
-		Effect::allEffects.pop_back();
-	}  //is there a reason effects is a vector instead of a list?
+	for (u32 i = 0; i < Effect::allEffects.size(); ++i)
+		delete Effect::allEffects[i];
+	Effect::allEffects.clear();  //is there a reason effects is a vector instead of a list?
 }
 
 void GameScene::run(f32 frameDeltaTime)
