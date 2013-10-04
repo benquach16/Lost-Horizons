@@ -37,12 +37,11 @@ void HangarTab::run(SpaceStation *target)
 	loadInventories();
 	loadWeaponLists();
 
-	if(refit->isPressed())
+	if (refit->isPressed())
 	{
-
 		refitWeapons();
 	}
-	if(repair->isPressed())
+	if (repair->isPressed())
 	{
 		player->repairShip();
 	}
@@ -52,23 +51,23 @@ void HangarTab::run(SpaceStation *target)
 void HangarTab::loadInventories()
 {
 	//if they're empty make sure we refill them
-	if(!heavySlot->getItemCount())
+	if (!heavySlot->getItemCount())
 	{
-		for(unsigned i = 0; i < player->getInfo().heavyTurrets.size(); ++i)
+		for (unsigned i = 0; i < player->getTurrets(TURRET_HEAVY).size(); ++i)
 		{
 			heavySlot->addItem(std::to_wstring(i).c_str());
 		}
 	}
-	if(!mediumSlot->getItemCount())
+	if (!mediumSlot->getItemCount())
 	{
-		for(unsigned i = 0; i < player->getInfo().mediumTurrets.size(); ++i)
+		for (unsigned i = 0; i < player->getTurrets(TURRET_MEDIUM).size(); ++i)
 		{
 			mediumSlot->addItem(std::to_wstring(i).c_str());
 		}
 	}
-	if(!lightSlot->getItemCount())
+	if (!lightSlot->getItemCount())
 	{
-		for(unsigned i = 0; i < player->getInfo().lightTurrets.size(); ++i)
+		for (unsigned i = 0; i < player->getTurrets(TURRET_LIGHT).size(); ++i)
 		{
 			lightSlot->addItem(std::to_wstring(i).c_str());
 		}
@@ -81,23 +80,23 @@ void HangarTab::loadWeaponLists()
 	//update the combobox to allow the player to choose weapons
 	//create unique lists for each weaponslot
 
-	if(mediumSlot->getSelected() != -1)
+	if (mediumSlot->getSelected() != -1)
 	{
-		if(!mediumSlotWeapon->getItemCount())
+		if (!mediumSlotWeapon->getItemCount())
 		{
 			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
-			for(unsigned i = 0; i < weaponsList.size(); i++)
+			for (unsigned i = 0; i < weaponsList.size(); i++)
 			{
 				mediumSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName().c_str());
 			}
 		}
 	}
-	if(lightSlot->getSelected() != -1)
+	if (lightSlot->getSelected() != -1)
 	{
-		if(!lightSlotWeapon->getItemCount())
+		if (!lightSlotWeapon->getItemCount())
 		{
 			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getLightWeapons();
-			for(unsigned i = 0; i < weaponsList.size(); i++)
+			for (unsigned i = 0; i < weaponsList.size(); i++)
 			{
 				lightSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName().c_str());
 			}
@@ -110,7 +109,7 @@ void HangarTab::refitWeapons()
 	//refit for currently selected slot
 	//add the item back to inventory
 	std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
-	player->getInventory().addItem(player->getInfo().mediumTurrets[mediumSlot->getSelected()]->getTurretType(), 1);
+	player->getInventory().addItem(player->getTurrets(TURRET_MEDIUM)[mediumSlot->getSelected()]->getTurretType(), 1);
 	player->getInventory().removeItem(weaponsList[mediumSlotWeapon->getSelected()]);
 	player->setMediumTurret(weaponsList[mediumSlotWeapon->getSelected()], mediumSlot->getSelected());
 
@@ -118,7 +117,7 @@ void HangarTab::refitWeapons()
 	mediumSlot->clear();
 	
 	weaponsList = player->getInventory().getLightWeapons();
-	player->getInventory().addItem(player->getInfo().lightTurrets[lightSlot->getSelected()]->getTurretType(), 1);
+	player->getInventory().addItem(player->getTurrets(TURRET_LIGHT)[lightSlot->getSelected()]->getTurretType(), 1);
 	player->getInventory().removeItem(weaponsList[lightSlotWeapon->getSelected()]);
 	player->setLightTurret(weaponsList[lightSlotWeapon->getSelected()], lightSlot->getSelected());
 

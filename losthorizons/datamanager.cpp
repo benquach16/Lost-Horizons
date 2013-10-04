@@ -2,15 +2,16 @@
 #include "datamanager.h"
 #include <fstream>
 
-DataManager::ShipData& operator<<(DataManager::ShipData& shipData, const Ship *s)
+DataManager::ShipData& operator<<(DataManager::ShipData& shipData, Ship *s)
 {
 	shipData.ID = s->getID();
-	shipData.position = s->getPosition();
-	shipData.rotation = s->getRotation();
-	shipData.info = s->getInfo();
 	shipData.targetting = s->getShipTarget() != 0;
 	if (shipData.targetting)
 		shipData.target = s->getShipTarget()->getID();
+	shipData.position = s->getPosition();
+	shipData.rotation = s->getRotation();
+	shipData.info = s->getInfo();
+	shipData.subsystems = s->getSubsystems();
 	return shipData;
 }
 
@@ -50,11 +51,19 @@ std::ofstream& operator<<(std::ofstream& ofs, const T& t)
 template <typename T>
 std::ofstream& operator<<(std::ofstream& ofs, std::deque<T>& d)
 {
-	ofs << u32(d.size());
+	ofs << u16(d.size());
     while (!d.empty()) {
 		ofs << d.back();
 		d.pop_back();
 	}
+    return ofs;
+}
+
+std::ofstream& operator<<(std::ofstream& ofs, const DataManager::ShipData& shipData)
+{
+	ofs << shipData.ID << shipData.target << shipData.targetting << shipData.position << shipData.rotation << shipData.info;
+	for (u32 i = 0; i < SUBSYSTEM_COUNT; ++i)
+		ofs << shipData.subsystems[i];
     return ofs;
 }
 
@@ -68,13 +77,21 @@ std::ifstream& operator>>(std::ifstream& ifs, T& t)
 template <typename T>
 std::ifstream& operator>>(std::ifstream& ifs, std::deque<T>& d)
 {
-	u32 size;
+	u16 size;
 	ifs >> size;
 	T tmp;
-    for (unsigned i = 0; i < size; ++i) {
+    for (u16 i = 0; i < size; ++i) {
 		ifs >> tmp;
 		d.push_front(tmp);
 	}
+    return ifs;
+}
+
+std::ifstream& operator>>(std::ifstream& ifs, DataManager::ShipData& shipData)
+{
+    ifs >> shipData.ID >> shipData.target >> shipData.targetting >> shipData.position >> shipData.rotation >> shipData.info;
+	for (u32 i = 0; i < SUBSYSTEM_COUNT; ++i)
+		ifs >> shipData.subsystems[i];
     return ifs;
 }
 
@@ -93,8 +110,8 @@ void DataManager::push()
 	if (gConfig.bPlay) {
 		game->getGameSceneManager()->changeCurrentScene(scene);
 		while (!ships.empty()) {
-			game->getGameSceneManager()->getCurrentScene()->createShip(ships.front().ID, ships.front().info, ships.front().position, ships.front().rotation);
-			shipTargets.push(std::pair<bool,u32>(ships.front().targetting, ships.front().target));
+			game->getGameSceneManager()->getCurrentScene()->createShip(ships.front().ID, ships.front().info, ships.front().subsystems, ships.front().position, ships.front().rotation);
+			shipTargets.push(std::pair<bool,u16>(ships.front().targetting, ships.front().target));
 			ships.pop_front();
 		}
 		setShipTargets();
@@ -106,14 +123,14 @@ void DataManager::save(const std::string &filename)
 {
 	pull();
 	std::ofstream ofs(filename.c_str(), std::ios::binary);
-	ofs << scene << ships << TargetableObject::nextID;
+	ofs << scene << TargetableObject::nextID << ships;
 	ofs.close();
 }
 
 void DataManager::load(const std::string &filename)
 {
 	std::ifstream ifs(filename.c_str(), std::ios::binary);
-	ifs >> scene >> ships >> TargetableObject::nextID;
+	ifs >> scene >> TargetableObject::nextID >> ships;
 	ifs.close();
 	gConfig.bPlay = true;
 	push();
@@ -121,13 +138,14 @@ void DataManager::load(const std::string &filename)
 
 void DataManager::setShipTargets()
 {
-	targets = new std::list<TargetableObject*>[10];
+	u32 size = TargetableObject::allTargets.size()/3;
+	targets = new std::list<TargetableObject*>[size];
 	for (std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); ++i) {
-		targets[(*i)->getID()%10].push_front(*i);
+		targets[(*i)->getID()%size].push_front(*i);
 	}
 	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
 		if (shipTargets.top().first) {
-			std::list<TargetableObject*>::iterator j = targets[shipTargets.top().second%10].begin();
+			std::list<TargetableObject*>::iterator j = targets[shipTargets.top().second%size].begin();
 			while ((*j)->getID() != shipTargets.top().second)
 				j++;
 			(*i)->setTarget(*j);

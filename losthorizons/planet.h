@@ -11,13 +11,13 @@
 class Planet : public TargetableObject
 {
 public:
-
 	//parameterized constructor
-	Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df &position);
+	Planet(ObjectManager::E_PLANET_LIST pleantType, const vector3df &position);
 	~Planet();
 	virtual void run();
 
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
+
 protected:
 	scene::IAnimatedMeshSceneNode *cloudMesh;
 	//scene::IBillboardSceneNode *atmosphere;
@@ -37,11 +37,5 @@ protected:
 	//tech level of the planet
 	int techIndex;
 	int maxTechLevel;
-
-
-	
-
 };
-
-
 #endif

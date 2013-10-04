@@ -7,8 +7,8 @@ Player::Player(E_GAME_FACTION faction, ObjectManager::E_SHIP_LIST shipType, cons
 	game->setPlayer(this);
 }
 
-Player::Player(const ShipInformation &info, const vector3df &position, const vector3df &rotation)
-	: Ship(0, info, position, rotation)
+Player::Player(const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
+	: Ship(0, info, subsystems, position, rotation)
 {
 	game->setPlayer(this);
 }

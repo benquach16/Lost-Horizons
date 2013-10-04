@@ -9,7 +9,7 @@ TargetableObject::TargetableObject()
 }
 
 TargetableObject::TargetableObject(u16 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation,
-								   const E_GAME_FACTION& faction)
+								   const E_GAME_FACTION faction)
 	: Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()),
 	  ID(ID), name(modelProps.getName()), description(modelProps.getDesc()), faction(faction)
 {
@@ -18,7 +18,7 @@ TargetableObject::TargetableObject(u16 ID, const ModelProperties& modelProps, co
 }
 
 TargetableObject::TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
-		const vector3df &position, const vector3df &rotation, const vector3df &scale, const E_GAME_FACTION& faction)
+		const vector3df &position, const vector3df &rotation, const vector3df &scale, const E_GAME_FACTION faction)
 		: Object(filename, position, rotation, scale), faction(faction), name(name), description(description)
 {
 	allTargets.push_front(this);

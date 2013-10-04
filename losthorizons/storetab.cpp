@@ -28,7 +28,7 @@ void StoreTab::run(SpaceStation *target)
 	loadInventories(target);
 
 	std::wstring str(L"Your Credits :");
-	str += std::to_wstring(player->getInfo().inventory.getCredits());
+	str += std::to_wstring(player->getInventory().getCredits());
 	playerCash->setText(str.c_str());
 	int i = playerInventory->getSelected();
 
@@ -93,7 +93,7 @@ void StoreTab::loadInventories(SpaceStation *target)
 {
 	//updating is slow!
 	//only update when something is for sure changed!
-	std::vector<std::wstring> data = player->getInfo().inventory.getConvertedInventory();
+	std::vector<std::wstring> data = player->getInventory().getConvertedInventory();
 
 	if(!playerInventory->getItemCount())
 	{

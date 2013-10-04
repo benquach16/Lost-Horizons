@@ -15,7 +15,7 @@ enum E_OFFICER_TYPE
 class Officer
 {
 public:
-	Officer(const std::wstring &name, const E_OFFICER_TYPE type);
+	Officer(const std::wstring &name, const E_OFFICER_TYPE officerType);
 	~Officer();
 
 protected:

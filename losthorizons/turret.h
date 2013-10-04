@@ -17,7 +17,7 @@ class TurretSlot
 public:
 	//constructors
 	//parameterized constructor
-	TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS &turretClass, Ship* parent);
+	TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS turretClass, Ship* parent);
 	//constructor for point defense oriented turretslots
 
 	//assigns a turret to this slot

@@ -199,17 +199,17 @@ const E_TURRET_CLASS TurretProperties::getTurretClass() const
 //protected function
 E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
 {
-	if(str == L"light")
+	if(str == L"heavy")
 	{
-		return TURRET_LIGHT;
+		return TURRET_HEAVY;
 	}
 	else if(str == L"medium")
 	{
 		return TURRET_MEDIUM;
 	}
-	else if(str == L"heavy")
+	else if(str == L"light")
 	{
-		return TURRET_HEAVY;
+		return TURRET_LIGHT;
 	}
 	else if(str == L"pd")
 	{

@@ -4,7 +4,7 @@
 #include <iostream>
 
 //BEGIN TURRETSLOT
-TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS &turretClass, Ship* parent) : 
+TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS turretClass, Ship* parent) : 
 	joint(joint), childTurret(0), properties(properties), rotationOffset(properties.rotation), parent(parent)
 {
 	//we have not one but two scene nodes beecause joints fuck things up
@@ -150,7 +150,7 @@ const ObjectManager::E_ITEM_LIST TurretSlot::getTurretType() const
 	}
 	else
 	{
-		//welp
+		return ObjectManager::ITEM_COUNT;
 	}
 }
 

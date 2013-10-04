@@ -1,8 +1,8 @@
 #ifndef _SHIP_H_
 #define _SHIP_H_
 
-#include <list>
 #include <string>
+#include <list>
 #include <vector>
 
 #include "targetableobject.h"
@@ -59,17 +59,10 @@ struct ShipInformation
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTION currentFaction;
 	E_AI_STATE currentAIState;
-	int subsystems[SUBSYSTEM_COUNT];
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	bool docked, warping;
-	Inventory inventory;
-	//data containers for the turrets of the ship
-	std::vector<TurretSlot*> heavyTurrets;
-	std::vector<TurretSlot*> mediumTurrets;
-	std::vector<TurretSlot*> lightTurrets;
-	std::vector<TurretSlot*> pdTurrets;
 	ShipInformation() {}
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTION faction)
 		: shipType(shipType), currentFaction(faction), currentAIState(AI_PATROLLING),
@@ -92,10 +85,10 @@ public:
 	//contain the list inside ship class so all ships can access any other ship if needed
 	static std::list<Ship*> allShips;
 	//use this to pull names of the subsystem
-	static std::wstring subsystemNames[];
+	static std::wstring subsystemNames[SUBSYSTEM_COUNT];
 
 	Ship(const E_GAME_FACTION& faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
-	Ship(u16 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation);
+	Ship(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation);
 	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();
@@ -107,7 +100,7 @@ public:
 
 	//combat functions
 	void fireTurrets();
-	void damage(int val);
+	void damage(s32 val);
 
 	//rotate ship to specific angle
 	void setTargetRotation(const vector3df &newTargetRotation);
@@ -131,11 +124,9 @@ public:
 	const ShipInformation& getInfo() const;
 	const TargetableObject* getShipTarget() const;
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
-	int& getSubsystem(int index);
-	//returns an lvalue
+	std::vector<s8>& getSubsystems();
 	Inventory& getInventory();
-	//returns an rvalue
-	const Inventory& getInventory() const;
+	std::vector<TurretSlot*>& getTurrets(E_TURRET_CLASS turretClass);
 
 	//returns whether the ship is a player or AI
 	bool isPlayer() const;
@@ -151,14 +142,23 @@ public:
 	void launchFighters();
 	
 	void warpToTarget();
+
 protected:
 	//ship stats
 	ShipInformation info;
 
-
+	//data containers
+	std::vector<s8> subsystems;
+	Inventory inventory;
+	//turrets
+	std::vector<TurretSlot*> heavyTurrets;
+	std::vector<TurretSlot*> mediumTurrets;
+	std::vector<TurretSlot*> lightTurrets;
+	std::vector<TurretSlot*> pdTurrets;
 
 	//important misc variables
 	TargetableObject *shipTarget;
+
 	//engine trail variables
 	std::vector<IParticleSystemSceneNode*> engineParticles;
 	std::vector<IBillboardSceneNode*> coronaEffects;
@@ -167,10 +167,9 @@ protected:
 	std::list<Ship*>::iterator it;
 
 	//controls how fast we want the shields to recharge
-	unsigned shieldTimer;
+	u32 shieldTimer;
 
 private:
-	
 	//change the ship's position
 	void rotate(f32 frameDeltaTime);
 	void movement(f32 frameDeltaTime);
@@ -181,9 +180,6 @@ private:
 
 	//initialize particle effects
 	void initEngineTrails();
-
-	//initialize subsystems
-	void initSubsystems();
 
 	//AI functions
 	void runAI();

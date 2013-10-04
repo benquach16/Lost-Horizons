@@ -6,10 +6,9 @@ GameScene::GameScene()
 {
 }
 
-GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene) : graphics(graphics), scene(scene)
+GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene, const vector3df &position)
+	: graphics(graphics), scene(scene), playerCam(new PlayerCamera(graphics, position))
 {
-	//setup camera for menu scene
-	playerCam = createPlayerCam();
 	if (scene == SCENE_MAINMENU)
 	{
 		//create sun for menu background
@@ -79,6 +78,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene) : graphics(gr
 
 GameScene::~GameScene()
 {
+	delete playerCam;
 	skybox->remove();
 	while (!sceneObjects.empty())
 	{
@@ -152,12 +152,12 @@ Ship *GameScene::createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP
 		return new Ship(faction, shipType, position, rotation);
 }
 
-Ship *GameScene::createShip(u16 ID, const ShipInformation &info, const vector3df &position, const vector3df &rotation)
+Ship *GameScene::createShip(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
 {
 	if (Ship::allShips.empty())
-		return new Player(info, position, rotation);
+		return new Player(info, subsystems, position, rotation);
 	else
-		return new Ship(ID, info, position, rotation);
+		return new Ship(ID, info, subsystems, position, rotation);
 }
 
 Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)

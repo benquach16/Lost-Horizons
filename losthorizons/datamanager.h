@@ -10,10 +10,11 @@ public:
 	struct ShipData
 	{
 		u16 ID, target;
+		bool targetting;
 		vector3df position, rotation;
 		ShipInformation info;
+		std::vector<s8> subsystems;
 		//std::vector<TurretData> mediumTurrets;
-		bool targetting;
 	};
 	struct TurretData
 	{

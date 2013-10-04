@@ -31,12 +31,11 @@ void Gameloop::init()
 {
 	//create super important objects
 	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
-	intercom = new Intercom(player);
 	hud = new HUD(player);
+	intercom = new Intercom(player);
 	turning = new TurningMarker(player);
 	stationMenu = new StationMenu(player);
 	gameMenu = new GameMenu(player);
-
 }
 
 void Gameloop::run(f32 frameDeltaTime)
