@@ -1,22 +1,13 @@
 #include "inventory.h"
 
 
-Inventory::Inventory() : credits(0)
+Inventory::Inventory()
+	: credits(0), data(ObjectManager::ITEM_COUNT, 0)
 {
-	//set the counts for all the items in the game
-	for(unsigned i = 0; i < ObjectManager::E_ITEM_LIST::ITEM_COUNT; ++i)
-	{
-		data.push_back(0);
-	}
 }
 
 Inventory::~Inventory()
 {
-	while(!data.empty())
-	{
-		//pop
-		data.erase(data.begin());
-	}
 }
 
 Inventory& Inventory::operator+=(const Inventory& rhs)
@@ -40,38 +31,33 @@ void Inventory::addItem(ObjectManager::E_ITEM_LIST itemType, unsigned amount)
 	data[itemType]+=amount;
 }
 
-
 void Inventory::addItem(const ItemProperties& item, unsigned amount)
 {
 	//loop to find it
-	for(unsigned i = 0; i < data.size(); ++i)
+	for (unsigned i = 0; i < data.size(); ++i)
 	{
-		if(*ObjectManager::itemList[i] == item)
+		if (*ObjectManager::itemList[i] == item)
 		{
 			data[i]+=amount;
 		}
 	}
 }
 
-
 void Inventory::removeItem(ObjectManager::E_ITEM_LIST itemType)
 {
-	//make sure we dont accidently increase the number to the maximum unsigned value
-	if(data[itemType] > 0)
+	//make sure we don't accidentally increase the number to the maximum unsigned value
+	if (data[itemType] > 0)
 		data[itemType]--;
 }
 
-
-
 const unsigned Inventory::getItemCount(ObjectManager::E_ITEM_LIST itemType)
 {
-	//just loop and scan
 	return data[itemType];
 }
 
-const unsigned Inventory::operator[](unsigned i) const
+const unsigned Inventory::operator[](unsigned index) const
 {
-	return data[i];
+	return data[index];
 }
 
 std::vector<std::wstring> Inventory::getConvertedInventory() const
@@ -81,7 +67,7 @@ std::vector<std::wstring> Inventory::getConvertedInventory() const
 	std::vector<std::wstring> ret;
 	for (unsigned i = 0; i < data.size(); ++i)
 	{
-		if(data[i] > 0)
+		if (data[i] > 0)
 		{
 			std::wstring tmp = ObjectManager::itemList[i]->getName();
 			tmp += L" x";
@@ -97,7 +83,7 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getConvertedInventoryNoSpaces
 	std::vector<ObjectManager::E_ITEM_LIST> ret;
 	for (unsigned i = 0; i < data.size(); ++i)
 	{
-		if(data[i] > 0)
+		if (data[i] > 0)
 		{
 			//index corresponds to enum
 			ret.push_back((ObjectManager::E_ITEM_LIST)i);
@@ -109,9 +95,9 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getConvertedInventoryNoSpaces
 std::vector<std::wstring> Inventory::getWeaponsList() const
 {
 	std::vector<std::wstring> ret;
-	for( unsigned i = 0; i < data.size(); ++i)
+	for (unsigned i = 0; i < data.size(); ++i)
 	{
-		if(ObjectManager::itemList[i]->getItemType() == ITEM_TURRET)
+		if (ObjectManager::itemList[i]->getItemType() == ITEM_TURRET)
 		{
 			std::wstring tmp = ObjectManager::itemList[i]->getName();
 			tmp += L" x";
@@ -129,10 +115,10 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getMediumWeapons() const
 	std::vector<ObjectManager::E_ITEM_LIST> ret;
 	for (unsigned i = 0; i < data.size(); i++)
 	{
-		if(ObjectManager::itemList[i]->getItemType() == ITEM_TURRET && data[i] > 0)
+		if (ObjectManager::itemList[i]->getItemType() == ITEM_TURRET && data[i] > 0)
 		{
 			TurretProperties *t = (TurretProperties*)ObjectManager::itemList[i];
-			if(t->getTurretClass() == TURRET_MEDIUM)
+			if (t->getTurretClass() == TURRET_MEDIUM)
 				ret.push_back((ObjectManager::E_ITEM_LIST)i);
 		}
 	}
@@ -145,10 +131,10 @@ std::vector<ObjectManager::E_ITEM_LIST> Inventory::getLightWeapons() const
 	std::vector<ObjectManager::E_ITEM_LIST> ret;
 	for (unsigned i = 0; i < data.size(); i++)
 	{
-		if(ObjectManager::itemList[i]->getItemType() == ITEM_TURRET && data[i] > 0)
+		if (ObjectManager::itemList[i]->getItemType() == ITEM_TURRET && data[i] > 0)
 		{
 			TurretProperties *t = (TurretProperties*)ObjectManager::itemList[i];
-			if(t->getTurretClass() == TURRET_LIGHT)
+			if (t->getTurretClass() == TURRET_LIGHT)
 				ret.push_back((ObjectManager::E_ITEM_LIST)i);
 		}		
 	}
@@ -160,7 +146,7 @@ const int Inventory::getCredits() const
 	return credits;
 }
 
-void Inventory::addCredits(int modifier)
+void Inventory::addCredits(int val)
 {
-	credits += modifier;
+	credits += val;
 }

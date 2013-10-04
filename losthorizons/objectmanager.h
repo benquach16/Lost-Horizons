@@ -60,7 +60,6 @@ public:
 		SHIPYARD
 	};
 	
-	
 	static std::vector<ItemProperties*> itemList;
 	static std::vector<ShipProperties*> shipList;
 	static std::vector<FighterProperties*> fighterList;

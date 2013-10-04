@@ -182,11 +182,11 @@ void Turret::aim(const core::vector3df &rotation, float frameDeltaTime)
 	core::vector3df rot(getRotation());
 	if(getRotation().Y < rotation.Y)
 	{
-		rot.Y += ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn() * frameDeltaTime;
+		rot.Y += ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
 	}
 	if(getRotation().Y > rotation.Y)
 	{
-		rot.Y -= ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn() * frameDeltaTime;
+		rot.Y -= ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
 	}
 	rot.Y = rotation.Y;
 	setRotation(rot);

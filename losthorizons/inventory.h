@@ -35,7 +35,7 @@ public:
 
 	//overload the subscript operator
 	const unsigned getItemCount(ObjectManager::E_ITEM_LIST itemType);
-	const unsigned operator[](unsigned i) const;
+	const unsigned operator[](unsigned index) const;
 
 	//depreciated
 	//return rvalue
@@ -54,7 +54,7 @@ public:
 	std::vector<ObjectManager::E_ITEM_LIST> getLightWeapons() const;
 
 	const int getCredits() const;
-	void addCredits(int modifier);
+	void addCredits(int val);
 protected:
 	//each index corresponds to an item
 	std::vector<unsigned> data;
