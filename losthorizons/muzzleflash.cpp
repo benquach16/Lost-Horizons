@@ -29,6 +29,7 @@ Muzzleflash::Muzzleflash(IBoneSceneNode *parent, const vector3df &rotation) : Ef
 
 Muzzleflash::~Muzzleflash()
 {
+	particle->remove();
 }
 
 bool Muzzleflash::run()
