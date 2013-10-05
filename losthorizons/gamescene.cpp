@@ -90,6 +90,9 @@ GameScene::~GameScene()
 		dynamicObjects.pop();
 	}
 	//delete all ships currently in the scene except for the player
+	for (u32 i = 0; i < Effect::allEffects.size(); ++i)
+		delete Effect::allEffects[i];
+	Effect::allEffects.clear();
 	while (Ship::allShips.size() > 1)
 		delete Ship::allShips.front();
 	while (!SpaceStation::allStations.empty())
@@ -98,9 +101,6 @@ GameScene::~GameScene()
 		delete Fighter::allFighters.front();
 	while (!Projectile::allProjectiles.empty())
 		delete Projectile::allProjectiles.front();
-	for (u32 i = 0; i < Effect::allEffects.size(); ++i)
-		delete Effect::allEffects[i];
-	Effect::allEffects.clear();
 }
 
 void GameScene::run(f32 frameDeltaTime)
