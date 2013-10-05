@@ -45,6 +45,7 @@ MissionProperties::MissionProperties(irr::IrrlichtDevice *graphics, const std::s
 					file->getAttributeValueAsFloat(L"posX");
 					file->getAttributeValueAsFloat(L"posY");
 					file->getAttributeValueAsFloat(L"posZ");
+
 				}
 				if(core::stringw(L"objectives").equals_ignore_case(file->getNodeName()) && currentTree.equals_ignore_case(L""))
 				{

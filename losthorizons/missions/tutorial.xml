@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<mission>
+	<name>Getting started</name>
+	<description>Do stuff that other people tell you to do.</description>
+	<createShip type="ISHTAR_CRUISER" faction="FACTION_PIRATE" posX="-1000" posY="0" posZ="2300"/>
+	<createShip type="ISHTAR_CRUISER" faction="FACTION_PIRATE" posX="500" posY="0" posZ="2000"/>
+	<objectives num="1">
+		<A type="sweep" posX="0" posY="0" posZ="2000" radius="2000"/>
+	</objectives>
+	<rewards credits="2000">
+	</rewards>
+</mission>

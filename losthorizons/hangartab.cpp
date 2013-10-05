@@ -43,7 +43,12 @@ void HangarTab::run(SpaceStation *target)
 	}
 	if (repair->isPressed())
 	{
-		player->repairShip();
+		int cost = player->getInfo().maxHull - player->getInfo().hull;
+		if(player->getInventory().getCredits() > cost)
+		{
+			player->repairShip();
+			player->getInventory().addCredits(-cost);
+		}
 	}
 }
 

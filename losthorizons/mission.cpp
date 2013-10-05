@@ -8,6 +8,7 @@ Mission::Mission()
 
 Mission::Mission(const MissionProperties& missionInfo)
 {
+
 }
 
 Mission::~Mission()
