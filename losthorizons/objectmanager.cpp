@@ -35,16 +35,16 @@ ObjectManager::~ObjectManager()
 	for (u32 i = 0; i < itemList.size(); ++i)
 		delete itemList[i];
 	itemList.clear();
-	for (u32 i = 0; i < shipList.empty(); ++i)
-		delete shipList.back();
+	for (u32 i = 0; i < shipList.size(); ++i)
+		delete shipList[i];
 	shipList.clear();
-	for (u32 i = 0; i < fighterList.empty(); ++i)
-		delete fighterList.back();
+	for (u32 i = 0; i < fighterList.size(); ++i)
+		delete fighterList[i];
 	fighterList.clear();
-	for (u32 i = 0; i < planetList.empty(); ++i)
-		delete planetList.back();
+	for (u32 i = 0; i < planetList.size(); ++i)
+		delete planetList[i];
 	planetList.clear();
-	for (u32 i = 0; i < stationList.empty(); ++i)
-		delete stationList.back();
+	for (u32 i = 0; i < stationList.size(); ++i)
+		delete stationList[i];
 	stationList.clear();
 }
