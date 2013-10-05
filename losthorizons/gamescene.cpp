@@ -100,7 +100,7 @@ GameScene::~GameScene()
 		delete Projectile::allProjectiles.front();
 	for (u32 i = 0; i < Effect::allEffects.size(); ++i)
 		delete Effect::allEffects[i];
-	Effect::allEffects.clear();  //is there a reason effects is a vector instead of a list?
+	Effect::allEffects.clear();
 }
 
 void GameScene::run(f32 frameDeltaTime)
@@ -128,15 +128,18 @@ void GameScene::run(f32 frameDeltaTime)
 		(*i)->run(frameDeltaTime);
 	}
 	//run effects
-	for(unsigned i = 0; i < Effect::allEffects.size(); i++)
+	for (unsigned i = 0; i < Effect::allEffects.size(); ++i)
 	{
-		if(!Effect::allEffects[i]->run())
+		if (!Effect::allEffects[i]->run())
 		{
-			Effect::allEffects.erase(Effect::allEffects.begin()+i);
+			delete Effect::allEffects[i];
+			Effect::allEffects[i] = Effect::allEffects.back();
+			Effect::allEffects.pop_back();
+			i--;
 		}
 	}
 }
- 
+
 //functions for creating scene objects
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 {
