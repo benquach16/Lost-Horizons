@@ -37,6 +37,7 @@ void Gameloop::init()
 	turning = new TurningMarker(player);
 	stationMenu = new StationMenu(player);
 	gameMenu = new GameMenu(player);
+	missionManager->addMission(MissionProperties(graphics, "missions/tutorial.xml"));
 }
 
 void Gameloop::run(f32 frameDeltaTime)
@@ -51,6 +52,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	intercom->run();
 	turning->run();
 	visualsManager->run();
+	missionManager->run();
 	stationMenu->run(player->getShipTarget());
 	gameMenu->run();
 }

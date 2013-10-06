@@ -22,6 +22,7 @@ protected:
 	std::wstring name;
 	std::wstring description;
 	unsigned numOfObjectives;
+	std::vector<Objective> objectives;
 };
 
 #endif
