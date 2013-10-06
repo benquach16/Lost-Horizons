@@ -22,6 +22,8 @@ TurningMarker::TurningMarker(Player *player) : player(player), XYcircle(0), YZci
 	arrow->setMaterialTexture(0,vdriver->getTexture("res/textures/arrow.png"));
 	arrow->setMaterialFlag(video::EMF_LIGHTING, false);
 	arrow->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+
+	setVisible(false);
 }
 
 TurningMarker::~TurningMarker()

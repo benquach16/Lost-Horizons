@@ -13,7 +13,6 @@ using namespace scene;
 class PlayerCamera
 {
 public:
-
 	enum E_CAMERA_MODE
 	{
 		CAMERA_ORBIT,
@@ -21,7 +20,7 @@ public:
 		CAMERA_TOP
 	};
 
-	PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position = vector3df(0,0,0));
+	PlayerCamera(const vector3df &position = vector3df(0.f,0.f,0.f));
 	~PlayerCamera();
 	void run(const vector3df &pos, f32 frameDeltaTime);
 	void orbit(const vector3df &pos, f32 frameDeltaTime);
@@ -33,8 +32,9 @@ public:
 	
 private:
 	scene::ICameraSceneNode *cam; 
-	f32 distance;		//distance from camera to player
 	E_CAMERA_MODE cameraMode;
+	//distance from camera to player
+	f32 distance;
 
 	//we need two angles cause there are two circles
 	f32 angle, angleY;

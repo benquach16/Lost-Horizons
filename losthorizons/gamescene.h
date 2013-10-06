@@ -33,13 +33,10 @@ using namespace video;
 class GameScene
 {
 public:
-	GameScene();
-	//parameterized constructor
-	//for creating a specific scene
-	GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene = SCENE_MAINMENU, const vector3df &position = vector3df(0.f,0.f,0.f));
+	GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene);
 	~GameScene();
-	void loadScene();
-	void saveScene();
+	//void loadScene();
+	//void saveScene();
 	void run(f32 frameDeltaTime);
 
 	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));

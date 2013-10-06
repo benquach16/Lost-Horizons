@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "playercamera.h"
 
-PlayerCamera::PlayerCamera(irr::IrrlichtDevice *graphics, const vector3df &position) : cameraMode(CAMERA_ORBIT),
-	angle(0), angleY(0), distance(200), mouseX(0), mouseY(0), oldMouseWheel(0)
+PlayerCamera::PlayerCamera(const vector3df &position)
+	: cam(scenemngr->addCameraSceneNode(0, position)), cameraMode(CAMERA_ORBIT), distance(200), angle(0), angleY(0),
+	  mouseX(0), mouseY(0), oldMouseWheel(0)
 {
-	cam = graphics->getSceneManager()->addCameraSceneNode(0, position);
 	cam->setFarValue(500000);
 }
 

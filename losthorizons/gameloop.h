@@ -20,7 +20,6 @@
 class Gameloop
 {
 public:
-	Gameloop();
 	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
 	~Gameloop();
 	void init();

@@ -1,20 +1,9 @@
 #include "stdafx.h"
 #include "gamescenemanager.h"
 
-GameSceneManager::GameSceneManager() : currentScene(0)
+GameSceneManager::GameSceneManager(irr::IrrlichtDevice *graphics, E_GAME_SCENE scene)
+	: graphics(graphics), currentScene(new GameScene(graphics, scene))
 {
-
-}
-
-GameSceneManager::GameSceneManager(irr::IrrlichtDevice *graphics) : currentScene(new GameScene(graphics)), graphics(graphics)
-{
-	//create scene
-}
-
-GameSceneManager::GameSceneManager(irr::IrrlichtDevice *graphics, E_GAME_SCENE scene) : currentScene(new GameScene(graphics, scene)),
-	graphics(graphics)
-{
-	//create specific scene
 }
 
 GameSceneManager::~GameSceneManager()

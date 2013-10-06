@@ -2,13 +2,9 @@
 #include "gameloop.h"
 
 
-Gameloop::Gameloop()
-{
-}
-
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), 
+	  objectManager(new ObjectManager(graphics)), playerCam(0), hud(0), turning(0), visualsManager(new VisualsManager), 
 	  missionManager(new MissionManager), stationMenu(0), gameMenu(0), intercom(0)
 {
 }
@@ -31,7 +27,7 @@ Gameloop::~Gameloop()
 void Gameloop::init()
 {
 	//create super important objects
-	playerCam = gameSceneManager->getCurrentScene()->getCurrentSceneCamera();
+	playerCam = gameSceneManager->getCurrentScene()->createPlayerCam(vector3df(500.f,500.f,500.f));
 	hud = new HUD(player);
 	intercom = new Intercom(player);
 	turning = new TurningMarker(player);

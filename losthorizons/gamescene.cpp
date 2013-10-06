@@ -1,13 +1,9 @@
 #include "stdafx.h"
 #include "gamescene.h"
-#include <iostream>
 
-GameScene::GameScene()
-{
-}
 
-GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene, const vector3df &position)
-	: graphics(graphics), scene(scene), playerCam(new PlayerCamera(graphics, position))
+GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene)
+	: graphics(graphics), scene(scene), playerCam(new PlayerCamera)
 {
 	if (scene == SCENE_MAINMENU)
 	{
@@ -89,10 +85,10 @@ GameScene::~GameScene()
 		delete dynamicObjects.top();
 		dynamicObjects.pop();
 	}
-	//delete all ships currently in the scene except for the player
 	for (u32 i = 0; i < Effect::allEffects.size(); ++i)
 		delete Effect::allEffects[i];
 	Effect::allEffects.clear();
+	//delete all ships currently in the scene except for the player
 	while (Ship::allShips.size() > 1)
 		delete Ship::allShips.front();
 	while (!SpaceStation::allStations.empty())
@@ -143,7 +139,9 @@ void GameScene::run(f32 frameDeltaTime)
 //functions for creating scene objects
 PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
 {
-	return new PlayerCamera(graphics, position);
+	if (playerCam)
+		delete playerCam;
+	return playerCam = new PlayerCamera(position);
 }
 
 Ship *GameScene::createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)

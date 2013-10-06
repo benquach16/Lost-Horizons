@@ -6,11 +6,7 @@
 class GameSceneManager
 {
 public:
-	//default constructor
-	GameSceneManager();
-	//parameterized constructors
-	GameSceneManager(irr::IrrlichtDevice *graphics);
-	GameSceneManager(irr::IrrlichtDevice *graphics, E_GAME_SCENE scene);
+	GameSceneManager(irr::IrrlichtDevice *graphics, E_GAME_SCENE scene = SCENE_MAINMENU);
 	~GameSceneManager();
 
 	void runCurrentScene(f32 frameDeltaTime);
