@@ -17,6 +17,11 @@ void MissionManager::run()
 	}
 }
 
+void MissionManager::addMission(const MissionProperties& missionInfo)
+{
+	data.push_back(Mission(missionInfo));
+}
+
 const std::vector<Mission>& MissionManager::getMissions() const
 {
 	return data;

@@ -1,9 +1,14 @@
 #include "objective.h"
 
-Objective::Objective(const std::wstring &desciption, E_OBJECTIVE_TYPE type, const vector3df& position, const unsigned radius) : 
+Objective::Objective(const std::wstring &desciption, const E_OBJECTIVE_TYPE type, const vector3df& position, const unsigned radius) : 
 	description(description), type(type), position(position), radius(radius)
 {
 
+}
+
+Objective::Objective(const E_OBJECTIVE_TYPE type, const vector3df& position, const unsigned radius) : 
+	type(type), position(position), radius(radius)
+{
 }
 
 Objective::~Objective()

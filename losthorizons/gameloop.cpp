@@ -8,8 +8,8 @@ Gameloop::Gameloop()
 
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
 	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
-	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), stationMenu(0), gameMenu(0),
-	  intercom(0)
+	  objectManager(new ObjectManager(graphics)), hud(0), turning(0), visualsManager(new VisualsManager), 
+	  missionManager(new MissionManager), stationMenu(0), gameMenu(0), intercom(0)
 {
 }
 
@@ -18,6 +18,7 @@ Gameloop::~Gameloop()
 	//clear everything we created
 	delete objectManager;
 	delete gameSceneManager;
+	delete missionManager;
 	delete player;
 	delete hud;
 	delete intercom;

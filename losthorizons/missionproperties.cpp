@@ -38,21 +38,46 @@ MissionProperties::MissionProperties(irr::IrrlichtDevice *graphics, const std::s
 					//read mission description
 					currentSection=L"description";
 				}				
-				if(core::stringw(L"createShip").equals_ignore_case(file->getNodeName()))
+				if(core::stringw(L"create").equals_ignore_case(file->getNodeName()) && currentTree.equals_ignore_case(L""))
 				{
-					file->getAttributeValue(L"type");
-					file->getAttributeValue(L"faction");
-					file->getAttributeValueAsFloat(L"posX");
-					file->getAttributeValueAsFloat(L"posY");
-					file->getAttributeValueAsFloat(L"posZ");
-
+					//create tree!
+					currentTree = L"create";
+				}
+				if(core::stringw(L"ship").equals_ignore_case(file->getNodeName()) && currentTree.equals_ignore_case(L"create"))
+				{
+					//create ship
+					//read into enums
+					int type = file->getAttributeValueAsInt(L"type");
+					int faction = file->getAttributeValueAsInt(L"faction");
+					float x = file->getAttributeValueAsFloat(L"posX");
+					float y = file->getAttributeValueAsFloat(L"posY");
+					float z = file->getAttributeValueAsFloat(L"posZ");
+					Ship *s = new Ship((E_GAME_FACTION)faction, (ObjectManager::E_SHIP_LIST)type,
+						vector3df(x,y,z), vector3df());
 				}
 				if(core::stringw(L"objectives").equals_ignore_case(file->getNodeName()) && currentTree.equals_ignore_case(L""))
 				{
 					//enter a new tree!!!
 					currentTree = L"objectives";
 					numOfObjectives = file->getAttributeValueAsInt(L"num");
-				}				
+					for(unsigned i = 0; i < numOfObjectives; i++)
+					{
+						char temp[2] = {0};
+						temp[0] = (i+'A');
+						if(core::stringw(temp).equals_ignore_case(file->getNodeName()))
+						{
+							//create objectives
+							E_OBJECTIVE_TYPE type = getObjectiveType(file->getAttributeValue(L"type"));
+							float x = file->getAttributeValueAsFloat(L"posX");
+							float y = file->getAttributeValueAsFloat(L"posY");
+							float z = file->getAttributeValueAsFloat(L"posZ");
+							int radius = file->getAttributeValueAsInt(L"radius");
+							Objective obj(type, vector3df(x,y,z), radius);
+							objectives.push_back(obj);
+						}
+					}
+				}		
+				
 				break;
 			}
 		case io::EXN_ELEMENT_END:
@@ -78,6 +103,14 @@ E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 {
 	if(text == L"sweep")
 		return OBJECTIVE_SWEEP;
+	else if(text == L"courier")
+		return OBJECTIVE_COURIER;
+	else if(text == L"navigate")
+		return OBJECTIVE_NAVIGATE;
+	else if(text == L"retrieval")
+		return OBJECTIVE_RETRIEVAL;
+	else if(text == L"defend")
+		return OBJECTIVE_DEFEND;
 	else
 	{
 		std::cout << "Failed to read from mission file!" << std::endl;

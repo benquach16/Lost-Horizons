@@ -23,7 +23,8 @@ enum E_OBJECTIVE_TYPE
 class Objective
 {
 public:
-	Objective(const std::wstring &description, E_OBJECTIVE_TYPE type, const vector3df& position, const unsigned radius);
+	Objective(const std::wstring &description, const E_OBJECTIVE_TYPE type, const vector3df& position, const unsigned radius);
+	Objective(const E_OBJECTIVE_TYPE, const vector3df& position, const unsigned radius);
 	~Objective();
 
 	//run function

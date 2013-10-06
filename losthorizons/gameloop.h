@@ -9,6 +9,7 @@
 #include "gamescenemanager.h"
 #include "objectmanager.h"
 #include "visualsmanager.h"
+#include "missionmanager.h"
 #include "hud.h"
 #include "intercom.h"
 #include "turningmarker.h"
@@ -44,6 +45,7 @@ private:
 	GameSceneManager *gameSceneManager;
 	ObjectManager *objectManager;
 	VisualsManager *visualsManager;
+	MissionManager *missionManager;
 	PlayerCamera *playerCam;
 	Player *player;
 	HUD *hud;

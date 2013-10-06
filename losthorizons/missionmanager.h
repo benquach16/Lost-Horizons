@@ -13,7 +13,11 @@ public:
 	MissionManager();
 	~MissionManager();
 
+	//run function
 	void run();
+
+	void addMission(const MissionProperties& missionInfo);
+
 	//returns an rvalue
 	const std::vector<Mission>& getMissions() const;
 protected:
