@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "spacestation.h"
+#include <iostream>
 
 std::list<SpaceStation*> SpaceStation::allStations;
 
@@ -10,6 +11,8 @@ SpaceStation::SpaceStation(const E_GAME_FACTION faction, ObjectManager::E_STATIO
 {
 	allStations.push_front(this);
 	it = allStations.begin();
+
+	std::cout << '[' << ID << "]SpaceStation object created" << std::endl;
 
 	setNormalMap(vdriver->getTexture(ObjectManager::stationList[stationType]->getNormalMap().c_str()));
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::IRIDIUM, 100);

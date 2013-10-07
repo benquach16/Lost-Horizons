@@ -56,6 +56,8 @@ Ship::Ship(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystem
 	allShips.push_front(this);
 	it = allShips.begin();
 
+	std::cout << '[' << ID << "]Ship object created" << std::endl;
+
 	//set up the ship turrets
 	initTurrets();
 	initEngineTrails();
@@ -70,6 +72,8 @@ Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
 		nextID++;
+
+	std::cout << '[' << ID << "]Ship object created" << std::endl;
 
 	//add it to the ships list
 	allShips.push_front(this);

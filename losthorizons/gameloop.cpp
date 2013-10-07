@@ -1,9 +1,8 @@
 //#include "stdafx.h"
 #include "gameloop.h"
 
-
 Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
-	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager(graphics)),
+	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager),
 	  objectManager(new ObjectManager(graphics)), playerCam(0), hud(0), turning(0), visualsManager(new VisualsManager), 
 	  missionManager(new MissionManager), stationMenu(0), gameMenu(0), intercom(0)
 {
@@ -27,7 +26,7 @@ Gameloop::~Gameloop()
 void Gameloop::init()
 {
 	//create super important objects
-	playerCam = gameSceneManager->getCurrentScene()->createPlayerCam(vector3df(500.f,500.f,500.f));
+	playerCam = gameSceneManager->createPlayerCam(vector3df(500.f,500.f,500.f));
 	hud = new HUD(player);
 	intercom = new Intercom(player);
 	turning = new TurningMarker(player);
@@ -59,20 +58,17 @@ void Gameloop::createNewGame()
 	gameSceneManager->changeCurrentScene(SCENE_TAU_CETI);
 	TargetableObject::nextID = 0;
 	//create player ship
-	gameSceneManager->getCurrentScene()->createShip(FACTION_TERRAN);
+	gameSceneManager->createShip(FACTION_TERRAN);
+
 	//temporary for testing purposes only
-	gameSceneManager->getCurrentScene()->createShip(FACTION_TERRAN,
-		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
-	gameSceneManager->getCurrentScene()->createShip(FACTION_TERRAN,
-		ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
-	gameSceneManager->getCurrentScene()->createShip(FACTION_PIRATE,
-		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(500,0,2000));
-	gameSceneManager->getCurrentScene()->createShip(FACTION_PIRATE,
-		ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(-1000,0,2300));
-	gameSceneManager->getCurrentScene()->createStation(FACTION_TERRAN,
-		ObjectManager::E_STATION_LIST::TRADING, vector3df(1000, 0, 500));
-	gameSceneManager->getCurrentScene()->createStation(FACTION_TERRAN,
-		ObjectManager::E_STATION_LIST::SHIPYARD, vector3df(2000, -100, -2000));
+	gameSceneManager->createShip(FACTION_TERRAN, ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
+	gameSceneManager->createShip(FACTION_TERRAN, ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
+	gameSceneManager->createShip(FACTION_PIRATE, ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(500,0,2000));
+	gameSceneManager->createShip(FACTION_PIRATE, ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(-1000,0,2300));
+
+	gameSceneManager->createStation(FACTION_TERRAN, ObjectManager::E_STATION_LIST::TRADING, vector3df(1000,0,500));
+	gameSceneManager->createStation(FACTION_TERRAN, ObjectManager::E_STATION_LIST::SHIPYARD, vector3df(2000,-100,-2000));
+
 	init();
 }
 

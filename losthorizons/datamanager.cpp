@@ -99,7 +99,7 @@ std::ifstream& operator>>(std::ifstream& ifs, DataManager::ShipData& shipData)
 void DataManager::pull()
 {
 	if (gConfig.bPlay) {
-		scene = game->getGameSceneManager()->getCurrentScene()->getScene();
+		scene = game->getGameSceneManager()->getCurrentScene();
 		ShipData tmp;
 		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
 			ships.push_front(tmp << *i);
@@ -111,7 +111,7 @@ void DataManager::push()
 	if (gConfig.bPlay) {
 		game->getGameSceneManager()->changeCurrentScene(scene);
 		while (!ships.empty()) {
-			game->getGameSceneManager()->getCurrentScene()->createShip(ships.front().ID, ships.front().info, ships.front().subsystems, ships.front().position, ships.front().rotation);
+			game->getGameSceneManager()->createShip(ships.front().ID, ships.front().info, ships.front().subsystems, ships.front().position, ships.front().rotation);
 			shipTargets.push(std::pair<bool,u16>(ships.front().targetting, ships.front().target));
 			ships.pop_front();
 		}

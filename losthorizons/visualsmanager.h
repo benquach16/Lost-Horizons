@@ -16,7 +16,8 @@ public:
 	void run();
 
 protected:
-	std::vector<irr::scene::IBillboardSceneNode*> dustManager;
+	scene::ICameraSceneNode *cam;
+	std::vector<irr::scene::IBillboardSceneNode*> dust;
 };
 
 #endif

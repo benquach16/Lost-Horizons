@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "planet.h"
+#include <iostream>
 
 //constructor
 Planet::Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df& position) : 
 	TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), FACTION_NEUTRAL), cloudMesh(0),
 	atmosphere(new Atmosphere(position))
 {
+	std::cout << '[' << ID << "]Planet object created" << std::endl;
+
 	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap().c_str()));
 	//setNormalMap(vdriver->getTexture(ObjectManager::planetList[planetType].getNormalMap().c_str()));
 	//create cloudmesh

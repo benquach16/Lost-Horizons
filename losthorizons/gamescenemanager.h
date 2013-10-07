@@ -2,20 +2,33 @@
 #define _GAMESCENEMANAGER_H_
 
 #include "gamescene.h"
+#include "playercamera.h"
+#include "spacestation.h"
 
 class GameSceneManager
 {
 public:
-	GameSceneManager(irr::IrrlichtDevice *graphics, E_GAME_SCENE scene = SCENE_MAINMENU);
+	GameSceneManager();
 	~GameSceneManager();
 
 	void runCurrentScene(f32 frameDeltaTime);
-	void changeCurrentScene(E_GAME_SCENE scene);
-	GameScene *getCurrentScene();
+	void changeCurrentScene(E_GAME_SCENE newScene);
+	E_GAME_SCENE getCurrentScene();
+	PlayerCamera *getCamera();
+
+	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
+	Ship *createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER,
+					 const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &rotation = vector3df(0.f,0.f,0.f));
+	Ship *createShip(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems,
+					 const vector3df &position, const vector3df &rotation);
+	SpaceStation *createStation(const E_GAME_FACTION faction,
+								ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING,
+								const vector3df &position = vector3df(), const vector3df& rotation = vector3df());
 
 private:
-	irr::IrrlichtDevice *graphics;
-	GameScene *currentScene;
+	E_GAME_SCENE currentScene;
+	GameScene *scene;
+	PlayerCamera *playerCam;
 };
 
 #endif

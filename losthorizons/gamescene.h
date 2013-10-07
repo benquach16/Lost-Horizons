@@ -5,19 +5,12 @@
 //We shouldn't deal with creating multiple scenes too much, since an entire solar system should be a single scene
 //only for the implementation of multiple solar systems
 //so for now, keep the design as a singleton
-#include <list>
 #include <stack>
 
-#include "player.h"
-#include "fighter.h"
-#include "spacestation.h"
-#include "projectile.h"
-#include "sun.h"
-#include "planet.h"
-#include "objectmanager.h"
-#include "playercamera.h"
-#include "keylistener.h"
-#include "effect.h"
+using namespace irr;
+using namespace core;
+using namespace scene;
+using namespace video;
 
 enum E_GAME_SCENE
 {
@@ -25,34 +18,16 @@ enum E_GAME_SCENE
 	SCENE_TAU_CETI,
 };
 
-using namespace irr;
-using namespace scene;
-using namespace core;
-using namespace video;
-
 class GameScene
 {
 public:
-	GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene);
+	GameScene(E_GAME_SCENE scene = SCENE_MAINMENU);
 	~GameScene();
 	//void loadScene();
 	//void saveScene();
 	void run(f32 frameDeltaTime);
 
-	PlayerCamera *createPlayerCam(const vector3df &position = vector3df(0.f,0.f,0.f));
-	Ship *createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER,
-					 const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &rotation = vector3df(0.f,0.f,0.f));
-	Ship *createShip(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation);
-	Sun *createSun(const vector3df &position = vector3df(0.f,0.f,0.f), const vector3df &scale = vector3df(1.f,1.f,1.f));
-	SpaceStation *createStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING,
-					const vector3df &position = vector3df(), const vector3df& rotation = vector3df());
-	PlayerCamera *getCurrentSceneCamera();
-	E_GAME_SCENE getScene();
-	
 private:
-	IrrlichtDevice *graphics;
-	E_GAME_SCENE scene;
-	PlayerCamera *playerCam;
 	ISceneNode *skybox;
 	std::stack<ISceneNode*> sceneObjects;		//stores static scene node objects
 	std::stack<Object*> dynamicObjects;			//stores the stuff with more complexity

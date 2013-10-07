@@ -1,9 +1,15 @@
 #include "stdafx.h"
 #include "gamescene.h"
 
+#include "sun.h"
+#include "planet.h"
+#include "effect.h"
+#include "player.h"
+#include "spacestation.h"
+#include "fighter.h"
+#include "projectile.h"
 
-GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene)
-	: graphics(graphics), scene(scene), playerCam(new PlayerCamera)
+GameScene::GameScene(E_GAME_SCENE scene)
 {
 	if (scene == SCENE_MAINMENU)
 	{
@@ -61,7 +67,7 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene)
 			vdriver->getTexture("res/textures/skyboxes/1/space_front5.jpg"),
 			vdriver->getTexture("res/textures/skyboxes/1/space_back6.jpg"));
 		scenemngr->setAmbientLight(SColor(64,64,64,64));
-		dynamicObjects.push(createSun(vector3df(-20000,0,20000)));
+		dynamicObjects.push(new Sun(vector3df(-20000,0,20000), vector3df(1.f,1.f,1.f)));
 
 		Planet *argrea = new Planet(ObjectManager::E_PLANET_LIST::ARGREA, vector3df(12000,0,500));
 		dynamicObjects.push(argrea);
@@ -73,7 +79,6 @@ GameScene::GameScene(IrrlichtDevice *graphics, E_GAME_SCENE scene)
 
 GameScene::~GameScene()
 {
-	delete playerCam;
 	skybox->remove();
 	while (!sceneObjects.empty())
 	{
@@ -134,49 +139,4 @@ void GameScene::run(f32 frameDeltaTime)
 			i--;
 		}
 	}
-}
-
-//functions for creating scene objects
-PlayerCamera *GameScene::createPlayerCam(const vector3df &position)
-{
-	if (playerCam)
-		delete playerCam;
-	return playerCam = new PlayerCamera(position);
-}
-
-Ship *GameScene::createShip(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-{
-	if (Ship::allShips.empty())
-		return new Player(faction, shipType, position, rotation);
-	else
-		return new Ship(faction, shipType, position, rotation);
-}
-
-Ship *GameScene::createShip(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
-{
-	if (Ship::allShips.empty())
-		return new Player(info, subsystems, position, rotation);
-	else
-		return new Ship(ID, info, subsystems, position, rotation);
-}
-
-Sun *GameScene::createSun(const vector3df &position, const vector3df &scale)
-{
-	return new Sun(position, scale);
-}
-
-SpaceStation *GameScene::createStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType, const vector3df &position,
-									   const vector3df& rotation)
-{
-	return new SpaceStation(faction, stationType, position, rotation);
-}
-
-PlayerCamera *GameScene::getCurrentSceneCamera()
-{
-	return playerCam;
-}
-
-E_GAME_SCENE GameScene::getScene()
-{
-	return scene;
 }
