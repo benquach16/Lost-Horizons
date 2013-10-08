@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "muzzleflash.h"
 
-const int MUZZLEFLASHLENGTH = 100;
+#define MUZZLEFLASHLENGTH 100
 
 Muzzleflash::Muzzleflash(IBoneSceneNode *parent, const vector3df &rotation) : Effect(MUZZLEFLASHLENGTH), parent(parent), particle(0)
 {

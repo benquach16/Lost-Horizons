@@ -1,9 +1,6 @@
 #ifndef _EFFECT_H_
 #define _EFFECT_H_
 
-#include <vector>
-#include <list>
-
 #include "irrlicht.h"
 
 

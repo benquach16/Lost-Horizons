@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "explosion.h"
 
-const int EXPLOSIONLENGTH = 3000;
+#define EXPLOSIONLENGTH 3000
 
 Explosion::Explosion(const vector3df& position) : Effect(EXPLOSIONLENGTH), fireParticles(0), shockwave(0)
 {

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "impact.h"
 
-const int IMPACTLENGTH = 500;
+#define IMPACTLENGTH 500
 
 Impact::Impact(const vector3df &position) : Effect(IMPACTLENGTH), fireParticles(0), debrisParticles(0)
 {
