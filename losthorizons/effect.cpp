@@ -16,9 +16,5 @@ Effect::~Effect()
 bool Effect::run()
 {
 	//check if the effect has run out of time
-	if (totalTime < timer->getTime()) {
-		//delete the effect now
-		return false;
-	} else
-		return true;
+	return timer->getTime() < totalTime;
 }

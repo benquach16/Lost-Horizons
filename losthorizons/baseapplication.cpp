@@ -122,18 +122,7 @@ void BaseApplication::buildGraphics()
 	gConfig.screen = vdriver->getScreenSize();
 	
 	graphics->setWindowCaption(L"Lost Horizons");
-	SExposedVideoData InternalData = vdriver->getExposedVideoData();
-	switch(EDT_DIRECT3D9) { //use variable if we ever implement using the other drivers
-            case EDT_OPENGL:
-				hwnd  = (HWND) InternalData.OpenGLWin32.HWnd;
-                break;
-            case EDT_DIRECT3D8:
-                hwnd  = (HWND) InternalData.D3D8.HWnd;
-                break;
-            case EDT_DIRECT3D9:
-                hwnd  = (HWND) InternalData.D3D9.HWnd;
-                break;
-	}
+    hwnd  = (HWND)vdriver->getExposedVideoData().D3D9.HWnd;
 	if (gConfig.bTopMost && !gConfig.bFullScreen)
 		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
