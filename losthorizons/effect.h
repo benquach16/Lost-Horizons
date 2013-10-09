@@ -17,8 +17,7 @@ public:
 	static std::vector<Effect*> allEffects;
 protected:
 	//the length of the effect before we delete it
-	int lengthInMilliseconds;
-	unsigned totalTime;
+	unsigned endTime;
 };
 
 #endif
