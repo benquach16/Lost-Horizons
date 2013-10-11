@@ -5,6 +5,7 @@
 #include "player.h"
 #include "shiptab.h"
 #include "cargotab.h"
+#include "missiontab.h"
 //show ingame information in this menu
 
 class GameMenu : public MenuWindow
@@ -27,5 +28,6 @@ protected:
 	//MenuTab* loadout;
 	//MenuTab* hangar;
 	//MenuTab* missionLog;
+	MissionTab *mission;
 };
 #endif

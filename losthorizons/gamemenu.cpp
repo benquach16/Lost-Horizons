@@ -33,4 +33,5 @@ void GameMenu::initializeDisplay()
 {
 	ship = new ShipTab(tabs, player);
 	cargo = new CargoTab(tabs, player);
+	mission = new MissionTab(tabs);
 }
