@@ -100,6 +100,8 @@ void DataManager::pull()
 {
 	if (gConfig.bPlay) {
 		scene = game->getGameSceneManager()->getCurrentScene();
+		for (std::list<Planet*>::iterator i = Planet::allPlanets.begin(); i != Planet::allPlanets.end(); ++i)
+			(*i)->removeThisFromTargets();
 		ShipData tmp;
 		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
 			ships.push_front(tmp << *i);
@@ -109,6 +111,7 @@ void DataManager::pull()
 void DataManager::push()
 {
 	if (gConfig.bPlay) {
+		game->getGameSceneManager()->destroyScene();
 		game->getGameSceneManager()->changeCurrentScene(scene);
 		while (!ships.empty()) {
 			game->getGameSceneManager()->createShip(ships.front().ID, ships.front().info, ships.front().subsystems, ships.front().position, ships.front().rotation);

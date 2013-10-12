@@ -11,7 +11,9 @@ public:
 	GameSceneManager();
 	~GameSceneManager();
 
-	void runCurrentScene(f32 frameDeltaTime);
+	void runScene(f32 frameDeltaTime);
+	void destroyScene();
+	void createScene();
 	void changeCurrentScene(E_GAME_SCENE newScene);
 	E_GAME_SCENE getCurrentScene();
 	PlayerCamera *getCamera();
@@ -26,7 +28,7 @@ public:
 								const vector3df &position = vector3df(), const vector3df& rotation = vector3df());
 
 private:
-	E_GAME_SCENE currentScene;
+	E_GAME_SCENE sceneType;
 	GameScene *scene;
 	PlayerCamera *playerCam;
 };

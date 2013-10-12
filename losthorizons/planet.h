@@ -6,13 +6,14 @@
 #include "planetproperties.h"
 #include "atmosphere.h"
 
-
 //planet class
 class Planet : public TargetableObject
 {
 public:
+	static std::list<Planet*> allPlanets;
+
 	//parameterized constructor
-	Planet(ObjectManager::E_PLANET_LIST pleantType, const vector3df &position);
+	Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df &position);
 	~Planet();
 	virtual void run();
 
@@ -27,6 +28,9 @@ protected:
 	void enablePlanetShader();
 	//planets have basic stats
 	//different for each type of planet
+
+	//iterator to this
+	std::list<Planet*>::iterator it;
 
 	//affects production time
 	int population;

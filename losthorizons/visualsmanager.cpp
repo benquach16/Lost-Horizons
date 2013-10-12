@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "visualsmanager.h"
 
-const unsigned NUMDUSTCLOUDS = 20;
+#define NUMDUSTCLOUDS 20
 
 VisualsManager::VisualsManager()
 	: cam(scenemngr->getActiveCamera())

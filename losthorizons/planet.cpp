@@ -2,12 +2,20 @@
 #include "planet.h"
 #include <iostream>
 
+std::list<Planet*> Planet::allPlanets;
+
 //constructor
 Planet::Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df& position) : 
 	TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), FACTION_NEUTRAL), cloudMesh(0),
 	atmosphere(new Atmosphere(position))
 {
+	if (nextID == 0)
+		nextID++;
+
 	std::cout << '[' << ID << "]Planet object created" << std::endl;
+
+	allPlanets.push_front(this);
+	it = allPlanets.begin();
 
 	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap().c_str()));
 	//setNormalMap(vdriver->getTexture(ObjectManager::planetList[planetType].getNormalMap().c_str()));
@@ -29,6 +37,7 @@ Planet::Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df& positio
 
 Planet::~Planet()
 {
+	allPlanets.erase(it);
 	cloudMesh->remove();
 	//atmosphere->remove();
 	delete atmosphere;

@@ -3,6 +3,7 @@
 
 #include "gamescenemanager.h"
 #include "player.h"
+#include "planet.h"
 
 class DataManager
 {

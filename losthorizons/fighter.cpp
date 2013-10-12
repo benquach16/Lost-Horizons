@@ -12,6 +12,9 @@ Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3d
 				 Ship* homeBase) : TargetableObject(nextID++, *ObjectManager::fighterList[fighterType], position, rotation, faction), info(fighterType),
 	fighterTarget(0), homeBase(homeBase), shipTarget(0), shootTimer(0)
 {
+	if (nextID == 0)
+		nextID++;
+
 	allFighters.push_front(this);
 	it = allFighters.begin();
 	std::cout << '[' << ID << "]Fighter object created" << std::endl;

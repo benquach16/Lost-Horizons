@@ -25,6 +25,7 @@ Gameloop::~Gameloop()
 
 void Gameloop::init()
 {
+	gameSceneManager->createScene();
 	//create super important objects
 	playerCam = gameSceneManager->createPlayerCam(vector3df(500.f,500.f,500.f));
 	hud = new HUD(player);
@@ -42,7 +43,7 @@ void Gameloop::run(f32 frameDeltaTime)
 	cameraControl();
 	selectTarget();
 	playerCam->run(player->getPosition(), frameDeltaTime); 
-	gameSceneManager->runCurrentScene(frameDeltaTime);
+	gameSceneManager->runScene(frameDeltaTime);
 	hud->run();
 	intercom->run();
 	turning->run();
@@ -54,7 +55,8 @@ void Gameloop::run(f32 frameDeltaTime)
 
 void Gameloop::createNewGame()
 {
-	//create player and camera
+	//reset things
+	gameSceneManager->destroyScene();
 	gameSceneManager->changeCurrentScene(SCENE_TAU_CETI);
 	TargetableObject::nextID = 0;
 	//create player ship

@@ -2,7 +2,7 @@
 #include "gamescenemanager.h"
 
 GameSceneManager::GameSceneManager()
-	: currentScene(SCENE_MAINMENU), scene(new GameScene), playerCam(new PlayerCamera)
+	: sceneType(SCENE_MAINMENU), scene(new GameScene), playerCam(new PlayerCamera)
 {
 }
 
@@ -12,22 +12,34 @@ GameSceneManager::~GameSceneManager()
 	delete playerCam;
 }
 
-void GameSceneManager::runCurrentScene(f32 frameDeltaTime)
+void GameSceneManager::runScene(f32 frameDeltaTime)
 {
 	if (scene)
 		scene->run(frameDeltaTime);
 }
 
+void GameSceneManager::destroyScene()
+{
+	if (scene)
+		delete scene;
+	scene = 0;
+}
+
+void GameSceneManager::createScene()
+{
+	if (scene)
+		delete scene;
+	scene = new GameScene(sceneType);
+}
+
 void GameSceneManager::changeCurrentScene(E_GAME_SCENE newScene)
 {
-	//need to delete the entire scene
-	delete scene;
-	scene = new GameScene(currentScene = newScene);
+	sceneType = newScene;
 }
 
 E_GAME_SCENE GameSceneManager::getCurrentScene()
 {
-	return currentScene;
+	return sceneType;
 }
 
 //functions for creating scene objects

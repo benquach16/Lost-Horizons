@@ -9,7 +9,7 @@ std::wstring Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Eleva
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
 //time between ai updates to save cpu speed
-const unsigned AITIMER = 100;
+#define AITIMER 100
 
 Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
@@ -100,6 +100,14 @@ Ship::~Ship()
 {
 	allShips.erase(it);
 	//clear memory we allocated
+	for (unsigned i = 0; i < heavyTurrets.size(); ++i)
+		delete heavyTurrets[i];
+	for (unsigned i = 0; i < mediumTurrets.size(); ++i)
+		delete mediumTurrets[i];
+	for (unsigned i = 0; i < lightTurrets.size(); ++i)
+		delete lightTurrets[i];
+	for (unsigned i = 0; i < pdTurrets.size(); ++i)
+		delete pdTurrets[i];
 	while (!engineParticles.empty())
 	{
 		engineParticles.back()->remove();
@@ -471,7 +479,7 @@ void Ship::initTurrets()
 		jointName += tmp;
 		scene::IBoneSceneNode *joint = mesh->getJointNode(jointName.c_str());
 		TurretSlot *t = new TurretSlot(ObjectManager::shipList[info.shipType]->mediumTurrets[i], joint, TURRET_HEAVY, this);
-		mediumTurrets.push_back(t);
+		heavyTurrets.push_back(t);
 	}
 	for (int i = 0; i < ObjectManager::shipList[info.shipType]->getMaxMTurrets(); ++i)
 	{
