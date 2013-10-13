@@ -19,6 +19,8 @@ public:
 
 	void run();
 
+	const std::wstring& getName() const;
+	const std::wstring& getDesc() const;
 protected:
 	std::wstring name;
 	std::wstring description;

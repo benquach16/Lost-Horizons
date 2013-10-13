@@ -32,7 +32,7 @@ void Gameloop::init()
 	intercom = new Intercom(player);
 	turning = new TurningMarker(player);
 	stationMenu = new StationMenu(player);
-	gameMenu = new GameMenu(player);
+	gameMenu = new GameMenu(player, missionManager);
 	missionManager->addMission(MissionProperties(graphics, "missions/tutorial.xml"));
 }
 

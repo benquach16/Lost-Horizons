@@ -6,7 +6,9 @@ Mission::Mission()
 	
 }
 
-Mission::Mission(const MissionProperties& missionInfo)
+Mission::Mission(const MissionProperties& missionInfo) : 
+	name(missionInfo.getName()), description(missionInfo.getDesc()),
+	objectives(missionInfo.getObjs())
 {
 
 }
@@ -30,4 +32,14 @@ void Mission::run()
 	{
 		//mission complete
 	}
+}
+
+const std::wstring& Mission::getName() const
+{
+	return name;
+}
+
+const std::wstring& Mission::getDesc() const
+{
+	return description;
 }

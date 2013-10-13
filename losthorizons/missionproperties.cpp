@@ -98,6 +98,21 @@ MissionProperties::~MissionProperties()
 {
 }
 
+const std::wstring& MissionProperties::getName() const
+{
+	return name;
+}
+
+const std::wstring& MissionProperties::getDesc() const
+{
+	return description;
+}
+
+const std::vector<Objective>& MissionProperties::getObjs() const
+{
+	return objectives;
+}
+
 //protected function
 E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 {
@@ -117,3 +132,5 @@ E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 		exit(1);
 	}
 }
+
+

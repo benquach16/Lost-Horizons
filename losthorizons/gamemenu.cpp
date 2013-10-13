@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "gamemenu.h"
 
-GameMenu::GameMenu(Player* player) 
-: MenuWindow(), player(player)
+GameMenu::GameMenu(Player* player, MissionManager *missionManager) 
+: MenuWindow(), player(player), missionManager(missionManager)
 {
 	window = guienv->addWindow(rect<s32>(iWidth/2-400,iHeight/2-260,iWidth/2+400,iHeight/2+260), true, L"Player Ship");
 	window->getCloseButton()->setVisible(false);
@@ -27,11 +27,12 @@ void GameMenu::run()
 	MenuWindow::run();
 	ship -> run();
 	cargo -> run();
+	mission->run();
 }
 
 void GameMenu::initializeDisplay()
 {
 	ship = new ShipTab(tabs, player);
 	cargo = new CargoTab(tabs, player);
-	mission = new MissionTab(tabs);
+	mission = new MissionTab(tabs, missionManager);
 }

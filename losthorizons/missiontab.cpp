@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "missiontab.h"
 
-MissionTab::MissionTab(gui::IGUITabControl *tabs) : MenuTab(), missionList(0), missionDescription(0)
+MissionTab::MissionTab(gui::IGUITabControl *tabs, MissionManager *missionManager) : MenuTab(), missionList(0), missionDescription(0),
+	missionManager(missionManager)
 {
 	tab = tabs->addTab(L"Mission Log");
 
@@ -11,4 +12,21 @@ MissionTab::MissionTab(gui::IGUITabControl *tabs) : MenuTab(), missionList(0), m
 
 MissionTab::~MissionTab()
 {
+}
+
+void MissionTab::run()
+{
+	loadMissions();
+}
+
+void MissionTab::loadMissions()
+{
+	//load missions from mission manager
+	if(!missionList->getItemCount())
+	{
+		for(unsigned i = 0; i < missionManager->getMissions().size(); i++)
+		{
+			missionList->addItem(missionManager->getMissions()[i].getName().c_str());
+		}
+	}
 }

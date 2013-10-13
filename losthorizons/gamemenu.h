@@ -11,7 +11,7 @@
 class GameMenu : public MenuWindow
 {
 public:
-	GameMenu(Player* player);
+	GameMenu(Player* player, MissionManager *missionManager);
 	~GameMenu();
 
 	virtual void run();
@@ -20,6 +20,7 @@ protected:
 	void initializeDisplay();
 	
 	Player* player;
+	MissionManager *missionManager;
 
 	gui::IGUITabControl* tabs;
 	ShipTab* ship;
@@ -27,7 +28,6 @@ protected:
 	//MenuTab* crew;
 	//MenuTab* loadout;
 	//MenuTab* hangar;
-	//MenuTab* missionLog;
 	MissionTab *mission;
 };
 #endif
