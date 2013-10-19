@@ -163,6 +163,7 @@
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="hangartab.h" />
     <ClInclude Include="jobtab.h" />
+    <ClInclude Include="marker.h" />
     <ClInclude Include="menutab.h" />
     <ClInclude Include="mission.h" />
     <ClInclude Include="missionmanager.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="keylistener.cpp" />
     <ClCompile Include="lensflare.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="marker.cpp" />
     <ClCompile Include="messagemenu.cpp" />
     <ClCompile Include="mission.cpp" />
     <ClCompile Include="missionmanager.cpp" />

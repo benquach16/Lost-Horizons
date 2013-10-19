@@ -1,6 +1,7 @@
 #ifndef _MISSIONTAB_H_
 #define _MISSIONTAB_H_
 
+#include "marker.h"
 #include "menutab.h"
 #include "missionmanager.h"
 
@@ -19,7 +20,7 @@ protected:
 	gui::IGUIStaticText *missionDescription;
 
 	MissionManager *missionManager;
-
+	Marker *marker;
 };
 
 #endif

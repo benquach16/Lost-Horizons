@@ -37,3 +37,8 @@ bool Objective::run()
 	}
 	return false;
 }
+
+const vector3df& Objective::getPosition() const
+{
+	return position;
+}

@@ -131,6 +131,11 @@ const core::aabbox3df Object::getBoundingBox() const
 	return mesh->getTransformedBoundingBox();
 }
 
+const bool Object::getVisible() const
+{
+	return visible;
+}
+
 void Object::setPosition(const vector3df &newPosition)
 {
 	position = newPosition;
@@ -148,3 +153,10 @@ void Object::setScale(const vector3df &newScale)
 	scale = newScale;
 	mesh->setScale(scale);
 }
+
+void Object::setVisible(bool newVisibility)
+{
+	visible = newVisibility;
+	mesh->setVisible(newVisibility);
+}
+

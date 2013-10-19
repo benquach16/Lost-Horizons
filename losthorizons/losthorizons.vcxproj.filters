@@ -282,6 +282,9 @@
     <ClInclude Include="missiontab.h">
       <Filter>Header Files\ui\tabs\gamemenu</Filter>
     </ClInclude>
+    <ClInclude Include="marker.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -457,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="missiontab.cpp">
       <Filter>Source Files\ui\tabs\gamemenu</Filter>
+    </ClCompile>
+    <ClCompile Include="marker.cpp">
+      <Filter>Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,10 +17,12 @@ public:
 	Mission(const MissionProperties& missionInfo);
 	~Mission();
 
-	void run();
+	bool run();
 
 	const std::wstring& getName() const;
 	const std::wstring& getDesc() const;
+
+	const vector3df getCurrObjPos() const;
 protected:
 	std::wstring name;
 	std::wstring description;

@@ -17,7 +17,7 @@ Mission::~Mission()
 {
 }
 
-void Mission::run()
+bool Mission::run()
 {
 	if(objectives.size() > 0)
 	{
@@ -28,10 +28,7 @@ void Mission::run()
 			objectives.erase(objectives.begin());
 		}
 	}
-	else
-	{
-		//mission complete
-	}
+	return objectives.size() > 0;
 }
 
 const std::wstring& Mission::getName() const
@@ -42,4 +39,11 @@ const std::wstring& Mission::getName() const
 const std::wstring& Mission::getDesc() const
 {
 	return description;
+}
+
+const vector3df Mission::getCurrObjPos() const
+{
+	if(objectives.size())
+		return objectives[0].getPosition();
+	return vector3df();
 }

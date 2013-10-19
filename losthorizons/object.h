@@ -75,16 +75,19 @@ public:
 	const vector3df& getRotation() const;
 	const vector3df& getScale() const;
 	const core::aabbox3df getBoundingBox() const;
+	const bool getVisible() const;
 	//mutators
 	void setPosition(const vector3df &newPosition);
 	void setRotation(const vector3df &newRotation);
 	void setScale(const vector3df &newScale);
+	void setVisible(bool newVisibility);
 
 protected:
 	//basic info about object
 	vector3df position;
 	vector3df rotation;
 	vector3df scale;
+	bool visible;
 
 	//3d infomation
 	IAnimatedMeshSceneNode *mesh;

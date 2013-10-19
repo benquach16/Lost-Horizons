@@ -1,7 +1,9 @@
 #include "missionmanager.h"
 
-MissionManager::MissionManager()
+MissionManager::MissionManager() 
+	
 {
+	
 }
 
 MissionManager::~MissionManager()
@@ -13,7 +15,17 @@ void MissionManager::run()
 	for(unsigned i = 0; i < data.size(); i++)
 	{
 		//update all missions
-		data[i].run();
+		if(data[i].run())
+		{
+			
+			i++;
+		}
+		else
+		{
+			data[i] = data.back();
+			data.pop_back();
+			i--;
+		}
 	}
 }
 

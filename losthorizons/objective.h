@@ -30,6 +30,7 @@ public:
 	//run function
 	//return true if player completed the objective
 	bool run();
+	const vector3df& getPosition() const;
 protected:
 	std::wstring description;
 	E_OBJECTIVE_TYPE type;
