@@ -63,7 +63,8 @@ MissionProperties::MissionProperties(irr::IrrlichtDevice *graphics, const std::s
 
 				}
 				else if(currentSection.equals_ignore_case(L"objectives"))
-					for(int i = 0; i < numOfObjectives; i++)
+				{
+					for(unsigned i = 0; i < numOfObjectives; i++)
 					{
 						char temp[2] = {0};
 						temp[0] = (i+'A');
@@ -78,7 +79,8 @@ MissionProperties::MissionProperties(irr::IrrlichtDevice *graphics, const std::s
 							Objective obj(type, vector3df(x,y,z), radius);
 							objectives.push_back(obj);
 						}
-					}				
+					}	
+				}
 				break;
 			}
 		case io::EXN_ELEMENT_END:

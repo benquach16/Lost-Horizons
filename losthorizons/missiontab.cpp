@@ -14,6 +14,7 @@ MissionTab::MissionTab(gui::IGUITabControl *tabs, MissionManager *missionManager
 
 MissionTab::~MissionTab()
 {
+	delete marker;
 }
 
 void MissionTab::run()
