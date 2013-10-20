@@ -55,12 +55,15 @@ MissionProperties::MissionProperties(irr::IrrlichtDevice *graphics, const std::s
 					Ship *s = new Ship((E_GAME_FACTION)faction, (ObjectManager::E_SHIP_LIST)type,
 						vector3df(x,y,z), vector3df());
 				}
-				if(core::stringw(L"objectives").equals_ignore_case(file->getNodeName()) && currentTree.equals_ignore_case(L""))
+				if(core::stringw(L"objectives").equals_ignore_case(file->getNodeName()))
 				{
 					//enter a new tree!!!
-					currentTree = L"objectives";
+					currentSection=L"objectives";
 					numOfObjectives = file->getAttributeValueAsInt(L"num");
-					for(unsigned i = 0; i < numOfObjectives; i++)
+
+				}
+				else if(currentSection.equals_ignore_case(L"objectives"))
+					for(int i = 0; i < numOfObjectives; i++)
 					{
 						char temp[2] = {0};
 						temp[0] = (i+'A');
@@ -75,9 +78,7 @@ MissionProperties::MissionProperties(irr::IrrlichtDevice *graphics, const std::s
 							Objective obj(type, vector3df(x,y,z), radius);
 							objectives.push_back(obj);
 						}
-					}
-				}		
-				
+					}				
 				break;
 			}
 		case io::EXN_ELEMENT_END:
@@ -116,15 +117,15 @@ const std::vector<Objective>& MissionProperties::getObjs() const
 //protected function
 E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 {
-	if(text == L"sweep")
+	if(text[0] == L's')
 		return OBJECTIVE_SWEEP;
-	else if(text == L"courier")
+	else if(text[0] == L'c')
 		return OBJECTIVE_COURIER;
-	else if(text == L"navigate")
+	else if(text[0] == L'n')
 		return OBJECTIVE_NAVIGATE;
-	else if(text == L"retrieval")
+	else if(text[0] == L'r')
 		return OBJECTIVE_RETRIEVAL;
-	else if(text == L"defend")
+	else if(text[0] == L'd')
 		return OBJECTIVE_DEFEND;
 	else
 	{

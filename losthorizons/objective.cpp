@@ -1,4 +1,5 @@
 #include "objective.h"
+#include <iostream>
 
 Objective::Objective(const std::wstring &desciption, const E_OBJECTIVE_TYPE type, const vector3df& position, const unsigned radius) : 
 	description(description), type(type), position(position), radius(radius)
