@@ -20,6 +20,7 @@ GameMenu::~GameMenu()
 {
 	delete ship;
 	delete cargo;
+	delete mission;
 }
 
 void GameMenu::run()
