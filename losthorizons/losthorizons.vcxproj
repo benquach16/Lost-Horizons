@@ -163,6 +163,7 @@
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="hangartab.h" />
+    <ClInclude Include="ini_io.h" />
     <ClInclude Include="jobtab.h" />
     <ClInclude Include="marker.h" />
     <ClInclude Include="menutab.h" />
@@ -188,8 +189,6 @@
     <ClInclude Include="itemproperties.h" />
     <ClInclude Include="keylistener.h" />
     <ClInclude Include="lensflare.h" />
-    <ClInclude Include="lib\ini_io.h" />
-    <ClInclude Include="lib\string_util.h" />
     <ClInclude Include="menuwindow.h" />
     <ClInclude Include="messagemenu.h" />
     <ClInclude Include="modelproperties.h" />
@@ -213,6 +212,7 @@
     <ClInclude Include="startmenu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="storetab.h" />
+    <ClInclude Include="string_util.h" />
     <ClInclude Include="sun.h" />
     <ClInclude Include="targetableobject.h" />
     <ClInclude Include="targetver.h" />

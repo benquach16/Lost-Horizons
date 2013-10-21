@@ -1,5 +1,5 @@
 #include "config.h"
-#include "lib/ini_io.h"
+#include "ini_io.h"
 Config gConfig;
 
 

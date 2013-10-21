@@ -90,9 +90,6 @@
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\ini_io.h">
-      <Filter>Header Files\lib</Filter>
-    </ClInclude>
     <ClInclude Include="gamescene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -125,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="startmenu.h">
       <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\string_util.h">
-      <Filter>Header Files\lib</Filter>
     </ClInclude>
     <ClInclude Include="playercamera.h">
       <Filter>Header Files\objects</Filter>
@@ -287,6 +281,12 @@
     </ClInclude>
     <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ini_io.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="string_util.h">
+      <Filter>Header Files\lib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
