@@ -1,6 +1,10 @@
-#include "stdafx.h"
 #include "datamanager.h"
+#include "globals.h"
+#include "config.h"
+#include "planet.h"
 #include <fstream>
+
+using namespace base;
 
 DataManager::ShipData& operator<<(DataManager::ShipData& shipData, Ship *s)
 {

@@ -5,26 +5,21 @@
 #include "savemenu.h"
 #include "optionmenu.h"
 #include "messagemenu.h"
-#include "keylistener.h"
 #include "datamanager.h"
 
 using namespace irr;
-using namespace core;
-using namespace video;
 
 //this is the start screen of the game
 class StartMenu : public MenuWindow
 {
 public:
-	StartMenu(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
+	StartMenu(DataManager *data);
 	~StartMenu();
 
 	void run();
 	void shift();
 
 private:
-	IrrlichtDevice *graphics;
-	KeyListener *receiver;
 	DataManager *data;
 	bool saved;
 	bool close;

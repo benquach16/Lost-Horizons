@@ -157,8 +157,8 @@ protected:
 	TargetableObject *shipTarget;
 
 	//engine trail variables
-	std::vector<IParticleSystemSceneNode*> engineParticles;
-	std::vector<IBillboardSceneNode*> coronaEffects;
+	std::vector<scene::IParticleSystemSceneNode*> engineParticles;
+	std::vector<scene::IBillboardSceneNode*> coronaEffects;
 	
 	//iterator to 'this'
 	std::list<Ship*>::iterator it;

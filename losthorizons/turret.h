@@ -17,7 +17,7 @@ class TurretSlot
 public:
 	//constructors
 	//parameterized constructor
-	TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS turretClass, Ship* parent);
+	TurretSlot(const turretInformation &properties, scene::IBoneSceneNode *joint, const E_TURRET_CLASS turretClass, Ship* parent);
 	//constructor for point defense oriented turretslots
 
 	//assigns a turret to this slot
@@ -44,11 +44,11 @@ public:
 
 protected:
 	//a dummy scene node to have the turret face in a particular direction
-	ISceneNode *offset;
+	scene::ISceneNode *offset;
 	//another dummy scene node because joint absolute position seems to be completely fucked
-	ISceneNode *aimPoint;
+	scene::ISceneNode *aimPoint;
 	//pointer to the joint that we're parented to
-	IBoneSceneNode *joint;
+	scene::IBoneSceneNode *joint;
 	//pointer to the ship that this slot is parented to
 	Ship *parent;
 	//pointer to the turret model itself
@@ -73,7 +73,7 @@ public:
 	//default constructor
 	Turret();
 	//if you actually want to create a 3d model
-	Turret(const ObjectManager::E_ITEM_LIST turretType, ISceneNode *parent, TurretSlot *parentSlot);
+	Turret(const ObjectManager::E_ITEM_LIST turretType, scene::ISceneNode *parent, TurretSlot *parentSlot);
 	~Turret();
 
 	void aim(const core::vector3df &rotation, float frameDeltaTime);
@@ -91,7 +91,7 @@ protected:
 	const ObjectManager::E_ITEM_LIST turretType;
 
 	//pointer to joint that our fire position is
-	IBoneSceneNode *shootJoint;
+	scene::IBoneSceneNode *shootJoint;
 };
 
 #endif

@@ -1,11 +1,9 @@
 #ifndef _MENUWINDOW_H_
 #define _MENUWINDOW_H_
 
-#include "irrlicht.h"
+#include "stdafx.h"
 
 using namespace irr;
-using namespace core;
-
 
 //This is the base class of menus in the game
 

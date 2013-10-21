@@ -1,12 +1,14 @@
-#include "stdafx.h"
 #include "impact.h"
+#include "globals.h"
+
+using namespace base;
 
 #define IMPACTLENGTH 500
 
-Impact::Impact(const vector3df &position) : Effect(IMPACTLENGTH), fireParticles(0), debrisParticles(0)
+Impact::Impact(const core::vector3df &position) : Effect(IMPACTLENGTH), fireParticles(0), debrisParticles(0)
 {
 	//play a single sound only once
-	soundmngr->play3D("res/sounds/hit.wav", position);
+	sound->play3D("res/sounds/hit.wav", position);
 
 	//create particle effects
 	fireParticles = scenemngr->addParticleSystemSceneNode(false, 0, -1, position);
@@ -24,8 +26,6 @@ Impact::Impact(const vector3df &position) : Effect(IMPACTLENGTH), fireParticles(
 	fireParticles->addAffector(af);
 	emitter->drop();
 	af->drop();
-
-
 }
 
 Impact::~Impact()

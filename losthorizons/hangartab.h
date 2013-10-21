@@ -2,12 +2,14 @@
 #define _HANGARTAB_H_
 
 #include "menutab.h"
+#include "player.h"
+#include "spacestation.h"
 
 //class for the station refit menu
 class HangarTab : public MenuTab
 {
 public:
-	HangarTab(gui::IGUITabControl *tabs, Player *player);
+	HangarTab(IGUITabControl *tabs, Player *player);
 	~HangarTab();
 	virtual void run(SpaceStation *target);
 
@@ -18,17 +20,17 @@ protected:
 
 	Player *player;
 
-	gui::IGUIComboBox *heavySlot;
-	gui::IGUIComboBox *heavySlotWeapon;
+	IGUIComboBox *heavySlot;
+	IGUIComboBox *heavySlotWeapon;
 
-	gui::IGUIComboBox *mediumSlot;
-	gui::IGUIComboBox *mediumSlotWeapon;
+	IGUIComboBox *mediumSlot;
+	IGUIComboBox *mediumSlotWeapon;
 
-	gui::IGUIComboBox *lightSlot;
-	gui::IGUIComboBox *lightSlotWeapon;
+	IGUIComboBox *lightSlot;
+	IGUIComboBox *lightSlotWeapon;
 
-	gui::IGUIButton *refit;
-	gui::IGUIButton *repair;
+	IGUIButton *refit;
+	IGUIButton *repair;
 
 	int currentSelection[4];
 };

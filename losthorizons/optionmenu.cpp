@@ -1,13 +1,15 @@
-#include "stdafx.h"
 #include "optionmenu.h"
+#include "globals.h"
+#include "config.h"
 #include <cmath>
 
+using namespace base;
 
 OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	: MenuWindow()
 {
 	//create window
-	window = guienv->addWindow(rect<s32>(iWidth/2-300,iHeight/2-200,iWidth/2+300,iHeight/2+200), true, L"Options", menu);
+	window = guienv->addWindow(rect<s32>(width/2-300,height/2-200,width/2+300,height/2+200), true, L"Options", menu);
 	window->setDraggable(false);
 	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
@@ -30,7 +32,7 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 
 	resY[0] = GetSystemMetrics(SM_CYSCREEN);
 	resX[0] = GetSystemMetrics(SM_CXSCREEN);
-	f64 monitorRatio = (f64)(resX[0]) / resY[0];
+	f32 monitorRatio = (f32)(resX[0])/resY[0];
 	resolution->addItem(L"native");
 	
 	if (!gConfig.bFullScreen) {
@@ -39,7 +41,7 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 		std::wstring option;
 		for (unsigned i = 1; i < 9; ++i) {
 			if (resY[i] < resY[0]) {
-				resX[i] = (int)(floor(resY[i] * monitorRatio));
+				resX[i] = (int)(floor(resY[i]*monitorRatio));
 				option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
 				resolution->addItem(option.c_str());
 			}

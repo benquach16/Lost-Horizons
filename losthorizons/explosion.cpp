@@ -1,15 +1,17 @@
-#include "stdafx.h"
 #include "explosion.h"
+#include "globals.h"
+
+using namespace base;
 
 #define EXPLOSIONLENGTH 3000
 
-Explosion::Explosion(const vector3df& position) : Effect(EXPLOSIONLENGTH), fireParticles(0), shockwave(0)
+Explosion::Explosion(const core::vector3df& position) : Effect(EXPLOSIONLENGTH), fireParticles(0), shockwave(0)
 {
 	//intialize particle system
-	soundmngr->play3D("res/sounds/reactor_explo.wav", position);
+	sound->play3D("res/sounds/reactor_explo.wav", position);
 	fireParticles = scenemngr->addParticleSystemSceneNode(false, 0, -1, position);
 	IParticleEmitter *emitter = fireParticles->createSphereEmitter(vector3df(0,0,0), 20,
-		vector3df(0,0,0), 100, 200, SColor(0,255,255,255), SColor(0,255,255,255),
+		vector3df(0,0,0), 100, 200, video::SColor(0,255,255,255), video::SColor(0,255,255,255),
 		2000, 4000, 0, dimension2df(75,75), dimension2df(150,150));
 	fireParticles->setEmitter(emitter);
 

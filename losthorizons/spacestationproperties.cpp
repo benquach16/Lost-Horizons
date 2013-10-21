@@ -1,11 +1,14 @@
 #include "spacestationproperties.h"
+#include "globals.h"
 #include <sstream>
 
-SpaceStationProperties::SpaceStationProperties(irr::IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
-{
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+using namespace base;
 
-	//read from xml
+SpaceStationProperties::SpaceStationProperties(const std::string &f) : ModelProperties(f)
+{
+	//read spacestation properties from file
+	io::IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+
 	core::stringw currentSection(L"");
 	while(file->read())
 	{
@@ -159,10 +162,5 @@ const unsigned SpaceStationProperties::getShipSpawnTimer() const
 //protected function
 bool SpaceStationProperties::getTrueOrFalse(const wchar_t *text)
 {
-	if(text[0] == L't')
-	{
-		return true;
-	}
-	else
-		return false;
+	return text[0] == L't';
 }

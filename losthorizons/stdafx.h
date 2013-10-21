@@ -9,4 +9,5 @@
 
 #include <tchar.h>
 #include "windows.h"
-#include "config.h"
+#include "irrlicht.h"
+#include "irrklang.h"

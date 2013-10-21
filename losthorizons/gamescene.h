@@ -5,12 +5,12 @@
 //We shouldn't deal with creating multiple scenes too much, since an entire solar system should be a single scene
 //only for the implementation of multiple solar systems
 //so for now, keep the design as a singleton
+#include "stdafx.h"
+#include "object.h"
 #include <stack>
 
 using namespace irr;
-using namespace core;
 using namespace scene;
-using namespace video;
 
 enum E_GAME_SCENE
 {

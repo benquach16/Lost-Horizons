@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "gamescenemanager.h"
 
 GameSceneManager::GameSceneManager()

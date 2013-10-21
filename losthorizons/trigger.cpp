@@ -1,5 +1,5 @@
 #include "trigger.h"
 
-Trigger::Trigger(const vector3df& position) : position(position)
+Trigger::Trigger(const core::vector3df& position) : position(position)
 {
 }

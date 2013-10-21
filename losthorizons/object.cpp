@@ -1,5 +1,7 @@
-#include "stdafx.h"
 #include "object.h"
+#include "globals.h"
+
+using namespace base;
 
 std::list<Object*> Object::allObjects;
 

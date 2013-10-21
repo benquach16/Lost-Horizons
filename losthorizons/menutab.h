@@ -1,26 +1,22 @@
 #ifndef _MENUTAB_H_
 #define _MENUTAB_H_
 
-#include "irrlicht.h"
+#include "stdafx.h"
 
 using namespace irr;
-using namespace core;
+using namespace gui;
 
 //abstract bass class for menu tabs
 class MenuTab
 {
 public:
-	MenuTab() : tab(0)
-	{
-	}
-	~MenuTab()
-	{
-	}
+	MenuTab() : tab(0) {}
+	~MenuTab() {}
 	//pure virtual function
 	void run();
 
 protected:
-	gui::IGUITab *tab;
+	IGUITab *tab;
 };
 
 #endif

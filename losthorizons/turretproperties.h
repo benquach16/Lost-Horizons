@@ -15,10 +15,8 @@ enum E_TURRET_CLASS
 class TurretProperties : public ModelProperties
 {
 public:
-	//default constructor
-	TurretProperties();
 	//load from file
-	TurretProperties(irr::IrrlichtDevice *graphics, const std::string &f);
+	TurretProperties(const std::string &f);
 	//make sure we have a valid copy constructor so we can copy
 	~TurretProperties();
 
@@ -49,10 +47,7 @@ protected:
 //overloaded comparision operator
 inline bool operator==(const TurretProperties &lhs, const TurretProperties &rhs)
 {
-	if(lhs.getName() == rhs.getName())
-		return true;
-	return false;
+	return lhs.getName() == rhs.getName();
 }
-
 
 #endif

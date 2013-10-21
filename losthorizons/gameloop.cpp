@@ -1,9 +1,11 @@
-//#include "stdafx.h"
 #include "gameloop.h"
+#include "globals.h"
 
-Gameloop::Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data)
-	: graphics(graphics), receiver(receiver), data(data), gameSceneManager(new GameSceneManager),
-	  objectManager(new ObjectManager(graphics)), playerCam(0), hud(0), turning(0), visualsManager(new VisualsManager), 
+using namespace base;
+
+Gameloop::Gameloop(DataManager *data)
+	: data(data), gameSceneManager(new GameSceneManager),
+	  objectManager(new ObjectManager), playerCam(0), hud(0), turning(0), visualsManager(new VisualsManager), 
 	  missionManager(new MissionManager), stationMenu(0), gameMenu(0), intercom(0)
 {
 }
@@ -33,7 +35,7 @@ void Gameloop::init()
 	turning = new TurningMarker(player);
 	stationMenu = new StationMenu(player);
 	gameMenu = new GameMenu(player, missionManager);
-	missionManager->addMission(MissionProperties(graphics, "missions/tutorial.xml"));
+	missionManager->addMission(MissionProperties("missions/tutorial.xml"));
 }
 
 void Gameloop::run(f32 frameDeltaTime)

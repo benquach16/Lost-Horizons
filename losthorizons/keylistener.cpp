@@ -4,19 +4,18 @@
 KeyListener::KeyListener()
 	: mouseL(false), mouseR(false), mouseX(0), mouseY(0), mouseWheel(0)
 {
-	for (unsigned i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i) {
+	for (unsigned i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
 		keys[i] = false;
 	}
-	for (unsigned i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i) {
+	for (unsigned i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
 		keysReleased[i] = false;
 	}
-	
 }
 
 bool KeyListener::OnEvent(const SEvent& event)
 {
 	//get events from operating system
-    if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+    if (event.EventType == EET_KEY_INPUT_EVENT)
 	{
 		if(event.KeyInput.PressedDown)
 		{
@@ -29,26 +28,26 @@ bool KeyListener::OnEvent(const SEvent& event)
 		}
        // keys[event.KeyInput.Key] = event.KeyInput.PressedDown;
 	}
-	if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
+	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		//mouse events
-		if (event.MouseInput.Event == irr::EMIE_LMOUSE_PRESSED_DOWN) {
+		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
 			mouseL = true;
 		}
-		if (event.MouseInput.Event == irr::EMIE_LMOUSE_LEFT_UP) {
+		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP) {
 			mouseL = false;
 		}
-		if (event.MouseInput.Event == irr::EMIE_RMOUSE_PRESSED_DOWN) {
+		if (event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) {
 			mouseR = true;
 		}
-		if (event.MouseInput.Event == irr::EMIE_RMOUSE_LEFT_UP) {
+		if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
 			mouseR = false;
 		}
-		if (event.MouseInput.Event==irr::EMIE_MOUSE_MOVED) {
+		if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
 			// check the mouse coords
 			mouseX = event.MouseInput.X;
 			mouseY = event.MouseInput.Y;
 		}
-		if (event.MouseInput.Event==irr::EMIE_MOUSE_WHEEL) {
+		if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
 			// how do i make it work?
 			mouseWheel += (int)event.MouseInput.Wheel;
 		}

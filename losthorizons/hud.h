@@ -1,14 +1,13 @@
 #ifndef _HUD_H_
 #define _HUD_H_
 
-#include "irrlicht.h"
+#include "stdafx.h"
 #include "object.h"
 #include "menuwindow.h"
 #include "player.h"
 #include "intercom.h"
 
 using namespace irr;
-using namespace gui;
 
 class HUD
 {
@@ -21,6 +20,7 @@ public:
 	void run();
 	void setVisible(bool visible);
 	virtual ~HUD();
+
 private:
 	void updatePlayerInfo();
 	void updateTargetInfo();

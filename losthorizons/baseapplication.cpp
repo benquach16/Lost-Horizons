@@ -1,5 +1,6 @@
-#include "stdafx.h"
 #include "baseapplication.h"
+#include "globals.h"
+#include "config.h"
 #include <iostream>
 #include <SExposedVideoData.h>
 
@@ -8,9 +9,15 @@
 #pragma comment(lib, "irrklang.lib")
 #endif
 
+using namespace base;
+
 BaseApplication::BaseApplication()
-	: graphics(0), receiver(new KeyListener), data(new DataManager), menu(0), effect(0), hwnd(0), then((f32)(0))
+	: data(new DataManager), menu(0), effect(0), then(0.f)
 {
+	receiver = new KeyListener;
+	sound = irrklang::createIrrKlangDevice();
+	sound->setSoundVolume(1.0f);
+	sound->setDefault3DSoundMinDistance(500);
 	getBits();
 	gConfig.Load();
 }
@@ -19,6 +26,7 @@ BaseApplication::~BaseApplication()
 {
 	delete receiver;
 	delete data;
+	sound->drop();
 	killDevice();
 	gConfig.Save();
 }
@@ -26,8 +34,8 @@ BaseApplication::~BaseApplication()
 void BaseApplication::init()
 {
 	buildGraphics();
-	menu = new StartMenu(graphics, receiver, data);
-	game = new Gameloop(graphics, receiver, data);
+	menu = new StartMenu(data);
+	game = new Gameloop(data);
 	//effect = new PostProcessEffect;
 	gConfig.bFirstRun = false;
 }
@@ -40,7 +48,6 @@ void BaseApplication::killDevice()
 	graphics->closeDevice();
 	graphics->run();
     graphics->drop();
-	sound->drop();
 }
 
 void BaseApplication::run()
@@ -61,11 +68,11 @@ void BaseApplication::run()
 			data->push();
 		}
 
-		vdriver->beginScene(true, true, SColor(255,0,0,0));
+		vdriver->beginScene(true, true, video::SColor(255,0,0,0));
 
 		//run menu or game
 		const f32 now = (f32)(graphics->getTimer()->getTime());
-		const f32 frameDeltaTime = (now-then)/1000.f; // Time in seconds
+		const f32 frameDeltaTime = (now - then)/1000.f; // Time in seconds
 		then = now;
 		menu->run();
 		//effect->render();
@@ -88,14 +95,9 @@ void BaseApplication::run()
 
 void BaseApplication::buildGraphics()
 {
-	//initialize sound engine
-	sound = irrklang::createIrrKlangDevice();
-	sound->setSoundVolume(1.0f);
-	sound->setDefault3DSoundMinDistance(500);
-
 	//initialize graphics engnie
 	if (gConfig.bFullScreen)
-		graphics = createDevice(EDT_DIRECT3D9,
+		graphics = createDevice(video::EDT_DIRECT3D9,
 			dimension2d<u32>(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)),
 			gConfig.iBits,
 			gConfig.bFullScreen,
@@ -103,7 +105,7 @@ void BaseApplication::buildGraphics()
 			gConfig.bVsync,
 			receiver);
 	else
-		graphics = createDevice(EDT_DIRECT3D9,
+		graphics = createDevice(video::EDT_DIRECT3D9,
 			dimension2d<u32>(gConfig.iResolutionX, gConfig.iResolutionY),
 			gConfig.iBits,
 			gConfig.bFullScreen,
@@ -118,13 +120,12 @@ void BaseApplication::buildGraphics()
 	scenemngr = graphics->getSceneManager();
 	guienv = graphics->getGUIEnvironment();
 	timer = graphics->getTimer();
-	soundmngr = sound;
-	gConfig.screen = vdriver->getScreenSize();
+	width = vdriver->getScreenSize().Width;
+	height = vdriver->getScreenSize().Height;
 	
 	graphics->setWindowCaption(L"Lost Horizons");
-    hwnd  = (HWND)vdriver->getExposedVideoData().D3D9.HWnd;
 	if (gConfig.bTopMost && !gConfig.bFullScreen)
-		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		SetWindowPos((HWND)vdriver->getExposedVideoData().D3D9.HWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 
 void BaseApplication::getBits()

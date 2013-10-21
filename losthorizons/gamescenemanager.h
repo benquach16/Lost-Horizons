@@ -3,6 +3,7 @@
 
 #include "gamescene.h"
 #include "playercamera.h"
+#include "player.h"
 #include "spacestation.h"
 
 class GameSceneManager

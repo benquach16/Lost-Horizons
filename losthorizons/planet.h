@@ -1,8 +1,8 @@
 #ifndef _PLANET_H_
 #define _PLANET_H_
 
-#include "object.h"
 #include "targetableobject.h"
+#include "objectmanager.h"
 #include "planetproperties.h"
 #include "atmosphere.h"
 

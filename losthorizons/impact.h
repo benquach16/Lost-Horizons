@@ -6,13 +6,10 @@
 //part of the sfx classes
 //small impact effect that is caused from projectiles
 
-using namespace irr;
-using namespace scene;
-
 class Impact : public Effect 
 {
 public:
-	Impact(const vector3df& position);
+	Impact(const core::vector3df& position);
 	virtual ~Impact();
 	virtual bool run();
 

@@ -4,13 +4,12 @@
 #include "modelproperties.h"
 #include <vector>
 
-
 struct turretInformation
 {
 	core::vector3df rotation;
 	int arc;
 	//for empty turret infos
-	turretInformation() : rotation(), arc(360){}
+	turretInformation() : rotation(), arc(360) {}
 };
 
 //ship properties class
@@ -19,11 +18,7 @@ struct turretInformation
 class ShipProperties : public ModelProperties
 {
 public:
-
-
-	//default constructor
-	ShipProperties();
-	ShipProperties(IrrlichtDevice *graphics, const std::string &f);
+	ShipProperties(const std::string &f);
 	~ShipProperties();
 
 	//accessors because visual studio
@@ -49,7 +44,6 @@ public:
 	std::vector<turretInformation> mediumTurrets;	
 	std::vector<turretInformation> lightTurrets;
 
-	
 protected:
 	void loadTurretInformation(io::IXMLReader *file);
 

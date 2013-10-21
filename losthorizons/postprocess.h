@@ -1,7 +1,7 @@
 #ifndef _POSTPROCESS_H_
 #define _POSTPROCESS_H_
 
-#include "irrlicht.h"
+#include "stdafx.h"
 #include "screenquadnode.h"
 
 using namespace irr;
@@ -16,9 +16,9 @@ public:
 	void render();
 
 protected:
-	ITexture *renderTarget;
-	ITexture *secondRenderTarget;
-	ITexture *temp; 
+	video::ITexture *renderTarget;
+	video::ITexture *secondRenderTarget;
+	video::ITexture *temp; 
 	//first pass
 	ScreenQuadNode *screenQuad;
 	//second pass

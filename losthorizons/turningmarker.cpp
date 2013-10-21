@@ -1,5 +1,7 @@
-#include "stdafx.h"
 #include "turningmarker.h"
+#include "globals.h"
+
+using namespace base;
 
 TurningMarker::TurningMarker(Player *player) : player(player), XYcircle(0), YZcircle(0), arrow(0)
 {
@@ -48,15 +50,8 @@ void TurningMarker::run()
 	
 	//make sure to hide this when the palyer is close enough to target rotation
 	//so we have less clutter
-	if(player->getRotation().Y - 3 > player->getTargetRotation().Y || player->getRotation().Y + 3 < player->getTargetRotation().Y ||
-		player->getRotation().X - 3 > player->getTargetRotation().X || player->getRotation().X + 3 < player->getTargetRotation().X)
-	{
-		setVisible(true);
-	}
-	else
-	{
-		setVisible(false);
-	}
+	setVisible(player->getRotation().Y - 3 > player->getTargetRotation().Y || player->getRotation().Y + 3 < player->getTargetRotation().Y ||
+			   player->getRotation().X - 3 > player->getTargetRotation().X || player->getRotation().X + 3 < player->getTargetRotation().X);
 }
 
 //protected function

@@ -1,16 +1,13 @@
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
+#include "stdafx.h"
+#include "callback.h"
 #include <list>
 #include <string>
 
-#include "irrlicht.h"
-#include "callback.h"
-
-
 using namespace irr;
 using namespace core;
-using namespace scene;
 
 //all objects are associated with a faction
 enum E_GAME_FACTION
@@ -90,7 +87,7 @@ protected:
 	bool visible;
 
 	//3d infomation
-	IAnimatedMeshSceneNode *mesh;
+	scene::IAnimatedMeshSceneNode *mesh;
 	std::wstring filename;
 
 	//iterator to this

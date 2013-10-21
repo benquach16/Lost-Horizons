@@ -1,7 +1,7 @@
 #ifndef _KEYLISTENER_H_
 #define _KEYLISTENER_H_
 
-#include "irrlicht.h"
+#include "stdafx.h"
 
 using namespace irr;
 
@@ -26,8 +26,8 @@ public:
 	bool getRightMouseButton() const;
 
 private:
-	bool keys[irr::KEY_KEY_CODES_COUNT];
-	bool keysReleased[irr::KEY_KEY_CODES_COUNT];
+	bool keys[KEY_KEY_CODES_COUNT];
+	bool keysReleased[KEY_KEY_CODES_COUNT];
 	bool mouseL;
 	bool mouseR;
 	int mouseX, mouseY;

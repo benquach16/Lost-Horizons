@@ -1,14 +1,12 @@
 // losthorizons.cpp : Defines the entry point for the console application.
-//
 
-#include "stdafx.h"
 #include "baseapplication.h"
-#include <string>
+#include "config.h"
 
 void getCmdArgs(int argc, char *argv[])
 {
 	bool args = false;
-	for (int i = 0; i < argc; ++i) {
+	for (int i = 1; i < argc; ++i) {
 		if (argv[i] == "-fullscreen") {
 			gConfig.bFullScreen = true;
 			args = true;

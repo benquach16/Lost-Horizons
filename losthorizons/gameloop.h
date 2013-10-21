@@ -1,7 +1,6 @@
 #ifndef _GAMELOOP_H_
 #define _GAMELOOP_H_
 
-#include "keylistener.h"
 #include "player.h"
 #include "fighter.h"
 #include "gamescene.h"
@@ -20,7 +19,7 @@
 class Gameloop
 {
 public:
-	Gameloop(IrrlichtDevice *graphics, KeyListener *receiver, DataManager *data);
+	Gameloop(DataManager *data);
 	~Gameloop();
 	void init();
 	void run(f32 frameDeltaTime);
@@ -38,8 +37,6 @@ private:
 	void cameraControl();
 	void selectTarget();
 
-	IrrlichtDevice *graphics;
-	KeyListener *receiver;
 	DataManager *data;// plan to get rid of this
 	GameSceneManager *gameSceneManager;
 	ObjectManager *objectManager;

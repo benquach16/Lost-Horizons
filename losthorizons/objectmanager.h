@@ -1,9 +1,6 @@
 #ifndef _OBJECTMANAGER_H_
 #define _OBJECTMANAGER_H_
 
-#include <vector>
-
-#include "irrlicht.h"
 #include "itemproperties.h"
 #include "shipproperties.h"
 #include "turretproperties.h"
@@ -11,19 +8,13 @@
 #include "planetproperties.h"
 #include "fighterproperties.h"
 
-
 //load all objects from xml files
-
-using namespace irr;
-using namespace io;
-
-//lets index each part of the vector for constant access time and to make it easier on us
-
+//let's index each part of the vector for constant access time and to make it easier on us
 
 class ObjectManager
 {
 public:
-	ObjectManager(IrrlichtDevice *graphics);
+	ObjectManager();
 	~ObjectManager();
 	
 	//enum of all items in the game

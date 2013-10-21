@@ -1,20 +1,9 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
-#define vdriver gConfig.VideoDriver
-#define scenemngr gConfig.SceneManager
-#define guienv gConfig.GUIEnvironment
-#define timer gConfig.Timer
-#define soundmngr gConfig.SoundEngine
-#define iWidth gConfig.screen.Width
-#define iHeight gConfig.screen.Height
-#define game gConfig.gGame
 
 // include this header file whenever you want to use the config
 
 #include <string>
-#include "irrlicht.h"
-#include "irrklang.h"
-#include "gameloop.h"
 
 struct Config
 {
@@ -54,15 +43,6 @@ struct Config
 	void Save();
 
 	std::string iniFilename_;
-
-	// pseudo global objects
-	irr::video::IVideoDriver* VideoDriver;
-	irr::scene::ISceneManager* SceneManager;
-	irr::gui::IGUIEnvironment* GUIEnvironment;
-	irr::ITimer* Timer;
-	irrklang::ISoundEngine* SoundEngine;
-	irr::core::dimension2d<unsigned> screen;
-	Gameloop* gGame;
 };
 extern Config gConfig;
 

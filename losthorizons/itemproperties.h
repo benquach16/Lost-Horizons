@@ -1,11 +1,10 @@
 #ifndef _ITEMPROPERTIES_H_
 #define _ITEMPROPERTIES_H_
 
+#include "stdafx.h"
 #include <string>
-#include "irrlicht.h"
 
 using namespace irr;
-using namespace io;
 
 //so we can call specific parts of the item
 enum E_ITEM_TYPE
@@ -18,14 +17,12 @@ enum E_ITEM_TYPE
 	ITEM_FIGHTER
 };
 
-
 //itemproperties class
 //all items need this class
 class ItemProperties
 {
 public:
-	ItemProperties();
-	ItemProperties(irr::IrrlichtDevice *graphics, const std::string &f);
+	ItemProperties(const std::string &f);
 	virtual ~ItemProperties();
 
 	const std::wstring& getName() const;
@@ -49,13 +46,8 @@ protected:
 //overload == operator
 inline bool operator==(const ItemProperties& lhs, const ItemProperties& rhs)
 {
-	if(lhs.getDesc() == rhs.getDesc() && lhs.getName() == rhs.getName() && lhs.getItemType() == rhs.getItemType() &&
-		lhs.getPrice() == rhs.getPrice() && lhs.getWeight() == rhs.getWeight())
-	{
-		return true;
-	}
-	return false;
+	return lhs.getDesc() == rhs.getDesc() && lhs.getName() == rhs.getName() && lhs.getItemType() == rhs.getItemType() &&
+		lhs.getPrice() == rhs.getPrice() && lhs.getWeight() == rhs.getWeight();
 }
-
 
 #endif

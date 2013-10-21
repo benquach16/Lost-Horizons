@@ -1,14 +1,13 @@
 #include "planetproperties.h"
+#include "globals.h"
 #include <sstream>
 
-PlanetProperties::PlanetProperties()
-{
-}
+using namespace base;
 
-PlanetProperties::PlanetProperties(irr::IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
+PlanetProperties::PlanetProperties(const std::string &f) : ModelProperties(f)
 {
 	//read in planet properties
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+	io::IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 	core::stringw currentSection(L"");
 	while(file->read())
 	{

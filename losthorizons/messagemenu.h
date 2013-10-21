@@ -2,9 +2,9 @@
 #define _MESSAGEMENU_H_
 
 #include "menuwindow.h"
+#include "globals.h"
 
-using namespace irr;
-using namespace core;
+using namespace base;
 
 //this is a generic message box
 class MessageMenu : public MenuWindow

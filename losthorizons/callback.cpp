@@ -1,6 +1,8 @@
-#include "stdafx.h"
 #include "callback.h"
+#include "globals.h"
 #include <iostream>
+
+using namespace base;
 
 void BumpMapCallback::OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
 {
@@ -32,8 +34,8 @@ void BloomCallback::OnSetConstants(video::IMaterialRendererServices* services, s
 	matrix4 projectionViewWorldMatrix = projectionMatrix*viewMatrix*worldMatrix;
 	services->setVertexShaderConstant("matWorldViewProj", projectionViewWorldMatrix.pointer(), 16);
 
-	f32 offsetX = -1.f/iWidth;
-	f32 offsetY = 1.f/iHeight;
+	f32 offsetX = -1.f/width;
+	f32 offsetY = 1.f/height;
 	f32 offset[2] = {offsetX, offsetY};
 	//services->setVertexShaderConstant("Offset", offset, 2);
 }

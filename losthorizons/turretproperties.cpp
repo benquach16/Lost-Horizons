@@ -1,16 +1,14 @@
 #include "turretproperties.h"
+#include "globals.h"
 #include <iostream>
 #include <sstream>
 
-TurretProperties::TurretProperties() : turnSpeed(0), reloadSpeed(0), range(0), damage(0)
-{
-	//default constructor
-}
+using namespace base;
 
-TurretProperties::TurretProperties(irr::IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
+TurretProperties::TurretProperties(const std::string &f) : ModelProperties(f)
 {
 	//only read the turret values
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+	io::IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 	core::stringw currentTree(L"");
 	core::stringw currentSection(L"");
 	while(file->read())

@@ -1,7 +1,9 @@
-#include "stdafx.h"
 #include "turret.h"
+#include "globals.h"
 #include "ship.h"
 #include <iostream>
+
+using namespace base;
 
 //BEGIN TURRETSLOT
 TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *joint, const E_TURRET_CLASS turretClass, Ship* parent) : 
@@ -201,7 +203,7 @@ void Turret::fire(const vector3df &rotation)
 	{//for now, projectile gets an ID. change to ship pointer later
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
-		soundmngr->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename().c_str(), getPosition());
+		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename().c_str(), getPosition());
 	}
 }
 

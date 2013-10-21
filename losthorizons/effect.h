@@ -1,8 +1,10 @@
 #ifndef _EFFECT_H_
 #define _EFFECT_H_
 
-#include "irrlicht.h"
+#include "stdafx.h"
+#include <vector>
 
+using namespace irr;
 
 //define a special effects base class right here
 //so we can control when and where special effects happen and when to end them
@@ -15,6 +17,7 @@ public:
 	virtual bool run();
 
 	static std::vector<Effect*> allEffects;
+
 protected:
 	//the length of the effect before we delete it
 	unsigned endTime;

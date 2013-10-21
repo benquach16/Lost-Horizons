@@ -7,7 +7,7 @@
 class SpaceStationProperties : public ModelProperties
 {
 public:
-	SpaceStationProperties(irr::IrrlichtDevice *graphics, const std::string &f);
+	SpaceStationProperties(const std::string &f);
 	~SpaceStationProperties();
 
 	//accessors

@@ -1,7 +1,9 @@
-#include "stdafx.h"
 #include "missiontab.h"
+#include "globals.h"
 
-MissionTab::MissionTab(gui::IGUITabControl *tabs, MissionManager *missionManager) : MenuTab(), missionList(0), missionDescription(0),
+using namespace base;
+
+MissionTab::MissionTab(IGUITabControl *tabs, MissionManager *missionManager) : MenuTab(), missionList(0), missionDescription(0),
 	missionManager(missionManager), marker(new Marker)
 {
 	tab = tabs->addTab(L"Mission Log");

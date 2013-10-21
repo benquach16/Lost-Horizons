@@ -1,12 +1,10 @@
-#include "stdafx.h"
 #include "targetableobject.h"
+#include "globals.h"
+
+using namespace base;
 
 std::list<TargetableObject*> TargetableObject::allTargets;
 u16 TargetableObject::nextID(0);
-
-TargetableObject::TargetableObject()
-{
-}
 
 TargetableObject::TargetableObject(u16 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation,
 								   const E_GAME_FACTION faction)
@@ -38,9 +36,9 @@ void TargetableObject::run(f32 frameDeltaTime)
 	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
 	//draw a 2d target array on this object
 	if (faction == FACTION_PIRATE)
-		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_enemy.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, SColor(255,255,255,255), true);
+		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_enemy.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
 	else
-		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, SColor(255,255,255,255), true);
+		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array.png"), screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
 }
 
 void TargetableObject::removeThisFromTargets()

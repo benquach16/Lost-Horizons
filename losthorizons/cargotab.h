@@ -2,14 +2,16 @@
 #define _CARGOTAB_H_
 
 #include "menutab.h"
+#include "player.h"
 
 class CargoTab : public MenuTab
 {
 public:
-	CargoTab(gui::IGUITabControl *tabs, Player* player);
+	CargoTab(IGUITabControl *tabs, Player* player);
 	~CargoTab();
 
 	void run();
+
 private:
 	Player* player;
 

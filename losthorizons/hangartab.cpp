@@ -1,8 +1,10 @@
-#include "stdafx.h"
 #include "hangartab.h"
+#include "globals.h"
 #include <iostream>
 
-HangarTab::HangarTab(gui::IGUITabControl *tabs, Player *player) : MenuTab(), player(player),
+using namespace base;
+
+HangarTab::HangarTab(IGUITabControl *tabs, Player *player) : MenuTab(), player(player),
 	heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0), 
 	repair(0), refit(0)
 {

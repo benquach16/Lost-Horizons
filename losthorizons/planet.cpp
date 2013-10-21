@@ -1,6 +1,8 @@
-#include "stdafx.h"
 #include "planet.h"
+#include "globals.h"
 #include <iostream>
+
+using namespace base;
 
 std::list<Planet*> Planet::allPlanets;
 

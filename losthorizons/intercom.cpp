@@ -1,10 +1,12 @@
-#include "stdafx.h"
 #include "intercom.h"
+#include "globals.h"
 #include <iostream>
+
+using namespace base;
 
 Intercom::Intercom(Player *player) : player(player), listBox(0), tabs(0), deleteTimer(0)
 {
-	listBox = guienv->addListBox(rect<s32>(iWidth-300, iHeight-180, iWidth, iHeight));
+	listBox = guienv->addListBox(rect<s32>(width-300, height-180, width, height));
 	listBox->setAutoScrollEnabled(true);
 
 }

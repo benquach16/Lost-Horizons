@@ -1,13 +1,12 @@
 #include "fighterproperties.h"
+#include "globals.h"
 #include <sstream>
 
-FighterProperties::FighterProperties() : maxHull(0), maxTurn(0), maxVelocity(0), maxFuel(0), ModelProperties()
-{
-}
+using namespace base;
 
-FighterProperties::FighterProperties(irr::IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
+FighterProperties::FighterProperties(const std::string &f) : ModelProperties(f)
 {
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+	io::IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 	core::stringw currentSection(L"");
 
 	while(file->read())

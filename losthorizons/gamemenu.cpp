@@ -1,14 +1,16 @@
-#include "stdafx.h"
 #include "gamemenu.h"
+#include "globals.h"
+
+using namespace base;
 
 GameMenu::GameMenu(Player* player, MissionManager *missionManager) 
 : MenuWindow(), player(player), missionManager(missionManager)
 {
-	window = guienv->addWindow(rect<s32>(iWidth/2-400,iHeight/2-260,iWidth/2+400,iHeight/2+260), true, L"Player Ship");
+	window = guienv->addWindow(rect<s32>(width/2-400,height/2-260,width/2+400,height/2+260), true, L"Player Ship");
 	window->getCloseButton()->setVisible(false);
 	window->setDrawBackground(false);
 
-	tabs = guienv->addTabControl(rect<s32>(0,0,iWidth/2+800,iHeight/2+600), window, true);
+	tabs = guienv->addTabControl(rect<s32>(0,0,width/2+800,height/2+600), window, true);
 
 	initializeDisplay();
 
@@ -26,8 +28,8 @@ GameMenu::~GameMenu()
 void GameMenu::run()
 {
 	MenuWindow::run();
-	ship -> run();
-	cargo -> run();
+	ship->run();
+	cargo->run();
 	mission->run();
 }
 

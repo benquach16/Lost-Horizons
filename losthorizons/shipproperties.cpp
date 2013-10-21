@@ -1,17 +1,14 @@
-//#include "stdafx.h"
 #include "shipproperties.h"
+#include "globals.h"
 #include <iostream>
 #include <sstream>
 
-ShipProperties::ShipProperties() : ModelProperties()
-{
-}
+using namespace base;
 
-ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) : ModelProperties(graphics, f)
+ShipProperties::ShipProperties(const std::string &f) : ModelProperties(f)
 {
 	//only read the ship values here since the item one will already be read in from
-	//read in the xml file
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+	io::IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 
 	core::stringw currentSection(L"");
 	while(file->read())
@@ -214,7 +211,6 @@ ShipProperties::ShipProperties(IrrlichtDevice *graphics, const std::string &f) :
 	}
 	file->drop();
 }
-
 
 ShipProperties::~ShipProperties()
 {

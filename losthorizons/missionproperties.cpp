@@ -1,10 +1,13 @@
 #include "missionproperties.h"
+#include "globals.h"
 #include <iostream>
 
-MissionProperties::MissionProperties(irr::IrrlichtDevice *graphics, const std::string &f)
+using namespace base;
+
+MissionProperties::MissionProperties(const std::string &f)
 {
 	//read from xml file
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+	io::IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 
 	//keep track of which tree we're in
 	core::stringw currentSection(L"");
@@ -135,5 +138,3 @@ E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 		exit(1);
 	}
 }
-
-

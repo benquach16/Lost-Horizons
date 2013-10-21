@@ -1,5 +1,7 @@
-#include "stdafx.h"
 #include "postprocess.h"
+#include "globals.h"
+
+using namespace base;
 
 PostProcessEffect::PostProcessEffect() : 
 	screenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, 10))
@@ -8,8 +10,8 @@ PostProcessEffect::PostProcessEffect() :
 
 	//create screen aligned quad and set the render to texture
 	//keep in mind we need to do two passes for proper bloom!
-	renderTarget = vdriver->addRenderTargetTexture(dimension2du(iWidth, iHeight), "renderTarget");
-	secondRenderTarget = vdriver->addRenderTargetTexture(dimension2du(iWidth, iHeight), "secondRenderTarget");
+	renderTarget = vdriver->addRenderTargetTexture(dimension2du(width, height), "renderTarget");
+	secondRenderTarget = vdriver->addRenderTargetTexture(dimension2du(width, height), "secondRenderTarget");
 	screenQuad->setMaterialTexture(0, renderTarget);
 	screenQuad->setMaterialTexture(1, secondRenderTarget);
 	//in order to set up multiple render passes, we need multiple render targets so we can draw the first pass
@@ -41,13 +43,13 @@ void PostProcessEffect::render()
 	scenemngr->drawAll();
 	vdriver->setRenderTarget(secondRenderTarget, true, true, video::SColor(0,0,0,255));
 
-	vdriver->draw2DImage(renderTarget, rect<s32>(0,0,iWidth, iHeight), rect<s32>(0,0,iWidth, iHeight));
+	vdriver->draw2DImage(renderTarget, rect<s32>(0,0,width, height), rect<s32>(0,0,width, height));
 	*/
 	//first pass
 	vdriver->setRenderTarget(renderTarget,true, true, video::SColor(0,0,0,255));
 	screenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial1);
 	//secondScreenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial2);
-	//vdriver->draw2DImage(renderTarget, rect<s32>(0,0,iWidth, iHeight), rect<s32>(0,0,iWidth, iHeight));
+	//vdriver->draw2DImage(renderTarget, rect<s32>(0,0,width, height), rect<s32>(0,0,width, height));
 	scenemngr->drawAll();
 
 	vdriver->setRenderTarget(secondRenderTarget, true, true, video::SColor(0,0,0,255));

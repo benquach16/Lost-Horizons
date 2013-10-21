@@ -4,7 +4,6 @@
 #include "menuwindow.h"
 
 using namespace irr;
-using namespace core;
 
 //displays options to change config
 class OptionMenu : public MenuWindow

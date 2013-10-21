@@ -1,11 +1,13 @@
-#include "stdafx.h"
 #include "lensflare.h"
+#include "globals.h"
+
+using namespace base;
 
 LensFlare::LensFlare(scene::ISceneNode* parent, scene::ISceneManager* mgr, s32 id) : ISceneNode(parent, mgr, id)
 {
-	f32 shiftX,shiftY;
-	shiftX = (f32)0.5/iWidth;
-	shiftY = (f32)0.5/iHeight;  
+	f32 shiftX, shiftY;
+	shiftX = 0.5f/width;
+	shiftY = 0.5f/height;  
 
 	vertices[0] = video::S3DVertex2TCoords(
 		-1.0f,-1.0f,0.0f,
@@ -76,7 +78,7 @@ u32 LensFlare::getMaterialCount() const
 	return 1;
 }
 
-SMaterial& LensFlare::getMaterial(u32 i) 
+video::SMaterial& LensFlare::getMaterial(u32 i) 
 {
 	return material;
 }

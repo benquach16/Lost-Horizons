@@ -4,11 +4,9 @@
 //mostly an orbiting camera
 //but can also be a top down camera
 
-#include "irrlicht.h"
+#include "stdafx.h"
 
 using namespace irr;
-using namespace core;
-using namespace scene;
 
 class PlayerCamera
 {
@@ -20,10 +18,10 @@ public:
 		CAMERA_TOP
 	};
 
-	PlayerCamera(const vector3df &position = vector3df(0.f,0.f,0.f));
+	PlayerCamera(const core::vector3df &position = core::vector3df(0.f,0.f,0.f));
 	~PlayerCamera();
-	void run(const vector3df &pos, f32 frameDeltaTime);
-	void orbit(const vector3df &pos, f32 frameDeltaTime);
+	void run(const core::vector3df &pos, f32 frameDeltaTime);
+	void orbit(const core::vector3df &pos, f32 frameDeltaTime);
 	void rotateX(int x);
 	void rotateY(int y);
 	void zoom(int z);

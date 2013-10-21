@@ -1,14 +1,14 @@
 #ifndef _MISSIONTAB_H_
 #define _MISSIONTAB_H_
 
-#include "marker.h"
 #include "menutab.h"
 #include "missionmanager.h"
+#include "marker.h"
 
 class MissionTab : public MenuTab
 {
 public:
-	MissionTab(gui::IGUITabControl *tabs, MissionManager *missionManager);
+	MissionTab(IGUITabControl *tabs, MissionManager *missionManager);
 	~MissionTab();
 
 	void run();
@@ -16,8 +16,8 @@ public:
 protected:
 	void loadMissions();
 	//list of all the missions
-	gui::IGUIListBox *missionList;
-	gui::IGUIStaticText *missionDescription;
+	IGUIListBox *missionList;
+	IGUIStaticText *missionDescription;
 
 	MissionManager *missionManager;
 	Marker *marker;

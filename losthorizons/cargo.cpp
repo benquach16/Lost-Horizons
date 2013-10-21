@@ -1,5 +1,7 @@
-#include "stdafx.h"
 #include "cargo.h"
+#include "globals.h"
+
+using namespace base;
 
 #define SPINSPEED 10
 #define MAXMONEY 10000
@@ -33,8 +35,8 @@ void Cargo::run(f32 frameDeltaTime)
 {
 	//spin the container so it looks cool!
 	vector3df temp = mesh->getRotation();
-	temp.Y+=SPINSPEED*frameDeltaTime;
-	temp.Z+=1*frameDeltaTime;
+	temp.Y += SPINSPEED*frameDeltaTime;
+	temp.Z += 1*frameDeltaTime;
 
 	mesh->setRotation(temp);
 	TargetableObject::run(frameDeltaTime);

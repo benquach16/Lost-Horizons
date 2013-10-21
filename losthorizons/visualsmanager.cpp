@@ -1,5 +1,7 @@
-#include "stdafx.h"
 #include "visualsmanager.h"
+#include "globals.h"
+
+using namespace base;
 
 #define NUMDUSTCLOUDS 20
 

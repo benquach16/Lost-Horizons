@@ -1,25 +1,21 @@
 #ifndef _ATMOSPHERE_H_
 #define _ATMOSPHERE_H_
 
-//this is an atmosphere special effect because atmospheric scattering shaders are hard
-
-
-#include "irrlicht.h"
-
+#include "stdafx.h"
 
 using namespace irr;
-using namespace core;
+
+//this is an atmosphere special effect because atmospheric scattering shaders are hard
 
 class Atmosphere
 {
 public:
-	Atmosphere(const vector3df& position);
+	Atmosphere(const core::vector3df& position);
 	~Atmosphere();
 	void run();
 
 protected:
-	ISceneNode *atmosphereSceneNode;
-
+	scene::ISceneNode *atmosphereSceneNode;
 };
 
 #endif

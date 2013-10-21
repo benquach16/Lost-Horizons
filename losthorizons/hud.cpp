@@ -1,6 +1,8 @@
-#include "stdafx.h"
 #include "hud.h"
+#include "globals.h"
 #include <sstream>
+
+using namespace base;
 
 //gunna have a huge initializer list here
 HUD::HUD(Player *player) : shipWheel(0), velocity(0), hull(0), armor(0), shield(0), targetBkg(0), targetName(0), player(player), 
@@ -15,17 +17,17 @@ void HUD::initializeDisplay()
 {
 	IGUIFont *largeFont = guienv->getFont("res/font/verdana_large.xml");
 	IGUIFont *smallFont = guienv->getFont("res/font/verdana_small.xml");
-	shipWheel = guienv->addImage(vdriver->getTexture("res/menu/hud.png"), core::position2d<s32>(-90,iHeight-190), true);
-	velocity = guienv->addStaticText(L"velocity", rect<int>(10,iHeight-110,iWidth/2+35,iHeight), false);
+	shipWheel = guienv->addImage(vdriver->getTexture("res/menu/hud.png"), core::position2d<s32>(-90,height-190), true);
+	velocity = guienv->addStaticText(L"velocity", rect<int>(10,height-110,width/2+35,height), false);
 	velocity->setOverrideFont(largeFont);
-	hull = guienv->addStaticText(L"hull", rect<int>(10,iHeight-70,iWidth/2+35,iHeight), false);
+	hull = guienv->addStaticText(L"hull", rect<int>(10,height-70,width/2+35,height), false);
 	//hull->setOverrideFont(smallFont);
-	armor = guienv->addStaticText(L"armor", rect<int>(10,iHeight-55,iWidth/2+35,iHeight), false);
+	armor = guienv->addStaticText(L"armor", rect<int>(10,height-55,width/2+35,height), false);
 	//armor->setOverrideFont(smallFont);
-	shield = guienv->addStaticText(L"shield", rect<int>(10,iHeight-40,iWidth/2+35,iHeight), false);
+	shield = guienv->addStaticText(L"shield", rect<int>(10,height-40,width/2+35,height), false);
 	//shield->setOverrideFont(smallFont);
 
-	targetBkg = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(iWidth-140,20));
+	targetBkg = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(width-140,20));
 	targetName = guienv->addStaticText(L"No Target Selected", rect<s32>(0,0,120,120), false, true, targetBkg);
 	targetFaction = guienv->addStaticText(L"", rect<s32>(0,15,120,120), false, true, targetBkg);
 	targetDistance = guienv->addStaticText(L"", rect<s32>(0,30,120,120), false, true, targetBkg);

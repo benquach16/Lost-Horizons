@@ -1,12 +1,9 @@
 #ifndef _TRIGGER_H_
 #define _TRIGGER_H_
 
-#include "irrlicht.h"
-
+#include "stdafx.h"
 
 using namespace irr;
-using namespace core;
-
 
 //triggers are a level design mission element
 //when an object enters the trigger area, we do another mission element
@@ -14,11 +11,11 @@ using namespace core;
 class Trigger
 {
 public:
-	Trigger(const vector3df& postion);
+	Trigger(const core::vector3df& postion);
 	~Trigger();
 	void run();
 protected:
-	vector3df position;
+	core::vector3df position;
 };
 
 

@@ -1,7 +1,9 @@
-#include "stdafx.h"
 #include "storetab.h"
+#include "globals.h"
 
-StoreTab::StoreTab(gui::IGUITabControl *tabs, Player *player) : MenuTab(), player(player)
+using namespace base;
+
+StoreTab::StoreTab(IGUITabControl *tabs, Player *player) : MenuTab(), player(player)
 {
 	//initialize this
 	tab = tabs->addTab(L"Store");

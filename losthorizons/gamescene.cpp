@@ -1,13 +1,14 @@
-#include "stdafx.h"
 #include "gamescene.h"
-
-#include "sun.h"
-#include "planet.h"
+#include "globals.h"
 #include "effect.h"
 #include "player.h"
+#include "sun.h"
+#include "planet.h"
 #include "spacestation.h"
 #include "fighter.h"
 #include "projectile.h"
+
+using namespace base;
 
 GameScene::GameScene(E_GAME_SCENE scene)
 {
@@ -22,7 +23,7 @@ GameScene::GameScene(E_GAME_SCENE scene)
 				vdriver->getTexture("res/textures/skyboxes/1/space_right1.jpg"),
 				vdriver->getTexture("res/textures/skyboxes/1/space_front5.jpg"),
 				vdriver->getTexture("res/textures/skyboxes/1/space_back6.jpg"));
-			scenemngr->setAmbientLight(SColor(64,64,64,64));
+			scenemngr->setAmbientLight(video::SColor(64,64,64,64));
 			dynamicObjects.push(new Sun(vector3df(-20000,0,20000), vector3df(1.f,1.f,1.f)));
 
 			dynamicObjects.push(new Planet(ObjectManager::E_PLANET_LIST::ARGREA, vector3df(12000,0,500)));
@@ -35,8 +36,8 @@ GameScene::GameScene(E_GAME_SCENE scene)
 			//create sun for menu background
 			IBillboardSceneNode *corona = scenemngr->addBillboardSceneNode(0, dimension2d<f32>(50000,50000), vector3df(-20000,500,70000));
 			corona->setMaterialTexture(0, vdriver->getTexture("res/textures/particlewhite.bmp"));
-			corona->setMaterialFlag(EMF_LIGHTING, false);
-			corona->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+			corona->setMaterialFlag(video::EMF_LIGHTING, false);
+			corona->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 			sceneObjects.push(corona);
 
 			scene::IBillboardSceneNode *corona2 = scenemngr->addBillboardSceneNode(corona, dimension2d<f32>(130000,110000), vector3df(0,0,0));
@@ -52,17 +53,17 @@ GameScene::GameScene(E_GAME_SCENE scene)
 				vdriver->getTexture("res/textures/skyboxes/3/space_right1.jpg"),
 				vdriver->getTexture("res/textures/skyboxes/3/space_front5.jpg"),
 				vdriver->getTexture("res/textures/skyboxes/3/space_back6.jpg"));
-			scenemngr->setAmbientLight(SColor(64,64,64,64));	
+			scenemngr->setAmbientLight(video::SColor(64,64,64,64));	
 
 			IParticleSystemSceneNode *nebula = scenemngr->addParticleSystemSceneNode(false);
 			scene::IParticleSphereEmitter *em = nebula->createSphereEmitter(vector3df(-800,0,100), 10, vector3df(0.02f,0,0), 1, 1,
-																			SColor(255,200,220,225), SColor(255,200,220,225), 15000, 25000, 0,
+																			video::SColor(255,200,220,225), video::SColor(255,200,220,225), 15000, 25000, 0,
 																			dimension2d<f32>(500,500), dimension2d<f32>(2000,2000));
 			nebula->setEmitter(em);
 			em->drop();
-			nebula->setMaterialFlag(EMF_LIGHTING, false);
+			nebula->setMaterialFlag(video::EMF_LIGHTING, false);
 			nebula->setMaterialTexture(0, vdriver->getTexture("res/textures/fog.pcx"));
-			nebula->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+			nebula->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 			sceneObjects.push(nebula);
 
 			scene::IParticleAffector *af = nebula->createFadeOutParticleAffector();

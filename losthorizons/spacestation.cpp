@@ -1,6 +1,8 @@
-#include "stdafx.h"
 #include "spacestation.h"
+#include "globals.h"
 #include <iostream>
+
+using namespace base;
 
 std::list<SpaceStation*> SpaceStation::allStations;
 

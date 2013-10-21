@@ -8,7 +8,7 @@ class ModelProperties : public ItemProperties
 {
 public:
 	ModelProperties();
-	ModelProperties(irr::IrrlichtDevice *graphics, const std::string &f);
+	ModelProperties(const std::string &f);
 	~ModelProperties();
 
 	const std::wstring& getFilename() const;
@@ -17,7 +17,6 @@ public:
 
 	const core::vector3df& getScale() const;
 	
-
 protected:
 	//model information
 	std::wstring filename;
@@ -26,6 +25,5 @@ protected:
 
 	core::vector3df scale;
 };
-
 
 #endif

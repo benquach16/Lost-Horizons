@@ -1,6 +1,8 @@
-#include "stdafx.h"
 #include "sun.h"
+#include "globals.h"
 #include <iostream>
+
+using namespace base;
 
 //default constructor
 Sun::Sun() : Object(scenemngr->addSphereMesh("sun", 1000.f)), light(0), corona(0)

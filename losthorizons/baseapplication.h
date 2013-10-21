@@ -3,17 +3,9 @@
 
 //run all the main loops from the base point
 
-#include "irrlicht.h"
-#include "irrklang.h"
 #include "startmenu.h"
-#include "keylistener.h"
 #include "datamanager.h"
 #include "postprocess.h"
-
-using namespace irr;
-using namespace core;
-using namespace video;
-using namespace irrklang;
 
 class BaseApplication
 {
@@ -30,12 +22,8 @@ public:
 
 private:
 	PostProcessEffect *effect;
-	IrrlichtDevice *graphics;
-	ISoundEngine *sound;
-	KeyListener *receiver;
 	DataManager *data;
 	StartMenu *menu;
-	HWND hwnd;
 
 	void buildGraphics();
 	void getBits();

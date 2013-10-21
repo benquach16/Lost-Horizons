@@ -1,5 +1,7 @@
-#include "stdafx.h"
 #include "effect.h"
+#include "globals.h"
+
+using namespace base;
 
 std::vector<Effect*> Effect::allEffects;
 

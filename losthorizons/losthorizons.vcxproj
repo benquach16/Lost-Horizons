@@ -161,6 +161,7 @@
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="hangartab.h" />
     <ClInclude Include="jobtab.h" />
     <ClInclude Include="marker.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="gamemenu.cpp" />
     <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="gamescenemanager.cpp" />
+    <ClCompile Include="globals.cpp" />
     <ClCompile Include="hangartab.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="impact.cpp" />

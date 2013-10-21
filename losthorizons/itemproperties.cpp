@@ -1,19 +1,14 @@
-//#include "stdafx.h"
 #include "itemproperties.h"
+#include "globals.h"
 #include <iostream>
 #include <sstream>
 
+using namespace base;
 
-
-
-ItemProperties::ItemProperties()
-{
-}
-
-ItemProperties::ItemProperties(irr::IrrlichtDevice *graphics, const std::string &f)
+ItemProperties::ItemProperties(const std::string &f)
 {
 	//read in the xml file
-	IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
+	io::IXMLReader *file = graphics->getFileSystem()->createXMLReader(f.c_str());
 	core::stringw currentSection(L"");
 	while(file->read())
 	{

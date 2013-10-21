@@ -17,10 +17,7 @@ enum E_PLANET_TYPE
 class PlanetProperties : public ModelProperties
 {
 public:
-	//default constructor
-	PlanetProperties();
-	//parameterized constructor
-	PlanetProperties(irr::IrrlichtDevice *graphics, const std::string &f);
+	PlanetProperties(const std::string &f);
 	~PlanetProperties();
 
 	const std::wstring& getCloudMap() const;

@@ -1,6 +1,8 @@
-#include "stdafx.h"
 #include "ship.h"
+#include "globals.h"
 #include <iostream>
+
+using namespace base;
 
 //set up static elements
 std::list<Ship*> Ship::allShips;

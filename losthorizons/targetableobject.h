@@ -23,8 +23,6 @@ public:
 	//next available ID
 	static u16 nextID;
 
-	//default constructor
-	TargetableObject();
 	//parameterized constructor
 	//constructor with a model properties
 	TargetableObject(u16 ID, const ModelProperties &modelProps, const vector3df &position, const vector3df &rotation,

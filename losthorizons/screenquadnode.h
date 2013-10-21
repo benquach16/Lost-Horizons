@@ -1,23 +1,22 @@
 #ifndef _SCREENQUADNODE_H_
 #define _SCREENQUADNODE_H_
 
-#include "irrlicht.h"
+#include "globals.h"
 
 using namespace irr;
-using namespace core;
-using namespace scene;
-using namespace video;
+using namespace base;
+
 //custom scenenode
 //screen aligned quad for postprocessing
-class ScreenQuadNode : public ISceneNode
+class ScreenQuadNode : public scene::ISceneNode
 {
 public:
 	ScreenQuadNode(scene::ISceneNode* parent, scene::ISceneManager* mgr, s32 id) : ISceneNode(parent, mgr, id)
 	{
 		
-		f32 shiftX,shiftY;
-        shiftX = (f32)0.5/iWidth;
-        shiftY = (f32)0.5/iHeight;  
+		f32 shiftX, shiftY;
+        shiftX = 0.5f/width;
+        shiftY = 0.5f/height;  
  
         vertices[0] = video::S3DVertex2TCoords(
                     -1.0f,-1.0f,0.0f,
@@ -77,7 +76,7 @@ public:
 		}
 		ISceneNode::OnRegisterSceneNode();
 	}
-    virtual const aabbox3d<f32>& getBoundingBox() const
+    virtual const core::aabbox3d<f32>& getBoundingBox() const
     {
         return box;
     }
@@ -85,16 +84,16 @@ public:
     {
         return 1;
     }
-    virtual SMaterial& getMaterial(u32 i)
+    virtual video::SMaterial& getMaterial(u32 i)
     {
         return material;
     }  
 
 protected:
 	//store baux
-	aabbox3d<f32> box;
-	S3DVertex2TCoords vertices[4];
-	SMaterial material;
+	core::aabbox3d<f32> box;
+	video::S3DVertex2TCoords vertices[4];
+	video::SMaterial material;
 
 };
 

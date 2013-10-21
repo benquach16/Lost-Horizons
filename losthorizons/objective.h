@@ -1,13 +1,12 @@
 #ifndef _OBJECTIVE_H_
 #define _OBJECTIVE_H_
 
+
+#include "stdafx.h"
+#include "ship.h"
 #include <string>
 
-#include "irrlicht.h"
-#include "ship.h"
-
 using namespace irr;
-using namespace core;
 
 enum E_OBJECTIVE_TYPE
 {
@@ -34,7 +33,7 @@ public:
 protected:
 	std::wstring description;
 	E_OBJECTIVE_TYPE type;
-	irr::core::vector3df position;
+	vector3df position;
 	unsigned radius;
 };
 

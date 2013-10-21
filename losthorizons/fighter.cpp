@@ -1,6 +1,8 @@
-#include "stdafx.h"
 #include "fighter.h"
+#include "globals.h"
 #include <iostream>
+
+using namespace base;
 
 std::list<Fighter*> Fighter::allFighters;
 

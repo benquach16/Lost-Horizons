@@ -1,9 +1,11 @@
-#include "stdafx.h"
 #include "muzzleflash.h"
+#include "globals.h"
+
+using namespace base;
 
 #define MUZZLEFLASHLENGTH 100
 
-Muzzleflash::Muzzleflash(IBoneSceneNode *parent, const vector3df &rotation) : Effect(MUZZLEFLASHLENGTH), parent(parent), particle(0)
+Muzzleflash::Muzzleflash(scene::IBoneSceneNode *parent, const core::vector3df &rotation) : Effect(MUZZLEFLASHLENGTH), parent(parent), particle(0)
 {
 	/*
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/misc/muzz.x"));
@@ -13,8 +15,8 @@ Muzzleflash::Muzzleflash(IBoneSceneNode *parent, const vector3df &rotation) : Ef
 	mesh->setScale(vector3df(0.5,0.5,0.5));
 	mesh->setPosition(parent->getAbsolutePosition());*/
 	particle = scenemngr->addParticleSystemSceneNode(false, parent);
-	scene::IParticleEmitter *emitter = particle->createSphereEmitter(vector3df(0,0,0), 
-		1.f, vector3df(0,0,0), 20, 200, video::SColor(255,0,0,0),video::SColor(255,255,255,255),500,1000,0,
+	scene::IParticleEmitter *emitter = particle->createSphereEmitter(core::vector3df(0,0,0), 
+		1.f, core::vector3df(0,0,0), 20, 200, video::SColor(255,0,0,0),video::SColor(255,255,255,255),500,1000,0,
 		core::dimension2df(2,2),
 		core::dimension2df(5,5));
 	particle->setEmitter(emitter);
