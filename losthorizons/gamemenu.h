@@ -18,16 +18,15 @@ public:
 
 protected:
 	void initializeDisplay();
-	
-	Player* player;
-	MissionManager *missionManager;
 
 	gui::IGUITabControl* tabs;
 	ShipTab* ship;
 	CargoTab* cargo;
-	//MenuTab* crew;
-	//MenuTab* loadout;
-	//MenuTab* hangar;
 	MissionTab *mission;
+	//CrewTab* crew;
+	//LoadoutTab* loadout;
+	
+	Player* player;
+	MissionManager *missionManager;
 };
 #endif

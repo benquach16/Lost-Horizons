@@ -4,10 +4,8 @@
 using namespace base;
 
 ShipTab::ShipTab(IGUITabControl *tabs, Player* player)
-	: player(player)
+	: MenuTab(tabs->addTab(L"Ship")), player(player)
 {
-	tab = tabs->addTab(L"Ship");
-
 	//creating
 	shipName = guienv->addStaticText(L"", rect<s32>(10,20,490,100), false, true, tab); // shiptxt
 	description = guienv->addStaticText(L"", rect<s32>(10,50,490,90), false, true, tab); // description

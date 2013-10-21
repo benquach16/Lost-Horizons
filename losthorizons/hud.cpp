@@ -5,9 +5,9 @@
 using namespace base;
 
 //gunna have a huge initializer list here
-HUD::HUD(Player *player) : shipWheel(0), velocity(0), hull(0), armor(0), shield(0), targetBkg(0), targetName(0), player(player), 
-	targetFaction(0), targetDistance(0), targetHull(0), targetArmor(0), targetShield(0), intercom(0)
-
+HUD::HUD(Player *player)
+	: shipWheel(0), velocity(0), hull(0), armor(0), shield(0), targetBkg(0), targetName(0), player(player), 
+	  targetFaction(0), targetDistance(0), targetHull(0), targetArmor(0), targetShield(0), intercom(0)
 {
 	//window = guienv->addGUIElement(gui::EGUIET_ELEMENT);
 	initializeDisplay();

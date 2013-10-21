@@ -10,7 +10,7 @@ using namespace irr;
 class MenuWindow
 {
 public:
-	MenuWindow() : window(0), visible(false) {}
+	MenuWindow(gui::IGUIWindow *window = 0) : window(window), visible(false) {}
 	virtual ~MenuWindow()
 	{
 		if (window)

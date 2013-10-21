@@ -6,10 +6,9 @@
 using namespace base;
 
 OptionMenu::OptionMenu(gui::IGUIWindow *menu)
-	: MenuWindow()
+	: MenuWindow(guienv->addWindow(rect<s32>(width/2-300,height/2-200,width/2+300,height/2+200), true, L"Options", menu))
 {
 	//create window
-	window = guienv->addWindow(rect<s32>(width/2-300,height/2-200,width/2+300,height/2+200), true, L"Options", menu);
 	window->setDraggable(false);
 	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);

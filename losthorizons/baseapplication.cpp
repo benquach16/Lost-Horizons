@@ -12,7 +12,7 @@
 using namespace base;
 
 BaseApplication::BaseApplication()
-	: data(new DataManager), menu(0), effect(0), then(0.f)
+	: menu(0), data(new DataManager), effect(0), then(0.f)
 {
 	receiver = new KeyListener;
 	sound = irrklang::createIrrKlangDevice();

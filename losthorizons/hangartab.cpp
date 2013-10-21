@@ -4,11 +4,11 @@
 
 using namespace base;
 
-HangarTab::HangarTab(IGUITabControl *tabs, Player *player) : MenuTab(), player(player),
-	heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0), 
-	repair(0), refit(0)
+HangarTab::HangarTab(IGUITabControl *tabs, Player *player)
+	: MenuTab(tabs->addTab(L"Hangar")), player(player),
+	  heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0), 
+	  repair(0), refit(0)
 {
-	tab = tabs->addTab(L"Hangar");
 	//add hangar stuff
 	//hangar allows the player to refit his ship
 	//and repair

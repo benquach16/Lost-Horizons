@@ -7,10 +7,10 @@
 using namespace base;
 
 StartMenu::StartMenu(DataManager *data)
-	: MenuWindow(), data(data), saved(true), close(false), config(0), confirmClose(0)
+	: MenuWindow(guienv->addWindow(rect<s32>(0,0,width,height), true)),
+	  data(data), saved(true), close(false), config(0), confirmClose(0)
 {
 	//create window
-	window = guienv->addWindow(rect<s32>(0,0,width,height), true);
 	window->setDrawBackground(false);
 	window->setDraggable(false);
 	window->getCloseButton()->setVisible(false);
@@ -21,19 +21,11 @@ StartMenu::StartMenu(DataManager *data)
 	metallic->drop();
 	/*gui::IGUIFont *micro = guienv->getFont("res/font/verdana_micro.xml");
 	gui::IGUIFont *menu_font = guienv->getFont("res/font/large.xml");*/
-	gui::IGUIFont *astro = guienv->getFont("res/font/system.xml");
-	guienv->getSkin()->setFont(astro);
+	guienv->getSkin()->setFont(guienv->getFont("res/font/system.xml"));
 	
 	//setup colors for gui
-	for (s32 i = 0; i < gui::EGDC_COUNT; ++i) {
-		video::SColor col = guienv->getSkin()->getColor((gui::EGUI_DEFAULT_COLOR)i);
-		col.setAlpha(208);
-		col.setBlue(128);
-		col.setGreen(118);
-		col.setRed(108);
-		guienv->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, col);
-	}
-
+	for (s32 i = 0; i < gui::EGDC_COUNT; ++i)
+		guienv->getSkin()->setColor((gui::EGUI_DEFAULT_COLOR)i, video::SColor(208,108,118,128));
 	guienv->getSkin()->setColor(gui::EGDC_BUTTON_TEXT, video::SColor(255,255,255,255));
 	guienv->getSkin()->setColor(gui::EGDC_HIGH_LIGHT_TEXT, video::SColor(255,255,255,255));
 	guienv->getSkin()->setColor(gui::EGDC_3D_DARK_SHADOW, video::SColor(128,40,50,60));

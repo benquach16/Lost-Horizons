@@ -3,10 +3,9 @@
 
 
 MessageMenu::MessageMenu(const rect<s32> &rectangle, gui::IGUIElement *parent, const wchar_t *caption, unsigned flags, bool draggable, bool drawTitleBar, bool modal, s32 id)
-	: MenuWindow(), close(0), yes(0), no(0)
+	: MenuWindow(guienv->addWindow(rectangle, modal, caption, parent, id)), close(0), yes(0), no(0)
 {
 	//create window
-	window = guienv->addWindow(rectangle, modal, caption, parent, id);
 	window->getCloseButton()->setVisible(false);
 	window->setDraggable(draggable);
 	window->setDrawTitlebar(drawTitleBar);

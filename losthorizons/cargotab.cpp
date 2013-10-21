@@ -4,10 +4,8 @@
 using namespace base;
 
 CargoTab::CargoTab(IGUITabControl *tabs, Player* player)
-	: player(player)
+	: MenuTab(tabs->addTab(L"Cargo")), player(player)
 {
-	tab = tabs -> addTab(L"Cargo");
-
 	//creating
 	guienv->addStaticText(L"Items", rect<s32>(10,10,190,30), false, true, tab); // list title1
 	guienv->addStaticText(L"Cost", rect<s32>(210,10,290,30), false, true, tab); // list title2

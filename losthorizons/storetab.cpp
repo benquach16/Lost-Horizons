@@ -3,10 +3,10 @@
 
 using namespace base;
 
-StoreTab::StoreTab(IGUITabControl *tabs, Player *player) : MenuTab(), player(player)
+StoreTab::StoreTab(IGUITabControl *tabs, Player *player)
+	: MenuTab(tabs->addTab(L"Store")), player(player)
 {
 	//initialize this
-	tab = tabs->addTab(L"Store");
 	playerInventory = guienv->addListBox(rect<s32>(20,40, 380, 300), tab);
 	stationInventory = guienv->addListBox(rect<s32>(420, 40, 780, 300), tab);
 	guienv->addStaticText(L"Your Cargo", rect<s32>(20,20,380,40), false, true, tab);

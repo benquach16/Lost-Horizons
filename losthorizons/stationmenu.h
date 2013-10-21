@@ -17,12 +17,12 @@ public:
 	
 protected:
 	void initializeDisplay();
-	Player *player;
 
 	gui::IGUITabControl *tabs;
 	StoreTab *store;
 	HangarTab *hangar;
 
+	Player *player;
 };
 
 #endif

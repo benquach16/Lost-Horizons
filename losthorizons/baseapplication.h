@@ -21,9 +21,9 @@ public:
 	void run();
 
 private:
-	PostProcessEffect *effect;
-	DataManager *data;
 	StartMenu *menu;
+	DataManager *data;
+	PostProcessEffect *effect;
 
 	void buildGraphics();
 	void getBits();

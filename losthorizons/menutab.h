@@ -10,7 +10,7 @@ using namespace gui;
 class MenuTab
 {
 public:
-	MenuTab() : tab(0) {}
+	MenuTab(IGUITab *tab = 0) : tab(tab) {}
 	~MenuTab() {}
 	//pure virtual function
 	void run();
