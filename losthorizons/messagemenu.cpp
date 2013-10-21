@@ -1,9 +1,10 @@
-#include "stdafx.h"
 #include "messagemenu.h"
+#include "globals.h"
 
+using namespace base;
 
 MessageMenu::MessageMenu(const rect<s32> &rectangle, gui::IGUIElement *parent, const wchar_t *caption, unsigned flags, bool draggable, bool drawTitleBar, bool modal, s32 id)
-	: MenuWindow(guienv->addWindow(rectangle, modal, caption, parent, id)), close(0), yes(0), no(0)
+	: MenuWindow(guienv->addWindow(rectangle, modal, caption, parent, id)), endTime(0), close(0), yes(0), no(0)
 {
 	//create window
 	window->getCloseButton()->setVisible(false);
@@ -40,7 +41,7 @@ int MessageMenu::run()
 			setVisible(false);
 			return NO;
 		}
-		if (close && close->isPressed()) {
+		if (close && close->isPressed() || endTime > 0 && timer->getTime() > endTime) {
 			setVisible(false);
 		}
 	}

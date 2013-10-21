@@ -23,12 +23,14 @@ public:
 	~MessageMenu();
 
 	int run();
-	
+
+	void setTimer(int timeout) { endTime = timeout > 0 ? timer->getTime() + timeout : 0; }
 	void moveButtons(position2d<s32> &offset) { if (yes) yes->move(offset); if (no) no->move(offset); }
 	void addText(position2d<s32> &pos, dimension2d<u32> &size, const wchar_t *text = 0, bool border = false) { guienv->addStaticText(text, rect<s32>(pos,size), border, true, window); }
 	void addImage(video::ITexture *image, position2d<s32>& pos, bool useAlphaChannel = true) { guienv->addImage(image, pos, useAlphaChannel, window); }
 
 private:
+	unsigned endTime;
 	gui::IGUIButton *close;
 	gui::IGUIButton *yes;
 	gui::IGUIButton *no;
