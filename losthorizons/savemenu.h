@@ -4,11 +4,12 @@
 #include "menuwindow.h"
 
 using namespace irr;
-using namespace core;
 
 class SaveMenu : public MenuWindow
 {
 public:
+	SaveMenu(gui::IGUIWindow *menu);
+	~SaveMenu();
 
 private:
 	gui::IGUIButton *close;

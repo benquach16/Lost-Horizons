@@ -6,7 +6,7 @@
 using namespace base;
 
 OptionMenu::OptionMenu(gui::IGUIWindow *menu)
-	: MenuWindow(guienv->addWindow(rect<s32>(width/2-300,height/2-200,width/2+300,height/2+200), true, L"Options", menu))
+	: MenuWindow(guienv->addWindow(rect<s32>(width/2-300,height/2-200,width/2+300,height/2+200), true, 0, menu))
 {
 	//create window
 	window->setDraggable(false);
@@ -35,13 +35,11 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	resolution->addItem(L"native");
 	
 	if (!gConfig.bFullScreen) {
-		std::string temp(" x ");
-		std::wstring x(temp.begin(), temp.end());
 		std::wstring option;
 		for (unsigned i = 1; i < 9; ++i) {
 			if (resY[i] < resY[0]) {
 				resX[i] = (int)(floor(resY[i]*monitorRatio));
-				option = std::to_wstring(resX[i]) + x + std::to_wstring(resY[i]);
+				option = std::to_wstring(resX[i]) + L" x " + std::to_wstring(resY[i]);
 				resolution->addItem(option.c_str());
 			}
 			if (gConfig.iResolutionY == resY[i]) {

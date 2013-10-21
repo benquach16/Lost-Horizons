@@ -130,6 +130,7 @@ void DataManager::push()
 void DataManager::save(const std::string &filename)
 {
 	pull();
+	CreateDirectory(L".\\saves", NULL);
 	std::ofstream ofs(filename.c_str(), std::ios::binary);
 	ofs << scene << TargetableObject::nextID << ships;
 	ofs.close();
@@ -140,7 +141,6 @@ void DataManager::load(const std::string &filename)
 	std::ifstream ifs(filename.c_str(), std::ios::binary);
 	ifs >> scene >> TargetableObject::nextID >> ships;
 	ifs.close();
-	gConfig.bPlay = true;
 	push();
 }
 

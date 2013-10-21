@@ -92,13 +92,13 @@ void StartMenu::run()
 				shift();
 			}
 			//game->createLoadedGame();
-			data->load("saves/___TEST_SAVE___.lsv");//temporary
+			data->load("saves\\___TEST_SAVE___.lsv");//temporary
 			setVisible(false);
 		}
 		if (savegame->isPressed()) {
 			saved = true;
 			//function for saving
-			data->save("saves/___TEST_SAVE___.lsv");//temporary
+			data->save("saves\\___TEST_SAVE___.lsv");//temporary
 			setVisible(false);
 		}
 		if (closegame->isPressed() && gConfig.bPlay) {
