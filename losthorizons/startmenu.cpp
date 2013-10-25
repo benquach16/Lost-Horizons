@@ -112,7 +112,7 @@ void StartMenu::run()
 			config->setVisible(true);
 		}
 		if (quit->isPressed()) {
-			gConfig.bExit = true;
+			gConfig.bRun = false;
 		}
 		if (close) {
 			gConfig.bPlay = false;

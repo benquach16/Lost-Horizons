@@ -6,7 +6,7 @@ using namespace base;
 std::vector<Effect*> Effect::allEffects;
 
 //constructor
-Effect::Effect(int timeout) : endTime(timer->getTime() + timeout)
+Effect::Effect(int milliseconds) : endTime(timer->getTime() + milliseconds)
 {
 	allEffects.push_back(this);
 }

@@ -53,11 +53,8 @@ void BaseApplication::killDevice()
 void BaseApplication::run()
 {
 	//graphics loop
-	while (graphics->run())
+	while (gConfig.bRun && graphics->run())
 	{
-		if (gConfig.bExit) {
-			return;
-		}
 		if (gConfig.bRestart) {
 			gConfig.bRestart = false;
 			data->pull();
@@ -95,7 +92,7 @@ void BaseApplication::run()
 
 void BaseApplication::buildGraphics()
 {
-	//initialize graphics engnie
+	//initialize graphics engine
 	if (gConfig.bFullScreen)
 		graphics = createDevice(video::EDT_DIRECT3D9,
 			dimension2d<u32>(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)),

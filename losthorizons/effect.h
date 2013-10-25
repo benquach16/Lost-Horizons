@@ -12,7 +12,7 @@ using namespace irr;
 class Effect
 {
 public:
-	Effect(int timeout);
+	Effect(int milliseconds);
 	virtual ~Effect();
 	virtual bool run();
 

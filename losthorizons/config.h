@@ -14,7 +14,7 @@ struct Config
 	bool bSaveSettings;
 	bool bRestart;
 	bool bPlay;
-	bool bExit;
+	bool bRun;
 	bool bFirstRun;
 
 	// General

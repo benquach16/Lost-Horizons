@@ -4,7 +4,7 @@ Config gConfig;
 
 
 Config::Config()
-	: bSaveSettings(true), bRestart(false), bPlay(false), bExit(false)
+	: bSaveSettings(true), bRestart(false), bPlay(false), bRun(true)
 {
 }
 
