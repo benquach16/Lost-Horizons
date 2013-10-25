@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "spacestationproperties.h"
 #include "globals.h"
 #include <sstream>

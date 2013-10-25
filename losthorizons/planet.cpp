@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "planet.h"
 #include "globals.h"
 #include <iostream>

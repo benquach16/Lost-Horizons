@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "savemenu.h"
 #include "globals.h"
 #include "datamanager.h"

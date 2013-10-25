@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "datamanager.h"
 #include "globals.h"
 #include "config.h"

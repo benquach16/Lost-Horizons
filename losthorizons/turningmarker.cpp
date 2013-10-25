@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "turningmarker.h"
 #include "globals.h"
 

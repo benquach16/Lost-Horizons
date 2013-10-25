@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "targetableobject.h"
 #include "globals.h"
 

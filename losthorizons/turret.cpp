@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "turret.h"
 #include "globals.h"
 #include "ship.h"

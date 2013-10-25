@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "projectile.h"
 #include "globals.h"
 #include <iostream>

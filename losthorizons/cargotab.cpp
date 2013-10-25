@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "cargotab.h"
 #include "globals.h"
 

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "missionproperties.h"
 #include "globals.h"
 #include <iostream>

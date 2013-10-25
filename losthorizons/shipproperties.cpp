@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "shipproperties.h"
 #include "globals.h"
 #include <iostream>

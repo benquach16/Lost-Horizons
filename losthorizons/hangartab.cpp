@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "hangartab.h"
 #include "globals.h"
 #include <iostream>

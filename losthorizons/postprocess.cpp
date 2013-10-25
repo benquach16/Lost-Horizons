@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "postprocess.h"
 #include "globals.h"
 

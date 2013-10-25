@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "sun.h"
 #include "globals.h"
 #include <iostream>

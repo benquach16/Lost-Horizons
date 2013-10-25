@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "intercom.h"
 #include "globals.h"
 #include <iostream>

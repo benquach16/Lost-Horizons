@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "playercamera.h"
 #include "globals.h"
 

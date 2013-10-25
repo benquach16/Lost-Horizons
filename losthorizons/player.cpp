@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "player.h"
 #include "globals.h"
 

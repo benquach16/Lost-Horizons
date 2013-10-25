@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "gameloop.h"
 #include "globals.h"
 

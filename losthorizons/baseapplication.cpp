@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "baseapplication.h"
 #include "globals.h"
 #include "config.h"

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "effect.h"
 #include "globals.h"
 

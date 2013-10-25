@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "explosion.h"
 #include "globals.h"
 

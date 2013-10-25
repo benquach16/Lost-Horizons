@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "objectmanager.h"
 #include <iostream>
 

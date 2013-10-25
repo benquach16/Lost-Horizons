@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "marker.h"
 
 Marker::Marker() : Object(L"res/models/nav_buoy.X")

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "visualsmanager.h"
 #include "globals.h"
 

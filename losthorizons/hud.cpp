@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "hud.h"
 #include "globals.h"
 #include <sstream>

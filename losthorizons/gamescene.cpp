@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "gamescene.h"
 #include "globals.h"
 #include "effect.h"

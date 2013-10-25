@@ -19,12 +19,11 @@
 *.exp
 Debug
 Release
-Windows/x64
-Windows/ipch
+x64
+ipch
 
 # For ini, etc.
 *.ini
-losthorizons/local
 losthorizons/res
 losthorizons/saves
 

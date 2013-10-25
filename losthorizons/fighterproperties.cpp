@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "fighterproperties.h"
 #include "globals.h"
 #include <sstream>

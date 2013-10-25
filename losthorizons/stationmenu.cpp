@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "stationmenu.h"
 #include "globals.h"
 

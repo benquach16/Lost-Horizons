@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "itemproperties.h"
 #include "globals.h"
 #include <iostream>

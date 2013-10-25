@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "callback.h"
 #include "globals.h"
 #include <iostream>

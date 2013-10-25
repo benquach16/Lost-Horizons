@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "storetab.h"
 #include "globals.h"
 
