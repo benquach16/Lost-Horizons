@@ -91,7 +91,6 @@ protected:
 	std::wstring filename;
 	scene::IAnimatedMeshSceneNode *mesh;
 
-private:
 	//iterator to this
 	unsigned index;
 };

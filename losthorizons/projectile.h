@@ -29,7 +29,6 @@ protected:
 	int range;
 	int velocity;
 
-private:
 	//iterator to this
 	unsigned index;
 };

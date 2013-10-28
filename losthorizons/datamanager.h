@@ -31,7 +31,7 @@ public:
 private:
 	E_GAME_SCENE scene;
 	std::deque<ShipData> ships;
-	std::stack< std::pair<bool,u16> > shipTargets;
+	std::pair<bool,u16> *shipTargets;
 	std::list<TargetableObject*> *targets;
 
 	void setShipTargets();

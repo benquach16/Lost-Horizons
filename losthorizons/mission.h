@@ -18,7 +18,7 @@ public:
 	~Mission();
 
 	bool run();
-
+	
 	const std::wstring& getName() const;
 	const std::wstring& getDesc() const;
 

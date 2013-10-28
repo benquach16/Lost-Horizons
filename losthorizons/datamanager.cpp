@@ -109,7 +109,7 @@ void DataManager::pull()
 			(*i)->removeThisFromTargets();
 		ShipData tmp;
 		for (unsigned i = 0; i < Ship::allShips.size(); i++) 
-			ships.push_front(tmp << Ship::allShips[i]);
+			ships.push_back(tmp << Ship::allShips[i]);
 	}
 }
 
@@ -118,10 +118,13 @@ void DataManager::push()
 	if (gConfig.bPlay) {
 		game->getGameSceneManager()->destroyScene();
 		game->getGameSceneManager()->changeCurrentScene(scene);
+		shipTargets = new std::pair<bool,u16>[ships.size()];
+		unsigned i = 0;
 		while (!ships.empty()) {
 			game->getGameSceneManager()->createShip(ships.front().ID, ships.front().info, ships.front().subsystems, ships.front().position, ships.front().rotation);
-			shipTargets.push(std::pair<bool,u16>(ships.front().targetting, ships.front().target));
+			shipTargets[i] = std::pair<bool,u16>(ships.front().targetting, ships.front().target);
 			ships.pop_front();
+			i++;
 		}
 		setShipTargets();
 		game->init();
@@ -149,19 +152,19 @@ void DataManager::setShipTargets()
 {
 	u32 size = TargetableObject::allTargets.size()/3;
 	targets = new std::list<TargetableObject*>[size];
-	for (unsigned i = 0; i < TargetableObject::allTargets.size(); i++) {
+	for (unsigned i = 0; i < TargetableObject::allTargets.size(); ++i) {
 		targets[TargetableObject::allTargets[i]->getID()%size].push_front(TargetableObject::allTargets[i]);
 	}
-	for (unsigned i = 0; i < TargetableObject::allTargets.size(); i++)
+	for (unsigned i = 0; i < Ship::allShips.size(); ++i)
 	{
-		if (shipTargets.top().first)
+		if (shipTargets[i].first)
 		{
-			std::list<TargetableObject*>::iterator j = targets[shipTargets.top().second%size].begin();
-			while ((*j)->getID() != shipTargets.top().second)
+			std::list<TargetableObject*>::iterator j = targets[shipTargets[i].second%size].begin();
+			while ((*j)->getID() != shipTargets[i].second)
 				j++;
 			Ship::allShips[i]->setTarget(*j);
 		}
-		shipTargets.pop();
 	}
+	delete[] shipTargets;
 	delete[] targets;
 }
