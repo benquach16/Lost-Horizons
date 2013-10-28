@@ -13,23 +13,17 @@ MissionManager::~MissionManager()
 
 void MissionManager::run(Intercom *intercom)
 {
-	for(unsigned i = 0; i < data.size(); i++)
-	{
-		//update all missions
-		if(data[i].run())
-		{
-			
+	//update all missions
+	unsigned i = 0;
+	while (i < data.size()) {
+		if (data[i].run())
 			i++;
-		}
-		else
-		{
-			if(intercom)
-			{
+		else {
+			if (intercom) {
 				intercom->addText(L"Mission complete sir");
 			}
 			data[i] = data.back();
 			data.pop_back();
-			i--;
 		}
 	}
 }

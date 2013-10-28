@@ -7,10 +7,8 @@ using namespace base;
 VisualsManager::VisualsManager()
 	: cam(scenemngr->getActiveCamera())
 {
-	for (unsigned i = 0; i < NUMDUSTCLOUDS; ++i)
-	{
-		scene::IBillboardSceneNode *s = scenemngr->addBillboardSceneNode(0,dimension2df(1000,1000),
-			vector3df(cam->getPosition().X+rand()%2000-1000,cam->getPosition().Y+rand()%2000-1000,cam->getPosition().Z+rand()%2000-1000));
+	for (unsigned i = 0; i < NUMDUSTCLOUDS; ++i) {
+		scene::IBillboardSceneNode *s = scenemngr->addBillboardSceneNode(0,dimension2df(1000,1000),cam->getPosition() + core::vector3df(rand()%2000 - 1000.f,rand()%2000 - 1000.f,rand()%2000 - 1000.f));
 		s->setMaterialTexture(0,vdriver->getTexture("res/textures/dust.png"));
 		s->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 		s->setMaterialFlag(video::EMF_LIGHTING,false);
@@ -28,12 +26,9 @@ void VisualsManager::run()
 {
 	//make sure the distances are correct
 	cam = scenemngr->getActiveCamera();
-	for (unsigned i = 0; i < NUMDUSTCLOUDS; ++i)
-	{
-		if (dust[i]->getPosition().getDistanceFrom(cam->getPosition()) > 1000)
-		{
-			vector3df pos(cam->getPosition().X+rand()%2000-1000,cam->getPosition().Y+rand()%2000-1000,cam->getPosition().Z+rand()%2000-1000);
-			dust[i]->setPosition(pos);
+	for (unsigned i = 0; i < NUMDUSTCLOUDS; ++i) {
+		if (dust[i]->getPosition().getDistanceFrom(cam->getPosition()) > 1000) {
+			dust[i]->setPosition(cam->getPosition() + core::vector3df(rand()%2000 - 1000.f,rand()%2000 - 1000.f,rand()%2000 - 1000.f));
 		}
 	}
 }
