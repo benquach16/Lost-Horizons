@@ -9,8 +9,6 @@
 class Sun : public Object
 {
 public:
-
-
 	//default constructor
 	Sun();
 	//parameterized constructor

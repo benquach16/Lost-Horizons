@@ -3,10 +3,9 @@
 
 #include "stdafx.h"
 #include "callback.h"
-#include <list>
-#include <forward_list>
-#include <vector>
 #include <string>
+#include <list>
+#include <vector>
 
 using namespace irr;
 using namespace core;
@@ -89,9 +88,10 @@ protected:
 	bool visible;
 
 	//3d infomation
-	scene::IAnimatedMeshSceneNode *mesh;
 	std::wstring filename;
+	scene::IAnimatedMeshSceneNode *mesh;
 
+private:
 	//iterator to this
 	unsigned index;
 };

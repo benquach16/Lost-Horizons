@@ -1,8 +1,6 @@
 #ifndef _SPACESTATION_H_
 #define _SPACESTATION_H_
 
-#include <list>
-
 #include "targetableobject.h"
 #include "objectmanager.h"
 #include "inventory.h"

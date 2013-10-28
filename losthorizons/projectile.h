@@ -1,9 +1,6 @@
 #ifndef _PROJECTILE_H_
 #define _PROJECTILE_H_
 
-#include <list>
-#include <vector>
-
 #include "turretproperties.h"
 #include "object.h"
 #include "impact.h"
@@ -28,12 +25,13 @@ protected:
 
 	core::vector3df originalPosition;
 	u16 ID;
+	int damage;
 	int range;
 	int velocity;
-	int damage;
 
+private:
 	//iterator to this
-	unsigned projectileIndex;
+	unsigned index;
 };
 
 #endif

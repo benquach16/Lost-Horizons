@@ -9,19 +9,20 @@ std::vector<Projectile*> Projectile::allProjectiles;
 
 Projectile::Projectile(u16 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation)
 	: Object(L"res/models/projectile.X", turretProps.getProjectileTex().c_str(), position, rotation, turretProps.getProjectileScale()),
-	originalPosition(position), ID(ID), velocity(turretProps.getProjectileSpeed()), range(turretProps.getRange()), damage(turretProps.getDamage())
+	  originalPosition(position), ID(ID), damage(turretProps.getDamage()), range(turretProps.getRange()),
+	  velocity(turretProps.getProjectileSpeed()), index(allProjectiles.size())
 {
 	mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 	mesh->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
 	allProjectiles.push_back(this);
-	projectileIndex = allProjectiles.size()-1;
 }
 
 Projectile::~Projectile()
 {
 	//swap with back and pop
-	allProjectiles[allProjectiles.size()-1]->projectileIndex = projectileIndex;
-	allProjectiles[projectileIndex] = allProjectiles[allProjectiles.size()-1];
+	allProjectiles[index] = allProjectiles.back();
+	allProjectiles[index]->index = index;
 	allProjectiles.pop_back();
 }
 

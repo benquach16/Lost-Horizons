@@ -130,10 +130,10 @@ void GameScene::run(f32 frameDeltaTime)
 		next++;
 		(*i)->run(frameDeltaTime);
 	}*/
-	for(unsigned i = 0; i < Object::allObjects.size(); i++)
+	for (unsigned i = 0; i < Object::allObjects.size(); ++i)
 	{
 		Object::allObjects[i]->run(frameDeltaTime);
-	}
+	} //right now a targetable object gets skipped whenever one is destroyed
 	//run effects
 	unsigned i = 0;
 	while (i < Effect::allEffects.size()) {

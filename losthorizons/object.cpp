@@ -8,53 +8,54 @@ std::vector<Object*> Object::allObjects;
 
 //the constructors of this class
 //default constructor
-Object::Object() : mesh(0), position(vector3df(0,0,0)), rotation(vector3df(0,0,0)), scale(vector3df(0,0,0))
+Object::Object() : position(vector3df(0,0,0)), rotation(vector3df(0,0,0)), scale(vector3df(0,0,0)), mesh(0)
 {
 }
 
 //constructor with mesh already allocated
-Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale) :
-	position(position), rotation(rotation), scale(scale)
+Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale)
+	: position(position), rotation(rotation), scale(scale),
+	  mesh(scenemngr->addAnimatedMeshSceneNode(m)), index(allObjects.size())
 {
-	mesh = scenemngr->addAnimatedMeshSceneNode(m);
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
+
 	allObjects.push_back(this);
-	index = allObjects.size()-1;
 }
 
 //constructor to load mesh from file
 Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: position(position), rotation(rotation), scale(scale), filename(filename)
+	: position(position), rotation(rotation), scale(scale), filename(filename),
+	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), index(allObjects.size())
 {
-	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
+
 	allObjects.push_back(this);
-	index = allObjects.size()-1;
 	//mesh->setDebugDataVisible(true);
 }
 
 //constructor to load mesh and texture from file 
 Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: position(position), rotation(rotation), scale(scale), filename(filename)
+	: position(position), rotation(rotation), scale(scale), filename(filename),
+	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), index(allObjects.size())
 {
-	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 	mesh->setMaterialTexture(0, vdriver->getTexture(tfilename));
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
+
 	allObjects.push_back(this);
-	index = allObjects.size()-1;
 	//mesh->setDebugDataVisible(true);
 }
 
 //copy constructor
-Object::Object(const Object *obj) : position(obj->getPosition()), rotation(obj->getRotation()), scale(obj->getScale())
+Object::Object(const Object *obj)
+	: position(obj->getPosition()), rotation(obj->getRotation()), scale(obj->getScale()),
+	  mesh(scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh()))
 {
-	mesh = scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh());
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
@@ -78,8 +79,8 @@ Object::~Object()
 {
 	//swap with back and pop
 	mesh->remove();
-	allObjects[allObjects.size()-1]->index = index;
-	allObjects[index] = allObjects[allObjects.size()-1];
+	allObjects[index] = allObjects.back();
+	allObjects[index]->index = index;
 	allObjects.pop_back();
 }
 

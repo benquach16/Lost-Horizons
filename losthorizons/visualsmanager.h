@@ -2,10 +2,11 @@
 #define _VISUALSMANAGER_H_
 
 #include "stdafx.h"
-#include <vector>
 
 //the visuals manager has a very simple job - to make the game look cool
 //it simply controls the dust and nebula fog in space
+
+#define NUMDUSTCLOUDS 20
 
 class VisualsManager
 {
@@ -16,7 +17,7 @@ public:
 
 protected:
 	irr::scene::ICameraSceneNode *cam;
-	std::vector<irr::scene::IBillboardSceneNode*> dust;
+	irr::scene::IBillboardSceneNode* dust[NUMDUSTCLOUDS];
 };
 
 #endif

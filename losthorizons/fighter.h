@@ -1,13 +1,10 @@
 #ifndef _FIGHTER_H_
 #define _FIGHTER_H_
 
-#include <list>
-
 #include "targetableobject.h"
 #include "fighterproperties.h"
 #include "objectmanager.h"
 #include "ship.h"
-
 
 //fighter info struct
 struct FighterInformation
@@ -41,6 +38,7 @@ public:
 	void damage(int modifier);
 	//must override this 
 	const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
+
 protected:
 	//protected functions
 	void rotate(f32 frameDeltaTime);

@@ -4,8 +4,6 @@
 
 using namespace base;
 
-#define NUMDUSTCLOUDS 20
-
 VisualsManager::VisualsManager()
 	: cam(scenemngr->getActiveCamera())
 {
@@ -16,13 +14,13 @@ VisualsManager::VisualsManager()
 		s->setMaterialTexture(0,vdriver->getTexture("res/textures/dust.png"));
 		s->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 		s->setMaterialFlag(video::EMF_LIGHTING,false);
-		dust.push_back(s);
+		dust[i] = s;
 	}
 }
 
 VisualsManager::~VisualsManager()
 {
-	for (u32 i = 0; i < dust.size(); ++i)
+	for (u32 i = 0; i < NUMDUSTCLOUDS; ++i)
 		dust[i]->remove();
 }
 
@@ -30,7 +28,7 @@ void VisualsManager::run()
 {
 	//make sure the distances are correct
 	cam = scenemngr->getActiveCamera();
-	for (unsigned i = 0; i < dust.size(); ++i)
+	for (unsigned i = 0; i < NUMDUSTCLOUDS; ++i)
 	{
 		if (dust[i]->getPosition().getDistanceFrom(cam->getPosition()) > 1000)
 		{

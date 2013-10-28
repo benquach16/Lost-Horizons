@@ -4,7 +4,6 @@
 #include "targetableobject.h"
 #include "inventory.h"
 
-
 //cargo container class for loot
 class Cargo : public TargetableObject
 {
@@ -22,6 +21,7 @@ public:
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 	Inventory& getInventory();
 	const Inventory& getInventory() const;
+
 protected: 
 	//store stuff thats in the cargo
 	Inventory inventory;

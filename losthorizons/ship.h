@@ -1,10 +1,6 @@
 #ifndef _SHIP_H_
 #define _SHIP_H_
 
-#include <string>
-#include <list>
-#include <vector>
-
 #include "targetableobject.h"
 #include "turret.h"
 #include "shipproperties.h"
@@ -12,8 +8,6 @@
 #include "projectile.h"
 #include "cargo.h"
 #include "fighter.h"
-
-#pragma once
 
 //for finite state machine implementation
 enum E_AI_STATE
