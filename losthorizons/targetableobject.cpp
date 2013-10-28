@@ -4,29 +4,29 @@
 
 using namespace base;
 
-std::list<TargetableObject*> TargetableObject::allTargets;
+std::vector<TargetableObject*> TargetableObject::allTargets;
 u16 TargetableObject::nextID(0);
 
 TargetableObject::TargetableObject(u16 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation,
 								   const E_GAME_FACTION faction)
 	: Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()),
-	  ID(ID), name(modelProps.getName()), description(modelProps.getDesc()), faction(faction)
+	  ID(ID), name(modelProps.getName()), description(modelProps.getDesc()), faction(faction), index(allTargets.size())
 {
-	allTargets.push_front(this);
-	it = allTargets.begin();
+	allTargets.push_back(this);
 }
 
 TargetableObject::TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
 		const vector3df &position, const vector3df &rotation, const vector3df &scale, const E_GAME_FACTION faction)
-		: Object(filename, position, rotation, scale), faction(faction), name(name), description(description)
+		: Object(filename, position, rotation, scale), faction(faction), name(name), description(description), index(allTargets.size())
 {
-	allTargets.push_front(this);
-	it = allTargets.begin();
+	allTargets.push_back(this);
 }
 
 TargetableObject::~TargetableObject()
 {
-	allTargets.erase(it);
+	allTargets[index] = allTargets.back();
+	allTargets[index]->index = index;
+	allTargets.pop_back();
 	removeThisFromTargets();
 }
 
@@ -45,9 +45,9 @@ void TargetableObject::run(f32 frameDeltaTime)
 void TargetableObject::removeThisFromTargets()
 {
 	//loop thru ship list and remove this if it is a target
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
-		if ((*i)->getShipTarget() == this)
-			(*i)->setTarget(0);
+	for (unsigned i = 0; i < Ship::allShips.size(); i++)
+		if (Ship::allShips[i]->getShipTarget() == this)
+			Ship::allShips[i]->setTarget(0);
 }
 
 const u16 TargetableObject::getID() const

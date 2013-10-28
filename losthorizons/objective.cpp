@@ -23,10 +23,10 @@ bool Objective::run()
 	{
 		//we check for ships around sweep area
 		unsigned counter = 0;
-		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
+		for (unsigned i = 0; i < Ship::allShips.size(); i++)
 		{
-			if ((*i)->getPosition().getDistanceFromSQ(position) < (radius * radius) &&
-				(*Ship::allShips.begin())->getFaction() != (*i)->getFaction())
+			if (Ship::allShips[i]->getPosition().getDistanceFromSQ(position) < (radius * radius) &&
+				Ship::allShips[0]->getFaction() != Ship::allShips[i]->getFaction())
 			{
 				counter++;
 			}

@@ -79,7 +79,7 @@ class Ship : public TargetableObject
 {
 public:
 	//contain the list inside ship class so all ships can access any other ship if needed
-	static std::list<Ship*> allShips;
+	static std::vector<Ship*> allShips;
 	//use this to pull names of the subsystem
 	static std::wstring subsystemNames[SUBSYSTEM_COUNT];
 
@@ -157,7 +157,7 @@ protected:
 	std::vector<scene::IBillboardSceneNode*> coronaEffects;
 	
 	//iterator to 'this'
-	std::list<Ship*>::iterator it;
+	unsigned index;
 
 	//controls how fast we want the shields to recharge
 	u32 shieldTimer;

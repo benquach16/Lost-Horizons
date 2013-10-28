@@ -32,12 +32,12 @@ void Projectile::run(f32 frameDeltaTime)
 	if (!checkIfOutOfRange()) {
 		movement(frameDeltaTime);
 		//check if collides with a ship
-		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
-			if (ID != (*i)->getID() && (*i)->getBoundingBox().isPointInside(getPosition())) {
+		for (unsigned i = 0; i < Ship::allShips.size(); i++) {
+			if (ID != Ship::allShips[i]->getID() && Ship::allShips[i]->getBoundingBox().isPointInside(getPosition())) {
 				//hit a target
 				//std::cout << "HIT TARGET" << std::endl;
 				Impact *impact = new Impact(getPosition());
-				(*i)->damage(damage);
+				Ship::allShips[i]->damage(damage);
 				delete this;
 				return;
 			}

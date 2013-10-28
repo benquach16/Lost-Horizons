@@ -19,7 +19,7 @@ class TargetableObject : public Object
 {
 public:
 	//list of all available objects
-	static std::list<TargetableObject*> allTargets;
+	static std::vector<TargetableObject*> allTargets;
 	//next available ID
 	static u16 nextID;
 
@@ -63,6 +63,6 @@ protected:
 	vector2di screenPosition;
 
 	//iterator to this
-	std::list<TargetableObject*>::iterator it;
+	unsigned index;
 };
 #endif

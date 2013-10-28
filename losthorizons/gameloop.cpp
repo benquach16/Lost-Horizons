@@ -185,11 +185,11 @@ void Gameloop::selectTarget()
 	//do target selection code here
 	if (receiver->getLeftMouseButton() && !stationMenu->getVisible()) {
 		//see if there's a square here
-		for (std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); ++i) {
-			const int x = receiver->getMouseX() - (*i)->getScreenPosition().X;
-			const int y = receiver->getMouseY() - (*i)->getScreenPosition().Y;
+		for (unsigned i = 0; i < TargetableObject::allTargets.size(); i++) {
+			const int x = receiver->getMouseX() - TargetableObject::allTargets[i]->getScreenPosition().X;
+			const int y = receiver->getMouseY() - TargetableObject::allTargets[i]->getScreenPosition().Y;
 			if ((x*x + y*y) < 1024) {
-				player->setTarget(*i);
+				player->setTarget(TargetableObject::allTargets[i]);
 				return;
 			}
 		}

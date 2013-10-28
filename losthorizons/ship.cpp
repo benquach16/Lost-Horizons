@@ -6,7 +6,7 @@
 using namespace base;
 
 //set up static elements
-std::list<Ship*> Ship::allShips;
+std::vector<Ship*> Ship::allShips;
 std::wstring Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator",
 	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
@@ -17,7 +17,7 @@ std::wstring Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Eleva
 Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
 	subsystems(SUBSYSTEM_COUNT, 100), shipTarget(0), shieldTimer(0),
-	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0)
+	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -26,8 +26,7 @@ Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, c
 	std::cout << '[' << ID << "]Ship object created" << std::endl;
 
 	//add it to the ships list
-	allShips.push_front(this);
-	it = allShips.begin();
+	allShips.push_back(this);
 	
 	//set up the ship turrets
 	initTurrets();
@@ -53,11 +52,10 @@ Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, c
 Ship::Ship(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(ID, *ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info),
 	  subsystems(subsystems), shipTarget(0), shieldTimer(0),
-	  currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0)
+	  currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
 {
 	//add it to the ships list
-	allShips.push_front(this);
-	it = allShips.begin();
+	allShips.push_back(this);
 
 	std::cout << '[' << ID << "]Ship object created" << std::endl;
 
@@ -70,7 +68,7 @@ Ship::Ship(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystem
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info),
 	  subsystems(s->subsystems), shipTarget(0), shieldTimer(0),
-	  currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0)
+	  currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -79,8 +77,7 @@ Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	std::cout << '[' << ID << "]Ship object created" << std::endl;
 
 	//add it to the ships list
-	allShips.push_front(this);
-	it = allShips.begin();
+	allShips.push_back(this);
 	initTurrets();
 	initEngineTrails();
 }
@@ -101,7 +98,7 @@ Ship& Ship::operator=(const Ship *s)
 
 Ship::~Ship()
 {
-	allShips.erase(it);
+
 	//clear memory we allocated
 	for (unsigned i = 0; i < heavyTurrets.size(); ++i)
 		delete heavyTurrets[i];
@@ -121,6 +118,9 @@ Ship::~Ship()
 		coronaEffects.back()->remove();
 		coronaEffects.pop_back();
 	}
+	allShips[index] = allShips.back();
+	allShips[index]->index = index;
+	allShips.pop_back();
 }
 
 void Ship::run(f32 frameDeltaTime)
@@ -703,16 +703,16 @@ void Ship::updateStates()
 void Ship::searchForTarget()
 {
 	//search for targets
-	for (std::list<Ship*>::iterator i = allShips.begin(); i != allShips.end(); ++i)
+	for (unsigned i = 0; i < allShips.size(); i++)
 	{
 		//make sure we check factions first
 		//because sqrts are expensive
-		if (((*i)->getInfo().currentFaction == FACTION_PIRATE && this->getInfo().currentFaction != FACTION_PIRATE) || 
-			((*i)->getInfo().currentFaction != FACTION_PIRATE && this->getInfo().currentFaction == FACTION_PIRATE))
+		if ((allShips[i]->getInfo().currentFaction == FACTION_PIRATE && this->getInfo().currentFaction != FACTION_PIRATE) || 
+			(allShips[i]->getInfo().currentFaction != FACTION_PIRATE && this->getInfo().currentFaction == FACTION_PIRATE))
 		{
-			if ((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+			if (allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{
-				setTarget(*i);
+				setTarget(allShips[i]);
 				info.currentAIState = AI_ATTACKING;
 			}
 		}

@@ -219,16 +219,14 @@ void Fighter::searchForFighterTargets()
 //protected function
 void Fighter::searchForShipTargets()
 {
-	for(std::list<Ship*>::iterator i = Ship::allShips.begin(), next; i != Ship::allShips.end(); i = next)
+	for (unsigned i = 0; i < Ship::allShips.size(); i++)
 	{
-		next = i;
-		next++;
-		if(((*i)->getFaction() == FACTION_PIRATE && faction != FACTION_PIRATE) || 
-			((*i)->getFaction() != FACTION_PIRATE && faction == FACTION_PIRATE))
+		if((Ship::allShips[i]->getFaction() == FACTION_PIRATE && faction != FACTION_PIRATE) || 
+			(Ship::allShips[i]->getFaction() != FACTION_PIRATE && faction == FACTION_PIRATE))
 		{
-			if((*i)->getPosition().getDistanceFrom(getPosition()) < 5000)
+			if(Ship::allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{
-				shipTarget = (*i);
+				shipTarget = (Ship::allShips[i]);
 			}
 		}
 	}

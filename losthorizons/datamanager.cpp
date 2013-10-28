@@ -108,8 +108,8 @@ void DataManager::pull()
 		for (std::list<Planet*>::iterator i = Planet::allPlanets.begin(); i != Planet::allPlanets.end(); ++i)
 			(*i)->removeThisFromTargets();
 		ShipData tmp;
-		for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i)
-			ships.push_front(tmp << *i);
+		for (unsigned i = 0; i < Ship::allShips.size(); i++) 
+			ships.push_front(tmp << Ship::allShips[i]);
 	}
 }
 
@@ -149,15 +149,17 @@ void DataManager::setShipTargets()
 {
 	u32 size = TargetableObject::allTargets.size()/3;
 	targets = new std::list<TargetableObject*>[size];
-	for (std::list<TargetableObject*>::iterator i = TargetableObject::allTargets.begin(); i != TargetableObject::allTargets.end(); ++i) {
-		targets[(*i)->getID()%size].push_front(*i);
+	for (unsigned i = 0; i < TargetableObject::allTargets.size(); i++) {
+		targets[TargetableObject::allTargets[i]->getID()%size].push_front(TargetableObject::allTargets[i]);
 	}
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(); i != Ship::allShips.end(); ++i) {
-		if (shipTargets.top().first) {
+	for (unsigned i = 0; i < TargetableObject::allTargets.size(); i++)
+	{
+		if (shipTargets.top().first)
+		{
 			std::list<TargetableObject*>::iterator j = targets[shipTargets.top().second%size].begin();
 			while ((*j)->getID() != shipTargets.top().second)
 				j++;
-			(*i)->setTarget(*j);
+			Ship::allShips[i]->setTarget(*j);
 		}
 		shipTargets.pop();
 	}
