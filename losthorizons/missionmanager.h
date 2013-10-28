@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "mission.h"
+#include "intercom.h"
 
 //missionmanager class
 //manages missions
@@ -14,7 +15,7 @@ public:
 	~MissionManager();
 
 	//run function
-	void run();
+	void run(Intercom *intercom = 0);
 
 	void addMission(const MissionProperties& missionInfo);
 

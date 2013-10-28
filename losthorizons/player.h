@@ -12,6 +12,7 @@ public:
 	virtual void run(f32 frameDeltaTime);
 	virtual const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
+
 private:
 	
 };
