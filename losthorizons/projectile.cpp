@@ -5,7 +5,7 @@
 
 using namespace base;
 
-std::list<Projectile*> Projectile::allProjectiles;
+std::vector<Projectile*> Projectile::allProjectiles;
 
 Projectile::Projectile(u16 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation)
 	: Object(L"res/models/projectile.X", turretProps.getProjectileTex().c_str(), position, rotation, turretProps.getProjectileScale()),
@@ -13,13 +13,16 @@ Projectile::Projectile(u16 ID, const TurretProperties &turretProps, const vector
 {
 	mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 	mesh->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-	allProjectiles.push_front(this);
-	it = allProjectiles.begin();
+	allProjectiles.push_back(this);
+	projectileIndex = allProjectiles.size()-1;
 }
 
 Projectile::~Projectile()
 {
-	allProjectiles.erase(it);
+	//swap with back and pop
+	allProjectiles[allProjectiles.size()-1]->projectileIndex = projectileIndex;
+	allProjectiles[projectileIndex] = allProjectiles[allProjectiles.size()-1];
+	allProjectiles.pop_back();
 }
 
 void Projectile::run(f32 frameDeltaTime)

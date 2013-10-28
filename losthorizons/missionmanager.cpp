@@ -11,7 +11,7 @@ MissionManager::~MissionManager()
 {
 }
 
-void MissionManager::run()
+void MissionManager::run(Intercom *intercom)
 {
 	for(unsigned i = 0; i < data.size(); i++)
 	{
@@ -23,6 +23,10 @@ void MissionManager::run()
 		}
 		else
 		{
+			if(intercom)
+			{
+				intercom->addText(L"Mission complete sir");
+			}
 			data[i] = data.back();
 			data.pop_back();
 			i--;

@@ -13,7 +13,7 @@
 class Projectile : public Object
 {
 public:
-	static std::list<Projectile*> allProjectiles;
+	static std::vector<Projectile*> allProjectiles;
 
 	//initialize with position, rotation, and information
 	Projectile(u16 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation);
@@ -33,7 +33,7 @@ protected:
 	int damage;
 
 	//iterator to this
-	std::list<Projectile*>::iterator it;
+	unsigned projectileIndex;
 };
 
 #endif

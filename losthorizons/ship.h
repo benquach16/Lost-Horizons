@@ -13,6 +13,8 @@
 #include "cargo.h"
 #include "fighter.h"
 
+#pragma once
+
 //for finite state machine implementation
 enum E_AI_STATE
 {

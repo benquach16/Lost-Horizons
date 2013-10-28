@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "callback.h"
 #include <list>
+#include <forward_list>
+#include <vector>
 #include <string>
 
 using namespace irr;
@@ -22,7 +24,7 @@ enum E_GAME_FACTION
 class Object
 {
 public:
-	static std::list<Object*> allObjects;
+	static std::vector<Object*> allObjects;
 	//default constructor
 	Object();
 
@@ -91,7 +93,7 @@ protected:
 	std::wstring filename;
 
 	//iterator to this
-	std::list<Object*>::iterator it;
+	unsigned index;
 };
 
 #endif

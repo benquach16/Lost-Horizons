@@ -4,7 +4,7 @@
 
 using namespace base;
 
-std::list<Object*> Object::allObjects;
+std::vector<Object*> Object::allObjects;
 
 //the constructors of this class
 //default constructor
@@ -20,8 +20,8 @@ Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
-	allObjects.push_front(this);
-	it = allObjects.begin();
+	allObjects.push_back(this);
+	index = allObjects.size()-1;
 }
 
 //constructor to load mesh from file
@@ -32,8 +32,8 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
-	allObjects.push_front(this);
-	it = allObjects.begin();
+	allObjects.push_back(this);
+	index = allObjects.size()-1;
 	//mesh->setDebugDataVisible(true);
 }
 
@@ -46,8 +46,8 @@ Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3d
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
-	allObjects.push_front(this);
-	it = allObjects.begin();
+	allObjects.push_back(this);
+	index = allObjects.size()-1;
 	//mesh->setDebugDataVisible(true);
 }
 
@@ -76,8 +76,11 @@ Object& Object::operator=(const Object *obj)
 
 Object::~Object()
 {
-	allObjects.erase(it);
+	//swap with back and pop
 	mesh->remove();
+	allObjects[allObjects.size()-1]->index = index;
+	allObjects[index] = allObjects[allObjects.size()-1];
+	allObjects.pop_back();
 }
 
 void Object::run(f32 frameDeltaTime)

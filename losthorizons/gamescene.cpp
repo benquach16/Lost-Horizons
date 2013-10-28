@@ -124,10 +124,15 @@ void GameScene::run(f32 frameDeltaTime)
 		next++;
 		(*i)->run(frameDeltaTime);
 	}*/
+	/*
 	for (std::list<Object*>::iterator i = Object::allObjects.begin(), next; i != Object::allObjects.end(); i = next) {
 		next = i;
 		next++;
 		(*i)->run(frameDeltaTime);
+	}*/
+	for(unsigned i = 0; i < Object::allObjects.size(); i++)
+	{
+		Object::allObjects[i]->run(frameDeltaTime);
 	}
 	//run effects
 	unsigned i = 0;
