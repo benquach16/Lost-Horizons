@@ -24,7 +24,7 @@ private:
 	gui::IGUITab *ship;
 	gui::IGUITab *external;
 
-	u32 deleteTimer;
+	unsigned lastPosted, endTime;
 };
 
 #endif
