@@ -23,6 +23,7 @@ public:
 	const std::wstring& getDesc() const;
 
 	const vector3df getCurrObjPos() const;
+
 protected:
 	std::wstring name;
 	std::wstring description;

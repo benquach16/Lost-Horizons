@@ -14,10 +14,10 @@ std::wstring Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Eleva
 //time between ai updates to save cpu speed
 #define AITIMER 100
 
-Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
-	subsystems(SUBSYSTEM_COUNT, 100), shipTarget(0), shieldTimer(0),
-	currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
+	  subsystems(SUBSYSTEM_COUNT, 100), shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0),
+	  fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -49,10 +49,10 @@ Ship::Ship(const E_GAME_FACTION &faction, ObjectManager::E_SHIP_LIST shipType, c
 	inventory.addItem(ObjectManager::E_ITEM_LIST::PHOTONI, 4);
 }
 
-Ship::Ship(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
+Ship::Ship(const u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(ID, *ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info),
-	  subsystems(subsystems), shipTarget(0), shieldTimer(0),
-	  currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
+	  subsystems(subsystems), shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0),
+	  fighterUpdateTime(0), index(allShips.size())
 {
 	//add it to the ships list
 	allShips.push_back(this);
@@ -67,8 +67,8 @@ Ship::Ship(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystem
 //copy constructor
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info),
-	  subsystems(s->subsystems), shipTarget(0), shieldTimer(0),
-	  currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
+	  subsystems(s->subsystems), shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0),
+	  fighterUpdateTime(0), index(allShips.size())
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)

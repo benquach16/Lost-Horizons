@@ -83,8 +83,8 @@ public:
 	//use this to pull names of the subsystem
 	static std::wstring subsystemNames[SUBSYSTEM_COUNT];
 
-	Ship(const E_GAME_FACTION& faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
-	Ship(u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation);
+	Ship(const E_GAME_FACTION& faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
+	Ship(const u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation);
 	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();

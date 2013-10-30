@@ -4,7 +4,7 @@
 
 using namespace base;
 
-Player::Player(E_GAME_FACTION faction, ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
+Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: Ship(faction, shipType, position, rotation)
 {
 	game->setPlayer(this);
