@@ -37,10 +37,11 @@ void TargetableObject::run(f32 frameDeltaTime)
 	//update 2d position of this object
 	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
 	//draw a 2d target array on this object
-	if (targetable)
+	if (targetable) {
 		vdriver->draw2DImage(vdriver->getTexture(faction == FACTION_PIRATE
 			? "res/menu/target_array_enemy.png" : "res/menu/target_array.png"),
 			screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
+	}
 }
 
 void TargetableObject::removeThisFromTargets()

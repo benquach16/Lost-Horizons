@@ -13,7 +13,7 @@ public:
 		bool targetting;
 		vector3df position, rotation;
 		ShipInformation info;
-		std::vector<s8> subsystems;
+		s8 subsystems[SUBSYSTEM_COUNT];
 		//std::vector<TurretData> mediumTurrets;
 	};
 	struct TurretData
@@ -30,11 +30,10 @@ public:
 
 private:
 	E_GAME_SCENE scene;
-	std::deque<ShipData> ships;
-	std::pair<bool,u16> *shipTargets;
+	std::pair<u16,ShipData*> ships;
 	std::list<TargetableObject*> *targets;
 
-	void setShipTargets();
+	void setTargets();
 };
 
 #endif

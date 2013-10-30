@@ -7,7 +7,7 @@
 
 using namespace base;
 
-DataManager::ShipData& operator<<(DataManager::ShipData& shipData, Ship *s)
+void operator<<(DataManager::ShipData& shipData, Ship *s)
 {
 	shipData.ID = s->getID();
 	shipData.targetting = s->getShipTarget() != 0;
@@ -16,8 +16,8 @@ DataManager::ShipData& operator<<(DataManager::ShipData& shipData, Ship *s)
 	shipData.position = s->getPosition();
 	shipData.rotation = s->getRotation();
 	shipData.info = s->getInfo();
-	shipData.subsystems = s->getSubsystems();
-	return shipData;
+	for (unsigned i = 0; i < SUBSYSTEM_COUNT; ++i)
+		shipData.subsystems[i] = s->getSubsystems()[i];
 }
 
 /*
@@ -54,6 +54,16 @@ std::ofstream& operator<<(std::ofstream& ofs, const T& t)
 }
 
 template <typename T>
+std::ofstream& operator<<(std::ofstream& ofs, const std::pair<u16,T*>& a)
+{
+	for (u16 i = 0; i < a.first; ++i) {
+		ofs << a.second[i];
+	}
+    return ofs;
+}
+
+/*
+template <typename T>
 std::ofstream& operator<<(std::ofstream& ofs, std::deque<T>& d)
 {
 	ofs << u16(d.size());
@@ -63,12 +73,12 @@ std::ofstream& operator<<(std::ofstream& ofs, std::deque<T>& d)
 	}
     return ofs;
 }
+*/
 
 std::ofstream& operator<<(std::ofstream& ofs, const DataManager::ShipData& shipData)
 {
-	ofs << shipData.ID << shipData.target << shipData.targetting << shipData.position << shipData.rotation << shipData.info;
-	for (u32 i = 0; i < SUBSYSTEM_COUNT; ++i)
-		ofs << shipData.subsystems[i];
+	ofs << shipData.ID << shipData.target << shipData.targetting << shipData.position << shipData.rotation
+		<< shipData.info << std::pair<u16,const s8*>(SUBSYSTEM_COUNT,shipData.subsystems);
     return ofs;
 }
 
@@ -79,6 +89,16 @@ std::ifstream& operator>>(std::ifstream& ifs, T& t)
     return ifs;
 }
 
+template <typename T>
+std::ifstream& operator>>(std::ifstream& ofs, std::pair<u16,T*>& a)
+{
+	for (u16 i = 0; i < a.first; ++i) {
+		ofs >> a.second[i];
+	}
+    return ofs;
+}
+
+/*
 template <typename T>
 std::ifstream& operator>>(std::ifstream& ifs, std::deque<T>& d)
 {
@@ -91,13 +111,12 @@ std::ifstream& operator>>(std::ifstream& ifs, std::deque<T>& d)
 	}
     return ifs;
 }
+*/
 
 std::ifstream& operator>>(std::ifstream& ifs, DataManager::ShipData& shipData)
 {
-    ifs >> shipData.ID >> shipData.target >> shipData.targetting >> shipData.position >> shipData.rotation >> shipData.info;
-	shipData.subsystems.resize(SUBSYSTEM_COUNT);
-	for (u32 i = 0; i < SUBSYSTEM_COUNT; ++i)
-		ifs >> shipData.subsystems[i];
+    ifs >> shipData.ID >> shipData.target >> shipData.targetting >> shipData.position >> shipData.rotation
+		>> shipData.info >> std::pair<u16,const s8*>(SUBSYSTEM_COUNT,shipData.subsystems);
     return ifs;
 }
 
@@ -107,9 +126,10 @@ void DataManager::pull()
 		scene = game->getGameSceneManager()->getCurrentScene();
 		for (std::list<Planet*>::iterator i = Planet::allPlanets.begin(); i != Planet::allPlanets.end(); ++i)
 			(*i)->removeThisFromTargets();
-		ShipData tmp;
-		for (unsigned i = 0; i < Ship::allShips.size(); ++i) 
-			ships.push_back(tmp << Ship::allShips[i]);
+		ships.first = Ship::allShips.size();
+		ships.second = new ShipData[ships.first];
+		for (unsigned i = 0; i < ships.first; ++i) 
+			ships.second[i] << Ship::allShips[i];
 	}
 }
 
@@ -118,16 +138,14 @@ void DataManager::push()
 	if (gConfig.bPlay) {
 		game->getGameSceneManager()->destroyScene();
 		game->getGameSceneManager()->changeCurrentScene(scene);
-		shipTargets = new std::pair<bool,u16>[ships.size()];
-		unsigned i = 0;
-		while (!ships.empty()) {
-			game->getGameSceneManager()->createShip(ships.front().ID, ships.front().info, ships.front().subsystems, ships.front().position, ships.front().rotation);
-			shipTargets[i] = std::pair<bool,u16>(ships.front().targetting, ships.front().target);
-			ships.pop_front();
-			i++;
+		for (unsigned i = 0; i < ships.first; ++i) {
+			game->getGameSceneManager()->createShip(ships.second[i].ID, ships.second[i].info,
+				std::vector<s8>(ships.second[i].subsystems,ships.second[i].subsystems+SUBSYSTEM_COUNT),
+				ships.second[i].position, ships.second[i].rotation);
 		}
-		setShipTargets();
+		setTargets();
 		game->init();
+		delete[] ships.second;
 	}
 }
 
@@ -136,35 +154,37 @@ void DataManager::save(const std::string &filename)
 	pull();
 	CreateDirectory(L".\\saves", NULL);
 	std::ofstream ofs(filename.c_str(), std::ios::binary);
-	ofs << scene << TargetableObject::nextID << ships;
+	ofs << scene << TargetableObject::nextID << ships.first << ships;
 	ofs.close();
+	delete[] ships.second;
 }
 
 void DataManager::load(const std::string &filename)
 {
 	std::ifstream ifs(filename.c_str(), std::ios::binary);
-	ifs >> scene >> TargetableObject::nextID >> ships;
+	ifs >> scene >> TargetableObject::nextID >> ships.first;
+	ships.second = new ShipData[ships.first];
+	ifs >> ships;
 	ifs.close();
 	push();
 }
 
-void DataManager::setShipTargets()
+void DataManager::setTargets()
 {
-	u32 size = TargetableObject::allTargets.size()/3;
+	int size = TargetableObject::allTargets.size()/3;
 	targets = new std::list<TargetableObject*>[size];
 	for (unsigned i = 0; i < TargetableObject::allTargets.size(); ++i) {
 		targets[TargetableObject::allTargets[i]->getID()%size].push_front(TargetableObject::allTargets[i]);
 	}
 	for (unsigned i = 0; i < Ship::allShips.size(); ++i)
 	{
-		if (shipTargets[i].first)
+		if (ships.second[i].targetting)
 		{
-			std::list<TargetableObject*>::iterator j = targets[shipTargets[i].second%size].begin();
-			while ((*j)->getID() != shipTargets[i].second)
+			std::list<TargetableObject*>::iterator j = targets[ships.second[i].target%size].begin();
+			while ((*j)->getID() != ships.second[i].target)
 				j++;
 			Ship::allShips[i]->setTarget(*j);
 		}
 	}
-	delete[] shipTargets;
 	delete[] targets;
 }
