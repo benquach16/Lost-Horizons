@@ -40,14 +40,16 @@ public:
 	void removeThisFromTargets();
 
 	//mutators
-	//void setFactionTo(const E_GAME_FACTION faction);
+	//void setFaction(const E_GAME_FACTION faction);
+	//void setTargetable(bool targetable);
 
 	//some accessors
 	const u16 getID() const;
 	const std::wstring& getName() const;
 	const std::wstring& getDesc() const;
-	const vector2di& getScreenPosition() const;
 	const E_GAME_FACTION getFaction() const;
+	const bool getTargetable() const;
+	const vector2di& getScreenPosition() const;
 
 	//pure virtual function to find out object type
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const = 0;
@@ -60,6 +62,7 @@ protected:
 	E_GAME_FACTION faction;
 
 	//for drawing targetting icons
+	bool targetable;
 	vector2di screenPosition;
 
 	//iterator to this

@@ -108,7 +108,7 @@ void DataManager::pull()
 		for (std::list<Planet*>::iterator i = Planet::allPlanets.begin(); i != Planet::allPlanets.end(); ++i)
 			(*i)->removeThisFromTargets();
 		ShipData tmp;
-		for (unsigned i = 0; i < Ship::allShips.size(); i++) 
+		for (unsigned i = 0; i < Ship::allShips.size(); ++i) 
 			ships.push_back(tmp << Ship::allShips[i]);
 	}
 }
