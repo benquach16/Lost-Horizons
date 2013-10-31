@@ -8,9 +8,8 @@ using namespace base;
 std::list<SpaceStation*> SpaceStation::allStations;
 
 //constructor
-SpaceStation::SpaceStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType, const vector3df& position,
-						   const vector3df& rotation) : TargetableObject(nextID++, *ObjectManager::stationList[stationType], position, rotation,
-						   faction), info(stationType), shipSpawnTimer(0)
+SpaceStation::SpaceStation(const E_GAME_FACTION faction, const ObjectManager::E_STATION_LIST stationType, const vector3df& position, const vector3df& rotation)
+	: TargetableObject(nextID++, *ObjectManager::stationList[stationType], position, rotation, faction), info(stationType), shipSpawnTimer(0)
 {
 	allStations.push_front(this);
 	it = allStations.begin();

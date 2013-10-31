@@ -25,7 +25,7 @@ public:
 
 	//parameterized constructor
 	//constructor with a model properties
-	TargetableObject(u16 ID, const ModelProperties &modelProps, const vector3df &position, const vector3df &rotation,
+	TargetableObject(const u16 ID, const ModelProperties &modelProps, const vector3df &position, const vector3df &rotation,
 		const E_GAME_FACTION faction);
 	//raw constructor with all the other inputs
 	TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,

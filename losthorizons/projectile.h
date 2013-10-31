@@ -13,7 +13,7 @@ public:
 	static std::vector<Projectile*> allProjectiles;
 
 	//initialize with position, rotation, and information
-	Projectile(u16 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation);
+	Projectile(const u16 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation);
 	~Projectile();
 
 	//does everything a projectile is supposed to

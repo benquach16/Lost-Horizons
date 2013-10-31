@@ -20,7 +20,7 @@ class SpaceStation : public TargetableObject
 public:
 	static std::list<SpaceStation*> allStations;
 
-	SpaceStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType, const vector3df &position,
+	SpaceStation(const E_GAME_FACTION faction, const ObjectManager::E_STATION_LIST stationType, const vector3df &position,
 		const vector3df &rotation);
 	virtual ~SpaceStation();
 	virtual void run(f32 frameDeltaTime);

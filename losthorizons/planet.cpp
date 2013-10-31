@@ -8,7 +8,7 @@ using namespace base;
 std::list<Planet*> Planet::allPlanets;
 
 //constructor
-Planet::Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df& position) : 
+Planet::Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df& position) : 
 	TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), FACTION_NEUTRAL), cloudMesh(0),
 	atmosphere(new Atmosphere(position))
 {

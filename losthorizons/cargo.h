@@ -12,7 +12,7 @@ public:
 	static std::vector<Cargo*> allCargo;
 	//constructors
 	//if randomzeContents is false, make an empty container
-	Cargo(const vector3df &position, bool randomizeContents);
+	Cargo(const vector3df &position, const bool randomizeContents);
 	Cargo(const vector3df &position, const Inventory &inv);
 	virtual ~Cargo();
 	virtual void run(f32 frameDeltaTime);

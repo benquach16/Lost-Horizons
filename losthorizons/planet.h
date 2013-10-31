@@ -13,7 +13,7 @@ public:
 	static std::list<Planet*> allPlanets;
 
 	//parameterized constructor
-	Planet(ObjectManager::E_PLANET_LIST planetType, const vector3df &position);
+	Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df &position);
 	~Planet();
 	virtual void run();
 

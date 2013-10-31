@@ -7,8 +7,8 @@ using namespace base;
 #define SPINSPEED 10
 #define MAXMONEY 10000
 
-Cargo::Cargo(const vector3df &position, bool randomizeContents) : TargetableObject(L"Cargo Container", L"", L"res/models/equipment/loot.3DS",
-																				   position, vector3df(), vector3df(1,1,1), FACTION_NEUTRAL)
+Cargo::Cargo(const vector3df &position, const bool randomizeContents)
+	: TargetableObject(L"Cargo Container", L"", L"res/models/equipment/loot.3DS", position, vector3df(), vector3df(1,1,1), FACTION_NEUTRAL)
 {
 	setTexture(vdriver->getTexture("res/models/equipment/lootcan1-map.png"));
 	if(randomizeContents)
@@ -21,9 +21,9 @@ Cargo::Cargo(const vector3df &position, bool randomizeContents) : TargetableObje
 	}
 }
 
-Cargo::Cargo(const vector3df &position, const Inventory &inv) : TargetableObject(L"Cargo Container", L"", L"res/models/equipment/loot.3DS",
-																				   position, vector3df(), vector3df(1,1,1), FACTION_NEUTRAL),
-																				   inventory(inv)
+Cargo::Cargo(const vector3df &position, const Inventory &inv)
+	: TargetableObject(L"Cargo Container", L"", L"res/models/equipment/loot.3DS", position, vector3df(), vector3df(1,1,1), FACTION_NEUTRAL),
+	  inventory(inv)
 {
 	setTexture(vdriver->getTexture("res/models/equipment/lootcan1-map.png"));
 }
