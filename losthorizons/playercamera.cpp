@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "playercamera.h"
 #include "globals.h"
-
+#include <iostream>
 using namespace base;
 
 PlayerCamera::PlayerCamera(const core::vector3df &position)
@@ -74,9 +74,17 @@ void PlayerCamera::rotateY(int y)
 
 void PlayerCamera::zoom(int z)
 {
-	if(z != oldMouseWheel)
-	{
+	if (z != oldMouseWheel) {
 		distance -= (z - oldMouseWheel)*50;
+		if (distance < -1500)
+			distance = -1500;
+		if (distance > 1500)
+			distance = 1500;
+		if (distance > -150 && distance < 150) {
+			distance *= -1;
+			while (distance > -150 && distance < 150)
+				distance += distance < 0 ? -50 : 50;
+		}
 		oldMouseWheel = z;
 	}
 }
