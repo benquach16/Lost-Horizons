@@ -11,7 +11,7 @@ using namespace irr;
 class LensFlare : public scene::ISceneNode
 {
 public:
-	LensFlare(scene::ISceneNode* parent, scene::ISceneManager* mgr, s32 id);
+	LensFlare(scene::ISceneNode* parent);
 	virtual void render();
 	virtual void OnRegisterSceneNode();
 	virtual const core::aabbox3df& getBoundingBox() const;

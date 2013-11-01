@@ -32,15 +32,14 @@ Cargo::~Cargo()
 {
 }
 
-void Cargo::run(f32 frameDeltaTime)
+bool Cargo::run()
 {
 	//spin the container so it looks cool!
-	vector3df temp = mesh->getRotation();
+	core::vector3df temp = mesh->getRotation();
 	temp.Y += SPINSPEED*frameDeltaTime;
-	temp.Z += 1*frameDeltaTime;
-
+	temp.Z += frameDeltaTime;
 	mesh->setRotation(temp);
-	TargetableObject::run(frameDeltaTime);
+	return TargetableObject::run();
 }
 
 const E_TARGETABLEOBJECT_TYPE Cargo::getTargetableObjectType() const

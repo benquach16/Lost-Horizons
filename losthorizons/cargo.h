@@ -15,7 +15,7 @@ public:
 	Cargo(const vector3df &position, const bool randomizeContents);
 	Cargo(const vector3df &position, const Inventory &inv);
 	virtual ~Cargo();
-	virtual void run(f32 frameDeltaTime);
+	virtual bool run();
 
 	//some important accessors
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;

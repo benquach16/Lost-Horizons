@@ -106,7 +106,7 @@ GameScene::~GameScene()
 		delete Projectile::allProjectiles.front();
 }
 
-void GameScene::run(f32 frameDeltaTime)
+void GameScene::run()
 {
 	/*
 	//run through all the objects in the scene
@@ -124,13 +124,17 @@ void GameScene::run(f32 frameDeltaTime)
 		next++;
 		(*i)->run(frameDeltaTime);
 	}*/
-	
-	for (unsigned i = 0; i < Object::allObjects.size(); ++i)
-	{
-		Object::allObjects[i]->run(frameDeltaTime);
-	} //right now a targetable object gets skipped whenever one is destroyed
-	//run effects
+	//run all of the objects
 	unsigned i = 0;
+	while (i < Object::allObjects.size()) {
+		if (Object::allObjects[i]->run())
+			i++;
+		else {
+			delete Object::allObjects[i];
+		}
+	}
+	//run effects
+	i = 0;
 	while (i < Effect::allEffects.size()) {
 		if (Effect::allEffects[i]->run())
 			i++;

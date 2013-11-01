@@ -88,8 +88,7 @@ Ship& Ship::operator=(const Ship *s)
 	if (s && this != s)
 	{
 		//TODO: ASSISNGMENT OPERATOR!!!
-		mesh->remove();
-		mesh = s->mesh;
+		changeMesh(s->filename.c_str());
 		info = s->info;
 
 	}
@@ -98,7 +97,6 @@ Ship& Ship::operator=(const Ship *s)
 
 Ship::~Ship()
 {
-
 	//clear memory we allocated
 	for (unsigned i = 0; i < heavyTurrets.size(); ++i)
 		delete heavyTurrets[i];
@@ -123,9 +121,8 @@ Ship::~Ship()
 	allShips.pop_back();
 }
 
-void Ship::run(f32 frameDeltaTime)
+bool Ship::run()
 {
-	TargetableObject::run(frameDeltaTime);
 	if (info.hull > 0)
 	{
 		if (info.docked)
@@ -138,8 +135,8 @@ void Ship::run(f32 frameDeltaTime)
 			//if the crew is 0 the ship is effectively dead
 			//make it rotate to its targetted rotation first
 			//and movement
-			rotate(frameDeltaTime);
-			aimTurrets(frameDeltaTime);
+			rotate();
+			aimTurrets();
 			
 			if (info.warping)
 			{
@@ -160,7 +157,7 @@ void Ship::run(f32 frameDeltaTime)
 				}
 			}
 
-			movement(frameDeltaTime);
+			movement();
 
 			//recharge shields
 			if (subsystems[SUBSYSTEM_SHIELD] > 0)
@@ -190,18 +187,19 @@ void Ship::run(f32 frameDeltaTime)
 		Explosion *e = new Explosion(getPosition());
 		//lets create some loot to drop
 		Cargo *loot = new Cargo(getPosition(), true);
-		delete this;
+		remove();
 	}
+	return TargetableObject::run();
 }
 
 //increases velocity based on how fast the ship is going
-void Ship::increaseVelocity(f32 frameDeltaTime)
+void Ship::increaseVelocity()
 {
 	if (info.velocity < info.maxVelocity)
 		info.velocity += (5+abs(info.velocity)/2)*frameDeltaTime;
 }
 
-void Ship::decreaseVelocity(f32 frameDeltaTime)
+void Ship::decreaseVelocity()
 {
 	if (info.velocity > -info.maxVelocity)
 		info.velocity -= (1+abs(info.velocity)/2)*frameDeltaTime;
@@ -399,7 +397,7 @@ void Ship::warpToTarget()
 //all private functions go under here
 //private function
 //rotates ship to point
-void Ship::rotate(f32 frameDeltaTime)
+void Ship::rotate()
 {
 	vector3df sRot = getRotation();
 	vector3df rotSlow = getRotation();
@@ -450,24 +448,15 @@ void Ship::rotate(f32 frameDeltaTime)
 }
 
 //private function
-void Ship::movement(f32 frameDeltaTime)
+void Ship::movement()
 {
-	vector3df sPos = getPosition();
-	f32 i = getRotation().Y;
-	f32 z = -(getRotation().X);	//if i dont do this the ship doesnt rotate right
-
-	sPos.Y = (f32)(frameDeltaTime*info.velocity*(sin(z*3.14/180)));
-	sPos.Y += getPosition().Y;
-
-	sPos.X = (f32)(frameDeltaTime*info.velocity*(sin(i*3.14/180)));
-	sPos.X += getPosition().X;
-
-	sPos.Z = (f32)(frameDeltaTime*info.velocity*(cos(i*3.14/180)));
-	sPos.Z += getPosition().Z;
+	const f32 temp = frameDeltaTime*info.velocity;
+	const f32 X = sin(getRotation().Y*PI/180)*temp + getPosition().X;
+	const f32 Y = sin(-getRotation().X*PI/180)*temp + getPosition().Y;
+	const f32 Z = cos(getRotation().Y*PI/180)*temp + getPosition().Z;
 
 	//smooth out ship movement
-	vector3df finalPos = sPos*0.8f+getPosition()*0.2f;
-	setPosition(finalPos);
+	setPosition(getPosition()*0.2f + core::vector3df(X,Y,Z)*0.8f);
 }
 //private function
 //initialises the turret slot classes for each ship
@@ -516,22 +505,22 @@ void Ship::initTurrets()
 
 //private function
 //aims turrets at current target
-void Ship::aimTurrets(float frameDeltaTime)
+void Ship::aimTurrets()
 {
 	if (shipTarget)
 	{
 		//if has target
 		for (unsigned i = 0; i < heavyTurrets.size(); i++)
 		{
-			heavyTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+			heavyTurrets[i]->aim(shipTarget->getPosition());
 		}
 		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
 		{
-			mediumTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+			mediumTurrets[i]->aim(shipTarget->getPosition());
 		}
 		for (unsigned i = 0; i < lightTurrets.size(); i++)
 		{
-			lightTurrets[i]->aim(shipTarget->getPosition(), frameDeltaTime);
+			lightTurrets[i]->aim(shipTarget->getPosition());
 		}
 	}
 	else
@@ -563,7 +552,7 @@ void Ship::aimTurrets(float frameDeltaTime)
 			{
 				for (unsigned n = 0; n < pdTurrets.size(); ++n)
 				{
-					pdTurrets[n]->aim((*i)->getPosition(), frameDeltaTime);
+					pdTurrets[n]->aim((*i)->getPosition());
 					pdTurrets[n]->fire();
 					if (fighterDamageTime < timer->getTime())
 					{

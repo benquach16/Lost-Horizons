@@ -46,10 +46,11 @@ Planet::~Planet()
 	delete atmosphere;
 }
 
-void Planet::run()
+bool Planet::run()
 {
 	//run atmosphere and hide cloudmesh after a certain distance
 	atmosphere->run();
+	return TargetableObject::run();
 }
 
 const E_TARGETABLEOBJECT_TYPE Planet::getTargetableObjectType() const

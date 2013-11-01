@@ -4,7 +4,8 @@
 
 using namespace base;
 
-LensFlare::LensFlare(scene::ISceneNode* parent, scene::ISceneManager* mgr, s32 id) : ISceneNode(parent, mgr, id)
+LensFlare::LensFlare(scene::ISceneNode* parent)
+	: ISceneNode(parent, scenemngr)
 {
 	f32 shiftX, shiftY;
 	shiftX = 0.5f/width;

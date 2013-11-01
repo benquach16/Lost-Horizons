@@ -1,15 +1,21 @@
 #include "stdafx.h"
 #include "marker.h"
+#include "globals.h"
 
-Marker::Marker() : Object(L"res/models/nav_buoy.X")
+using namespace base;
+
+#define SPINSPEED 10
+
+Marker::Marker()
+	: Object(L"res/models/nav_buoy.X")
 {
 	setScale(vector3df(0.5,0.5,0.5));
 }
 
-void Marker::run(f32 frameDeltaTime)
+bool Marker::run()
 {
 	vector3df rot = getRotation();
-	rot.Y += 10 * frameDeltaTime;
+	rot.Y += SPINSPEED*frameDeltaTime;
 	setRotation(rot);
-	Object::run(frameDeltaTime);
+	return Object::run();
 }

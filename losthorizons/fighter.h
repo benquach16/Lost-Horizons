@@ -34,21 +34,18 @@ public:
 	Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTION faction,
 		Ship *homeBase);
 	virtual ~Fighter();
-	virtual void run(f32 frameDeltaTime);
+	virtual bool run();
 	void damage(int modifier);
 	//must override this 
 	const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
 protected:
 	//protected functions
-	void rotate(f32 frameDeltaTime);
-	void movement(f32 frameDeltaTime);
+	void rotate();
+	void movement();
 	void searchForFighterTargets();
 	void searchForShipTargets();
 	void patrol();
-
-	//iterator to this
-	std::list<Fighter*>::iterator it;
 
 	FighterInformation info;
 	Fighter *fighterTarget;
@@ -57,6 +54,9 @@ protected:
 
 	//create timekeeping variables
 	u32 shootTimer;
+
+	//iterator to this
+	std::list<Fighter*>::iterator it;
 };
 
 #endif

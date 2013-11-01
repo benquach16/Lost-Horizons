@@ -73,6 +73,24 @@
     <Filter Include="Source Files\missions">
       <UniqueIdentifier>{eca20573-9178-43a3-85ca-aae492db8e42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\objects\Object">
+      <UniqueIdentifier>{42ca4816-3890-4fd0-b57e-44cf0b41edb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\objects\Object\TargetableObject">
+      <UniqueIdentifier>{9e7cdfc4-052b-45b6-b908-7581b80b2988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\objects\Object\TargetableObject\Ship">
+      <UniqueIdentifier>{65fd455b-6bf2-43c5-8c93-09aa1bc0fec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\Object">
+      <UniqueIdentifier>{40ca41fe-889f-4487-82a0-89a36a107bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\Object\TargetableObject">
+      <UniqueIdentifier>{f4b2e1ba-e5d3-4846-986d-c9c4033d2efa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\Object\TargetableObject\Ship">
+      <UniqueIdentifier>{1878b561-bd35-419a-bcb3-46849912db4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -102,12 +120,6 @@
     <ClInclude Include="object.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="ship.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files\lib</Filter>
     </ClInclude>
@@ -116,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files\lib</Filter>
-    </ClInclude>
-    <ClInclude Include="turret.h">
-      <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="startmenu.h">
       <Filter>Header Files\ui</Filter>
@@ -134,9 +143,6 @@
     </ClInclude>
     <ClInclude Include="gamescenemanager.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sun.h">
-      <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="itemproperties.h">
       <Filter>Header Files\properties</Filter>
@@ -165,9 +171,6 @@
     <ClInclude Include="sceneloader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="projectile.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
     <ClInclude Include="effect.h">
       <Filter>Header Files\effects</Filter>
     </ClInclude>
@@ -179,9 +182,6 @@
     </ClInclude>
     <ClInclude Include="gamemenu.h">
       <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="targetableobject.h">
-      <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="callback.h">
       <Filter>Header Files\postprocess</Filter>
@@ -200,9 +200,6 @@
     </ClInclude>
     <ClInclude Include="atmosphere.h">
       <Filter>Header Files\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="spacestation.h">
-      <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="lensflare.h">
       <Filter>Header Files\effects</Filter>
@@ -224,12 +221,6 @@
     </ClInclude>
     <ClInclude Include="intercom.h">
       <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="cargo.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="fighter.h">
-      <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="fighterproperties.h">
       <Filter>Header Files\properties</Filter>
@@ -276,9 +267,6 @@
     <ClInclude Include="missiontab.h">
       <Filter>Header Files\ui\tabs\gamemenu</Filter>
     </ClInclude>
-    <ClInclude Include="marker.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
     <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -287,6 +275,36 @@
     </ClInclude>
     <ClInclude Include="string_util.h">
       <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="cargo.h">
+      <Filter>Header Files\objects\Object\TargetableObject</Filter>
+    </ClInclude>
+    <ClInclude Include="fighter.h">
+      <Filter>Header Files\objects\Object\TargetableObject</Filter>
+    </ClInclude>
+    <ClInclude Include="marker.h">
+      <Filter>Header Files\objects\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files\objects\Object\TargetableObject\Ship</Filter>
+    </ClInclude>
+    <ClInclude Include="projectile.h">
+      <Filter>Header Files\objects\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ship.h">
+      <Filter>Header Files\objects\Object\TargetableObject</Filter>
+    </ClInclude>
+    <ClInclude Include="spacestation.h">
+      <Filter>Header Files\objects\Object\TargetableObject</Filter>
+    </ClInclude>
+    <ClInclude Include="sun.h">
+      <Filter>Header Files\objects\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="targetableobject.h">
+      <Filter>Header Files\objects\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="turret.h">
+      <Filter>Header Files\objects\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,13 +341,7 @@
     <ClCompile Include="startmenu.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="ship.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
     <ClCompile Include="playercamera.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="messagemenu.cpp">
@@ -337,12 +349,6 @@
     </ClCompile>
     <ClCompile Include="gamescenemanager.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="turret.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="sun.cpp">
-      <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="shipproperties.cpp">
       <Filter>Source Files\properties</Filter>
@@ -365,12 +371,6 @@
     <ClCompile Include="savemenu.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="projectile.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="targetableobject.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
     <ClCompile Include="effect.cpp">
       <Filter>Source Files\effects</Filter>
     </ClCompile>
@@ -385,9 +385,6 @@
     </ClCompile>
     <ClCompile Include="impact.cpp">
       <Filter>Source Files\effects</Filter>
-    </ClCompile>
-    <ClCompile Include="planet.cpp">
-      <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="planetproperties.cpp">
       <Filter>Source Files\properties</Filter>
@@ -407,9 +404,6 @@
     <ClCompile Include="visualsmanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="spacestation.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
     <ClCompile Include="stationmenu.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
@@ -419,9 +413,6 @@
     <ClCompile Include="gamemenu.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="cargo.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
     <ClCompile Include="intercom.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
@@ -430,9 +421,6 @@
     </ClCompile>
     <ClCompile Include="storetab.cpp">
       <Filter>Source Files\ui\tabs\stationmenu</Filter>
-    </ClCompile>
-    <ClCompile Include="fighter.cpp">
-      <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="muzzleflash.cpp">
       <Filter>Source Files\effects</Filter>
@@ -464,11 +452,41 @@
     <ClCompile Include="missiontab.cpp">
       <Filter>Source Files\ui\tabs\gamemenu</Filter>
     </ClCompile>
-    <ClCompile Include="marker.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
     <ClCompile Include="globals.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files\objects\Object\TargetableObject\Ship</Filter>
+    </ClCompile>
+    <ClCompile Include="cargo.cpp">
+      <Filter>Source Files\objects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="fighter.cpp">
+      <Filter>Source Files\objects\Object\TargetableObject</Filter>
+    </ClCompile>
+    <ClCompile Include="marker.cpp">
+      <Filter>Source Files\objects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="planet.cpp">
+      <Filter>Source Files\objects\Object\TargetableObject</Filter>
+    </ClCompile>
+    <ClCompile Include="projectile.cpp">
+      <Filter>Source Files\objects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ship.cpp">
+      <Filter>Source Files\objects\Object\TargetableObject</Filter>
+    </ClCompile>
+    <ClCompile Include="spacestation.cpp">
+      <Filter>Source Files\objects\Object\TargetableObject</Filter>
+    </ClCompile>
+    <ClCompile Include="sun.cpp">
+      <Filter>Source Files\objects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="targetableobject.cpp">
+      <Filter>Source Files\objects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="turret.cpp">
+      <Filter>Source Files\objects\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -483,7 +501,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="planet.h">
-      <Filter>Header Files\objects</Filter>
+      <Filter>Header Files\objects\Object\TargetableObject</Filter>
     </None>
   </ItemGroup>
 </Project>

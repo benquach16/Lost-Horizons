@@ -25,22 +25,21 @@ SpaceStation::~SpaceStation()
 	allStations.erase(it);
 }
 
-void SpaceStation::run(f32 frameDeltaTime)
+bool SpaceStation::run()
 {
-	TargetableObject::run(frameDeltaTime);
 	//do ai stuff here
 	//space stations can do several things that are unique to them
 	//like spawn ships and create fleets
-	if(ObjectManager::stationList[info.stationType]->getSpawnShips())
+	if (ObjectManager::stationList[info.stationType]->getSpawnShips())
 	{
 		//spawn ships
-		if(shipSpawnTimer < timer->getTime())
+		if (shipSpawnTimer < timer->getTime())
 		{
 			new Ship(getFaction(), ObjectManager::E_SHIP_LIST::PRAE_CRUISER, getPosition(), getRotation());
 			shipSpawnTimer = timer->getTime() + ObjectManager::stationList[info.stationType]->getShipSpawnTimer();
 		}
 	}
-
+	return TargetableObject::run();
 }
 
 const E_TARGETABLEOBJECT_TYPE SpaceStation::getTargetableObjectType() const

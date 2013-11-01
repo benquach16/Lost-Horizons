@@ -15,7 +15,7 @@ Object::Object() : position(vector3df(0,0,0)), rotation(vector3df(0,0,0)), scale
 //constructor with mesh already allocated
 Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: position(position), rotation(rotation), scale(scale),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(m)), index(allObjects.size())
+	  mesh(scenemngr->addAnimatedMeshSceneNode(m)), active(true), index(allObjects.size())
 {
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
@@ -27,7 +27,7 @@ Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3
 //constructor to load mesh from file
 Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: position(position), rotation(rotation), scale(scale), filename(filename),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), index(allObjects.size())
+	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), active(true), index(allObjects.size())
 {
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
@@ -40,7 +40,7 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 //constructor to load mesh and texture from file 
 Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: position(position), rotation(rotation), scale(scale), filename(filename),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), index(allObjects.size())
+	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), active(true), index(allObjects.size())
 {
 	mesh->setMaterialTexture(0, vdriver->getTexture(tfilename));
 	mesh->setPosition(position);
@@ -54,17 +54,20 @@ Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3d
 //copy constructor
 Object::Object(const Object *obj)
 	: position(obj->getPosition()), rotation(obj->getRotation()), scale(obj->getScale()),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh()))
+	  mesh(scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh())), active(true), index(allObjects.size())
 {
 	mesh->setPosition(position);
 	mesh->setRotation(rotation);
 	mesh->setScale(scale);
+
+	allObjects.push_back(this);
+	//mesh->setDebugDataVisible(true);
 }
 
 //assignment operator
 Object& Object::operator=(const Object *obj)
 {
-	if(obj && this != obj)
+	if (obj && this != obj)
 	{
 		position = obj->position;
 		rotation = obj->rotation;
@@ -84,17 +87,19 @@ Object::~Object()
 	allObjects.pop_back();
 }
 
-void Object::run(f32 frameDeltaTime)
+bool Object::run()
 {
+	return active;
 }
 
-void Object::reloadMesh()
+void Object::remove()
 {
-	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename.c_str()));
+	active = false;
 }
 
 void Object::changeMesh(const wchar_t *filename)
 {
+	this->filename = filename;
 	mesh->remove();
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename));
 }
@@ -115,8 +120,6 @@ void Object::setNormalMap(video::ITexture *normalMap)
 	mesh->setMaterialTexture(1, normalMap);
 	bp->drop();
 }
-
-
 
 const vector3df& Object::getPosition() const
 {
@@ -166,4 +169,3 @@ void Object::setVisible(bool newVisibility)
 	visible = newVisibility;
 	mesh->setVisible(newVisibility);
 }
-

@@ -88,11 +88,11 @@ public:
 	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();
-	virtual void run(f32 frameDeltaTime);
+	virtual bool run();
 
 	//changes ship's velocity
-	void increaseVelocity(f32 frameDeltaTime);
-	void decreaseVelocity(f32 frameDeltaTime);
+	void increaseVelocity();
+	void decreaseVelocity();
 
 	//combat functions
 	void fireTurrets();
@@ -155,21 +155,18 @@ protected:
 	//engine trail variables
 	std::vector<scene::IParticleSystemSceneNode*> engineParticles;
 	std::vector<scene::IBillboardSceneNode*> coronaEffects;
-	
-	//iterator to 'this'
-	unsigned index;
 
 	//controls how fast we want the shields to recharge
 	u32 shieldTimer;
 
 private:
 	//change the ship's position
-	void rotate(f32 frameDeltaTime);
-	void movement(f32 frameDeltaTime);
+	void rotate();
+	void movement();
 
 	//turret functions
 	void initTurrets();
-	void aimTurrets(f32 frameDeltaTime);
+	void aimTurrets();
 
 	//initialize particle effects
 	void initEngineTrails();
@@ -184,5 +181,8 @@ private:
 	u32 fighterLaunchTime;
 	u32 fighterDamageTime;
 	u32 fighterUpdateTime;
+
+	//iterator to this
+	unsigned index;
 };
 #endif

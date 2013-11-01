@@ -6,7 +6,6 @@
 #include "objective.h"
 #include "missionproperties.h"
 
-
 //mission class
 class Mission
 {

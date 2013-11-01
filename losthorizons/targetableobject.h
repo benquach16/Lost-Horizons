@@ -31,7 +31,7 @@ public:
 	TargetableObject(const std::wstring& name, const std::wstring &description, const wchar_t *filename,
 		const vector3df &position, const vector3df &rotation, const vector3df &scale, const E_GAME_FACTION faction);
 	virtual ~TargetableObject();
-	virtual void run(f32 frameDeltaTime);
+	virtual bool run();
 
 	//overridable function designed to return specific information related to this object to the hud
 	//virtual void information(gui::IGUIImage *targetBkg);
@@ -65,6 +65,7 @@ protected:
 	bool targetable;
 	vector2di screenPosition;
 
+private:
 	//iterator to this
 	unsigned index;
 };

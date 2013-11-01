@@ -11,5 +11,6 @@ namespace base
 	irr::gui::IGUIEnvironment* guienv = 0;
 	irr::ITimer* timer = 0;
 	Gameloop* game = 0;
+	f32 frameDeltaTime = 0;
 	u32 width = 0, height = 0;
 }

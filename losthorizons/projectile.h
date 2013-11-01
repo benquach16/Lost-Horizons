@@ -17,11 +17,11 @@ public:
 	~Projectile();
 
 	//does everything a projectile is supposed to
-	void run(f32 frameDeltaTime);
+	bool run();
 
 protected:
-	void movement(f32 frameDeltaTime);
-	bool checkIfOutOfRange();
+	void movement();
+	bool inRange();
 
 	core::vector3df originalPosition;
 	u16 ID;

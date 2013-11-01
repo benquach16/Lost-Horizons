@@ -22,7 +22,7 @@ public:
 	Gameloop(DataManager *data);
 	~Gameloop();
 	void init();
-	void run(f32 frameDeltaTime);
+	void run();
 
 	//newgame or loadgame instances
 	void createNewGame();
@@ -33,7 +33,7 @@ public:
 	void setPlayer(Player* newPlayer) { player = newPlayer; }
 
 private:
-	void playerControl(f32 frameDeltaTime);
+	void playerControl();
 	void cameraControl();
 	void selectTarget();
 

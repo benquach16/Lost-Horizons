@@ -9,7 +9,7 @@ public:
 	Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
 	Player(const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation);
 	virtual ~Player();
-	virtual void run(f32 frameDeltaTime);
+	virtual bool run();
 	virtual const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
 private:

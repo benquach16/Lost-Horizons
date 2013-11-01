@@ -26,60 +26,47 @@ Projectile::~Projectile()
 	allProjectiles.pop_back();
 }
 
-void Projectile::run(f32 frameDeltaTime)
+bool Projectile::run()
 {
-	Object::run(frameDeltaTime);
-	if (!checkIfOutOfRange()) {
-		movement(frameDeltaTime);
+	if (inRange()) {
+		movement();
 		//check if collides with a ship
-		for (unsigned i = 0; i < Ship::allShips.size(); i++) {
+		unsigned i = 0;
+		while (Object::run() && i < Ship::allShips.size()) {
 			if (ID != Ship::allShips[i]->getID() && Ship::allShips[i]->getBoundingBox().isPointInside(getPosition())) {
 				//hit a target
 				//std::cout << "HIT TARGET" << std::endl;
 				Impact *impact = new Impact(getPosition());
 				Ship::allShips[i]->damage(damage);
-				delete this;
-				return;
+				remove();
+			} else {
+				i++;
 			}
 		}
 	} else {
-		delete this;
+		remove();
 	}
+	return Object::run();
 }
 
 //protected function
-void Projectile::movement(f32 frameDeltaTime)
+void Projectile::movement()
 {
 	//similar movement code as ships
-	vector3df sPos = getPosition();
-	f32 i = getRotation().Y;
-	f32 z = -(getRotation().X);	//if i dont do this the ship doesnt rotate right
-
-
-	sPos.Y = (f32)(frameDeltaTime*velocity*(sin(z*3.14/180)));
-	sPos.Y += getPosition().Y;
-
-	sPos.X = (f32)(frameDeltaTime*velocity*(sin(i*3.14/180)));
-	sPos.X += getPosition().X;
-
-	sPos.Z = (f32)(frameDeltaTime*velocity*(cos(i*3.14/180)));
-	sPos.Z += getPosition().Z;
-
-	setPosition(sPos);
+	const f32 temp = frameDeltaTime*velocity;
+	const f32 X = sin(getPosition().Y*PI/180)*temp + getPosition().X;
+	const f32 Y = sin(-getPosition().X*PI/180)*temp + getPosition().Y;
+	const f32 Z = cos(getPosition().Y*PI/180)*temp + getPosition().Z;
+	setPosition(core::vector3df(X,Y,Z));
 }
 
 //protected function
-bool Projectile::checkIfOutOfRange()
+bool Projectile::inRange()
 {
 	//basic math to check distances
 	//dont do sqrt for speed
 	const float x = originalPosition.X - getPosition().X;
 	const float y = originalPosition.Y - getPosition().Y;
 	const float z = originalPosition.Z - getPosition().Z;
-
-	if ((x*x + y*y + z*z) > (range*range)) {
-		//out of range
-		return true;
-	}
-	return false;
+	return x*x + y*y + z*z < range*range;
 }

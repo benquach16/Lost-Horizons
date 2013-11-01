@@ -6,7 +6,8 @@
 using namespace base;
 
 //default constructor
-Sun::Sun() : Object(scenemngr->addSphereMesh("sun", 1000.f)), light(0), corona(0)
+Sun::Sun()
+	: Object(scenemngr->addSphereMesh("sun", 1000.f)), light(0), corona(0), corona2(0), lensFlare(0)
 {
 	//create the mesh and coronas
 	mesh->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -26,8 +27,8 @@ Sun::Sun() : Object(scenemngr->addSphereMesh("sun", 1000.f)), light(0), corona(0
 }
 
 //parameterized juan
-Sun::Sun(const vector3df &position, const vector3df &scale) : 
-	Object(scenemngr->addSphereMesh("sun", 1000.f), position, vector3df(0,0,0), scale), light(0), corona(0), lensFlare(new LensFlare(mesh, scenemngr, -1))
+Sun::Sun(const vector3df &position, const vector3df &scale)
+	: Object(scenemngr->addSphereMesh("sun", 1000.f), position, vector3df(0,0,0), scale), light(0), corona(0), lensFlare(new LensFlare(mesh))
 {
 	mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 	light = scenemngr->addLightSceneNode(mesh);
@@ -52,11 +53,10 @@ Sun::~Sun()
 	corona2->remove();
 }
 
-void Sun::run(f32 frameDeltaTime)
+bool Sun::run()
 {
-	//override the object run function
-	Object::run(frameDeltaTime);
 	//u32 occlusionResult = vdriver->getOcclusionQueryResult(mesh);
 	//std::cout <<occlusionResult <<std::endl;
 	//lensFlare->setStrength(occlusionResult/8000);
+	return Object::run();
 }

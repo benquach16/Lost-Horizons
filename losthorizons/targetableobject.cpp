@@ -25,15 +25,14 @@ TargetableObject::TargetableObject(const std::wstring& name, const std::wstring 
 
 TargetableObject::~TargetableObject()
 {
+	removeThisFromTargets();
 	allTargets[index] = allTargets.back();
 	allTargets[index]->index = index;
 	allTargets.pop_back();
-	removeThisFromTargets();
 }
 
-void TargetableObject::run(f32 frameDeltaTime)
+bool TargetableObject::run()
 {
-	Object::run(frameDeltaTime);
 	//update 2d position of this object
 	screenPosition = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getPosition(), scenemngr->getActiveCamera());
 	//draw a 2d target array on this object
@@ -42,6 +41,7 @@ void TargetableObject::run(f32 frameDeltaTime)
 			? "res/menu/target_array_enemy.png" : "res/menu/target_array.png"),
 			screenPosition - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
 	}
+	return Object::run();
 }
 
 void TargetableObject::removeThisFromTargets()

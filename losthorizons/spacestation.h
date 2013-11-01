@@ -23,19 +23,20 @@ public:
 	SpaceStation(const E_GAME_FACTION faction, const ObjectManager::E_STATION_LIST stationType, const vector3df &position,
 		const vector3df &rotation);
 	virtual ~SpaceStation();
-	virtual void run(f32 frameDeltaTime);
+	virtual bool run();
 
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 	const SpaceStationInformation& getInfo() const;
 	Inventory& getInventory();
-protected:
-	//iterator to this
-	std::list<SpaceStation*>::iterator it;
 
+protected:
 	SpaceStationInformation info;
 
 	//timer 
 	u32 shipSpawnTimer;
+
+	//iterator to this
+	std::list<SpaceStation*>::iterator it;
 };
 
 #endif

@@ -15,7 +15,7 @@ public:
 	//parameterized constructor
 	Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df &position);
 	~Planet();
-	virtual void run();
+	virtual bool run();
 
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
@@ -29,9 +29,6 @@ protected:
 	//planets have basic stats
 	//different for each type of planet
 
-	//iterator to this
-	std::list<Planet*>::iterator it;
-
 	//affects production time
 	int population;
 	int maxPopulation;
@@ -41,5 +38,8 @@ protected:
 	//tech level of the planet
 	int techIndex;
 	int maxTechLevel;
+
+	//iterator to this
+	std::list<Planet*>::iterator it;
 };
 #endif

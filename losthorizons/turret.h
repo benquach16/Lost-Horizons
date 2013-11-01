@@ -30,7 +30,7 @@ public:
 	//good for debug purposes and players
 	void drawArc();
 	//actual aiming portion
-	void aim(const core::vector3df &point, f32 frameDeltaTime);
+	void aim(const core::vector3df &point);
 	//make turret stop aiming
 	void resetAim();
 	~TurretSlot();
@@ -76,7 +76,8 @@ public:
 	Turret(const ObjectManager::E_ITEM_LIST turretType, scene::ISceneNode *parent, TurretSlot *parentSlot);
 	~Turret();
 
-	void aim(const core::vector3df &rotation, float frameDeltaTime);
+	virtual bool run();
+	void aim(const core::vector3df &rotation);
 	void fire(const vector3df &rotation);
 
 	const Ship* getParent() const;

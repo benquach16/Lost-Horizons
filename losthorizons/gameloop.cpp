@@ -39,14 +39,14 @@ void Gameloop::init()
 	missionManager->addMission(MissionProperties("missions/tutorial.xml"));
 }
 
-void Gameloop::run(f32 frameDeltaTime)
+void Gameloop::run()
 {
 	//run through all essential objects and functions
-	playerControl(frameDeltaTime);
+	playerControl();
 	cameraControl();
 	selectTarget();
-	playerCam->run(player->getPosition(), frameDeltaTime); 
-	gameSceneManager->runScene(frameDeltaTime);
+	playerCam->run(player->getPosition()); 
+	gameSceneManager->run();
 	hud->run();
 	intercom->run();
 	turning->run();
@@ -82,15 +82,15 @@ void Gameloop::createLoadedGame(const std::string &filename)
 	data->load(filename);
 }// plan to get rid of this and just do things from the savemenu class
 
-void Gameloop::playerControl(f32 frameDeltaTime)
+void Gameloop::playerControl()
 {
 	//all actions the player can do are stored here
 	if (receiver->isKeyDown(irr::KEY_KEY_X) && !player->getInfo().warping) {
 		//accelerate
-		player->increaseVelocity(frameDeltaTime);
+		player->increaseVelocity();
 	} else if (receiver->isKeyDown(irr::KEY_KEY_Z)&& !player->getInfo().warping) {
 		//decelerate
-		player->decreaseVelocity(frameDeltaTime);
+		player->decreaseVelocity();
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_A)&& !player->getInfo().warping) {
 		//rotate left

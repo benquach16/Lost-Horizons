@@ -19,8 +19,7 @@ TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *join
 void TurretSlot::assignTurret(const ObjectManager::E_ITEM_LIST turretType)
 {
 	//ensure that its a turret or else we will crash
-	if(ObjectManager::itemList[turretType]->getItemType() == ITEM_TURRET)
-	{
+	if (ObjectManager::itemList[turretType]->getItemType() == ITEM_TURRET) {
 		//make sure that the childturret pointer is clear
 		removeTurret();
 		childTurret = new Turret(turretType, offset, this);
@@ -34,19 +33,18 @@ bool TurretSlot::getCanFire()
 
 bool TurretSlot::fire()
 {
-	if(childTurret && canFire)
-	{
+	if (childTurret && canFire) {
 		childTurret->fire(currentAim);
 		return true;
-	}
-	return false;
+	} else
+		return false;
 }
 
 void TurretSlot::removeTurret()
 {
-	if(childTurret)
+	if (childTurret)
 		delete childTurret;
-	childTurret=0;
+	childTurret = 0;
 }
 
 void TurretSlot::drawArc()
@@ -54,11 +52,10 @@ void TurretSlot::drawArc()
 	//we're going to do some fun math here
 }
 
-void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
+void TurretSlot::aim(const core::vector3df &point)
 {
 	aimPoint->setPosition(joint->getAbsolutePosition());
-	if(childTurret)
-	{
+	if (childTurret) {
 		//do some math to find the angle to face this point
 		/*
 		const float x = (point.X-offset->getAbsolutePosition().X);
@@ -84,12 +81,11 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 
 		//normalize angles
 		float tmp = parent->getRotation().Y + 180 + rotationOffset.Y;
-		if(tmp > 360)
+		if (tmp > 360)
 			tmp -= 360;
-		if(tmp < 0)
+		else if (tmp < 0)
 			tmp += 360;
-		if((diff.Y + difference) < tmp || (diff.Y - difference) > tmp)
-		{
+		if ((diff.Y + difference) < tmp || (diff.Y - difference) > tmp) {
 			//inside the arc horizontally
 			//pass rotation to the turret so we dont do math again unnecessarily
 			//draw so player knows which turrets can shoot
@@ -97,19 +93,15 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 			//angleY += 180 - offset->getRotation().Y;
 			diff.Y -= parent->getRotation().Y;
 			diff.Y += 180 + offset->getRotation().Y;
-			childTurret->aim(diff, frameDeltaTime);
+			childTurret->aim(diff);
 			canFire = true;
-		}
-		else
-		{
+		} else {
 			//just reset the aim and not shoot
 			//good shit
-			childTurret->aim(vector3df(0,180,0), frameDeltaTime);
+			childTurret->aim(vector3df(0,180,0));
 			canFire = false;
 		}
-	}
-	else
-	{
+	} else {
 		//no turret so 
 		canFire = false;
 	}
@@ -117,9 +109,8 @@ void TurretSlot::aim(const core::vector3df &point, f32 frameDeltaTime)
 
 void TurretSlot::resetAim()
 {
-	if(childTurret)
-	{
-		childTurret->aim(vector3df(0,180,0), 1);
+	if (childTurret) {
+		childTurret->aim(vector3df(0,180,0));
 		canFire = false;
 	}
 }
@@ -147,12 +138,9 @@ const vector3df& TurretSlot::getPosition() const
 
 const ObjectManager::E_ITEM_LIST TurretSlot::getTurretType() const
 {
-	if(childTurret)
-	{
+	if (childTurret) {
 		return childTurret->getTurretType();
-	}
-	else
-	{
+	} else {
 		return ObjectManager::ITEM_COUNT;
 	}
 }
@@ -180,19 +168,21 @@ Turret::~Turret()
 {
 }
 
-void Turret::aim(const core::vector3df &rotation, float frameDeltaTime)
+bool Turret::run()
 {
-	core::vector3df rot(getRotation());
-	if(getRotation().Y < rotation.Y)
-	{
-		rot.Y += ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
+	return Object::run();
+}
+
+void Turret::aim(const core::vector3df &rotation)
+{
+	core::vector3df temp(getRotation());
+	if (getRotation().Y < rotation.Y) {
+		temp.Y += ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
+	} else if (getRotation().Y > rotation.Y) {
+		temp.Y -= ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
 	}
-	if(getRotation().Y > rotation.Y)
-	{
-		rot.Y -= ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
-	}
-	rot.Y = rotation.Y;
-	setRotation(rot);
+	temp.Y = rotation.Y;//turret rotation is still messed up
+	setRotation(temp);
 }
 
 void Turret::fire(const vector3df &rotation)
@@ -200,8 +190,8 @@ void Turret::fire(const vector3df &rotation)
 	//stopgap fix so we can have dynamically firing weapons
 	//since volley fire looks pretty unrealistic
 	//probably should modify this later
-	if(rand() % (int)((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed() < 3)
-	{//for now, projectile gets an ID. change to ship pointer later
+	if (rand()%(int)((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed() < 3) {
+		//for now, projectile gets an ID. change to ship pointer later
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
 		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename().c_str(), getPosition());

@@ -18,25 +18,32 @@ Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3d
 	if (nextID == 0)
 		nextID++;
 
+	std::cout << '[' << ID << "]Fighter object created" << std::endl;
+
 	allFighters.push_front(this);
 	it = allFighters.begin();
-	std::cout << '[' << ID << "]Fighter object created" << std::endl;
 }
 
 Fighter::~Fighter()
 {
+	for(std::list<Fighter*>::iterator i = allFighters.begin(); i != allFighters.end(); ++i)
+	{
+		if((*i)->fighterTarget == this)
+		{
+			(*i)->fighterTarget = 0;
+		}
+	}
 	allFighters.erase(it);
 }
 
-void Fighter::run(f32 frameDeltaTime)
+bool Fighter::run()
 {
-	TargetableObject::run(frameDeltaTime);
 	//run basic control and ai here
 	if(info.hull > 1)
 	{
 		info.velocity = info.maxVelocity;
-		rotate(frameDeltaTime);
-		movement(frameDeltaTime);
+		rotate();
+		movement();
 		if(fighterTarget)
 		{
 			//if theres another fighter to fight
@@ -103,17 +110,9 @@ void Fighter::run(f32 frameDeltaTime)
 	}
 	else
 	{
-		for(std::list<Fighter*>::iterator i = allFighters.begin(); i != allFighters.end(); ++i)
-		{
-			if((*i)->fighterTarget == this)
-			{
-				(*i)->fighterTarget = 0;
-			}
-		}
-		if((*Ship::allShips.begin())->getShipTarget() == this)
-			(*Ship::allShips.begin())->setTarget(0);
-		delete this;
+		remove();
 	}
+	return TargetableObject::run();
 }
 
 void Fighter::damage(int modifier)
@@ -130,7 +129,7 @@ const E_TARGETABLEOBJECT_TYPE Fighter::getTargetableObjectType() const
 }
 
 //protected function
-void Fighter::rotate(f32 frameDeltaTime)
+void Fighter::rotate()
 {
 	vector3df sRot = getRotation();
 	vector3df rotSlow = getRotation();
@@ -181,22 +180,13 @@ void Fighter::rotate(f32 frameDeltaTime)
 }
 
 //protected function
-void Fighter::movement(f32 frameDeltaTime)
+void Fighter::movement()
 {
-	vector3df sPos = getPosition();
-	f32 i = getRotation().Y;
-	f32 z = -(getRotation().X);	//if i dont do this the ship doesnt rotate right
-
-	sPos.Y = (f32)(frameDeltaTime*info.velocity*(sin(z*3.14/180)));
-	sPos.Y += getPosition().Y;
-
-	sPos.X = (f32)(frameDeltaTime*info.velocity*(sin(i*3.14/180)));
-	sPos.X += getPosition().X;
-
-	sPos.Z = (f32)(frameDeltaTime*info.velocity*(cos(i*3.14/180)));
-	sPos.Z += getPosition().Z;
-
-	setPosition(sPos);
+	const f32 temp = frameDeltaTime*info.velocity;
+	const f32 X = sin(getRotation().Y*PI/180)*temp + getPosition().X;
+	const f32 Y = sin(-getRotation().X*PI/180)*temp + getPosition().Y;
+	const f32 Z = cos(getRotation().Y*PI/180)*temp + getPosition().Z;
+	setPosition(core::vector3df(X,Y,Z));
 }
 
 //protected function
@@ -216,6 +206,7 @@ void Fighter::searchForFighterTargets()
 		}
 	}
 }
+
 //protected function
 void Fighter::searchForShipTargets()
 {

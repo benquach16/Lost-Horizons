@@ -24,6 +24,7 @@ class Object
 {
 public:
 	static std::vector<Object*> allObjects;
+
 	//default constructor
 	Object();
 
@@ -47,17 +48,17 @@ public:
 	//overloaded assignment operator
 	Object& operator=(const Object *obj);
 
-
 	//desctructor
 	virtual ~Object();
-	//meant to be overridden
-	virtual void run(f32 frameDeltaTime);
+
+	//returns whether the object wants to be deleted or not
+	virtual bool run();
+
+	void remove();
+
 	//meant for use by planets and ships to show ingame info
 	//moved to targetable object class
 	//virtual void information() {}
-	//needed for changing resolution ingame
-	//reloads the mesh
-	void reloadMesh();
 	//change the mesh to a new one
 	void changeMesh(const wchar_t *filename);
 	//set the diffuse map of the mesh
@@ -65,8 +66,6 @@ public:
 	//set the normal map of the mesh
 	//automatically enable shaders if this happens
 	void setNormalMap(video::ITexture *normalMap);
-
-
 
 	//accessors
 	const vector3df& getPosition() const;
@@ -81,15 +80,18 @@ public:
 	void setVisible(bool newVisibility);
 
 protected:
+	//3d infomation
+	std::wstring filename;
+	scene::IAnimatedMeshSceneNode *mesh;
+
+private:
 	//basic info about object
 	vector3df position;
 	vector3df rotation;
 	vector3df scale;
 	bool visible;
-
-	//3d infomation
-	std::wstring filename;
-	scene::IAnimatedMeshSceneNode *mesh;
+	//whether the object should still exist
+	bool active;
 
 	//iterator to this
 	unsigned index;

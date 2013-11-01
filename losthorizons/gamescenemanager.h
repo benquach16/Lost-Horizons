@@ -12,7 +12,7 @@ public:
 	GameSceneManager();
 	~GameSceneManager();
 
-	void runScene(f32 frameDeltaTime);
+	void run();
 	void destroyScene();
 	void createScene();
 	void changeCurrentScene(E_GAME_SCENE newScene);

@@ -12,10 +12,10 @@ GameSceneManager::~GameSceneManager()
 	delete playerCam;
 }
 
-void GameSceneManager::runScene(f32 frameDeltaTime)
+void GameSceneManager::run()
 {
 	if (scene)
-		scene->run(frameDeltaTime);
+		scene->run();
 }
 
 void GameSceneManager::destroyScene()

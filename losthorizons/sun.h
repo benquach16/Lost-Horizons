@@ -17,7 +17,7 @@ public:
 	//deconstructor
 	~Sun();
 
-	virtual void run(f32 frameDeltaTime);
+	virtual bool run();
 
 protected:
 	//light source

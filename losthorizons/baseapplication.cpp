@@ -68,23 +68,24 @@ void BaseApplication::run()
 
 		vdriver->beginScene(true, true, video::SColor(255,0,0,0));
 
-		//run menu or game
-		const f32 now = (f32)(graphics->getTimer()->getTime());
-		const f32 frameDeltaTime = (now - then)/1000.f; // Time in seconds
+		//calculate the new frameDeltaTime
+		const f32 now = (f32)graphics->getTimer()->getTime();
+		frameDeltaTime = (now - then)/1000.f; // Time in seconds
 		then = now;
+
+		//run menu or game
 		menu->run();
 		//effect->render();
 		scenemngr->drawAll();
 		vdriver->runAllOcclusionQueries(false);
 		vdriver->updateAllOcclusionQueries(false);
 		if (!menu->getVisible()) {
-			game->run(frameDeltaTime);
+			game->run();
 			if (receiver->isKeyDown(irr::KEY_ESCAPE))
 			{
 				menu->setVisible(true);
 			}
 		}
-
 		guienv->drawAll();
 
 		vdriver->endScene();

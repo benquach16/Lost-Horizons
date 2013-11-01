@@ -20,9 +20,8 @@ Player::~Player()
 {
 }
 
-void Player::run(f32 frameDeltaTime)
+bool Player::run()
 {
-	Ship::run(frameDeltaTime);
 	//do player specific stuff
 	if (shipTarget) {
 		//make the ship's target have a square around it
@@ -31,6 +30,7 @@ void Player::run(f32 frameDeltaTime)
 		vdriver->draw2DLine(vector2d<s32>(shipTarget->getScreenPosition().X, 0), vector2d<s32>(shipTarget->getScreenPosition().X, height), video::SColor(128,128,128,140));
 		vdriver->draw2DLine(vector2d<s32>(0, shipTarget->getScreenPosition().Y), vector2d<s32>(width, shipTarget->getScreenPosition().Y), video::SColor(128,128,128,140));
 	}
+	return Ship::run();
 }
 
 const E_TARGETABLEOBJECT_TYPE Player::getTargetableObjectType() const

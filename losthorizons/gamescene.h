@@ -25,7 +25,7 @@ public:
 	~GameScene();
 	//void loadScene();
 	//void saveScene();
-	void run(f32 frameDeltaTime);
+	void run();
 
 private:
 	ISceneNode *skybox;
