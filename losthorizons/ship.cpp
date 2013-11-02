@@ -458,6 +458,7 @@ void Ship::movement()
 	//smooth out ship movement
 	setPosition(getPosition()*0.2f + core::vector3df(X,Y,Z)*0.8f);
 }
+
 //private function
 //initialises the turret slot classes for each ship
 void Ship::initTurrets()

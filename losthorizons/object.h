@@ -30,7 +30,7 @@ public:
 
 	//parametrized constructors
 	//instantiate with position, rotation, etc
-	Object(scene::IAnimatedMesh *m, const vector3df &position = vector3df(0,0,0), const vector3df &rotation = vector3df(0,0,0),
+	Object(scene::IAnimatedMesh *mesh, const vector3df &position = vector3df(0,0,0), const vector3df &rotation = vector3df(0,0,0),
 		const vector3df &scale = vector3df(1,1,1));
 
 	//instantiate with filename
@@ -40,7 +40,7 @@ public:
 		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
 
 	//parameterized constructor with texture overloading
-	Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position = vector3df(0,0,0),
+	Object(const wchar_t *filename, const wchar_t *tex, const vector3df &position = vector3df(0,0,0),
 		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
 
 	//copy constructor
@@ -74,10 +74,10 @@ public:
 	const core::aabbox3df getBoundingBox() const;
 	const bool getVisible() const;
 	//mutators
-	void setPosition(const vector3df &newPosition);
-	void setRotation(const vector3df &newRotation);
-	void setScale(const vector3df &newScale);
-	void setVisible(bool newVisibility);
+	void setPosition(const vector3df &position);
+	void setRotation(const vector3df &rotation);
+	void setScale(const vector3df &scale);
+	void setVisible(const bool visibile);
 
 protected:
 	//3d infomation
@@ -85,10 +85,7 @@ protected:
 	scene::IAnimatedMeshSceneNode *mesh;
 
 private:
-	//basic info about object
-	vector3df position;
-	vector3df rotation;
-	vector3df scale;
+	//whether the object is visible to the player
 	bool visible;
 	//whether the object should still exist
 	bool active;

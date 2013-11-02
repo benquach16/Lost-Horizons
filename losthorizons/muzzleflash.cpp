@@ -6,7 +6,8 @@ using namespace base;
 
 #define MUZZLEFLASHLENGTH 100
 
-Muzzleflash::Muzzleflash(scene::IBoneSceneNode *parent, const core::vector3df &rotation) : Effect(MUZZLEFLASHLENGTH), parent(parent), particle(0)
+Muzzleflash::Muzzleflash(scene::IBoneSceneNode *parent, const core::vector3df &rotation)
+	: Effect(MUZZLEFLASHLENGTH), parent(parent), particle(0)
 {
 	/*
 	mesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/misc/muzz.x"));

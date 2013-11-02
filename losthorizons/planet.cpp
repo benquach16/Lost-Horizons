@@ -8,9 +8,9 @@ using namespace base;
 std::list<Planet*> Planet::allPlanets;
 
 //constructor
-Planet::Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df& position) : 
-	TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), FACTION_NEUTRAL), cloudMesh(0),
-	atmosphere(new Atmosphere(position))
+Planet::Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df& position)
+	: TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), FACTION_NEUTRAL),
+	  cloudMesh(0), atmosphere(new Atmosphere(position))
 {
 	if (nextID == 0)
 		nextID++;
@@ -23,9 +23,8 @@ Planet::Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df& p
 	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap().c_str()));
 	//setNormalMap(vdriver->getTexture(ObjectManager::planetList[planetType].getNormalMap().c_str()));
 	//create cloudmesh
-	cloudMesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(ObjectManager::planetList[planetType]->getFilename().c_str()));
-	cloudMesh->setPosition(position);
-	cloudMesh->setScale(ObjectManager::planetList[planetType]->getScale() + 50);
+	cloudMesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(ObjectManager::planetList[planetType]->getFilename().c_str()),
+		0, -1, position, vector3df(), ObjectManager::planetList[planetType]->getScale() + 50);
 	cloudMesh->setMaterialTexture(0,vdriver->getTexture(ObjectManager::planetList[planetType]->getCloudMap().c_str()));
 	cloudMesh->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	

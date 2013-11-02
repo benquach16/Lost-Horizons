@@ -54,9 +54,9 @@ void Projectile::movement()
 {
 	//similar movement code as ships
 	const f32 temp = frameDeltaTime*velocity;
-	const f32 X = sin(getPosition().Y*PI/180)*temp + getPosition().X;
-	const f32 Y = sin(-getPosition().X*PI/180)*temp + getPosition().Y;
-	const f32 Z = cos(getPosition().Y*PI/180)*temp + getPosition().Z;
+	const f32 X = sin(getRotation().Y*PI/180)*temp + getPosition().X;
+	const f32 Y = sin(-getRotation().X*PI/180)*temp + getPosition().Y;
+	const f32 Z = cos(getRotation().Y*PI/180)*temp + getPosition().Z;
 	setPosition(core::vector3df(X,Y,Z));
 }
 

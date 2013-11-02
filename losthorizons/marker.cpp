@@ -14,8 +14,6 @@ Marker::Marker()
 
 bool Marker::run()
 {
-	vector3df rot = getRotation();
-	rot.Y += SPINSPEED*frameDeltaTime;
-	setRotation(rot);
+	setRotation(getRotation() + core::vector3df(0,SPINSPEED*frameDeltaTime,0));
 	return Object::run();
 }

@@ -8,44 +8,33 @@ std::vector<Object*> Object::allObjects;
 
 //the constructors of this class
 //default constructor
-Object::Object() : position(vector3df(0,0,0)), rotation(vector3df(0,0,0)), scale(vector3df(0,0,0)), mesh(0)
+Object::Object()
+	: mesh(0)
 {
 }
 
 //constructor with mesh already allocated
-Object::Object(scene::IAnimatedMesh *m, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: position(position), rotation(rotation), scale(scale),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(m)), active(true), index(allObjects.size())
+Object::Object(scene::IAnimatedMesh *mesh, const vector3df &position, const vector3df &rotation, const vector3df &scale)
+	: mesh(scenemngr->addAnimatedMeshSceneNode(mesh, 0, -1, position, rotation, scale)), active(true), index(allObjects.size())
 {
-	mesh->setPosition(position);
-	mesh->setRotation(rotation);
-	mesh->setScale(scale);
-
 	allObjects.push_back(this);
 }
 
 //constructor to load mesh from file
 Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: position(position), rotation(rotation), scale(scale), filename(filename),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), active(true), index(allObjects.size())
+	: filename(filename), mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename), 0, -1, position, rotation, scale)),
+	  active(true), index(allObjects.size())
 {
-	mesh->setPosition(position);
-	mesh->setRotation(rotation);
-	mesh->setScale(scale);
-
 	allObjects.push_back(this);
 	//mesh->setDebugDataVisible(true);
 }
 
 //constructor to load mesh and texture from file 
-Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: position(position), rotation(rotation), scale(scale), filename(filename),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename))), active(true), index(allObjects.size())
+Object::Object(const wchar_t *filename, const wchar_t *tex, const vector3df &position, const vector3df &rotation, const vector3df &scale)
+	: filename(filename), mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename), 0, -1, position, rotation, scale)),
+	  active(true), index(allObjects.size())
 {
-	mesh->setMaterialTexture(0, vdriver->getTexture(tfilename));
-	mesh->setPosition(position);
-	mesh->setRotation(rotation);
-	mesh->setScale(scale);
+	mesh->setMaterialTexture(0, vdriver->getTexture(tex));
 
 	allObjects.push_back(this);
 	//mesh->setDebugDataVisible(true);
@@ -53,13 +42,8 @@ Object::Object(const wchar_t *filename, const wchar_t *tfilename, const vector3d
 
 //copy constructor
 Object::Object(const Object *obj)
-	: position(obj->getPosition()), rotation(obj->getRotation()), scale(obj->getScale()),
-	  mesh(scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh())), active(true), index(allObjects.size())
+	: mesh(scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh())), active(true), index(allObjects.size())
 {
-	mesh->setPosition(position);
-	mesh->setRotation(rotation);
-	mesh->setScale(scale);
-
 	allObjects.push_back(this);
 	//mesh->setDebugDataVisible(true);
 }
@@ -69,9 +53,6 @@ Object& Object::operator=(const Object *obj)
 {
 	if (obj && this != obj)
 	{
-		position = obj->position;
-		rotation = obj->rotation;
-		scale = obj->scale;
 		mesh->remove();
 		mesh = obj->mesh;
 	}
@@ -123,17 +104,17 @@ void Object::setNormalMap(video::ITexture *normalMap)
 
 const vector3df& Object::getPosition() const
 {
-	return position;
+	return mesh->getPosition();
 }
 
 const vector3df& Object::getRotation() const
 {
-	return rotation;
+	return  mesh->getRotation();
 }
 
 const vector3df& Object::getScale() const
 {
-	return scale;
+	return  mesh->getScale();
 }
 
 const core::aabbox3df Object::getBoundingBox() const
@@ -146,26 +127,23 @@ const bool Object::getVisible() const
 	return visible;
 }
 
-void Object::setPosition(const vector3df &newPosition)
+void Object::setPosition(const vector3df &position)
 {
-	position = newPosition;
 	mesh->setPosition(position);
 }
 
-void Object::setRotation(const vector3df &newRotation)
+void Object::setRotation(const vector3df &rotation)
 {
-	rotation = newRotation;
 	mesh->setRotation(rotation);
 }
 
-void Object::setScale(const vector3df &newScale)
+void Object::setScale(const vector3df &scale)
 {
-	scale = newScale;
 	mesh->setScale(scale);
 }
 
-void Object::setVisible(bool newVisibility)
+void Object::setVisible(const bool visible)
 {
-	visible = newVisibility;
-	mesh->setVisible(newVisibility);
+	this->visible = visible;
+	mesh->setVisible(visible);
 }

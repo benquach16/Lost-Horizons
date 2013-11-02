@@ -35,10 +35,7 @@ Cargo::~Cargo()
 bool Cargo::run()
 {
 	//spin the container so it looks cool!
-	core::vector3df temp = mesh->getRotation();
-	temp.Y += SPINSPEED*frameDeltaTime;
-	temp.Z += frameDeltaTime;
-	mesh->setRotation(temp);
+	setRotation(getRotation() + core::vector3df(0,SPINSPEED*frameDeltaTime,frameDeltaTime));
 	return TargetableObject::run();
 }
 
