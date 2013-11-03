@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "callback.h"
 #include <string>
-#include <list>
 #include <vector>
 
 using namespace irr;
@@ -30,11 +29,10 @@ public:
 
 	//parametrized constructors
 	//instantiate with position, rotation, etc
-	Object(scene::IAnimatedMesh *mesh, const vector3df &position = vector3df(0,0,0), const vector3df &rotation = vector3df(0,0,0),
-		const vector3df &scale = vector3df(1,1,1));
+	Object(scene::IAnimatedMesh *mesh, const vector3df &position = vector3df(0,0,0),
+		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));
 
 	//instantiate with filename
-	//irr::IrrlichtDevice *graphics = irrlicht device
 	//const wchar_t *filename = filepath of the mesh
 	Object(const wchar_t *filename, const vector3df &position = vector3df(0,0,0),
 		const vector3df &rotation = vector3df(0,0,0), const vector3df &scale = vector3df(1,1,1));

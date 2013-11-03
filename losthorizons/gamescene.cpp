@@ -99,11 +99,11 @@ GameScene::~GameScene()
 	while (Ship::allShips.size() > 1)
 		delete Ship::allShips.back();
 	while (!SpaceStation::allStations.empty())
-		delete SpaceStation::allStations.front();
+		delete SpaceStation::allStations.back();
 	while (!Fighter::allFighters.empty())
-		delete Fighter::allFighters.front();
+		delete Fighter::allFighters.back();
 	while (!Projectile::allProjectiles.empty())
-		delete Projectile::allProjectiles.front();
+		delete Projectile::allProjectiles.back();
 }
 
 void GameScene::run()

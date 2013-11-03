@@ -18,7 +18,7 @@ struct SpaceStationInformation
 class SpaceStation : public TargetableObject
 {
 public:
-	static std::list<SpaceStation*> allStations;
+	static std::vector<SpaceStation*> allStations;
 
 	SpaceStation(const E_GAME_FACTION faction, const ObjectManager::E_STATION_LIST stationType, const vector3df &position,
 		const vector3df &rotation);
@@ -32,11 +32,12 @@ public:
 protected:
 	SpaceStationInformation info;
 
+private:
 	//timer 
 	u32 shipSpawnTimer;
 
 	//iterator to this
-	std::list<SpaceStation*>::iterator it;
+	unsigned index;
 };
 
 #endif

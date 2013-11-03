@@ -5,20 +5,19 @@
 
 using namespace base;
 
-std::list<Planet*> Planet::allPlanets;
+std::vector<Planet*> Planet::allPlanets;
 
 //constructor
 Planet::Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df& position)
 	: TargetableObject(nextID++, *ObjectManager::planetList[planetType], position, vector3df(), FACTION_NEUTRAL),
-	  cloudMesh(0), atmosphere(new Atmosphere(position))
+	  cloudMesh(0), atmosphere(new Atmosphere(position)), index(allPlanets.size())
 {
 	if (nextID == 0)
 		nextID++;
 
 	std::cout << '[' << ID << "]Planet object created" << std::endl;
 
-	allPlanets.push_front(this);
-	it = allPlanets.begin();
+	allPlanets.push_back(this);
 
 	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap().c_str()));
 	//setNormalMap(vdriver->getTexture(ObjectManager::planetList[planetType].getNormalMap().c_str()));
@@ -39,10 +38,11 @@ Planet::Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df& p
 
 Planet::~Planet()
 {
-	allPlanets.erase(it);
 	cloudMesh->remove();
-	//atmosphere->remove();
 	delete atmosphere;
+	allPlanets[index] = allPlanets.back();
+	allPlanets[index]->index = index;
+	allPlanets.pop_back();
 }
 
 bool Planet::run()

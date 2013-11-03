@@ -9,7 +9,8 @@ class Cargo : public TargetableObject
 {
 public:
 	//we need this just so we can delete them later 
-	static std::vector<Cargo*> allCargo;
+	//static std::vector<Cargo*> allCargo;
+
 	//constructors
 	//if randomzeContents is false, make an empty container
 	Cargo(const vector3df &position, const bool randomizeContents);
@@ -25,6 +26,9 @@ public:
 protected: 
 	//store stuff thats in the cargo
 	Inventory inventory;
+
+private:
+	//int index;
 };
 
 #endif

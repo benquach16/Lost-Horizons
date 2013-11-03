@@ -5,16 +5,19 @@
 
 using namespace base;
 
-std::list<SpaceStation*> SpaceStation::allStations;
+std::vector<SpaceStation*> SpaceStation::allStations;
 
 //constructor
 SpaceStation::SpaceStation(const E_GAME_FACTION faction, const ObjectManager::E_STATION_LIST stationType, const vector3df& position, const vector3df& rotation)
-	: TargetableObject(nextID++, *ObjectManager::stationList[stationType], position, rotation, faction), info(stationType), shipSpawnTimer(0)
+	: TargetableObject(nextID++, *ObjectManager::stationList[stationType], position, rotation, faction), info(stationType),
+	  shipSpawnTimer(0), index(allStations.size())
 {
-	allStations.push_front(this);
-	it = allStations.begin();
+	if (nextID == 0)
+		nextID++;
 
 	std::cout << '[' << ID << "]SpaceStation object created" << std::endl;
+
+	allStations.push_back(this);
 
 	setNormalMap(vdriver->getTexture(ObjectManager::stationList[stationType]->getNormalMap().c_str()));
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::IRIDIUM, 100);
@@ -22,7 +25,9 @@ SpaceStation::SpaceStation(const E_GAME_FACTION faction, const ObjectManager::E_
 
 SpaceStation::~SpaceStation()
 {
-	allStations.erase(it);
+	allStations[index] = allStations.back();
+	allStations[index]->index = index;
+	allStations.pop_back();
 }
 
 bool SpaceStation::run()

@@ -29,34 +29,36 @@ struct FighterInformation
 class Fighter : public TargetableObject
 {
 public:
-	static std::list<Fighter*> allFighters;
+	static std::vector<Fighter*> allFighters;
 
 	Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTION faction,
 		Ship *homeBase);
 	virtual ~Fighter();
 	virtual bool run();
-	void damage(int modifier);
+	void damage(int damage);
 	//must override this 
 	const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
 protected:
-	//protected functions
-	void rotate();
-	void movement();
-	void searchForFighterTargets();
-	void searchForShipTargets();
-	void patrol();
-
 	FighterInformation info;
 	Fighter *fighterTarget;
 	Ship *shipTarget;
 	Ship *homeBase;
 
+	//protected functions
+	void rotate();
+	void movement();
+
+private:
+	void searchForFighterTargets();
+	void searchForShipTargets();
+	void patrol();
+
 	//create timekeeping variables
 	u32 shootTimer;
 
 	//iterator to this
-	std::list<Fighter*>::iterator it;
+	int index;
 };
 
 #endif

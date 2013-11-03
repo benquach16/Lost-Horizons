@@ -72,11 +72,9 @@ void TurretSlot::aim(const core::vector3df &point)
 		if(angleY < 0)
 			angleY+=360;
 		currentAim = vector3df(angleX, angleY,0);*/
-		int difference = (360 - properties.arc)/2;
+		const int difference = (360 - properties.arc)/2;
 		
-		vector3df diff = point - offset->getAbsolutePosition();
-		diff = diff.getHorizontalAngle();
-		currentAim = diff;
+		vector3df diff = currentAim = (point - offset->getAbsolutePosition()).getHorizontalAngle();
 		//std::cout << offset->getAbsoluteTransformation().getRotationDegrees().Y << std::endl;
 
 		//normalize angles
@@ -91,15 +89,13 @@ void TurretSlot::aim(const core::vector3df &point)
 			//draw so player knows which turrets can shoot
 			//angleY -= parent->getRotation().Y;
 			//angleY += 180 - offset->getRotation().Y;
-			diff.Y -= parent->getRotation().Y;
-			diff.Y += 180 + offset->getRotation().Y;
+			diff.Y += -parent->getRotation().Y + 180 + offset->getRotation().Y;
 			childTurret->aim(diff);
 			canFire = true;
 		} else {
 			//just reset the aim and not shoot
 			//good shit
-			childTurret->aim(vector3df(0,180,0));
-			canFire = false;
+			resetAim();
 		}
 	} else {
 		//no turret so 

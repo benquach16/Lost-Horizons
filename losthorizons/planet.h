@@ -10,7 +10,7 @@
 class Planet : public TargetableObject
 {
 public:
-	static std::list<Planet*> allPlanets;
+	static std::vector<Planet*> allPlanets;
 
 	//parameterized constructor
 	Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df &position);
@@ -40,6 +40,6 @@ protected:
 	int maxTechLevel;
 
 	//iterator to this
-	std::list<Planet*>::iterator it;
+	int index;
 };
 #endif

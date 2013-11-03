@@ -5,7 +5,7 @@
 
 using namespace base;
 
-std::list<Fighter*> Fighter::allFighters;
+std::vector<Fighter*> Fighter::allFighters;
 
 const unsigned PATROLDISTANCE = 500;
 const unsigned AITIMER = 200;
@@ -13,113 +13,86 @@ const unsigned AITIMER = 200;
 //large constructor
 Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTION faction, 
 				 Ship* homeBase) : TargetableObject(nextID++, *ObjectManager::fighterList[fighterType], position, rotation, faction), info(fighterType),
-	fighterTarget(0), homeBase(homeBase), shipTarget(0), shootTimer(0)
+	fighterTarget(0), homeBase(homeBase), shipTarget(0), shootTimer(0), index(allFighters.size())
 {
 	if (nextID == 0)
 		nextID++;
 
 	std::cout << '[' << ID << "]Fighter object created" << std::endl;
 
-	allFighters.push_front(this);
-	it = allFighters.begin();
+	allFighters.push_back(this);
 }
 
 Fighter::~Fighter()
 {
-	for(std::list<Fighter*>::iterator i = allFighters.begin(); i != allFighters.end(); ++i)
-	{
-		if((*i)->fighterTarget == this)
-		{
-			(*i)->fighterTarget = 0;
+	for (unsigned i = 0; i < allFighters.size(); ++i) {
+		if (allFighters[i]->fighterTarget == this) {
+			allFighters[i]->fighterTarget = 0;
 		}
 	}
-	allFighters.erase(it);
+	allFighters[index] = allFighters.back();
+	allFighters[index]->index = index;
+	allFighters.pop_back();
 }
 
 bool Fighter::run()
 {
 	//run basic control and ai here
-	if(info.hull > 1)
-	{
+	if (info.hull > 1) {
 		info.velocity = info.maxVelocity;
 		rotate();
 		movement();
-		if(fighterTarget)
-		{
+		if (fighterTarget) {
 			//if theres another fighter to fight
 			//fly at it
-			f32 dist = getPosition().getDistanceFromSQ(fighterTarget->getPosition());
+			const f32 dist = getPosition().getDistanceFromSQ(fighterTarget->getPosition());
 
-			if(dist > 25000)
-			{
-				vector3df diff = fighterTarget->getPosition() - getPosition();
-				diff = diff.getHorizontalAngle();
-				info.targetRotation = diff;
+			if (dist > 25000) {
+				info.targetRotation = (fighterTarget->getPosition() - getPosition()).getHorizontalAngle();
+			} else if (dist < 4000) {
+				info.targetRotation = (fighterTarget->getPosition() - getPosition()).getHorizontalAngle() + vector3df(0,(f32)(rand()%180 + 90),0);
 			}
-			else if(dist < 4000)
-			{
-				vector3df diff = fighterTarget->getPosition() - getPosition();
-				diff = diff.getHorizontalAngle();
-				diff.Y += rand()%180+ 90;
-				info.targetRotation = diff;
-			}
-			if(dist < 250000)
-			{
+			if (dist < 250000) {
 				//close than 500 so we can shoot
-				if(shootTimer < timer->getTime())
-				{
+				if (shootTimer < timer->getTime()) {
 					fighterTarget->damage(2);
 					shootTimer = timer->getTime() + 1000;
 				}
 			}
 		}
-		else if(shipTarget)
-		{
+		else if (shipTarget) {
 			//attack the ship
 			searchForFighterTargets();
-			f32 dist = getPosition().getDistanceFromSQ(shipTarget->getPosition());
-			if(dist > 250000)
-			{
-				vector3df diff = shipTarget->getPosition() - getPosition();
-				diff = diff.getHorizontalAngle();
-				info.targetRotation = diff;
+			const f32 dist = getPosition().getDistanceFromSQ(shipTarget->getPosition());
+			if (dist > 250000) {
+				info.targetRotation = (shipTarget->getPosition() - getPosition()).getHorizontalAngle();
+			} else if (dist < 40000) {
+				info.targetRotation = (shipTarget->getPosition() - getPosition()).getHorizontalAngle() + vector3df(0,(f32)(rand()%180 + 90),0);
 			}
-			else if(dist < 40000)
-			{
-				vector3df diff = shipTarget->getPosition() - getPosition();
-				diff = diff.getHorizontalAngle();
-				diff.Y += rand()%180+ 90;
-				info.targetRotation = diff;
-			}
-			if(dist < 250000)
-			{
+			if (dist < 250000) {
 				//fire projectile or missile
 			}
 		}
-		else
-		{
+		else {
 			searchForFighterTargets();
 			searchForShipTargets();
 			//patrol for targets around home ship
-			if(homeBase)
-			{
+			if (homeBase) {
 
 			}
 		}
 
 	}
-	else
-	{
+	else {
 		remove();
 	}
 	return TargetableObject::run();
 }
 
-void Fighter::damage(int modifier)
+void Fighter::damage(int damage)
 {
-	if(info.hull > 0)
-	{
-		info.hull -= modifier;
+	if (info.hull > 0) {
+		info.hull -= damage;
 	}
 }
 
@@ -192,17 +165,11 @@ void Fighter::movement()
 //protected function
 void Fighter::searchForFighterTargets()
 {
-	for(std::list<Fighter*>::iterator i = allFighters.begin(), next; i != allFighters.end(); i = next)
-	{
-		next = i;
-		next++;
-		if(((*i)->faction == FACTION_PIRATE && faction != FACTION_PIRATE) || 
-			((*i)->faction != FACTION_PIRATE && faction == FACTION_PIRATE))
-		{
-			if((*i)->getPosition().getDistanceFrom(getPosition()) < 1000)
-			{
-				fighterTarget = (*i);
-			}
+	for (unsigned i = 0; i < allFighters.size(); ++i) {
+		if (allFighters[i]->faction != faction &&
+			(faction == FACTION_PIRATE || allFighters[i]->faction == FACTION_PIRATE) &&
+			allFighters[i]->getPosition().getDistanceFrom(getPosition()) < 1000) {
+			fighterTarget = allFighters[i];
 		}
 	}
 }
@@ -210,15 +177,11 @@ void Fighter::searchForFighterTargets()
 //protected function
 void Fighter::searchForShipTargets()
 {
-	for (unsigned i = 0; i < Ship::allShips.size(); i++)
-	{
-		if((Ship::allShips[i]->getFaction() == FACTION_PIRATE && faction != FACTION_PIRATE) || 
-			(Ship::allShips[i]->getFaction() != FACTION_PIRATE && faction == FACTION_PIRATE))
-		{
-			if(Ship::allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000)
-			{
-				shipTarget = (Ship::allShips[i]);
-			}
+	for (unsigned i = 0; i < Ship::allShips.size(); ++i) {
+		if (Ship::allShips[i]->getFaction() != faction &&
+			(faction == FACTION_PIRATE || Ship::allShips[i]->getFaction() == FACTION_PIRATE) &&
+			Ship::allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000) {
+			shipTarget = Ship::allShips[i];
 		}
 	}
 }
@@ -226,8 +189,7 @@ void Fighter::searchForShipTargets()
 //protected function
 void Fighter::patrol()
 {
-	if(getPosition().getDistanceFrom(homeBase->getPosition()) > PATROLDISTANCE)
-	{
+	if (getPosition().getDistanceFrom(homeBase->getPosition()) > PATROLDISTANCE) {
 		//too far from home so reorient
 
 	}

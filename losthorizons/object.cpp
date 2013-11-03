@@ -34,10 +34,10 @@ Object::Object(const wchar_t *filename, const wchar_t *tex, const vector3df &pos
 	: filename(filename), mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename), 0, -1, position, rotation, scale)),
 	  active(true), index(allObjects.size())
 {
-	mesh->setMaterialTexture(0, vdriver->getTexture(tex));
-
 	allObjects.push_back(this);
 	//mesh->setDebugDataVisible(true);
+
+	mesh->setMaterialTexture(0, vdriver->getTexture(tex));
 }
 
 //copy constructor

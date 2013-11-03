@@ -11,7 +11,7 @@ Cargo::Cargo(const vector3df &position, const bool randomizeContents)
 	: TargetableObject(L"Cargo Container", L"", L"res/models/equipment/loot.3DS", position, vector3df(), vector3df(1,1,1), FACTION_NEUTRAL)
 {
 	setTexture(vdriver->getTexture("res/models/equipment/lootcan1-map.png"));
-	if(randomizeContents)
+	if (randomizeContents)
 	{
 		//self explanitory
 		//make the inventory all random n shit

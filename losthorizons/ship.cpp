@@ -218,22 +218,22 @@ void Ship::fireTurrets()
 	}
 }
 
-void Ship::damage(s32 val)
+void Ship::damage(int damage)
 {
 	//do damage stuff here
 	//check shields, then armor then hull
 	if (info.shield > 0)
 	{
-		info.shield -= val;
+		info.shield -= damage;
 	}
 	else if (info.armor > 0)
 	{
-		info.armor -= val;
+		info.armor -= damage;
 	}
 	else
 	{
 		//damage hull
-		info.hull -= val;
+		info.hull -= damage;
 		//since armor and hull are damaged, kill off some of the crew
 		info.crew -= (rand()%info.crew)/4;
 		//and damage a subsystem
@@ -379,14 +379,12 @@ void Ship::warpToTarget()
 	{
 		//make sure we have a target
 		//save to variable first to avoid multiple sqrt operations
-		f32 dist = getPosition().getDistanceFrom(shipTarget->getPosition());
+		const f32 dist = getPosition().getDistanceFrom(shipTarget->getPosition());
 
 		if (dist > 10000)
 		{
 			//make sure we can't 'point jump' ship targets
-			vector3df diff = shipTarget->getPosition() - getPosition();
-			diff = diff.getHorizontalAngle();
-			setTargetRotation(diff);
+			setTargetRotation((shipTarget->getPosition() - getPosition()).getHorizontalAngle());
 			info.velocity = 0;
 			info.warping = true;
 		}
@@ -542,22 +540,20 @@ void Ship::aimTurrets()
 	}
 
 	//aim point defense at fighters
-	for (std::list<Fighter*>::iterator i = Fighter::allFighters.begin(), next; i != Fighter::allFighters.end(); i = next)
+	for (unsigned i = 0; i < Fighter::allFighters.size(); ++i)
 	{
-		next = i;
-		++next;
-		if (((*i)->getFaction() == FACTION_PIRATE && faction != FACTION_PIRATE) || 
-			((*i)->getFaction() != FACTION_PIRATE && faction == FACTION_PIRATE))
+		if (Fighter::allFighters[i]->getFaction() != faction &&
+			(faction == FACTION_PIRATE || Fighter::allFighters[i]->getFaction() == FACTION_PIRATE))
 		{
-			if (getPosition().getDistanceFromSQ((*i)->getPosition()) < 250000)
+			if (getPosition().getDistanceFromSQ(Fighter::allFighters[i]->getPosition()) < 250000)
 			{
-				for (unsigned n = 0; n < pdTurrets.size(); ++n)
+				for (unsigned j = 0; j < pdTurrets.size(); ++j)
 				{
-					pdTurrets[n]->aim((*i)->getPosition());
-					pdTurrets[n]->fire();
+					pdTurrets[j]->aim(Fighter::allFighters[i]->getPosition());
+					pdTurrets[j]->fire();
 					if (fighterDamageTime < timer->getTime())
 					{
-						(*i)->damage(2);
+						Fighter::allFighters[i]->damage(2);
 						fighterDamageTime = timer->getTime() + 2520;
 					}
 				}

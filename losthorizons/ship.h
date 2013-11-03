@@ -96,7 +96,7 @@ public:
 
 	//combat functions
 	void fireTurrets();
-	void damage(s32 val);
+	void damage(int damage);
 
 	//rotate ship to specific angle
 	void setTargetRotation(const vector3df &newTargetRotation);
@@ -156,14 +156,11 @@ protected:
 	std::vector<scene::IParticleSystemSceneNode*> engineParticles;
 	std::vector<scene::IBillboardSceneNode*> coronaEffects;
 
-	//controls how fast we want the shields to recharge
-	u32 shieldTimer;
-
-private:
 	//change the ship's position
 	void rotate();
 	void movement();
 
+private:
 	//turret functions
 	void initTurrets();
 	void aimTurrets();
@@ -175,6 +172,9 @@ private:
 	void runAI();
 	void updateStates();
 	void searchForTarget();
+
+	//controls how fast we want the shields to recharge
+	u32 shieldTimer;
 
 	//timekeeping variables
 	u32 currentTime;

@@ -124,8 +124,8 @@ void DataManager::pull()
 {
 	if (gConfig.bPlay) {
 		scene = game->getGameSceneManager()->getCurrentScene();
-		for (std::list<Planet*>::iterator i = Planet::allPlanets.begin(); i != Planet::allPlanets.end(); ++i)
-			(*i)->removeThisFromTargets();
+		for (unsigned i = 0; i < Planet::allPlanets.size(); ++i)
+			Planet::allPlanets[i]->removeThisFromTargets();
 		ships.first = Ship::allShips.size();
 		ships.second = new ShipData[ships.first];
 		for (unsigned i = 0; i < ships.first; ++i) 
