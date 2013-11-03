@@ -5,25 +5,25 @@
 using namespace base;
 
 Gameloop::Gameloop(DataManager *data)
-	: data(data), gameSceneManager(new GameSceneManager),
-	  objectManager(new ObjectManager), playerCam(0), hud(0), turning(0), visualsManager(new VisualsManager), 
-	  missionManager(new MissionManager), stationMenu(0), gameMenu(0), intercom(0)
+	: data(data), gameSceneManager(new GameSceneManager), missionManager(new MissionManager),
+	  objectManager(new ObjectManager), visualsManager(new VisualsManager), playerCam(0), player(0),
+	  hud(0), intercom(0), turning(0), gameMenu(0), stationMenu(0)
 {
 }
 
 Gameloop::~Gameloop()
 {
 	//clear everything we created
-	delete objectManager;
 	delete gameSceneManager;
 	delete missionManager;
+	delete objectManager;
+	delete visualsManager;
 	delete player;
 	delete hud;
 	delete intercom;
 	delete turning;
-	delete visualsManager;
-	delete stationMenu;
 	delete gameMenu;
+	delete stationMenu;
 }
 
 void Gameloop::init()
@@ -31,11 +31,11 @@ void Gameloop::init()
 	gameSceneManager->createScene();
 	//create super important objects
 	playerCam = gameSceneManager->createPlayerCam(vector3df(500.f,500.f,500.f));
-	hud = new HUD(player);
-	intercom = new Intercom(player);
-	turning = new TurningMarker(player);
-	stationMenu = new StationMenu(player);
+	hud = new HUD;
+	intercom = new Intercom;
+	turning = new TurningMarker;
 	gameMenu = new GameMenu(player, missionManager);
+	stationMenu = new StationMenu(player);
 	missionManager->addMission(MissionProperties("missions/tutorial.xml"));
 }
 
@@ -44,16 +44,18 @@ void Gameloop::run()
 	//run through all essential objects and functions
 	playerControl();
 	cameraControl();
-	selectTarget();
-	playerCam->run(player->getPosition()); 
-	gameSceneManager->run();
-	hud->run();
+	playerCam->run(player->getPosition());
+	hud->run(player);
+	if (player->getInfo().shield < 10) {
+		intercom->postMessage(L"Sir, our shields are down");
+	}
 	intercom->run();
-	turning->run();
-	visualsManager->run();
+	turning->run(player->getPosition(), player->getRotation(), player->getTargetRotation());
+	gameSceneManager->run();
 	missionManager->run();
-	stationMenu->run(player->getShipTarget());
+	visualsManager->run();
 	gameMenu->run();
+	stationMenu->run(player->getShipTarget());
 }
 
 void Gameloop::createNewGame()
@@ -82,9 +84,33 @@ void Gameloop::createLoadedGame(const std::string &filename)
 	data->load(filename);
 }// plan to get rid of this and just do things from the savemenu class
 
+GameSceneManager *Gameloop::getGameSceneManager() const
+{
+	return gameSceneManager;
+}
+
+void Gameloop::setPlayer(Player* newPlayer)
+{
+	player = newPlayer;
+}
+
 void Gameloop::playerControl()
 {
 	//all actions the player can do are stored here
+	if (receiver->getLeftMouseButton() && !gameMenu->getVisible() && !stationMenu->getVisible()) {
+		//do target selection code here
+		player->setTarget(0);
+		unsigned i = 0;
+		while (!player->getShipTarget() && i < TargetableObject::allTargets.size()) {
+			//see if there's a square here
+			const int x = receiver->getMouseX() - TargetableObject::allTargets[i]->getScreenPosition().X;
+			const int y = receiver->getMouseY() - TargetableObject::allTargets[i]->getScreenPosition().Y;
+			if (TargetableObject::allTargets[i]->getTargetable() && (x*x + y*y) < 1024) {
+				player->setTarget(TargetableObject::allTargets[i]);
+			}
+			i++;
+		}
+	}
 	if (receiver->isKeyDown(irr::KEY_KEY_X) && !player->getInfo().warping) {
 		//accelerate
 		player->increaseVelocity();
@@ -94,31 +120,29 @@ void Gameloop::playerControl()
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_A)&& !player->getInfo().warping) {
 		//rotate left
-		vector3df rot = player->getTargetRotation();
-		rot.Y -= 35*frameDeltaTime;
-		player->setTargetRotation(rot);
+		player->setTargetRotation(player->getTargetRotation() - core::vector3df(0,35*frameDeltaTime,0));
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_D)&& !player->getInfo().warping) {
 		//rotate right
 		vector3df rot = player->getTargetRotation();
 		rot.Y += 35*frameDeltaTime;
-		player->setTargetRotation(rot);
+		player->setTargetRotation(player->getTargetRotation() + core::vector3df(0,35*frameDeltaTime,0));
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_W)&& !player->getInfo().warping) {
 		//rotate up
 		vector3df rot = player->getTargetRotation();
 		rot.X -= 35*frameDeltaTime;
-		player->setTargetRotation(rot);
+		player->setTargetRotation(player->getTargetRotation() - core::vector3df(35*frameDeltaTime,0,0));
 	}
 	if (receiver->isKeyDown(irr::KEY_KEY_S)&& !player->getInfo().warping) {
 		//rotate down
 		vector3df rot = player->getTargetRotation();
 		rot.X += 35*frameDeltaTime;
-		player->setTargetRotation(rot);
+		player->setTargetRotation(player->getTargetRotation() + core::vector3df(35*frameDeltaTime,0,0));
 	}
 	if (receiver->isKeyDown(irr::KEY_SPACE)) {
 		player->fireTurrets();
-		intercom->addText(L"Firing all available batteries sir!");
+		intercom->postMessage(L"Firing all available batteries sir!");
 	}
 	//do docking
 	if (receiver->isKeyReleased(irr::KEY_KEY_V))
@@ -130,12 +154,12 @@ void Gameloop::playerControl()
 			if(player->getInfo().docked)
 			{
 				stationMenu->setVisible(true);
-				intercom->addText(L"Yes sir, aligning ship to dock with station");
+				intercom->postMessage(L"Yes sir, aligning ship to dock with station");
 			}
 			else
 			{
 				//did not dock
-				intercom->addText(L"Sir, we are too far away to dock with that station");
+				intercom->postMessage(L"Sir, we are too far away to dock with that station");
 			}
 		}
 		else
@@ -147,25 +171,18 @@ void Gameloop::playerControl()
 	//draw command console
 	if (receiver->isKeyReleased(irr::KEY_KEY_C))
 	{
-		if(gameMenu->getVisible())
-		{
-			gameMenu->setVisible(false);
-		}
-		else
-		{
-			gameMenu->setVisible(true);
-		}
-	} 
+		gameMenu->setVisible(!gameMenu->getVisible());
+	}
 	//launch fighters
 	if (receiver->isKeyReleased(irr::KEY_KEY_N))
 	{
 		player->launchFighters();
-		intercom->addText(L"Launching available fighters, sir");
+		intercom->postMessage(L"Launching available fighters, sir");
 	}
 	if (receiver->isKeyReleased(irr::KEY_KEY_J))
 	{
 		player->warpToTarget();
-		intercom->addText(L"Yes sir, initiating warp sequence");
+		intercom->postMessage(L"Yes sir, initiating warp sequence");
 	}
 }
 
@@ -178,22 +195,4 @@ void Gameloop::cameraControl()
 	} else
 		playerCam->updateMousePosition(receiver->getMouseX(), receiver->getMouseY());
 	playerCam->zoom(receiver->getMouseWheel());
-}
-
-void Gameloop::selectTarget()
-{
-	//do target selection code here
-	if (receiver->getLeftMouseButton() && !stationMenu->getVisible()) {
-		//see if there's a square here
-		for (unsigned i = 0; i < TargetableObject::allTargets.size(); ++i) {
-			const int x = receiver->getMouseX() - TargetableObject::allTargets[i]->getScreenPosition().X;
-			const int y = receiver->getMouseY() - TargetableObject::allTargets[i]->getScreenPosition().Y;
-			if (TargetableObject::allTargets[i]->getTargetable() && (x*x + y*y) < 1024) {
-				player->setTarget(TargetableObject::allTargets[i]);
-				return;
-			}
-		}
-		player->setTarget(0);
-		return;
-	}
 }

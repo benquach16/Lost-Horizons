@@ -18,8 +18,8 @@ public:
 
 	bool run();
 	
-	const std::wstring& getName() const;
-	const std::wstring& getDesc() const;
+	const wchar_t *getName() const;
+	const wchar_t *getDesc() const;
 
 	const vector3df getCurrObjPos() const;
 

@@ -1,7 +1,9 @@
 #ifndef _INTERCOM_H_
 #define _INTERCOM_H_
 
-#include "player.h"
+#include "stdafx.h"
+
+using namespace irr;
 
 //doesn't do anything useful but provides immersion value
 //essentially just provides text updates from the crew and from
@@ -10,14 +12,13 @@
 class Intercom
 {
 public:
-	Intercom(Player *player);
+	Intercom();
 	~Intercom();
 
 	void run();
-	void addText(const wchar_t *text);
+	void postMessage(const wchar_t *text);
 
 private:
-	Player *player;
 	gui::IGUIListBox *listBox;
 	//have different tabs to organize comms
 	gui::IGUITabControl *tabs;

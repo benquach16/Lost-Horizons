@@ -4,7 +4,7 @@
 MissionManager::MissionManager() 
 	
 {
-	
+
 }
 
 MissionManager::~MissionManager()
@@ -20,7 +20,7 @@ void MissionManager::run(Intercom *intercom)
 			i++;
 		else {
 			if (intercom) {
-				intercom->addText(L"Mission complete sir");
+				intercom->postMessage(L"Mission complete sir");
 			}
 			data[i] = data.back();
 			data.pop_back();

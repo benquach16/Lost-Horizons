@@ -25,8 +25,8 @@ public:
 	ItemProperties(const std::string &f);
 	virtual ~ItemProperties();
 
-	const std::wstring& getName() const;
-	const std::wstring& getDesc() const;
+	const wchar_t *getName() const;
+	const wchar_t *getDesc() const;
 	const int& getPrice() const;
 	const int& getWeight() const;
 	const E_ITEM_TYPE& getItemType() const;
@@ -46,8 +46,8 @@ protected:
 //overload == operator
 inline bool operator==(const ItemProperties& lhs, const ItemProperties& rhs)
 {
-	return lhs.getDesc() == rhs.getDesc() && lhs.getName() == rhs.getName() && lhs.getItemType() == rhs.getItemType() &&
-		lhs.getPrice() == rhs.getPrice() && lhs.getWeight() == rhs.getWeight();
+	return wcscmp(lhs.getDesc(), rhs.getDesc()) &&  wcscmp(lhs.getName(), rhs.getName()) &&
+		lhs.getItemType() == rhs.getItemType() && lhs.getPrice() == rhs.getPrice() && lhs.getWeight() == rhs.getWeight();
 }
 
 #endif

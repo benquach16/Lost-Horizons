@@ -77,14 +77,14 @@ ItemProperties::~ItemProperties()
 {
 }
 
-const std::wstring& ItemProperties::getName() const
+const wchar_t *ItemProperties::getName() const
 {
-	return name;
+	return name.c_str();
 }
 
-const std::wstring& ItemProperties::getDesc() const
+const wchar_t *ItemProperties::getDesc() const
 {
-	return description;
+	return description.c_str();
 }
 
 const int& ItemProperties::getPrice() const

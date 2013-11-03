@@ -32,14 +32,14 @@ bool Mission::run()
 	return objectives.size() > 0;
 }
 
-const std::wstring& Mission::getName() const
+const wchar_t *Mission::getName() const
 {
-	return name;
+	return name.c_str();
 }
 
-const std::wstring& Mission::getDesc() const
+const wchar_t *Mission::getDesc() const
 {
-	return description;
+	return description.c_str();
 }
 
 const vector3df Mission::getCurrObjPos() const

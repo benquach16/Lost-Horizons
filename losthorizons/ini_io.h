@@ -165,7 +165,7 @@ public:
 				line = line.substr(3);
 		 
 			// Check for CRLF eol and convert it to LF
-			if (!line.empty() && line.at(line.size()-1) == '\r')
+			if (!line.empty() && line[line.size()-1] == '\r')
 			{
 				line.erase(line.size()-1);
 			}

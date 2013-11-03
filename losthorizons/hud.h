@@ -2,30 +2,24 @@
 #define _HUD_H_
 
 #include "stdafx.h"
-#include "object.h"
-#include "menuwindow.h"
-#include "player.h"
-#include "intercom.h"
+#include "ship.h"
 
 using namespace irr;
 
 class HUD
 {
 public:
-	HUD(Player *player);
-	//initialize all the cool pictures n shit here
-	void initializeDisplay();
+	HUD();
 	//So this needs a bunch of inputs, mainly player information and the
 	//player target information
-	void run();
+	void run(const Ship *player);
 	void setVisible(bool visible);
 	virtual ~HUD();
 
 private:
-	void updatePlayerInfo();
-	void updateTargetInfo();
+	void updatePlayerInfo(const ShipInformation &info);
+	void updateTargetInfo(const Ship *player, const TargetableObject *target);
 
-	const wchar_t *getFactionName(E_GAME_FACTION faction);
 	//we're going to have this be the parent of everything in the hud
 	//gui::IGUIElement *window;
 	//the pointer to the background image for showing all the ship information
@@ -43,11 +37,6 @@ private:
 	gui::IGUIStaticText *targetHull;
 	gui::IGUIStaticText *targetArmor;
 	gui::IGUIStaticText *targetShield;
-
-	Intercom *intercom;
-
-	//pointer to tha player so we can grab information
-	Player *player;
 };
 
 #endif

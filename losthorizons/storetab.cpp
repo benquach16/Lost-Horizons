@@ -30,30 +30,24 @@ void StoreTab::run(SpaceStation *target)
 	//uis tend to have a ton of bloated code
 	loadInventories(target);
 
-	std::wstring str(L"Your Credits :");
-	str += std::to_wstring(player->getInventory().getCredits());
-	playerCash->setText(str.c_str());
-	int i = playerInventory->getSelected();
+	playerCash->setText((stringw(L"Your Credits :") + stringw(player->getInventory().getCredits())).c_str());
+	int index = playerInventory->getSelected();
 
 	//this is needed to maintain syncing between the index and objectmanager enum
 	std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = player->getInventory().getConvertedInventoryNoSpaces();
-	if(i != -1)
+	if(index != -1)
 	{
 		//has something selected so we load its information
-		std::wstring tmp(L"Value :");
-		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getPrice());
-		selectedValue->setText(tmp.c_str());
-		tmp = L"Weight :";
-		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getWeight());
-		selectedWeight->setText(tmp.c_str());
-		selectedDescription->setText(ObjectManager::itemList[syncedInventory[i]]->getDesc().c_str());
+		selectedValue->setText((stringw(L"Value :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getPrice())).c_str());
+		selectedWeight->setText((stringw(L"Weight :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getWeight())).c_str());
+		selectedDescription->setText(ObjectManager::itemList[syncedInventory[index]]->getDesc());
 
 		if(sellButton->isPressed())
 		{
 			//sell selected item
-			player->getInventory().addCredits(ObjectManager::itemList[syncedInventory[i]]->getPrice());
-			target->getInventory().addItem(syncedInventory[i], 1);
-			player->getInventory().removeItem(syncedInventory[i]);
+			player->getInventory().addCredits(ObjectManager::itemList[syncedInventory[index]]->getPrice());
+			target->getInventory().addItem(syncedInventory[index], 1);
+			player->getInventory().removeItem(syncedInventory[index]);
 			playerInventory->clear();
 			stationInventory->clear();
 		}
@@ -65,29 +59,23 @@ void StoreTab::run(SpaceStation *target)
 		selectedWeight->setText(L"Weight :");
 		selectedDescription->setText(L"");
 	}
-	i = stationInventory->getSelected();
+	index = stationInventory->getSelected();
 	syncedInventory = target->getInventory().getConvertedInventoryNoSpaces();
-	if(i != -1)
+	if(index != -1)
 	{
-		
 		//has something selected so we load its information
-		std::wstring tmp(L"Value :");
-		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getPrice());
-		selectedValue->setText(tmp.c_str());
-		tmp = L"Weight :";
-		tmp += std::to_wstring(ObjectManager::itemList[syncedInventory[i]]->getWeight());
-		selectedWeight->setText(tmp.c_str());
-		selectedDescription->setText(ObjectManager::itemList[syncedInventory[i]]->getDesc().c_str());
+		selectedValue->setText((stringw(L"Value :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getPrice())).c_str());
+		selectedWeight->setText((stringw(L"Weight :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getWeight())).c_str());
+		selectedDescription->setText(ObjectManager::itemList[syncedInventory[index]]->getDesc());
 		if(buyButton->isPressed())
 		{
 			//sell selected item
-			player->getInventory().addCredits(-ObjectManager::itemList[syncedInventory[i]]->getPrice());
-			player->getInventory().addItem(syncedInventory[i], 1);
-			target->getInventory().removeItem(syncedInventory[i]);
+			player->getInventory().addCredits(-ObjectManager::itemList[syncedInventory[index]]->getPrice());
+			player->getInventory().addItem(syncedInventory[index], 1);
+			target->getInventory().removeItem(syncedInventory[index]);
 			playerInventory->clear();
 			stationInventory->clear();
 		}
-		
 	}
 }
 
@@ -100,7 +88,7 @@ void StoreTab::loadInventories(SpaceStation *target)
 
 	if(!playerInventory->getItemCount())
 	{
-		for(unsigned i = 0; i < data.size(); i++)
+		for(unsigned i = 0; i < data.size(); ++i)
 		{
 			playerInventory->addItem(data[i].c_str());
 		}
@@ -109,7 +97,7 @@ void StoreTab::loadInventories(SpaceStation *target)
 	data = target->getInfo().inventory.getConvertedInventory();
 	if(!stationInventory->getItemCount())
 	{
-		for(unsigned i = 0; i < data.size(); i++)
+		for(unsigned i = 0; i < data.size(); ++i)
 		{
 			stationInventory->addItem(data[i].c_str());
 		}		

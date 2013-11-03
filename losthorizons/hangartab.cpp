@@ -95,7 +95,7 @@ void HangarTab::loadWeaponLists()
 			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
 			for (unsigned i = 0; i < weaponsList.size(); i++)
 			{
-				mediumSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName().c_str());
+				mediumSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
 			}
 		}
 	}
@@ -106,7 +106,7 @@ void HangarTab::loadWeaponLists()
 			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getLightWeapons();
 			for (unsigned i = 0; i < weaponsList.size(); i++)
 			{
-				lightSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName().c_str());
+				lightSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
 			}
 		}
 	}

@@ -17,8 +17,6 @@ public:
 	virtual void run();
 
 protected:
-	void initializeDisplay();
-
 	gui::IGUITabControl* tabs;
 	ShipTab* ship;
 	CargoTab* cargo;

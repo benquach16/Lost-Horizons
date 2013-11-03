@@ -37,35 +37,26 @@ void ShipTab::run()
 //HELPER FUNCTIONS
 void ShipTab::textUpdate()
 {
-	shipName->setText(player->getName().c_str());
-	description->setText(player->getDesc().c_str());
+	shipName->setText(player->getName());
+	description->setText(player->getDesc());
 
 	//replace the string -- crew available
-	stringw crewAvStr = L"Crew Available : ";
-	crewAvStr += player->getInfo().crew;
-	crewAv->setText(crewAvStr.c_str());
+	crewAv->setText((core::stringw(L"Crew Available : ") + core::stringw(player->getInfo().crew)).c_str());
 
 	int index = systemsList->getSelected();
 	if (index >= 0)
 	{
 		//replace the string -- health
-		stringw systemsHealthStr = L"Integrity : ";
-		systemsHealthStr += player->getSubsystems()[index];
-		systemsHealthStr += L"%";
-		systemsHealth->setText(systemsHealthStr.c_str());
+		systemsHealth->setText((core::stringw(L"Integrity : ") + core::stringw(player->getSubsystems()[index]) + L"%").c_str());
 	}
 
 	//replace the string -- crew required
-	stringw crewReqStr = L"Crew Required : ";
 	if (index >= 0 && index < SUBSYSTEM_COUNT)
 	{
-		int repairCount = 5 * (100 - player->getSubsystems()[index]);
-		crewReqStr += repairCount;
-		crewRq->setText(crewReqStr.c_str());
+		int repairCount = 5*(100 - player->getSubsystems()[index]);
+		crewRq->setText((core::stringw(L"Crew Required : ") + core::stringw(repairCount)).c_str());
 
-		if(repair->isPressed())
-			if(repairCount < player->getInfo().crew)
-				player->getSubsystems()[index] = 100;
+		if (repair->isPressed() && repairCount < player->getInfo().crew)
+			player->getSubsystems()[index] = 100;
 	}
-
 }

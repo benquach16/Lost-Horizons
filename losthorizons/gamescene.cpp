@@ -108,22 +108,6 @@ GameScene::~GameScene()
 
 void GameScene::run()
 {
-	/*
-	//run through all the objects in the scene
-	for (std::list<Ship*>::iterator i = Ship::allShips.begin(), next; i != Ship::allShips.end(); i = next)
-	{
-		next = i;
-		next++;
-		(*i)->run(frameDeltaTime);
-	}
-	//initialize 2 iterators because we want to delete the object whenever we have to
-	//so we dont lose the iterator!!!!!!!
-	for (std::list<Projectile*>::iterator i = Projectile::allProjectiles.begin(), next; i != Projectile::allProjectiles.end(); i = next)
-	{
-		next = i;
-		next++;
-		(*i)->run(frameDeltaTime);
-	}*/
 	//run all of the objects
 	unsigned i = 0;
 	while (i < Object::allObjects.size()) {

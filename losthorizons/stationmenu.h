@@ -16,8 +16,6 @@ public:
 	void run(const TargetableObject *target);
 	
 protected:
-	void initializeDisplay();
-
 	gui::IGUITabControl *tabs;
 	StoreTab *store;
 	HangarTab *hangar;

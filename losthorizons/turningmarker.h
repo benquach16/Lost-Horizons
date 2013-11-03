@@ -1,22 +1,22 @@
 #ifndef _TURNINGMARKER_H_
 #define _TURNINGMARKER_H_
 
-#include "player.h"
+#include "stdafx.h"
+
+using namespace irr;
 
 //object designed to give pplayer more control over ship navigation
 class TurningMarker
 {
 public:
-	TurningMarker(Player *player);
+	TurningMarker();
 	virtual ~TurningMarker();
-	virtual void run();
+	virtual void run(const core::vector3df &pos, const core::vector3df &rot, const core::vector3df &targetRot);
 
 protected:
 	//protected function
 	//does exactly what it says
 	void setVisible(bool visible);
-	//need player information so we can orient this correctly
-	Player* player;
 	//consists of 3 objects
 	scene::ISceneNode *XYcircle;
 	scene::ISceneNode *YZcircle;

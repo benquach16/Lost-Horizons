@@ -28,7 +28,7 @@ void MissionTab::run()
 	{
 		//we have one selected
 		std::vector<Mission> missions = missionManager->getMissions();
-		missionDescription->setText(missions[selected].getDesc().c_str());
+		missionDescription->setText(missions[selected].getDesc());
 		//how do we tell player ware objective is?
 		//we set objective marker
 		marker->setVisible(true);
@@ -45,9 +45,9 @@ void MissionTab::loadMissions()
 	//load missions from mission manager
 	if(!missionList->getItemCount())
 	{
-		for(unsigned i = 0; i < missionManager->getMissions().size(); i++)
+		for(unsigned i = 0; i < missionManager->getMissions().size(); ++i)
 		{
-			missionList->addItem(missionManager->getMissions()[i].getName().c_str());
+			missionList->addItem(missionManager->getMissions()[i].getName());
 		}
 	}
 }

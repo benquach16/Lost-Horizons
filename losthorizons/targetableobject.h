@@ -45,8 +45,9 @@ public:
 
 	//some accessors
 	const u16 getID() const;
-	const std::wstring& getName() const;
-	const std::wstring& getDesc() const;
+	const wchar_t *getName() const;
+	const wchar_t *getDesc() const;
+	const wchar_t *getFactionName() const;
 	const E_GAME_FACTION getFaction() const;
 	const bool getTargetable() const;
 	const vector2di& getScreenPosition() const;

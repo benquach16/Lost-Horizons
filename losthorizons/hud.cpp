@@ -1,21 +1,16 @@
 #include "stdafx.h"
 #include "hud.h"
 #include "globals.h"
-#include <sstream>
 
 using namespace base;
 
 //gunna have a huge initializer list here
-HUD::HUD(Player *player)
-	: shipWheel(0), velocity(0), hull(0), armor(0), shield(0), targetBkg(0), targetName(0), player(player), 
-	  targetFaction(0), targetDistance(0), targetHull(0), targetArmor(0), targetShield(0), intercom(0)
+HUD::HUD()
+	: shipWheel(0), velocity(0), hull(0), armor(0), shield(0), targetBkg(0), targetName(0),
+	  targetFaction(0), targetDistance(0), targetHull(0), targetArmor(0), targetShield(0)
 {
 	//window = guienv->addGUIElement(gui::EGUIET_ELEMENT);
-	initializeDisplay();
-}
-
-void HUD::initializeDisplay()
-{
+	
 	IGUIFont *largeFont = guienv->getFont("res/font/verdana_large.xml");
 	IGUIFont *smallFont = guienv->getFont("res/font/verdana_small.xml");
 	shipWheel = guienv->addImage(vdriver->getTexture("res/menu/hud.png"), core::position2d<s32>(-90,height-190), true);
@@ -37,10 +32,10 @@ void HUD::initializeDisplay()
 	targetShield = guienv->addStaticText(L"", rect<s32>(0,75,120,120), false, true, targetBkg);
 }
 
-void HUD::run()
+void HUD::run(const Ship *player)
 {
-	updatePlayerInfo();
-	updateTargetInfo();
+	updatePlayerInfo(player->getInfo());
+	updateTargetInfo(player, player->getShipTarget());
 }
 
 void HUD::setVisible(bool visible)
@@ -63,71 +58,35 @@ HUD::~HUD()
 }
 
 //private function
-void HUD::updatePlayerInfo()
+void HUD::updatePlayerInfo(const ShipInformation &info)
 {
-	core::stringw str(L"");
-	str += (int)player->getInfo().velocity;
-	str += L"km/s";
-	velocity->setText(str.c_str());
-
-	str= L"Hull [";
-	str += (int)player->getInfo().hull;
-	str+="]";
-	hull->setText(str.c_str());
-
-	str= L"Armor [";
-	str += (int)player->getInfo().armor;
-	str+="]";
-	armor->setText(str.c_str());
-
-	str= L"Shield [";
-	str += (int)player->getInfo().shield;
-	str+="]";
-	shield->setText(str.c_str());
+	velocity->setText((core::stringw((int)info.velocity) + L"km/s").c_str());
+	hull->setText((core::stringw(L"Hull [") + core::stringw(info.hull) + L"]").c_str());
+	armor->setText((core::stringw(L"Armor [") + core::stringw(info.armor) + L"]").c_str());
+	shield->setText((core::stringw(L"Shield [") + core::stringw(info.shield) + L"]").c_str());
 }
 
-void HUD::updateTargetInfo()
+void HUD::updateTargetInfo(const Ship *player, const TargetableObject *target)
 {
-	const TargetableObject *target = player->getShipTarget();
-	if(target)
-	{
+	if (target) {
 		//if a target exists
-		targetName->setText(target->getName().c_str());
-		targetFaction->setText(getFactionName(target->getFaction()));
-		//calculate distance
-		int distance = (int)target->getPosition().getDistanceFrom(player->getPosition());
-		core::stringw d(L"");
-		d+=distance;
-		d+= L"km";
-		targetDistance->setText(d.c_str());
+		targetName->setText(target->getName());
+		targetFaction->setText(target->getFactionName());
+		targetDistance->setText((core::stringw((int)target->getPosition().getDistanceFrom(player->getPosition())) + L"km").c_str());
 		//at this point we pull object information from this thing
-		if(target->getTargetableObjectType() == TARGETABLEOBJECT_SHIP)
-		{
+		if (target->getTargetableObjectType() == TARGETABLEOBJECT_SHIP) {
 			//draw hull armor and shield
 			const Ship* shipTarget = (Ship*)target;
-			std::wstring str(L"Hull [");
-			str += std::to_wstring(shipTarget->getInfo().hull);
-			str += L"]";
-			targetHull->setText(str.c_str());
-			str = L"Armor [";
-			str += std::to_wstring(shipTarget->getInfo().armor);
-			str += L"]";
-			targetArmor->setText(str.c_str());
-			str = L"Shield [";
-			str += std::to_wstring(shipTarget->getInfo().shield);
-			str += L"]";
-			targetShield->setText(str.c_str());
-		}
-		else
-		{
+			targetHull->setText((core::stringw(L"Hull [") + core::stringw(shipTarget->getInfo().hull)).c_str());
+			targetArmor->setText((core::stringw(L"Armor [") + core::stringw(shipTarget->getInfo().armor) + L"]").c_str());
+			targetShield->setText((core::stringw(L"Shield [") + core::stringw(shipTarget->getInfo().shield) + L"]").c_str());
+		} else {
 			//not a ship so dont draw hull armor or shield
 			targetHull->setText(L"");
 			targetArmor->setText(L"");
 			targetShield->setText(L"");
 		}
-	}
-	else
-	{
+	} else {
 		//reset the text
 		targetName->setText(L"No Target Selected");
 		targetFaction->setText(L"");
@@ -136,26 +95,4 @@ void HUD::updateTargetInfo()
 		targetArmor->setText(L"");
 		targetShield->setText(L"");
 	}
-}
-
-const wchar_t *HUD::getFactionName(E_GAME_FACTION faction)
-{
-	if(faction == FACTION_NEUTRAL)
-	{
-		return L"Neutral";
-	}
-	else if(faction == FACTION_PIRATE)
-	{
-		return L"Pirate";
-	}
-	else if(faction == FACTION_TERRAN)
-	{
-		return L"Terran Federation";
-	}
-	else if(faction == FACTION_PROVIAN)
-	{
-		return L"Provian Consortium";
-	}
-	else
-		return L"Unknown";
 }

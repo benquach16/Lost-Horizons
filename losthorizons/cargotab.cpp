@@ -40,7 +40,7 @@ void CargoTab::itemListUpdate()
 
 	//updates the actual ITEM LIST onto listbox
 	for (unsigned i = 0; i < player->getInventory().getConvertedInventory().size(); ++i)
-		itemList->addItem(player->getInventory().getConvertedInventory().at(i).c_str());
+		itemList->addItem(player->getInventory().getConvertedInventory()[i].c_str());
 }
 
 void CargoTab::showItemInfo()
@@ -49,23 +49,12 @@ void CargoTab::showItemInfo()
 	int index = itemList->getSelected();
 	if (index != -1)
 	{
-		//clearing the textboxes
-		costTxtBox->setText(L"");
-		weightTxtBox->setText(L"");
-		descriptionTxtBox->setText(L"");
-
-		//declaring txt variables for info of an item when selected
-		stringw costTxt, weightTxt, descriptionTxt;
-
 		//initializing
 		std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = player->getInventory().getConvertedInventoryNoSpaces();
-		costTxt = static_cast<stringw>( ObjectManager::itemList[syncedInventory[index]]->getPrice()) + " Credits";
-		weightTxt = static_cast<stringw>(ObjectManager::itemList[syncedInventory[index]]->getWeight()) + " Kg";
-		descriptionTxt =ObjectManager::itemList[syncedInventory[index]]->getDesc().c_str();
 
 		//fill in the testboxes
-		costTxtBox->setText(costTxt.c_str());
-		weightTxtBox->setText(weightTxt.c_str());
-		descriptionTxtBox->setText(descriptionTxt.c_str());
+		costTxtBox->setText((stringw(ObjectManager::itemList[syncedInventory[index]]->getPrice()) + " Credits").c_str());
+		weightTxtBox->setText((stringw(ObjectManager::itemList[syncedInventory[index]]->getWeight()) + " Kg").c_str());
+		descriptionTxtBox->setText(ObjectManager::itemList[syncedInventory[index]]->getDesc());
 	}
 }

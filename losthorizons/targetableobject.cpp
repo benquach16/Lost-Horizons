@@ -57,14 +57,31 @@ const u16 TargetableObject::getID() const
 	return ID;
 }
 
-const std::wstring& TargetableObject::getName() const
+const wchar_t *TargetableObject::getName() const
 {
-	return name;
+	return name.c_str();
 }
 
-const std::wstring& TargetableObject::getDesc() const
+const wchar_t *TargetableObject::getDesc() const
 {
-	return description;
+	return description.c_str();
+}
+
+const wchar_t *TargetableObject::getFactionName() const
+{
+	switch (faction)
+	{
+		case FACTION_NEUTRAL:
+			return L"Neutral";
+		case FACTION_PIRATE:
+			return L"Pirate";
+		case FACTION_TERRAN:
+			return L"Terran Federation";
+		case FACTION_PROVIAN:
+			return L"Provian Consortium";
+		default:
+			return L"Unknown";
+	}
 }
 
 const E_GAME_FACTION TargetableObject::getFaction() const
