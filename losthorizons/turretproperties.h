@@ -26,11 +26,12 @@ public:
 	const int& getRange() const;
 	const int& getProjectileSpeed() const;
 
-	const std::wstring& getProjectileTex() const;
-	const std::string& getSoundFilename() const;
+	const wchar_t *getProjectileTex() const;
+	const char *getSoundFilename() const;
 	const core::vector3df& getProjectileScale() const;
 
 	const E_TURRET_CLASS getTurretClass() const;
+
 protected:
 	E_TURRET_CLASS getTurretClass(const std::wstring &str);
 	E_TURRET_CLASS turretClass;
@@ -47,7 +48,7 @@ protected:
 //overloaded comparision operator
 inline bool operator==(const TurretProperties &lhs, const TurretProperties &rhs)
 {
-	return lhs.getName() == rhs.getName();
+	return wcscmp(lhs.getName(), rhs.getName()) == 0;
 }
 
 #endif

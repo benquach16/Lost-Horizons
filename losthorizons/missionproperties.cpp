@@ -105,14 +105,14 @@ MissionProperties::~MissionProperties()
 {
 }
 
-const std::wstring& MissionProperties::getName() const
+const wchar_t *MissionProperties::getName() const
 {
-	return name;
+	return name.c_str();
 }
 
-const std::wstring& MissionProperties::getDesc() const
+const wchar_t *MissionProperties::getDesc() const
 {
-	return description;
+	return description.c_str();
 }
 
 const std::vector<Objective>& MissionProperties::getObjs() const

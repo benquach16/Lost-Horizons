@@ -151,13 +151,13 @@ Turret::Turret() : turretType(ObjectManager::E_ITEM_LIST::ANTIMATTERI)
 }
 
 Turret::Turret(const ObjectManager::E_ITEM_LIST turretType, ISceneNode *parent, TurretSlot *parentSlot) : 
-	Object(((TurretProperties*)ObjectManager::itemList[turretType])->getFilename().c_str(), vector3df(0,0,0), vector3df(0,0,0),
+	Object(((TurretProperties*)ObjectManager::itemList[turretType])->getFilename(), vector3df(0,0,0), vector3df(0,0,0),
 	((TurretProperties*)ObjectManager::itemList[turretType])->getScale()),
 	turretType(turretType), shootJoint(0), parentSlot(parentSlot)
 {
 	shootJoint = mesh->getJointNode("shoot");
 	mesh->setParent(parent);
-	setNormalMap(vdriver->getTexture(((TurretProperties*)ObjectManager::itemList[turretType])->getNormalMap().c_str()));
+	setNormalMap(vdriver->getTexture(((TurretProperties*)ObjectManager::itemList[turretType])->getNormalMap()));
 }
 
 Turret::~Turret()
@@ -172,9 +172,9 @@ bool Turret::run()
 void Turret::aim(const core::vector3df &rotation)
 {
 	core::vector3df temp(getRotation());
-	if (getRotation().Y < rotation.Y) {
+	if (temp.Y < rotation.Y) {
 		temp.Y += ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
-	} else if (getRotation().Y > rotation.Y) {
+	} else if (temp.Y > rotation.Y) {
 		temp.Y -= ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
 	}
 	temp.Y = rotation.Y;//turret rotation is still messed up
@@ -190,7 +190,7 @@ void Turret::fire(const vector3df &rotation)
 		//for now, projectile gets an ID. change to ship pointer later
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
-		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename().c_str(), getPosition());
+		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename(), getPosition());
 	}
 }
 

@@ -22,7 +22,7 @@ ShipTab::ShipTab(IGUITabControl *tabs, Player* player)
 
 	//initializing
 	for (unsigned i = 0; i < SUBSYSTEM_COUNT; ++i)
-		systemsList->addItem(Ship::subsystemNames[i].c_str());
+		systemsList->addItem(Ship::subsystemNames[i]);
 }
 
 ShipTab::~ShipTab()

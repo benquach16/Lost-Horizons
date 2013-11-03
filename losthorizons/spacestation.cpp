@@ -19,7 +19,7 @@ SpaceStation::SpaceStation(const E_GAME_FACTION faction, const ObjectManager::E_
 
 	allStations.push_back(this);
 
-	setNormalMap(vdriver->getTexture(ObjectManager::stationList[stationType]->getNormalMap().c_str()));
+	setNormalMap(vdriver->getTexture(ObjectManager::stationList[stationType]->getNormalMap()));
 	info.inventory.addItem(ObjectManager::E_ITEM_LIST::IRIDIUM, 100);
 }
 

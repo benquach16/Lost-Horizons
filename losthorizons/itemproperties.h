@@ -46,7 +46,7 @@ protected:
 //overload == operator
 inline bool operator==(const ItemProperties& lhs, const ItemProperties& rhs)
 {
-	return wcscmp(lhs.getDesc(), rhs.getDesc()) &&  wcscmp(lhs.getName(), rhs.getName()) &&
+	return wcscmp(lhs.getDesc(), rhs.getDesc()) == 0 &&  wcscmp(lhs.getName(), rhs.getName()) == 0 &&
 		lhs.getItemType() == rhs.getItemType() && lhs.getPrice() == rhs.getPrice() && lhs.getWeight() == rhs.getWeight();
 }
 

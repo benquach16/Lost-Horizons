@@ -71,7 +71,7 @@ PlanetProperties::~PlanetProperties()
 {
 }
 
-const std::wstring& PlanetProperties::getCloudMap() const
+const wchar_t *PlanetProperties::getCloudMap() const
 {
-	return cloudMap;
+	return cloudMap.c_str();
 }

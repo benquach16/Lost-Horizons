@@ -12,9 +12,10 @@ public:
 	MissionProperties(const std::string& f);
 	~MissionProperties();
 
-	const std::wstring& getName() const;
-	const std::wstring& getDesc() const;
+	const wchar_t *getName() const;
+	const wchar_t *getDesc() const;
 	const std::vector<Objective>& getObjs() const;
+
 protected:
 	E_OBJECTIVE_TYPE getObjectiveType(const wchar_t *text);
 	std::wstring name;

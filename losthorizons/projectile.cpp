@@ -8,7 +8,7 @@ using namespace base;
 std::vector<Projectile*> Projectile::allProjectiles;
 
 Projectile::Projectile(const u16 ID, const TurretProperties &turretProps, const vector3df &position, const vector3df &rotation)
-	: Object(L"res/models/projectile.X", turretProps.getProjectileTex().c_str(), position, rotation, turretProps.getProjectileScale()),
+	: Object(L"res/models/projectile.X", turretProps.getProjectileTex(), position, rotation, turretProps.getProjectileScale()),
 	  originalPosition(position), ID(ID), damage(turretProps.getDamage()), range(turretProps.getRange()),
 	  velocity(turretProps.getProjectileSpeed()), index(allProjectiles.size())
 {

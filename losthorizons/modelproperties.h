@@ -11,9 +11,9 @@ public:
 	ModelProperties(const std::string &f);
 	~ModelProperties();
 
-	const std::wstring& getFilename() const;
-	const std::wstring& getDiffuseMap() const;
-	const std::wstring& getNormalMap() const;
+	const wchar_t *getFilename() const;
+	const wchar_t *getDiffuseMap() const;
+	const wchar_t *getNormalMap() const;
 
 	const core::vector3df& getScale() const;
 	

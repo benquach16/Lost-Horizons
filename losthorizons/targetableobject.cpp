@@ -9,7 +9,7 @@ u16 TargetableObject::nextID(0);
 
 TargetableObject::TargetableObject(const u16 ID, const ModelProperties& modelProps, const vector3df &position, const vector3df &rotation,
 								   const E_GAME_FACTION faction)
-	: Object(modelProps.getFilename().c_str(), position, rotation, modelProps.getScale()), ID(ID), name(modelProps.getName()),
+	: Object(modelProps.getFilename(), position, rotation, modelProps.getScale()), ID(ID), name(modelProps.getName()),
 	  description(modelProps.getDesc()), faction(faction), targetable(true), index(allTargets.size())
 {
 	allTargets.push_back(this);

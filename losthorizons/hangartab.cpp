@@ -63,21 +63,21 @@ void HangarTab::loadInventories()
 	{
 		for (unsigned i = 0; i < player->getTurrets(TURRET_HEAVY).size(); ++i)
 		{
-			heavySlot->addItem(std::to_wstring(i).c_str());
+			heavySlot->addItem(stringw(i).c_str());
 		}
 	}
 	if (!mediumSlot->getItemCount())
 	{
 		for (unsigned i = 0; i < player->getTurrets(TURRET_MEDIUM).size(); ++i)
 		{
-			mediumSlot->addItem(std::to_wstring(i).c_str());
+			mediumSlot->addItem(stringw(i).c_str());
 		}
 	}
 	if (!lightSlot->getItemCount())
 	{
 		for (unsigned i = 0; i < player->getTurrets(TURRET_LIGHT).size(); ++i)
 		{
-			lightSlot->addItem(std::to_wstring(i).c_str());
+			lightSlot->addItem(stringw(i).c_str());
 		}
 	}
 }
@@ -88,26 +88,20 @@ void HangarTab::loadWeaponLists()
 	//update the combobox to allow the player to choose weapons
 	//create unique lists for each weaponslot
 
-	if (mediumSlot->getSelected() != -1)
+	if (mediumSlot->getSelected() != -1 && !mediumSlotWeapon->getItemCount())
 	{
-		if (!mediumSlotWeapon->getItemCount())
+		std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
+		for (unsigned i = 0; i < weaponsList.size(); i++)
 		{
-			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
-			for (unsigned i = 0; i < weaponsList.size(); i++)
-			{
-				mediumSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
-			}
+			mediumSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
 		}
 	}
-	if (lightSlot->getSelected() != -1)
+	if (lightSlot->getSelected() != -1 && !lightSlotWeapon->getItemCount())
 	{
-		if (!lightSlotWeapon->getItemCount())
+		std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getLightWeapons();
+		for (unsigned i = 0; i < weaponsList.size(); ++i)
 		{
-			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getLightWeapons();
-			for (unsigned i = 0; i < weaponsList.size(); i++)
-			{
-				lightSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
-			}
+			lightSlotWeapon->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
 		}
 	}
 }

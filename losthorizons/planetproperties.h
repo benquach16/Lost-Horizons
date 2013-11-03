@@ -20,7 +20,8 @@ public:
 	PlanetProperties(const std::string &f);
 	~PlanetProperties();
 
-	const std::wstring& getCloudMap() const;
+	const wchar_t *getCloudMap() const;
+
 protected:
 	std::wstring cloudMap;
 	int maxPopulation;

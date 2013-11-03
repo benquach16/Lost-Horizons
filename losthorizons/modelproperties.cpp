@@ -99,17 +99,17 @@ ModelProperties::~ModelProperties()
 {
 }
 
-const std::wstring& ModelProperties::getFilename() const
+const wchar_t *ModelProperties::getFilename() const
 {
-	return filename;
+	return filename.c_str();
 }
-const std::wstring& ModelProperties::getDiffuseMap() const
+const wchar_t *ModelProperties::getDiffuseMap() const
 {
-	return diffuseMap;
+	return diffuseMap.c_str();
 }
-const std::wstring& ModelProperties::getNormalMap() const
+const wchar_t *ModelProperties::getNormalMap() const
 {
-	return normalMap;
+	return normalMap.c_str();
 }
 
 const vector3df& ModelProperties::getScale() const

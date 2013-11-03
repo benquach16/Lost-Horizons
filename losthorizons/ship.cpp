@@ -7,7 +7,7 @@ using namespace base;
 
 //set up static elements
 std::vector<Ship*> Ship::allShips;
-std::wstring Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator",
+wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator",
 	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
@@ -32,7 +32,7 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	initTurrets();
 	initEngineTrails();
 
-	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType]->getNormalMap().c_str()));
+	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType]->getNormalMap()));
 	setMediumTurret(ObjectManager::E_ITEM_LIST::RAILGUNI,3);
 	setMediumTurret(ObjectManager::E_ITEM_LIST::RAILGUNI,2);
 	setMediumTurret(ObjectManager::E_ITEM_LIST::RAILGUNI,1);

@@ -142,12 +142,9 @@ TurretProperties::TurretProperties(const std::string &f) : ModelProperties(f)
 	file->drop();
 }
 
-
 TurretProperties::~TurretProperties()
 {
 }
-
-
 
 //accessors
 const int& TurretProperties::getMaxTurn() const
@@ -175,14 +172,14 @@ const int& TurretProperties::getProjectileSpeed() const
 	return projectileSpeed;
 }
 
-const std::wstring& TurretProperties::getProjectileTex() const
+const wchar_t *TurretProperties::getProjectileTex() const
 {
-	return projectileTexture;
+	return projectileTexture.c_str();
 }
 
-const std::string& TurretProperties::getSoundFilename() const
+const char *TurretProperties::getSoundFilename() const
 {
-	return soundFilename;
+	return soundFilename.c_str();
 }
 
 const core::vector3df& TurretProperties::getProjectileScale() const

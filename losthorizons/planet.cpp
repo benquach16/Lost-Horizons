@@ -19,12 +19,12 @@ Planet::Planet(const ObjectManager::E_PLANET_LIST planetType, const vector3df& p
 
 	allPlanets.push_back(this);
 
-	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap().c_str()));
+	setTexture(vdriver->getTexture(ObjectManager::planetList[planetType]->getDiffuseMap()));
 	//setNormalMap(vdriver->getTexture(ObjectManager::planetList[planetType].getNormalMap().c_str()));
 	//create cloudmesh
-	cloudMesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(ObjectManager::planetList[planetType]->getFilename().c_str()),
+	cloudMesh = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(ObjectManager::planetList[planetType]->getFilename()),
 		0, -1, position, vector3df(), ObjectManager::planetList[planetType]->getScale() + 50);
-	cloudMesh->setMaterialTexture(0,vdriver->getTexture(ObjectManager::planetList[planetType]->getCloudMap().c_str()));
+	cloudMesh->setMaterialTexture(0,vdriver->getTexture(ObjectManager::planetList[planetType]->getCloudMap()));
 	cloudMesh->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	
 	//atmosphere = scenemngr->addBillboardSceneNode(mesh, dimension2df(13000,13000));
