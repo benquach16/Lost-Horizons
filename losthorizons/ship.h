@@ -104,7 +104,6 @@ public:
 
 	//target functions
 	void setTarget(TargetableObject *newTarget);
-	void removeTarget();
 
 	//equip funcs
 	void setHeavyTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);

@@ -260,11 +260,6 @@ void Ship::setTarget(TargetableObject *newTarget)
 	shipTarget = newTarget;
 }
 
-void Ship::removeTarget()
-{
-	shipTarget = 0;
-}
-
 //turret setter functions
 void Ship::setMediumTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot)
 {

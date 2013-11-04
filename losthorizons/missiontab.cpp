@@ -8,8 +8,8 @@ MissionTab::MissionTab(IGUITabControl *tabs, MissionManager *missionManager)
 	: MenuTab(tabs->addTab(L"Mission Log")), missionList(0), missionDescription(0),
 	  missionManager(missionManager), marker(new Marker)
 {
-	missionList = guienv->addListBox(rect<s32>(20, 20, 300, 480), tab);
-	missionDescription = guienv->addStaticText(L"", rect<s32>(320, 20, 780, 480), false, true, tab);
+	missionList = guienv->addListBox(rect<s32>(20,20,300,480), tab);
+	missionDescription = guienv->addStaticText(L"", rect<s32>(320,20,780,480), false, true, tab);
 
 	marker->setVisible(false);
 }

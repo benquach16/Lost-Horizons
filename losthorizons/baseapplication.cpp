@@ -15,12 +15,12 @@ using namespace base;
 BaseApplication::BaseApplication()
 	: menu(0), data(new DataManager), effect(0), then(0.f)
 {
+	gConfig.Load();
+	getBits();
 	receiver = new KeyListener;
 	sound = irrklang::createIrrKlangDevice();
-	sound->setSoundVolume(1.0f);
+	sound->setSoundVolume(gConfig.iSFX/10.f);
 	sound->setDefault3DSoundMinDistance(500);
-	getBits();
-	gConfig.Load();
 }
 
 BaseApplication::~BaseApplication()

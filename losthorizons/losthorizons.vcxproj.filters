@@ -150,9 +150,6 @@
     <ClInclude Include="modelproperties.h">
       <Filter>Header Files\properties</Filter>
     </ClInclude>
-    <ClInclude Include="objectmanager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="turretproperties.h">
       <Filter>Header Files\properties</Filter>
     </ClInclude>
@@ -306,6 +303,9 @@
     <ClInclude Include="turret.h">
       <Filter>Header Files\objects\Object</Filter>
     </ClInclude>
+    <ClInclude Include="objectmanager.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -324,9 +324,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gamescene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="objectmanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="optionmenu.cpp">
@@ -486,6 +483,9 @@
       <Filter>Source Files\objects\Object</Filter>
     </ClCompile>
     <ClCompile Include="turret.cpp">
+      <Filter>Source Files\objects\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="objectmanager.cpp">
       <Filter>Source Files\objects\Object</Filter>
     </ClCompile>
   </ItemGroup>
