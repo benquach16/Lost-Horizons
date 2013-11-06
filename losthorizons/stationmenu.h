@@ -4,6 +4,7 @@
 #include "menuwindow.h"
 #include "storetab.h"
 #include "hangartab.h"
+#include "jobtab.h"
 
 //ui menu that is opened when the player is docked at a space staiton
 class StationMenu : public MenuWindow
@@ -17,6 +18,7 @@ protected:
 	gui::IGUITabControl *tabs;
 	StoreTab *store;
 	HangarTab *hangar;
+	JobTab *job;
 };
 
 #endif
