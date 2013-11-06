@@ -4,8 +4,8 @@
 
 using namespace base;
 
-StoreTab::StoreTab(IGUITabControl *tabs, Player *player)
-	: MenuTab(tabs->addTab(L"Store")), player(player)
+StoreTab::StoreTab(IGUITabControl *tabs, Inventory &playerData)
+	: MenuTab(tabs->addTab(L"Store")), playerData(playerData)
 {
 	//initialize this
 	playerInventory = guienv->addListBox(rect<s32>(20,40, 380, 300), tab);
@@ -24,55 +24,49 @@ StoreTab::~StoreTab()
 {
 }
 
-void StoreTab::run(SpaceStation *target)
+void StoreTab::run(Inventory &stationData)
 {
 	//run through the store tab
 	//uis tend to have a ton of bloated code
-	loadInventories(target);
+	loadInventories(playerData.getConvertedInventory(), stationData.getConvertedInventory());
 
-	playerCash->setText((stringw(L"Your Credits :") + stringw(player->getInventory().getCredits())).c_str());
+	playerCash->setText((stringw(L"Your Credits :") + stringw(playerData.getCredits())).c_str());
 	int index = playerInventory->getSelected();
 
 	//this is needed to maintain syncing between the index and objectmanager enum
-	std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = player->getInventory().getConvertedInventoryNoSpaces();
-	if(index != -1)
-	{
+	std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = playerData.getConvertedInventoryNoSpaces();
+	if (index != -1) {
 		//has something selected so we load its information
 		selectedValue->setText((stringw(L"Value :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getPrice())).c_str());
 		selectedWeight->setText((stringw(L"Weight :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getWeight())).c_str());
 		selectedDescription->setText(ObjectManager::itemList[syncedInventory[index]]->getDesc());
 
-		if(sellButton->isPressed())
-		{
+		if (sellButton->isPressed()) {
 			//sell selected item
-			player->getInventory().addCredits(ObjectManager::itemList[syncedInventory[index]]->getPrice());
-			target->getInventory().addItem(syncedInventory[index], 1);
-			player->getInventory().removeItem(syncedInventory[index]);
+			playerData.addCredits(ObjectManager::itemList[syncedInventory[index]]->getPrice());
+			playerData.removeItem(syncedInventory[index]);
+			stationData.addItem(syncedInventory[index], 1);
 			playerInventory->clear();
 			stationInventory->clear();
 		}
-	}
-	else
-	{
+	} else {
 		//reset text if nothing is selected
 		selectedValue->setText(L"Value :");
 		selectedWeight->setText(L"Weight :");
 		selectedDescription->setText(L"");
 	}
 	index = stationInventory->getSelected();
-	syncedInventory = target->getInventory().getConvertedInventoryNoSpaces();
-	if(index != -1)
-	{
+	syncedInventory = stationData.getConvertedInventoryNoSpaces();
+	if (index != -1) {
 		//has something selected so we load its information
 		selectedValue->setText((stringw(L"Value :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getPrice())).c_str());
 		selectedWeight->setText((stringw(L"Weight :") + stringw(ObjectManager::itemList[syncedInventory[index]]->getWeight())).c_str());
 		selectedDescription->setText(ObjectManager::itemList[syncedInventory[index]]->getDesc());
-		if(buyButton->isPressed())
-		{
+		if (buyButton->isPressed()) {
 			//sell selected item
-			player->getInventory().addCredits(-ObjectManager::itemList[syncedInventory[index]]->getPrice());
-			player->getInventory().addItem(syncedInventory[index], 1);
-			target->getInventory().removeItem(syncedInventory[index]);
+			playerData.addCredits(-ObjectManager::itemList[syncedInventory[index]]->getPrice());
+			playerData.addItem(syncedInventory[index], 1);
+			stationData.removeItem(syncedInventory[index]);
 			playerInventory->clear();
 			stationInventory->clear();
 		}
@@ -80,26 +74,19 @@ void StoreTab::run(SpaceStation *target)
 }
 
 //protected function
-void StoreTab::loadInventories(SpaceStation *target)
+void StoreTab::loadInventories(std::vector<std::wstring> playerConverted, std::vector<std::wstring> stationConverted)
 {
 	//updating is slow!
 	//only update when something is for sure changed!
-	std::vector<std::wstring> data = player->getInventory().getConvertedInventory();
-
-	if(!playerInventory->getItemCount())
-	{
-		for(unsigned i = 0; i < data.size(); ++i)
-		{
-			playerInventory->addItem(data[i].c_str());
+	if (!playerInventory->getItemCount()) {
+		for (unsigned i = 0; i < playerConverted.size(); ++i) {
+			playerInventory->addItem(playerConverted[i].c_str());
 		}
 	}
 
-	data = target->getInfo().inventory.getConvertedInventory();
-	if(!stationInventory->getItemCount())
-	{
-		for(unsigned i = 0; i < data.size(); ++i)
-		{
-			stationInventory->addItem(data[i].c_str());
+	if (!stationInventory->getItemCount()) {
+		for (unsigned i = 0; i < stationConverted.size(); ++i) {
+			stationInventory->addItem(stationConverted[i].c_str());
 		}		
 	}
 }

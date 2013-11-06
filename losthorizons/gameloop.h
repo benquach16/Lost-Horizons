@@ -8,11 +8,7 @@
 #include "objectmanager.h"
 #include "visualsmanager.h"
 #include "player.h"
-#include "hud.h"
 #include "intercom.h"
-#include "turningmarker.h"
-#include "gamemenu.h"
-#include "stationmenu.h"
 
 class Gameloop
 {
@@ -28,26 +24,18 @@ public:
 
 	//functions for managing the scene
 	GameSceneManager *getGameSceneManager() const;
-	void setPlayer(Player* newPlayer);
+	MissionManager *getMissionManager() const;
+	void setPointers(Player* player, Intercom *intercom);
 
 private:
-	void playerControl();
-	void cameraControl();
-
 	DataManager *data;// plan to get rid of this
 	GameSceneManager *gameSceneManager;
 	MissionManager *missionManager;
 	ObjectManager *objectManager;
 	VisualsManager *visualsManager;
-	PlayerCamera *playerCam;
+	
 	Player *player;
-	HUD *hud;
 	Intercom *intercom;
-	TurningMarker *turning;
-
-	//ui members
-	GameMenu *gameMenu;
-	StationMenu *stationMenu;
 };
 
 #endif

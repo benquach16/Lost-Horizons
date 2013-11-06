@@ -15,7 +15,7 @@ public:
 	~MissionManager();
 
 	//run function
-	void run(Intercom *intercom = 0);
+	void run(Intercom *intercom);
 
 	void addMission(const MissionProperties& missionInfo);
 

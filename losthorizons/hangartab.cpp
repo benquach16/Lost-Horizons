@@ -1,14 +1,13 @@
 #include "stdafx.h"
 #include "hangartab.h"
 #include "globals.h"
-#include <iostream>
 
 using namespace base;
 
-HangarTab::HangarTab(IGUITabControl *tabs, Player *player)
-	: MenuTab(tabs->addTab(L"Hangar")), player(player),
+HangarTab::HangarTab(IGUITabControl *tabs, Ship *player)
+	: MenuTab(tabs->addTab(L"Hangar")),
 	  heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0), 
-	  repair(0), refit(0)
+	  repair(0), refit(0), player(player)
 {
 	//add hangar stuff
 	//hangar allows the player to refit his ship
@@ -31,10 +30,9 @@ HangarTab::HangarTab(IGUITabControl *tabs, Player *player)
 
 HangarTab::~HangarTab()
 {
-
 }
 
-void HangarTab::run(SpaceStation *target)
+void HangarTab::run()
 {
 	//run thru everything
 	loadInventories();

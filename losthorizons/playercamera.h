@@ -29,6 +29,8 @@ public:
 	void updateMousePosition(int x, int y);
 	
 private:
+	void control();
+
 	scene::ICameraSceneNode *cam; 
 	E_CAMERA_MODE cameraMode;
 	//distance from camera to player

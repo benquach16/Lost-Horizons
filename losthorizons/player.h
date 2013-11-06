@@ -2,6 +2,12 @@
 #define _PLAYER_H_
 
 #include "ship.h"
+#include "hud.h"
+#include "intercom.h"
+#include "turningmarker.h"
+#include "playercamera.h"
+#include "gamemenu.h"
+#include "stationmenu.h"
 
 class Player : public Ship
 {
@@ -13,8 +19,17 @@ public:
 	virtual const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
 private:
-	
-};
+	void init();
+	void control();
 
+	HUD *hud;
+	Intercom *intercom;
+	TurningMarker *turning;
+	PlayerCamera *playerCam;
+
+	//ui members
+	GameMenu *gameMenu;
+	StationMenu *stationMenu;
+};
 
 #endif

@@ -66,14 +66,9 @@ std::vector<std::wstring> Inventory::getConvertedInventory() const
 	//create an array where we remove the elements that don't need to be there
 	//and stack items
 	std::vector<std::wstring> ret;
-	for (unsigned i = 0; i < data.size(); ++i)
-	{
-		if (data[i] > 0)
-		{
-			std::wstring tmp = ObjectManager::itemList[i]->getName();
-			tmp += L" x";
-			tmp += std::to_wstring(data[i]);
-			ret.push_back(tmp);
+	for (unsigned i = 0; i < data.size(); ++i) {
+		if (data[i] > 0) {
+			ret.push_back(std::wstring(ObjectManager::itemList[i]->getName()) + L" x" + std::to_wstring(data[i]));
 		}
 	}
 	return ret;

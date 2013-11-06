@@ -18,6 +18,8 @@ PlayerCamera::~PlayerCamera()
 
 void PlayerCamera::run(const core::vector3df &pos)
 {
+	control();
+
 	//constantly look at player position
 	//and rotate around it
 	cam->setTarget(pos);
@@ -84,4 +86,15 @@ void PlayerCamera::updateMousePosition(int x, int y)
 {
 	mouseX = x;
 	mouseY = y;
+}
+
+void PlayerCamera::control()
+{
+	if (receiver->getRightMouseButton()) {
+		//we can rotate the camera around this way
+		rotateX(receiver->getMouseX());
+		rotateY(receiver->getMouseY());
+	} else
+		updateMousePosition(receiver->getMouseX(), receiver->getMouseY());
+	zoom(receiver->getMouseWheel());
 }

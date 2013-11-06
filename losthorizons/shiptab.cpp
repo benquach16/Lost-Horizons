@@ -4,7 +4,7 @@
 
 using namespace base;
 
-ShipTab::ShipTab(IGUITabControl *tabs, Player* player)
+ShipTab::ShipTab(IGUITabControl *tabs, Ship* player)
 	: MenuTab(tabs->addTab(L"Ship")), player(player)
 {
 	//creating

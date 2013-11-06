@@ -4,8 +4,8 @@
 
 using namespace base;
 
-CargoTab::CargoTab(IGUITabControl *tabs, Player* player)
-	: MenuTab(tabs->addTab(L"Cargo")), player(player)
+CargoTab::CargoTab(IGUITabControl *tabs, Inventory &playerData)
+	: MenuTab(tabs->addTab(L"Cargo")), playerData(playerData)
 {
 	//creating
 	guienv->addStaticText(L"Items", rect<s32>(10,10,190,30), false, true, tab); // list title1
@@ -28,7 +28,7 @@ void CargoTab::run()
 	//updating the listboxes
 	//comparing item count in listbox and the actual ITEM LIST
 	//if different, something must've changed
-	if (itemList->getItemCount() != player->getInventory().getConvertedInventory().size())
+	if (itemList->getItemCount() != playerData.getConvertedInventory().size())
 		itemListUpdate();
 	showItemInfo();
 }
@@ -39,8 +39,8 @@ void CargoTab::itemListUpdate()
 	itemList->clear();
 
 	//updates the actual ITEM LIST onto listbox
-	for (unsigned i = 0; i < player->getInventory().getConvertedInventory().size(); ++i)
-		itemList->addItem(player->getInventory().getConvertedInventory()[i].c_str());
+	for (unsigned i = 0; i < playerData.getConvertedInventory().size(); ++i)
+		itemList->addItem(playerData.getConvertedInventory()[i].c_str());
 }
 
 void CargoTab::showItemInfo()
@@ -50,7 +50,7 @@ void CargoTab::showItemInfo()
 	if (index != -1)
 	{
 		//initializing
-		std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = player->getInventory().getConvertedInventoryNoSpaces();
+		std::vector<ObjectManager::E_ITEM_LIST> syncedInventory = playerData.getConvertedInventoryNoSpaces();
 
 		//fill in the testboxes
 		costTxtBox->setText((stringw(ObjectManager::itemList[syncedInventory[index]]->getPrice()) + " Credits").c_str());

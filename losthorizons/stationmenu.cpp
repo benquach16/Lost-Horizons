@@ -4,11 +4,10 @@
 
 using namespace base;
 
-StationMenu::StationMenu(Player *player)
+StationMenu::StationMenu(Ship *player)
 	: MenuWindow(guienv->addWindow(rect<s32>(width/2-400,height/2-260,width/2+400,height/2+260), true)),
 	  tabs(guienv->addTabControl(rect<s32>(0,0,width/2+800,height/2+600), window, true)),
-	  store(new StoreTab(tabs, player)), hangar(new HangarTab(tabs, player)),
-	  player(player)
+	  store(new StoreTab(tabs, player->getInventory())), hangar(new HangarTab(tabs, player))
 {
 	window->getCloseButton()->setVisible(false);
 	window->setDrawBackground(false);
@@ -24,11 +23,9 @@ StationMenu::~StationMenu()
 void StationMenu::run(const TargetableObject *target)
 {
 	MenuWindow::run();
-	if(target && target->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION)
+	if (target && target->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION)
 	{
-		SpaceStation *stationTarget = (SpaceStation*)target;
-
-		store->run(stationTarget);
-		hangar->run(stationTarget);
+		store->run(((SpaceStation*)target)->getInventory());
+		hangar->run();
 	}
 }

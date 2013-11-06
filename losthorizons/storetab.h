@@ -2,21 +2,19 @@
 #define _STORETAB_H_
 
 #include "menutab.h"
-#include "player.h"
-#include "spacestation.h"
+#include "inventory.h"
 
 //create a class for each tab
 //this class is meant for use by the stationmenu class
 class StoreTab : public MenuTab
 {
 public:
-	StoreTab(IGUITabControl *tabs, Player *player);
+	StoreTab(IGUITabControl *tabs, Inventory &playerData);
 	~StoreTab();
-	virtual void run(SpaceStation *target);
+	virtual void run(Inventory &stationData);
 
-protected:
-	Player *player;
-	void loadInventories(SpaceStation *target);
+private:
+	void loadInventories(std::vector<std::wstring> playerConverted, std::vector<std::wstring> stationConverted);
 
 	IGUIListBox *playerInventory;
 	IGUIListBox *stationInventory;
@@ -26,6 +24,8 @@ protected:
 	IGUIButton *buyButton;
 	IGUIButton *sellButton;
 	IGUIStaticText *playerCash;
+
+	Inventory &playerData;
 };
 
 #endif

@@ -4,9 +4,9 @@
 
 using namespace base;
 
-MissionTab::MissionTab(IGUITabControl *tabs, MissionManager *missionManager)
+MissionTab::MissionTab(IGUITabControl *tabs)
 	: MenuTab(tabs->addTab(L"Mission Log")), missionList(0), missionDescription(0),
-	  missionManager(missionManager), marker(new Marker)
+	  missionManager(game->getMissionManager()), marker(new Marker)
 {
 	missionList = guienv->addListBox(rect<s32>(20,20,300,480), tab);
 	missionDescription = guienv->addStaticText(L"", rect<s32>(320,20,780,480), false, true, tab);

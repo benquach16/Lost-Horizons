@@ -8,12 +8,12 @@
 class MissionTab : public MenuTab
 {
 public:
-	MissionTab(IGUITabControl *tabs, MissionManager *missionManager);
+	MissionTab(IGUITabControl *tabs);
 	~MissionTab();
 
 	void run();
 
-protected:
+private:
 	void loadMissions();
 	//list of all the missions
 	IGUIListBox *missionList;

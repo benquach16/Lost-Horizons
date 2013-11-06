@@ -2,19 +2,17 @@
 #define _CARGOTAB_H_
 
 #include "menutab.h"
-#include "player.h"
+#include "inventory.h"
 
 class CargoTab : public MenuTab
 {
 public:
-	CargoTab(IGUITabControl *tabs, Player* player);
+	CargoTab(IGUITabControl *tabs, Inventory &playerData);
 	~CargoTab();
 
 	void run();
 
 private:
-	Player* player;
-
 	IGUIListBox* itemList;
 	IGUIStaticText* costTxtBox;
 	IGUIStaticText* weightTxtBox;
@@ -22,5 +20,8 @@ private:
 
 	void itemListUpdate();
 	void showItemInfo();
+
+	Inventory &playerData;
 };
+
 #endif

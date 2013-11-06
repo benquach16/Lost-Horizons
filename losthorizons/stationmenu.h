@@ -1,8 +1,6 @@
 #ifndef _STATIONMENU_H_
 #define _STATIONMENU_H_
 
-#include "player.h"
-#include "spacestation.h"
 #include "menuwindow.h"
 #include "storetab.h"
 #include "hangartab.h"
@@ -11,16 +9,14 @@
 class StationMenu : public MenuWindow
 {
 public:
-	StationMenu(Player *player);
-	virtual ~StationMenu();
-	void run(const TargetableObject *target);
+	StationMenu(Ship *player);
+	~StationMenu();
+	virtual void run(const TargetableObject *target);
 	
 protected:
 	gui::IGUITabControl *tabs;
 	StoreTab *store;
 	HangarTab *hangar;
-
-	Player *player;
 };
 
 #endif

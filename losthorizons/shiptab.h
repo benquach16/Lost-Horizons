@@ -2,19 +2,17 @@
 #define _SHIPTAB_H_
 
 #include "menutab.h"
-#include "player.h"
+#include "ship.h"
 
 class ShipTab : public MenuTab
 {
 public:
-	ShipTab(IGUITabControl *tabs, Player* player);
+	ShipTab(IGUITabControl *tabs, Ship* player);
 	~ShipTab();
 
 	void run();
 
 private:
-	Player* player;
-
 	IGUIStaticText* shipName;
 	IGUIStaticText* description;
 	IGUIListBox* systemsList;
@@ -24,5 +22,7 @@ private:
 	IGUIButton* repair;
 	IGUIButton* replace;
 	void textUpdate();
+
+	Ship* player;
 };
 #endif

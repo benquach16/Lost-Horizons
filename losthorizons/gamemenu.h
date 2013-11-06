@@ -2,7 +2,6 @@
 #define _GAMEMENU_H_
 
 #include "menuwindow.h"
-#include "player.h"
 #include "shiptab.h"
 #include "cargotab.h"
 #include "missiontab.h"
@@ -11,9 +10,8 @@
 class GameMenu : public MenuWindow
 {
 public:
-	GameMenu(Player* player, MissionManager *missionManager);
+	GameMenu(Ship *player);
 	~GameMenu();
-
 	virtual void run();
 
 protected:
@@ -23,8 +21,5 @@ protected:
 	MissionTab *mission;
 	//CrewTab* crew;
 	//LoadoutTab* loadout;
-	
-	Player* player;
-	MissionManager *missionManager;
 };
 #endif
