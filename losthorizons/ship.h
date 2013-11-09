@@ -38,17 +38,6 @@ enum E_SUBSYSTEM_TYPE
 	SUBSYSTEM_COUNT
 };
 
-
-/*
-depreciated, delete when certain we can
-struct Subsystem
-{
-	int health;
-	std::wstring name;
-	Subsystem() : health(100) {}
-	Subsystem(const std::wstring &name) : name(name), health(100) {}
-};*/
-
 //store all the ship info in a struct so we can save it easily
 struct ShipInformation
 {
@@ -84,7 +73,7 @@ public:
 	static wchar_t *subsystemNames[SUBSYSTEM_COUNT];
 
 	Ship(const E_GAME_FACTION& faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
-	Ship(const u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation);
+	Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation);
 	Ship(const Ship *s, const vector3df &position, const vector3df &rotation);
 	Ship& operator=(const Ship *s);
 	virtual ~Ship();
@@ -119,7 +108,7 @@ public:
 	const ShipInformation& getInfo() const;
 	const TargetableObject* getShipTarget() const;
 	const virtual E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
-	std::vector<s8>& getSubsystems();
+	s8 *getSubsystems();
 	Inventory& getInventory();
 	std::vector<TurretSlot*>& getTurrets(E_TURRET_CLASS turretClass);
 
@@ -140,7 +129,7 @@ protected:
 	ShipInformation info;
 
 	//data containers
-	std::vector<s8> subsystems;
+	s8 subsystems[SUBSYSTEM_COUNT];
 	Inventory inventory;
 	//turrets
 	std::vector<TurretSlot*> heavyTurrets;

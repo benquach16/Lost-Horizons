@@ -306,9 +306,6 @@
     <ClInclude Include="objectmanager.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
-    <ClInclude Include="musicmanager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -490,9 +487,6 @@
     </ClCompile>
     <ClCompile Include="objectmanager.cpp">
       <Filter>Source Files\objects\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="musicmanager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jobtab.cpp">
       <Filter>Source Files\ui\tabs\stationmenu</Filter>

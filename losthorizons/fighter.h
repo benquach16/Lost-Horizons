@@ -11,14 +11,13 @@ struct FighterInformation
 {
 	ObjectManager::E_FIGHTER_LIST fighterType;
 	int maxHull, hull;
-	f32 maxVelocity, velocity;
-	f32 maxTurn;
+	f32 velocity, maxTurn;
 	unsigned maxFuel, fuel;
 	vector3df targetRotation;
 	FighterInformation() {}
 	FighterInformation(ObjectManager::E_FIGHTER_LIST fighterType) 
 		: maxHull(ObjectManager::fighterList[fighterType]->getMaxHull()), hull(maxHull),
-		maxVelocity(ObjectManager::fighterList[fighterType]->getMaxVelocity()), velocity(0),
+		velocity(ObjectManager::fighterList[fighterType]->getMaxVelocity()),
 		maxTurn(ObjectManager::fighterList[fighterType]->getMaxTurn()),
 		maxFuel(ObjectManager::fighterList[fighterType]->getMaxFuel()), fuel(maxFuel)
 	{}

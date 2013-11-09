@@ -11,7 +11,7 @@ Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST sh
 	init();
 }
 
-Player::Player(const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
+Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
 	: Ship(0, info, subsystems, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker),
 	  playerCam(0), gameMenu(0), stationMenu(0)
 {

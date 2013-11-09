@@ -10,7 +10,8 @@ public:
 	JobTab(IGUITabControl *tabs);
 	~JobTab();
 	virtual void run();
-protected:
+
+private:
 
 };
 

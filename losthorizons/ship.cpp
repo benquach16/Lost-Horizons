@@ -16,7 +16,7 @@ wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator"
 
 Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
-	  subsystems(SUBSYSTEM_COUNT, 100), shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0),
+	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0),
 	  fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
@@ -28,6 +28,10 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	//add it to the ships list
 	allShips.push_back(this);
 	
+	for (unsigned i = 0; i < SUBSYSTEM_COUNT; ++i) {
+		subsystems[i] = 100;
+	}
+
 	//set up the ship turrets
 	initTurrets();
 	initEngineTrails();
@@ -49,15 +53,19 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	inventory.addItem(ObjectManager::E_ITEM_LIST::PHOTONI, 4);
 }
 
-Ship::Ship(const u16 ID, const ShipInformation &info, const std::vector<s8> &subsystems, const vector3df &position, const vector3df &rotation)
+Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(ID, *ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info),
-	  subsystems(subsystems), shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0),
+	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0),
 	  fighterUpdateTime(0), index(allShips.size())
 {
 	//add it to the ships list
 	allShips.push_back(this);
 
 	std::cout << '[' << ID << "]Ship object created" << std::endl;
+
+	for (unsigned i = 0; i < SUBSYSTEM_COUNT; ++i) {
+		this->subsystems[i] = subsystems[i];
+	}
 
 	//set up the ship turrets
 	initTurrets();
@@ -67,7 +75,7 @@ Ship::Ship(const u16 ID, const ShipInformation &info, const std::vector<s8> &sub
 //copy constructor
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info),
-	  subsystems(s->subsystems), shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0),
+	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0),
 	  fighterUpdateTime(0), index(allShips.size())
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
@@ -78,6 +86,11 @@ Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 
 	//add it to the ships list
 	allShips.push_back(this);
+
+	for (unsigned i = 0; i < SUBSYSTEM_COUNT; ++i) {
+		subsystems[i] = s->subsystems[i];
+	}
+
 	initTurrets();
 	initEngineTrails();
 }
@@ -160,18 +173,11 @@ bool Ship::run()
 			movement();
 
 			//recharge shields
-			if (subsystems[SUBSYSTEM_SHIELD] > 0)
+			if (subsystems[SUBSYSTEM_SHIELD] > 0 && info.shield < info.maxShield && shieldTimer < timer->getTime())
 			{
-				if(info.shield < info.maxShield)
-				{
-					if(shieldTimer < timer->getTime())
-					{
-						info.shield++;
-						shieldTimer  = timer->getTime() + 100;
-					}
-				}
+				info.shield++;
+				shieldTimer  = timer->getTime() + 100;
 			}
-
 
 			//if is not player do ai stuff
 			if (!isPlayer())
@@ -212,7 +218,7 @@ void Ship::fireTurrets()
 	{
 		mediumTurrets[i]->fire();
 	}
-	for (unsigned i = 0; i < lightTurrets.size(); i++)
+	for (unsigned i = 0; i < lightTurrets.size(); ++i)
 	{
 		lightTurrets[i]->fire();
 	}
@@ -305,7 +311,7 @@ const E_TARGETABLEOBJECT_TYPE Ship::getTargetableObjectType() const
 	return TARGETABLEOBJECT_SHIP;
 }
 
-std::vector<s8>& Ship::getSubsystems()
+s8 *Ship::getSubsystems()
 {
 	return subsystems;
 }
@@ -392,51 +398,36 @@ void Ship::warpToTarget()
 //rotates ship to point
 void Ship::rotate()
 {
-	vector3df sRot = getRotation();
-	vector3df rotSlow = getRotation();
-	if (getRotation().Y < info.targetRotation.Y)	//ship wants to rotate right
-	{
-		rotSlow.Y = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));	//simulate inertia
-		rotSlow.Z = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));
-		if (rotSlow.Z > 4)
-			rotSlow.Z = 4.f;
-		if (rotSlow.X > 4)
-			rotSlow.X = 4.f;
-		if (rotSlow.Y > info.maxTurn)
-			rotSlow.Y = info.maxTurn;
-		sRot.Y += rotSlow.Y*frameDeltaTime;
-		sRot.Z = -rotSlow.Z;
-		setRotation(sRot);
-	}
-	if (getRotation().Y > info.targetRotation.Y)	//ship wants to rotate left
-	{
-		rotSlow.Y = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));	//simulate inertia
-		rotSlow.Z = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));
-		if (rotSlow.Z > 4)
-			rotSlow.Z = 4;
-		if (rotSlow.Y > info.maxTurn)
-			rotSlow.Y = info.maxTurn;
-		sRot.Y -= rotSlow.Y*frameDeltaTime;
-		sRot.Z = rotSlow.Z;
-		setRotation(sRot);
-	}
-	if (getRotation().X > info.targetRotation.X)	//turn up
-	{
-		sRot = getRotation();
-		rotSlow.X = 0.5f*(abs(getRotation().X-info.targetRotation.X));
-		if (rotSlow.X > info.maxTurn)
-			rotSlow.X = info.maxTurn;
-		sRot.X -= rotSlow.X*frameDeltaTime;
-		setRotation(sRot);
-	}
-	if (getRotation().X < info.targetRotation.X)	//turn down
-	{
-		sRot = getRotation();
-		rotSlow.X = 0.5f*(abs(getRotation().X-info.targetRotation.X));
-		if (rotSlow.X > info.maxTurn)
-			rotSlow.X = info.maxTurn;
-		sRot.X += rotSlow.X*frameDeltaTime;
-		setRotation(sRot);
+	vector3df currentRot = getRotation();
+	if (currentRot != info.targetRotation) {
+		if (currentRot.Y != info.targetRotation.Y) {
+			f32 slowY = currentRot.Z = 0.5f*abs(currentRot.Y - info.targetRotation.Y);
+			if (slowY > info.maxTurn)
+				slowY = info.maxTurn;
+			if (currentRot.Z > 4)
+				currentRot.Z = 4.f;
+			if (currentRot.Y < info.targetRotation.Y) {
+				//rotate right
+				currentRot.Y += slowY*frameDeltaTime;
+				currentRot.Z = -currentRot.Z;
+			} else {
+				//rotate left
+				currentRot.Y -= slowY*frameDeltaTime;
+			}
+		}
+		if (currentRot.X != info.targetRotation.X) {
+			f32 slowX = 0.5f*abs(currentRot.X - info.targetRotation.X);
+			if (slowX > info.maxTurn)
+				slowX = info.maxTurn;
+			if (currentRot.X > info.targetRotation.X) {
+				//rotate up
+				currentRot.X -= slowX*frameDeltaTime;
+			} else {
+				//rotate down
+				currentRot.X += slowX*frameDeltaTime;
+			}
+		}
+		setRotation(currentRot);
 	}
 }
 

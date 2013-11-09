@@ -140,8 +140,7 @@ void DataManager::push()
 		game->getGameSceneManager()->changeCurrentScene(scene);
 		for (unsigned i = 0; i < ships.first; ++i) {
 			game->getGameSceneManager()->createShip(ships.second[i].ID, ships.second[i].info,
-				std::vector<s8>(ships.second[i].subsystems,ships.second[i].subsystems+SUBSYSTEM_COUNT),
-				ships.second[i].position, ships.second[i].rotation);
+				ships.second[i].subsystems, ships.second[i].position, ships.second[i].rotation);
 		}
 		setTargets();
 		game->init();

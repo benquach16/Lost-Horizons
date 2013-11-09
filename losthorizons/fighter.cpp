@@ -39,7 +39,6 @@ bool Fighter::run()
 {
 	//run basic control and ai here
 	if (info.hull > 1) {
-		info.velocity = info.maxVelocity;
 		rotate();
 		movement();
 		if (fighterTarget) {
@@ -104,51 +103,36 @@ const E_TARGETABLEOBJECT_TYPE Fighter::getTargetableObjectType() const
 //protected function
 void Fighter::rotate()
 {
-	vector3df sRot = getRotation();
-	vector3df rotSlow = getRotation();
-	if (getRotation().Y < info.targetRotation.Y)	//ship wants to rotate right
-	{
-		rotSlow.Y = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));	//simulate inertia
-		rotSlow.Z = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));
-		if (rotSlow.Z > 4)
-			rotSlow.Z = 4.f;
-		if (rotSlow.X > 4)
-			rotSlow.X = 4.f;
-		if (rotSlow.Y > info.maxTurn)
-			rotSlow.Y = info.maxTurn;
-		sRot.Y += rotSlow.Y*frameDeltaTime;
-		sRot.Z = -rotSlow.Z;
-		setRotation(sRot);
-	}
-	if (getRotation().Y > info.targetRotation.Y)	//ship wants to rotate left
-	{
-		rotSlow.Y = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));	//simulate inertia
-		rotSlow.Z = 0.5f*(abs(getRotation().Y-info.targetRotation.Y));
-		if (rotSlow.Z > 4)
-			rotSlow.Z = 4;
-		if (rotSlow.Y > info.maxTurn)
-			rotSlow.Y = info.maxTurn;
-		sRot.Y -= rotSlow.Y*frameDeltaTime;
-		sRot.Z = rotSlow.Z;
-		setRotation(sRot);
-	}
-	if (getRotation().X > info.targetRotation.X)	//turn up
-	{
-		sRot = getRotation();
-		rotSlow.X = 0.5f*(abs(getRotation().X-info.targetRotation.X));
-		if (rotSlow.X > info.maxTurn)
-			rotSlow.X = info.maxTurn;
-		sRot.X -= rotSlow.X*frameDeltaTime;
-		setRotation(sRot);
-	}
-	if (getRotation().X < info.targetRotation.X)	//turn down
-	{
-		sRot = getRotation();
-		rotSlow.X = 0.5f*(abs(getRotation().X-info.targetRotation.X));
-		if (rotSlow.X > info.maxTurn)
-			rotSlow.X = info.maxTurn;
-		sRot.X += rotSlow.X*frameDeltaTime;
-		setRotation(sRot);
+	vector3df currentRot = getRotation();
+	if (currentRot != info.targetRotation) {
+		if (currentRot.Y != info.targetRotation.Y) {
+			f32 slowY = currentRot.Z = 0.5f*abs(currentRot.Y - info.targetRotation.Y);
+			if (slowY > info.maxTurn)
+				slowY = info.maxTurn;
+			if (currentRot.Z > 4)
+				currentRot.Z = 4.f;
+			if (currentRot.Y < info.targetRotation.Y) {
+				//rotate right
+				currentRot.Y += slowY*frameDeltaTime;
+				currentRot.Z = -currentRot.Z;
+			} else {
+				//rotate left
+				currentRot.Y -= slowY*frameDeltaTime;
+			}
+		}
+		if (currentRot.X != info.targetRotation.X) {
+			f32 slowX = 0.5f*abs(currentRot.X - info.targetRotation.X);
+			if (slowX > info.maxTurn)
+				slowX = info.maxTurn;
+			if (currentRot.X > info.targetRotation.X) {
+				//rotate up
+				currentRot.X -= slowX*frameDeltaTime;
+			} else {
+				//rotate down
+				currentRot.X += slowX*frameDeltaTime;
+			}
+		}
+		setRotation(currentRot);
 	}
 }
 

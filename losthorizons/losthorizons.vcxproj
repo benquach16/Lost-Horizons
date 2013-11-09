@@ -170,7 +170,6 @@
     <ClInclude Include="missionmanager.h" />
     <ClInclude Include="missionproperties.h" />
     <ClInclude Include="missiontab.h" />
-    <ClInclude Include="musicmanager.h" />
     <ClInclude Include="objective.h" />
     <ClInclude Include="officer.h" />
     <ClInclude Include="shiptab.h" />
@@ -257,7 +256,6 @@
     <ClCompile Include="missionproperties.cpp" />
     <ClCompile Include="missiontab.cpp" />
     <ClCompile Include="modelproperties.cpp" />
-    <ClCompile Include="musicmanager.cpp" />
     <ClCompile Include="muzzleflash.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objective.cpp" />
