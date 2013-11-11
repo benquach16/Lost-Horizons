@@ -67,7 +67,7 @@ void Player::init()
 void Player::control()
 {
 	//all actions the player can do are stored here
-	if (receiver->isKeyReleased(KEY_LBUTTON) && !gameMenu->getVisible() && !stationMenu->getVisible()) {
+	if (receiver->isKeyPressed(KEY_LBUTTON) && !gameMenu->getVisible() && !stationMenu->getVisible()) {
 		//do target selection code here
 		setTarget(0);
 		unsigned i = 0;

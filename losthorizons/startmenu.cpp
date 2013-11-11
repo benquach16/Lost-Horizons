@@ -73,7 +73,7 @@ void StartMenu::run()
 	MenuWindow::run();
 	if (getVisible()) {
 		window->getParent()->getParent()->bringToFront(window->getParent()); // dafuq is dis shit omg so bad
-		if (resume->isPressed()) {
+		if (resume->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 			saved = false;
 			setVisible(false);
 		}
@@ -83,7 +83,7 @@ void StartMenu::run()
 			game->createNewGame();
 			setVisible(false);
 		}
-		if (loadgame->isPressed()) {
+		if (loadgame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 			if (gConfig.bPlay) {
 				delete game;
 				game = new Gameloop(data);
@@ -95,7 +95,7 @@ void StartMenu::run()
 			data->load("saves\\___TEST_SAVE___.lsv");//temporary
 			setVisible(false);
 		}
-		if (savegame->isPressed()) {
+		if (savegame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 			saved = true;
 			//function for saving
 			data->save("saves\\___TEST_SAVE___.lsv");//temporary
