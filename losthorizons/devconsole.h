@@ -17,7 +17,8 @@ private:
 	enum E_ACTION_TYPE
 	{
 		ACTION_TOGGLE,
-		ACTION_CREATE
+		ACTION_CREATE,
+		ACTION_DESTROY
 	};
 
 	struct message

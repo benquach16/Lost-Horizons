@@ -30,8 +30,6 @@ private:
 	bool keys[KEY_KEY_CODES_COUNT];
 	bool keysReleased[KEY_KEY_CODES_COUNT];
 	int keysRepeatCount[KEY_KEY_CODES_COUNT];
-	bool mouseL;
-	bool mouseR;
 	int mouseX, mouseY;
 	int mouseWheel;
 };

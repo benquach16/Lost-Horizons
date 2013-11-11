@@ -5,7 +5,7 @@
 #define REPEATRATE 1 //currently unused
 
 KeyListener::KeyListener()
-	: mouseL(false), mouseR(false), mouseX(0), mouseY(0), mouseWheel(0)
+	: mouseX(0), mouseY(0), mouseWheel(0)
 {
 	for (unsigned i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
 		keys[i] = false;
@@ -38,16 +38,20 @@ bool KeyListener::OnEvent(const SEvent& event)
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		//mouse events
 		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
-			mouseL = true;
+			keys[KEY_LBUTTON] = true;
+			keysReleased[KEY_LBUTTON] = true;
 		}
-		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP) {
-			mouseL = false;
+		else if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP) {
+			keys[KEY_LBUTTON] = false;
+			keysRepeatCount[KEY_LBUTTON] = -1;
 		}
 		if (event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) {
-			mouseR = true;
+			keys[KEY_RBUTTON] = true;
+			keysReleased[KEY_RBUTTON] = true;
 		}
-		if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
-			mouseR = false;
+		else if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
+			keys[KEY_RBUTTON] = false;
+			keysRepeatCount[KEY_RBUTTON] = -1;
 		}
 		if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
 			// check the mouse coords
@@ -101,10 +105,10 @@ const int KeyListener::getMouseWheel() const
 
 bool KeyListener::getLeftMouseButton() const
 {
-	return mouseL;
-}
+	return keys[KEY_LBUTTON];
+} //can remove and just use the key functions we have
 
 bool KeyListener::getRightMouseButton() const
 {
-	return mouseR;
-}
+	return keys[KEY_RBUTTON];
+} //can remove and just use the key functions we have
