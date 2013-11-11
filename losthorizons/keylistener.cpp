@@ -21,21 +21,19 @@ KeyListener::KeyListener()
 bool KeyListener::OnEvent(const SEvent& event)
 {
 	//get events from operating system
-    if (event.EventType == EET_KEY_INPUT_EVENT)
+	switch (event.EventType)
 	{
-		if (event.KeyInput.PressedDown)
-		{
+	case EET_KEY_INPUT_EVENT:
+		if (event.KeyInput.PressedDown) {
 			keys[event.KeyInput.Key] = true;
 			keysReleased[event.KeyInput.Key] = true;
-		}
-		else
-		{
+		} else {
 			keys[event.KeyInput.Key] = false;
 			keysRepeatCount[event.KeyInput.Key] = -1;
 		}
-       // keys[event.KeyInput.Key] = event.KeyInput.PressedDown;
-	}
-	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		// keys[event.KeyInput.Key] = event.KeyInput.PressedDown;
+		break;
+	case EET_MOUSE_INPUT_EVENT:
 		//mouse events
 		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
 			keys[KEY_LBUTTON] = true;
@@ -45,7 +43,7 @@ bool KeyListener::OnEvent(const SEvent& event)
 			keys[KEY_LBUTTON] = false;
 			keysRepeatCount[KEY_LBUTTON] = -1;
 		}
-		if (event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) {
+		else if (event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) {
 			keys[KEY_RBUTTON] = true;
 			keysReleased[KEY_RBUTTON] = true;
 		}
@@ -53,15 +51,16 @@ bool KeyListener::OnEvent(const SEvent& event)
 			keys[KEY_RBUTTON] = false;
 			keysRepeatCount[KEY_RBUTTON] = -1;
 		}
-		if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
+		else if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
+			// how do i make it work?
+			mouseWheel += (int)event.MouseInput.Wheel;
+		}
+		else {
 			// check the mouse coords
 			mouseX = event.MouseInput.X;
 			mouseY = event.MouseInput.Y;
 		}
-		if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
-			// how do i make it work?
-			mouseWheel += (int)event.MouseInput.Wheel;
-		}
+		break;
 	}
     return false;
 }
@@ -102,13 +101,3 @@ const int KeyListener::getMouseWheel() const
 {
 	return mouseWheel;
 }
-
-bool KeyListener::getLeftMouseButton() const
-{
-	return keys[KEY_LBUTTON];
-} //can remove and just use the key functions we have
-
-bool KeyListener::getRightMouseButton() const
-{
-	return keys[KEY_RBUTTON];
-} //can remove and just use the key functions we have

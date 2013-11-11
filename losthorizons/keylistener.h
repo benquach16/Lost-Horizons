@@ -23,8 +23,6 @@ public:
 	const int getMouseX() const;
 	const int getMouseY() const;
 	const int getMouseWheel() const;
-	bool getLeftMouseButton() const;
-	bool getRightMouseButton() const;
 
 private:
 	bool keys[KEY_KEY_CODES_COUNT];

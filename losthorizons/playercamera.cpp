@@ -90,7 +90,7 @@ void PlayerCamera::updateMousePosition(int x, int y)
 
 void PlayerCamera::control()
 {
-	if (receiver->getRightMouseButton()) {
+	if (receiver->isKeyDown(KEY_RBUTTON)) {
 		//we can rotate the camera around this way
 		rotateX(receiver->getMouseX());
 		rotateY(receiver->getMouseY());
