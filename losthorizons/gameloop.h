@@ -6,6 +6,7 @@
 #include "gamescenemanager.h"
 #include "missionmanager.h"
 #include "objectmanager.h"
+#include "musicmanager.h"
 #include "visualsmanager.h"
 #include "player.h"
 #include "intercom.h"
@@ -33,7 +34,7 @@ private:
 	MissionManager *missionManager;
 	ObjectManager *objectManager;
 	VisualsManager *visualsManager;
-	
+	MusicManager *musicManager;
 	Player *player;
 	Intercom *intercom;
 };

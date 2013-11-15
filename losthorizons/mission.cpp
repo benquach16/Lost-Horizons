@@ -11,7 +11,14 @@ Mission::Mission(const MissionProperties& missionInfo) :
 	name(missionInfo.getName()), description(missionInfo.getDesc()),
 	objectives(missionInfo.getObjs())
 {
-
+	//create ships from missioninfo here 
+	//because we don't want to load as we parse the file
+	std::queue<shipCreateQueue> queue;
+	queue = missionInfo.getCreationQueue();
+	while(!queue.empty())
+		{
+			
+		}
 }
 
 Mission::~Mission()

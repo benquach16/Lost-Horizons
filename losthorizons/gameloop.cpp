@@ -6,8 +6,8 @@ using namespace base;
 
 Gameloop::Gameloop(DataManager *data)
 	: data(data), gameSceneManager(new GameSceneManager), missionManager(new MissionManager),
-	  objectManager(new ObjectManager), visualsManager(new VisualsManager), player(0),
-	  intercom(0)
+	  objectManager(new ObjectManager), visualsManager(new VisualsManager), musicManager(new MusicManager),
+		player(0),intercom(0)
 {
 }
 
@@ -18,6 +18,7 @@ Gameloop::~Gameloop()
 	delete missionManager;
 	delete objectManager;
 	delete visualsManager;
+	delete musicManager;
 	delete player;
 }
 

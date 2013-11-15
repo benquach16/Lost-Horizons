@@ -120,6 +120,11 @@ const std::vector<Objective>& MissionProperties::getObjs() const
 	return objectives;
 }
 
+std::queue<shipCreateQueue> MissionProperties::getCreationQueue() const
+{
+	return creationQueue;
+}
+
 //protected function
 E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 {
