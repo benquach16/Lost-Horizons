@@ -491,13 +491,16 @@
     <ClCompile Include="turret.cpp">
       <Filter>Source Files\objects\Object</Filter>
     </ClCompile>
-    <ClCompile Include="objectmanager.cpp">
-      <Filter>Source Files\objects\Object</Filter>
-    </ClCompile>
     <ClCompile Include="jobtab.cpp">
       <Filter>Source Files\ui\tabs\stationmenu</Filter>
     </ClCompile>
     <ClCompile Include="musicmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objectmanager.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="devconsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "devconsole.h"
 #include "globals.h"
-#include <ostream>
+#include <iostream>
 
 using namespace base;
 

@@ -18,8 +18,8 @@ public:
 	void run();
 
 private:
-	scene::ICameraSceneNode *cam;
 	scene::IBillboardSceneNode* dust[NUMDUSTCLOUDS];
+
 };
 
 #endif

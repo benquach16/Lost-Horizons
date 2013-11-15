@@ -81,7 +81,7 @@ void BaseApplication::run()
 		vdriver->updateAllOcclusionQueries(false);
 		if (!menu->getVisible()) {
 			game->run();
-			if (receiver->isKeyDown(irr::KEY_ESCAPE))
+			if (receiver->isKeyDown(KEY_ESCAPE))
 			{
 				menu->setVisible(true);
 			}

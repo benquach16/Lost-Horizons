@@ -28,7 +28,7 @@ private:
 		void run();
 	};
 
-	std::queue<message*> messages;
+	std::queue<message> messages;
 };
 
 #endif

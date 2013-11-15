@@ -81,41 +81,41 @@ void Player::control()
 			i++;
 		}
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_X) && !info.warping) {
+	if (receiver->isKeyDown(KEY_KEY_X) && !info.warping) {
 		//accelerate
 		increaseVelocity();
-	} else if (receiver->isKeyDown(irr::KEY_KEY_Z)&& !info.warping) {
+	} else if (receiver->isKeyDown(KEY_KEY_Z)&& !info.warping) {
 		//decelerate
 		decreaseVelocity();
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_A)&& !info.warping) {
+	if (receiver->isKeyDown(KEY_KEY_A)&& !info.warping) {
 		//rotate left
 		setTargetRotation(getTargetRotation() - core::vector3df(0,35*frameDeltaTime,0));
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_D)&& !info.warping) {
+	if (receiver->isKeyDown(KEY_KEY_D)&& !info.warping) {
 		//rotate right
 		vector3df rot = getTargetRotation();
 		rot.Y += 35*frameDeltaTime;
 		setTargetRotation(getTargetRotation() + core::vector3df(0,35*frameDeltaTime,0));
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_W)&& !info.warping) {
+	if (receiver->isKeyDown(KEY_KEY_W)&& !info.warping) {
 		//rotate up
 		vector3df rot = getTargetRotation();
 		rot.X -= 35*frameDeltaTime;
 		setTargetRotation(getTargetRotation() - core::vector3df(35*frameDeltaTime,0,0));
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_S)&& !info.warping) {
+	if (receiver->isKeyDown(KEY_KEY_S)&& !info.warping) {
 		//rotate down
 		vector3df rot = getTargetRotation();
 		rot.X += 35*frameDeltaTime;
 		setTargetRotation(getTargetRotation() + core::vector3df(35*frameDeltaTime,0,0));
 	}
-	if (receiver->isKeyDown(irr::KEY_SPACE)) {
+	if (receiver->isKeyDown(KEY_SPACE)) {
 		fireTurrets();
 		intercom->postMessage(L"Firing all available batteries sir!");
 	}
 	//do docking
-	if (receiver->isKeyReleased(irr::KEY_KEY_V))
+	if (receiver->isKeyReleased(KEY_KEY_V))
 	{
 		if(!info.docked)
 		{
@@ -139,17 +139,17 @@ void Player::control()
 		}
 	}
 	//draw command console
-	if (receiver->isKeyReleased(irr::KEY_KEY_C))
+	if (receiver->isKeyReleased(KEY_KEY_C))
 	{
 		gameMenu->setVisible(!gameMenu->getVisible());
 	}
 	//launch fighters
-	if (receiver->isKeyReleased(irr::KEY_KEY_N))
+	if (receiver->isKeyReleased(KEY_KEY_N))
 	{
 		launchFighters();
 		intercom->postMessage(L"Launching available fighters, sir");
 	}
-	if (receiver->isKeyReleased(irr::KEY_KEY_J))
+	if (receiver->isKeyReleased(KEY_KEY_J))
 	{
 		warpToTarget();
 		intercom->postMessage(L"Yes sir, initiating warp sequence");
