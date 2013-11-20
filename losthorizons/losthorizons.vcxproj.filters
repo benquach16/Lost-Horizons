@@ -312,6 +312,9 @@
     <ClInclude Include="musicmanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="missionmenu.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -491,17 +494,17 @@
     <ClCompile Include="turret.cpp">
       <Filter>Source Files\objects\Object</Filter>
     </ClCompile>
+    <ClCompile Include="objectmanager.cpp">
+      <Filter>Source Files\objects\Object</Filter>
+    </ClCompile>
     <ClCompile Include="jobtab.cpp">
       <Filter>Source Files\ui\tabs\stationmenu</Filter>
     </ClCompile>
     <ClCompile Include="musicmanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objectmanager.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="devconsole.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="missionmenu.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

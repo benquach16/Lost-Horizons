@@ -169,6 +169,7 @@
     <ClInclude Include="menutab.h" />
     <ClInclude Include="mission.h" />
     <ClInclude Include="missionmanager.h" />
+    <ClInclude Include="missionmenu.h" />
     <ClInclude Include="missionproperties.h" />
     <ClInclude Include="missiontab.h" />
     <ClInclude Include="musicmanager.h" />
@@ -232,7 +233,6 @@
     <ClCompile Include="cargotab.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
-    <ClCompile Include="devconsole.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fighter.cpp" />
@@ -256,6 +256,7 @@
     <ClCompile Include="messagemenu.cpp" />
     <ClCompile Include="mission.cpp" />
     <ClCompile Include="missionmanager.cpp" />
+    <ClCompile Include="missionmenu.cpp" />
     <ClCompile Include="missionproperties.cpp" />
     <ClCompile Include="missiontab.cpp" />
     <ClCompile Include="modelproperties.cpp" />
