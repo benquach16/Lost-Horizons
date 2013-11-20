@@ -16,7 +16,8 @@ enum E_AI_STATE
 	AI_FLEEING,
 	AI_ATTACKING,
 	AI_DEFENDING,
-	AI_ASSAULTING
+	AI_ASSAULTING,
+	AI_TRADING,
 };
 
 
@@ -124,6 +125,7 @@ public:
 	
 	void warpToTarget();
 
+
 protected:
 	//ship stats
 	ShipInformation info;
@@ -160,6 +162,7 @@ private:
 	void runAI();
 	void updateStates();
 	void searchForTarget();
+	void searchForFriendlyStation();
 
 	//controls how fast we want the shields to recharge
 	u32 shieldTimer;

@@ -51,6 +51,9 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	setPDTurret(ObjectManager::E_ITEM_LIST::GATLINGI, 3);
 	inventory.addItem(ObjectManager::E_ITEM_LIST::WATER, 100);
 	inventory.addItem(ObjectManager::E_ITEM_LIST::PHOTONI, 4);
+
+	//artificially force neutral ships to be traders right now
+	info.currentAIState = AI_TRADING;
 }
 
 Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
@@ -393,6 +396,8 @@ void Ship::warpToTarget()
 	
 }
 
+
+
 //all private functions go under here
 //private function
 //rotates ship to point
@@ -421,10 +426,13 @@ void Ship::rotate()
 				slowX = info.maxTurn;
 			if (currentRot.X > info.targetRotation.X) {
 				//rotate up
-				currentRot.X -= slowX*frameDeltaTime;
+				//make sure we cant rotate past 70 up and down
+				if(currentRot.X < 70)
+					currentRot.X -= slowX*frameDeltaTime;
 			} else {
 				//rotate down
-				currentRot.X += slowX*frameDeltaTime;
+				if(currentRot.X > -70)
+					currentRot.X += slowX*frameDeltaTime;
 			}
 		}
 		setRotation(currentRot);
@@ -655,6 +663,26 @@ void Ship::runAI()
 			currentTime = timer->getTime() + AITIMER;
 		}
 	}
+	else if (info.currentAIState == AI_TRADING)
+	{
+		//implement trading code here
+		info.velocity = info.maxVelocity/2;
+		//generally, traders should be neutral
+		//generally
+		//we find arbitrary space station for now and fly to it
+		if(!shipTarget)
+		{
+			searchForFriendlyStation();
+		}
+		else
+		{
+			//orient towards station
+			vector3df targetVector = shipTarget->getPosition() - getPosition();
+			targetVector = targetVector.getHorizontalAngle();
+
+			setTargetRotation(targetVector);
+		}
+	}
 }
 
 //private function
@@ -687,6 +715,19 @@ void Ship::searchForTarget()
 				setTarget(allShips[i]);
 				info.currentAIState = AI_ATTACKING;
 			}
+		}
+	}
+}
+
+//private function
+void Ship::searchForFriendlyStation()
+{
+	//mostly use this for traders that keep going to different space stations
+	for (unsigned i = 0; i < SpaceStation::allStations.size(); i++)
+	{
+		if(SpaceStation::allStations[i]->getFaction() == this->getFaction() || SpaceStation::allStations[i]->getFaction() == FACTION_NEUTRAL)
+		{
+			setTarget(SpaceStation::allStations[i]);
 		}
 	}
 }
