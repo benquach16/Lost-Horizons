@@ -35,6 +35,7 @@ public:
 	{
 		PRAE_CRUISER,
 		ISHTAR_CRUISER,
+		EAGLE_FREIGHTER
 	};
 	enum E_FIGHTER_LIST
 	{

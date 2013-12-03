@@ -50,7 +50,7 @@ void Gameloop::createNewGame()
 	gameSceneManager->createShip(FACTION_TERRAN, ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(-500,0,0));
 	gameSceneManager->createShip(FACTION_PIRATE, ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(500,0,2000));
 	gameSceneManager->createShip(FACTION_PIRATE, ObjectManager::E_SHIP_LIST::ISHTAR_CRUISER, vector3df(-1000,0,2300));
-	gameSceneManager->createShip(FACTION_NEUTRAL, ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(400,0,0));
+	gameSceneManager->createShip(FACTION_NEUTRAL, ObjectManager::E_SHIP_LIST::EAGLE_FREIGHTER, vector3df(400,0,0));
 	gameSceneManager->createStation(FACTION_TERRAN, ObjectManager::E_STATION_LIST::TRADING, vector3df(1000,0,500));
 	gameSceneManager->createStation(FACTION_TERRAN, ObjectManager::E_STATION_LIST::SHIPYARD, vector3df(2000,-100,-2000));
 

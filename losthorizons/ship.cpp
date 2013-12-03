@@ -107,6 +107,18 @@ Ship& Ship::operator=(const Ship *s)
 		//TODO: ASSISNGMENT OPERATOR!!!
 		changeMesh(s->filename.c_str());
 		info = s->info;
+		for(unsigned i = 0; i < heavyTurrets.size(); i++)
+		{
+				delete heavyTurrets[i];
+		}
+		for(unsigned i = 0; i < mediumTurrets.size(); i++)
+		{
+				delete mediumTurrets[i];
+		}
+		for(unsigned i = 0; i < lightTurrets.size(); i++)
+		{
+				delete lightTurrets[i];
+		}
 
 	}
 	return *this;
@@ -367,7 +379,8 @@ void Ship::launchFighters()
 	{
 		if (fighterLaunchTime < timer->getTime())
 		{
-			Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
+				//TODO MAKE DIFFERENT FIGHTERS AVAILABLE TO SHIPS
+				Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
 				getPosition(), getRotation(), info.currentFaction, this);
 			fighterLaunchTime = timer->getTime() + 500;
 			info.fighters--;
@@ -428,11 +441,11 @@ void Ship::rotate()
 			if (currentRot.X > info.targetRotation.X) {
 				//rotate up
 				//make sure we cant rotate past 70 up and down
-				if(currentRot.X < 70)
+				if(currentRot.X > -70)
 					currentRot.X -= slowX*frameDeltaTime;
 			} else {
 				//rotate down
-				if(currentRot.X > -70)
+				if(currentRot.X < 70)
 					currentRot.X += slowX*frameDeltaTime;
 			}
 		}
@@ -639,7 +652,9 @@ void Ship::runAI()
 				//calculate vector to target
 				vector3df targetVector = shipTarget->getPosition() - getPosition();
 				targetVector = targetVector.getHorizontalAngle();
-
+				if(targetVector.X > 70 || targetVector.X < -70)
+						targetVector.X = 0;
+				targetVector.Z = 0;
 				setTargetRotation(targetVector);
 			}
 			//do ship target AI;
@@ -671,6 +686,7 @@ void Ship::runAI()
 		//generally, traders should be neutral
 		//generally
 		//we find arbitrary space station for now and fly to it
+		//shiptargets for traders are meant to be stations to fly to
 		if(!shipTarget)
 		{
 			searchForFriendlyStation();

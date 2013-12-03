@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<itemStats type="ship"> 
+	<name>Eagle Class Freighter</name>
+	<description>The Eagle Class Freighter is a powerhouse for moving goods.</description> 
+	<cost>75000</cost> 
+	<weight>1200000</weight>
+	<modelStats>
+		<filename>res/models/ships/eagle.X</filename>
+		<diffuseMap>res/models/ships/shiphull.png</diffuseMap>
+		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
+		<scaleX>0.4</scaleX>
+		<scaleY>0.4</scaleY>
+		<scaleZ>0.4</scaleZ>
+	</modelStats>
+	<shipStats>
+		<maxHull>1000</maxHull>
+		<maxArmor>500</maxArmor>
+		<maxShield>1000</maxShield>
+		<maxVelocity>65</maxVelocity>
+		<maxTurn>13</maxTurn>
+		<maxEnergy>1000</maxEnergy>
+		<maxCrew>200</maxCrew>
+		<maxFighters>0</maxFighters>
+		<maxCargo>4000</maxCargo>
+		<numEngines>3</numEngines>
+		<heavyTurret num="0">
+		</heavyTurret>
+		<mediumTurret num="0">
+		</mediumTurret>
+		<lightTurret num="0">
+		</lightTurret>
+    <pdTurret num="0">
+    </pdTurret>
+	</shipStats>
+</itemStats>

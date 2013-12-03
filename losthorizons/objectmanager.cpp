@@ -23,6 +23,7 @@ ObjectManager::ObjectManager()
 	itemList.push_back(new TurretProperties("items/turrets/photonI.xml"));
 	shipList.push_back(new ShipProperties("items/ships/praetorian_cruiser.xml"));
 	shipList.push_back(new ShipProperties("items/ships/ishtar_cruiser.xml"));
+	shipList.push_back(new ShipProperties("items/ships/eagle_freighter.xml"));
 	fighterList.push_back(new FighterProperties("items/fighters/dragonfly.xml"));
 	planetList.push_back(new PlanetProperties("items/planets/argrea.xml"));
 	planetList.push_back(new PlanetProperties("items/planets/farstar.xml"));

@@ -11,8 +11,12 @@ class MissionMenu : public MenuWindow
 	MissionMenu(gui::IGUIWindow *menu);
 	~MissionMenu();
 
+	void run();
  protected:
 	//do menustuff
+	gui::IGUIListBox *missionList;
+	gui::IGUIButton *accept;
+	gui::IGUIButton *cancel;
 };
 
 #endif
