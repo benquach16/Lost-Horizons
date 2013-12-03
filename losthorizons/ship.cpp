@@ -53,7 +53,8 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	inventory.addItem(ObjectManager::E_ITEM_LIST::PHOTONI, 4);
 
 	//artificially force neutral ships to be traders right now
-	info.currentAIState = AI_TRADING;
+	if(faction == FACTION_NEUTRAL)
+		info.currentAIState = AI_TRADING;
 }
 
 Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
@@ -725,9 +726,6 @@ void Ship::searchForFriendlyStation()
 	//mostly use this for traders that keep going to different space stations
 	for (unsigned i = 0; i < SpaceStation::allStations.size(); i++)
 	{
-		if(SpaceStation::allStations[i]->getFaction() == this->getFaction() || SpaceStation::allStations[i]->getFaction() == FACTION_NEUTRAL)
-		{
-			setTarget(SpaceStation::allStations[i]);
-		}
+		setTarget(SpaceStation::allStations[i]);
 	}
 }
