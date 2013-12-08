@@ -233,6 +233,7 @@
     <ClCompile Include="cargotab.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
+    <ClCompile Include="devconsole.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fighter.cpp" />

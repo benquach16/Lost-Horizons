@@ -89,6 +89,11 @@ void BaseApplication::run()
 		guienv->drawAll();
 
 		vdriver->endScene();
+
+		console.run();
+		if (receiver->isKeyReleased(KEY_OEM_3)) {
+			console.postMessage();
+		}
 	}
 }
 

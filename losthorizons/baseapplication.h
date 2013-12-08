@@ -3,6 +3,7 @@
 
 //run all the main loops from the base point
 
+#include "devconsole.h"
 #include "startmenu.h"
 #include "datamanager.h"
 #include "postprocess.h"
@@ -21,6 +22,7 @@ public:
 	void run();
 
 private:
+	DevConsole console;
 	StartMenu *menu;
 	DataManager *data;
 	PostProcessEffect *effect;
