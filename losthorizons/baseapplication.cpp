@@ -81,8 +81,7 @@ void BaseApplication::run()
 		vdriver->updateAllOcclusionQueries(false);
 		if (!menu->getVisible()) {
 			game->run();
-			if (receiver->isKeyDown(KEY_ESCAPE))
-			{
+			if (receiver->isKeyDown(KEY_ESCAPE)) {
 				menu->setVisible(true);
 			}
 		}
@@ -90,9 +89,10 @@ void BaseApplication::run()
 
 		vdriver->endScene();
 
-		console.run();
-		if (receiver->isKeyReleased(KEY_OEM_3)) {
-			console.postMessage();
+		if (receiver->isKeyPressed(KEY_OEM_3)) {
+			SetForegroundWindow(GetConsoleWindow());
+			console.run();
+			SetForegroundWindow((HWND)vdriver->getExposedVideoData().D3D9.HWnd);
 		}
 	}
 }

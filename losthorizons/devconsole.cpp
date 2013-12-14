@@ -2,35 +2,35 @@
 #include "devconsole.h"
 #include "globals.h"
 #include <conio.h>
+#include <sstream>
 
 using namespace base;
 
 DevConsole::DevConsole()
-	: size(0), index(0)
+	: size(0), index(0), historyIndex(0)
 {
 	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	buf[0] = '\0';
 }
 
 DevConsole::~DevConsole()
 {
-
 }
+
+//void DevConsole::run()
+//{
+//	if (!messages.empty()) {
+//		//messages.front().run();
+//		messages.pop();
+//	}
+//}
 
 void DevConsole::run()
 {
-	if (!messages.empty()) {
-		//messages.front().run();
-		messages.pop();
-	}
-}
-
-void DevConsole::postMessage()
-{
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(hstdout, &csbi);
+	COORD returnPos = csbi.dwCursorPosition;
+
 	_putch('\n');
-	index = size;
-	buf[size] = '\0';
 	_cputs(buf);
 
 	int keyPressed;
@@ -38,31 +38,28 @@ void DevConsole::postMessage()
 		keyPressed = _getch();
 		switch (keyPressed) {
 		case KB_RETURN:
-			// parse function here
-			SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-			csbi.dwCursorPosition.Y++;
-			buf[size] = '\0';
-			_putch('>');
-			_cputs(buf);
-			_putch('\n');
-			for (unsigned i = 0; i < size; ++i) {
-				_putch(' ');
+			if (parse()) {
+				clearLine();
+				SetConsoleCursorPosition(hstdout, returnPos);
+				returnPos.Y++;
+				_putch('>');
+				_cputs(buf);
+				_cputs("\n\n");
+				history.push_back(buf);
+				historyIndex = history.size();
+				index = size = 0;
 			}
-			_putch('\n');
-			index = size = 0;
 			break;
 		case KB_GRAVEACCENT:
+			buf[size] = '\0';
 			if (size > 0) {
-				COORD old = csbi.dwCursorPosition;
-				GetConsoleScreenBufferInfo(hstdout, &csbi);
-				csbi.dwCursorPosition.X = 0;
-				SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-				for (unsigned i = 0; i < size; ++i) {
-					_putch(' ');
-				}
-				csbi.dwCursorPosition = old;
+				clearLine();
+				index = size;
 			}
-			SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
+			SetConsoleCursorPosition(hstdout, returnPos);
+			break;
+		case KB_TAB:
+			// autocomplete stuff
 			break;
 		case KB_BACKSPACE:
 			if (index > 0) {
@@ -72,7 +69,6 @@ void DevConsole::postMessage()
 				if (index == size) {
 					_cputs(" \b");
 				} else {
-					COORD old = csbi.dwCursorPosition;
 					GetConsoleScreenBufferInfo(hstdout, &csbi);
 					for (unsigned i = index; i < size; ++i) {
 						buf[i] = buf[i + 1];
@@ -80,7 +76,6 @@ void DevConsole::postMessage()
 					}
 					_putch(' ');
 					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-					csbi.dwCursorPosition = old;
 				}
 			}
 			break;
@@ -89,22 +84,38 @@ void DevConsole::postMessage()
 		case KB_SPECIAL2:
 			switch (_getch()) {
 			case KB_UP:
-				// use history
+				if (historyIndex > 0) {
+					historyIndex--;
+					clearLine();
+					_cputs(history[historyIndex].c_str());
+					memcpy(buf, history[historyIndex].c_str(), history[historyIndex].size());
+					index = size = history[historyIndex].size();
+				}
 				break;
 			case KB_LEFT:
 				if (index > 0) {
-					_putch('\b');
+					GetConsoleScreenBufferInfo(hstdout, &csbi);
+					csbi.dwCursorPosition.X--;
+					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
 					index--;
 				}
 				break;
 			case KB_RIGHT:
 				if (index < size) {
-					_putch(buf[index]);
+					GetConsoleScreenBufferInfo(hstdout, &csbi);
+					csbi.dwCursorPosition.X++;
+					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
 					index++;
 				}
 				break;
 			case KB_DOWN:
-				// use history
+				if (historyIndex < history.size() - 1) {
+					historyIndex++;
+					clearLine();
+					_cputs(history[historyIndex].c_str());
+					memcpy(buf, history[historyIndex].c_str(), history[historyIndex].size());
+					index = size = history[historyIndex].size();
+				}
 				break;
 			}
 			break;
@@ -112,16 +123,14 @@ void DevConsole::postMessage()
 			if (size < CONSOLEBUFFERSIZE - 1 && __isascii(keyPressed)) {
 				_putch(keyPressed);
 				if (index < size) {
-					COORD old = csbi.dwCursorPosition;
 					GetConsoleScreenBufferInfo(hstdout, &csbi);
+					for (unsigned i = index; i < size; ++i) {
+						_putch(buf[i]);
+					}
 					for (unsigned i = size; i > index; --i) {
 						buf[i] = buf[i - 1];
 					}
-					for (unsigned i = index + 1; i < size + 1; ++i) {
-						_putch(buf[i]);
-					}
 					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-					csbi.dwCursorPosition = old;
 				}
 				buf[index] = keyPressed;
 				index++;
@@ -130,4 +139,25 @@ void DevConsole::postMessage()
 			break;
 		}
 	} while (keyPressed != KB_GRAVEACCENT);
+}
+
+void DevConsole::clearLine()
+{
+	GetConsoleScreenBufferInfo(hstdout, &csbi);
+	csbi.dwCursorPosition.X = 0;
+	SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
+	for (unsigned i = 0; i < size; ++i) {
+		_putch(' ');
+	}
+	SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
+}
+
+bool DevConsole::parse()
+{
+	// make sure it's valid here
+	// now figure out what it does and add it to the queue
+	buf[size] = '\0';
+	std::stringstream tokenize;
+	tokenize << buf;
+	return true;
 }

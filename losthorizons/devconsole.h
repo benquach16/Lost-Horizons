@@ -5,8 +5,8 @@
 
 //a simple command console
 
-#include <queue>
-#include <list>
+//#include <queue>
+#include <vector>
 
 class DevConsole
 {
@@ -16,13 +16,14 @@ public:
 	//take care of the first thing in the queue
 	void run();
 	//run a loop that allows you to add messages to the queue
-	void postMessage();
+	//void postMessage();
 
 private:
 	enum KEY_PRESS
 	{
 		KB_RETURN = '\r',
 		KB_GRAVEACCENT = '`',
+		KB_TAB = '\t',
 		KB_BACKSPACE = '\b',
 		KB_SPECIAL1 = 0,
 		KB_SPECIAL2 = 0xE0,
@@ -32,26 +33,31 @@ private:
 		KB_DOWN = 80
 	};
 
-	enum E_ACTION_TYPE
+	/*enum E_ACTION_TYPE
 	{
 		ACTION_TOGGLE,
 		ACTION_CREATE,
 		ACTION_DESTROY
-	};
+	};*/
 
-	struct message
-	{
-		E_ACTION_TYPE action;
-		void *args;//int argc;char* argv[]; still need to figure out how this will be done
-		void run();
-	};
+	//struct message
+	//{
+	//	E_ACTION_TYPE action;
+	//	void *args;//int argc;char* argv[]; still need to figure out how this will be done
+	//	void run();
+	//};
 
-	std::queue<message> messages;
+	void clearLine();
+	bool parse();
+
+	//std::queue<message> messages; going to just do shit immediately now
 	char buf[CONSOLEBUFFERSIZE];
 	unsigned size, index;
-	std::list<char*> history;
+	std::vector<std::string> history;
+	unsigned historyIndex;
 
 	HANDLE hstdout;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
 };
 
 #endif
