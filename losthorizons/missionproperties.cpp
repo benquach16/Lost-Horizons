@@ -56,8 +56,10 @@ MissionProperties::MissionProperties(const std::string &f)
 					float x = file->getAttributeValueAsFloat(L"posX");
 					float y = file->getAttributeValueAsFloat(L"posY");
 					float z = file->getAttributeValueAsFloat(L"posZ");
-					Ship *s = new Ship((E_GAME_FACTION)faction, (ObjectManager::E_SHIP_LIST)type,
-						vector3df(x,y,z), vector3df());
+					//Ship *s = new Ship((E_GAME_FACTION)faction, (ObjectManager::E_SHIP_LIST)type,
+					//vector3df(x,y,z), vector3df());
+					shipCreateQueue st((ObjectManager::E_SHIP_LIST)type, (E_GAME_FACTION)faction, vector3df(x, y, z), vector3df(0,0,0));
+					creationQueue.push(st);
 				}
 				if(core::stringw(L"objectives").equals_ignore_case(file->getNodeName()))
 				{

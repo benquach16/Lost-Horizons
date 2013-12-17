@@ -13,12 +13,16 @@ Mission::Mission(const MissionProperties& missionInfo) :
 {
 	//create ships from missioninfo here 
 	//because we don't want to load as we parse the file
-	std::queue<shipCreateQueue> queue;
-	queue = missionInfo.getCreationQueue();
-	while(!queue.empty())
-		{
-			
-		}
+	std::queue<shipCreateQueue> q;
+	q = missionInfo.getCreationQueue();
+	while(!q.empty())
+	{
+		//should use actual create functions
+		shipCreateQueue st = q.front();
+		Ship *s = new Ship(st.faction, (ObjectManager::E_SHIP_LIST)st.shipType,
+											 st.position, st.rotation);
+		q.pop();
+	}
 }
 
 Mission::~Mission()

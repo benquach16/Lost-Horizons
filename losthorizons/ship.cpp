@@ -690,6 +690,9 @@ void Ship::runAI()
 		if(!shipTarget)
 		{
 			searchForFriendlyStation();
+			//we should probably have a list of stations to travel to
+			//make it fly to a random station
+			//should generate it on the fly
 		}
 		else
 		{
@@ -698,6 +701,12 @@ void Ship::runAI()
 			targetVector = targetVector.getHorizontalAngle();
 
 			setTargetRotation(targetVector);
+			//why doesn't this proc?
+			if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 500)
+			{
+				//should probably switch space stations
+				searchForFriendlyStation();
+			}
 		}
 	}
 }
@@ -710,7 +719,7 @@ void Ship::updateStates()
 		//if hull is less than half, try to flee
 		info.currentAIState = AI_FLEEING;
 	}
-	else if (shipTarget)
+	else if (shipTarget && info.currentAIState != AI_TRADING)
 	{
 		info.currentAIState = AI_ATTACKING;
 	}
@@ -740,8 +749,9 @@ void Ship::searchForTarget()
 void Ship::searchForFriendlyStation()
 {
 	//mostly use this for traders that keep going to different space stations
-	for (unsigned i = 0; i < SpaceStation::allStations.size(); i++)
-	{
-		setTarget(SpaceStation::allStations[i]);
-	}
+	//make more readable
+	int i = rand() % SpaceStation::allStations.size();
+
+	setTarget(SpaceStation::allStations[i]);
+	
 }
