@@ -15,6 +15,7 @@ namespace base
 	extern irr::gui::IGUIEnvironment* guienv;
 	extern irr::ITimer* timer;
 	extern Gameloop* game;
+
 	extern f32 frameDeltaTime;
 	extern u32 width, height;
 }

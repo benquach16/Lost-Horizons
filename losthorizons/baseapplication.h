@@ -4,9 +4,10 @@
 //run all the main loops from the base point
 
 #include "devconsole.h"
-#include "startmenu.h"
 #include "datamanager.h"
 #include "postprocess.h"
+#include "startmenu.h"
+#include "missionmenu.h"
 
 class BaseApplication
 {
@@ -24,6 +25,7 @@ public:
 private:
 	DevConsole console;
 	StartMenu *menu;
+	MissionMenu *missionMenu;
 	DataManager *data;
 	PostProcessEffect *effect;
 

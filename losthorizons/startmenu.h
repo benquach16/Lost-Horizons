@@ -1,12 +1,11 @@
 #ifndef _STARTMENU_H_
 #define _STARTMENU_H_
 
-#include "menuwindow.h"
 #include "savemenu.h"
 #include "optionmenu.h"
 #include "messagemenu.h"
 #include "datamanager.h"
-
+#include "missionmenu.h"
 using namespace irr;
 
 //this is the start screen of the game
@@ -16,7 +15,7 @@ public:
 	StartMenu(DataManager *data);
 	~StartMenu();
 
-	void run();
+	void run(MissionMenu *missionMenu);
 	void shift();
 
 private:

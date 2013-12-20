@@ -68,20 +68,23 @@ StartMenu::~StartMenu()
 	delete confirmClose;
 }
 
-void StartMenu::run()
+void StartMenu::run(MissionMenu *missionMenu)
 {
 	MenuWindow::run();
-	if (getVisible()) {
+	if (getVisible()) 
+	{
+		shift();
 		window->getParent()->getParent()->bringToFront(window->getParent()); // dafuq is dis shit omg so bad
 		if (resume->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 			saved = false;
 			setVisible(false);
 		}
 		if (newgame->isPressed()) {
-			gConfig.bPlay = true;
-			shift();
-			game->createNewGame();
+			//dont do crap yet just open the missionmenu
+			//game->createNewGame();
 			setVisible(false);
+			missionMenu->setVisible(true);
+			
 		}
 		if (loadgame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 			if (gConfig.bPlay) {
@@ -127,14 +130,18 @@ void StartMenu::run()
 
 void StartMenu::shift()
 {
+	//really should change it to fix positions to avoid flying off screen
 	if (gConfig.bPlay) {
 		newgame->setVisible(false);
-		loadgame->move(position2d<s32>(-60,0));
+		//relative my ass
+		loadgame->setRelativePosition(position2di(width/2-110,height/2+60));
+		//loadgame->move(position2d<s32>(-60,0));
 		savegame->setVisible(true);
 		quit->setVisible(false);
 	} else {
 		newgame->setVisible(true);
-		loadgame->move(position2d<s32>(60,0));
+		loadgame->setRelativePosition(position2di(width/2-50,height/2+60));
+		//loadgame->move(position2d<s32>(60,0));
 		savegame->setVisible(false);
 		quit->setVisible(true);
 	}
