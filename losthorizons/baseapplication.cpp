@@ -91,6 +91,7 @@ void BaseApplication::run()
 				menu->setVisible(true);
 			}
 		}
+
 		guienv->drawAll();
 
 		vdriver->endScene();
