@@ -18,11 +18,11 @@
 		<damage>27</damage>
 		<range>1500</range>
 		<reloadSpeed>750</reloadSpeed>
-		<projectileSpeed>380</projectileSpeed>
+		<projectileSpeed>330</projectileSpeed>
 	</turretStats>
 	<projectileStats>
-		<scaleX>0.05</scaleX>
-		<scaleY>0.05</scaleY>
+		<scaleX>0.1</scaleX>
+		<scaleY>0.1</scaleY>
 		<scaleZ>0.1</scaleZ>
 		<diffuseMap>res/textures/fx/railgun.png</diffuseMap>
 	</projectileStats>

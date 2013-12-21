@@ -79,10 +79,11 @@ void StartMenu::run(MissionMenu *missionMenu)
 			saved = false;
 			setVisible(false);
 		}
+	 
 		if (newgame->isPressed()) {
 			//dont do crap yet just open the missionmenu
 			//game->createNewGame();
-			setVisible(false);
+			//setVisible(false);
 			missionMenu->setVisible(true);
 			
 		}
@@ -126,6 +127,7 @@ void StartMenu::run(MissionMenu *missionMenu)
 		config->run();
 		close = MessageMenu::YES == confirmClose->run();
 	}
+
 }
 
 void StartMenu::shift()

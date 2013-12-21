@@ -2,7 +2,7 @@
 #include "globals.h"
 #include "config.h"
 #include "missionmenu.h"
-
+#include <fstream>
 using namespace base;
 
 MissionMenu::MissionMenu() :
@@ -12,15 +12,23 @@ MissionMenu::MissionMenu() :
 	//initialize mission list
 	window->setDraggable(false);
 	window->getCloseButton()->setVisible(false);
+	window->setDrawTitlebar(false);
 	window->setVisible(false);
 	missionList = guienv->addListBox(rect<s32>(20,20,200,360), window);
 	accept = guienv->addButton(rect<s32>(220,20,320,40), window, -1, L"Accept");
 	cancel = guienv->addButton(rect<s32>(220,60,320,80), window, -1, L"Cancel");
+	//we'll put the description below the buttons
+	description = guienv->addStaticText(L"", rect<s32>(220, 100, 380, 380), true, true, window);
 		
 }
 
 MissionMenu::~MissionMenu()
 {
+}
+
+void MissionMenu::getMissionList()
+{
+	//read in a specific file here
 }
 
 void MissionMenu::run()

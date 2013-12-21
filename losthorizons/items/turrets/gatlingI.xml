@@ -21,9 +21,9 @@
 		<projectileSpeed>900</projectileSpeed>
 	</turretStats>
 	<projectileStats>
-		<scaleX>0.03</scaleX>
-		<scaleY>0.03</scaleY>
-		<scaleZ>0.04</scaleZ>
+		<scaleX>0.06</scaleX>
+		<scaleY>0.06</scaleY>
+		<scaleZ>0.08</scaleZ>
 		<diffuseMap>res/textures/fx/fire.png</diffuseMap>
 	</projectileStats>
 </itemStats>

@@ -11,7 +11,7 @@ class MissionMenu : public MenuWindow
  public:
 	MissionMenu();
 	~MissionMenu();
-
+	void getMissionList();
 	void run();
  protected:
 	//do menustuff

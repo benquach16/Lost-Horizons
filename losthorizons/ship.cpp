@@ -53,6 +53,8 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	inventory.addItem(ObjectManager::E_ITEM_LIST::PHOTONI, 4);
 
 	//artificially force neutral ships to be traders right now
+	//this should be TEMPORARY
+	//need to add in stuff like ship roles!!!!!!
 	if(faction == FACTION_NEUTRAL)
 		info.currentAIState = AI_TRADING;
 }
@@ -285,19 +287,19 @@ void Ship::setTarget(TargetableObject *newTarget)
 //turret setter functions
 void Ship::setMediumTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot)
 {
-	if (slot < mediumTurrets.size())
+	if (slot < mediumTurrets.size() && slot >= 0)
 		mediumTurrets[slot]->assignTurret(turretType);
 }
 
 void Ship::setLightTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot)
 {
-	if (slot < lightTurrets.size())
+	if (slot < lightTurrets.size() && slot >= 0)
 		lightTurrets[slot]->assignTurret(turretType);
 }
 
 void Ship::setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot)
 {
-	if (slot < pdTurrets.size())
+	if (slot < pdTurrets.size() && slot >= 0)
 		pdTurrets[slot]->assignTurret(turretType);
 }
 
@@ -708,6 +710,10 @@ void Ship::runAI()
 				searchForFriendlyStation();
 			}
 		}
+	}
+	else if(info.currentAIState == AI_FOLLOWING)
+	{
+		//need to add a shitton of functionality for player control at this point
 	}
 }
 

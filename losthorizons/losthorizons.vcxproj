@@ -161,12 +161,14 @@
     <ClInclude Include="devconsole.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
+    <ClInclude Include="fleet.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="hangartab.h" />
     <ClInclude Include="ini_io.h" />
     <ClInclude Include="jobtab.h" />
     <ClInclude Include="marker.h" />
     <ClInclude Include="menutab.h" />
+    <ClInclude Include="minimap.h" />
     <ClInclude Include="mission.h" />
     <ClInclude Include="missionmanager.h" />
     <ClInclude Include="missionmenu.h" />
@@ -238,6 +240,7 @@
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fighter.cpp" />
     <ClCompile Include="fighterproperties.cpp" />
+    <ClCompile Include="fleet.cpp" />
     <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="gamemenu.cpp" />
     <ClCompile Include="gamescene.cpp" />

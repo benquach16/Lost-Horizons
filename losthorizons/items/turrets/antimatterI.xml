@@ -18,12 +18,12 @@
 		<damage>13</damage>
 		<range>1000</range>
 		<reloadSpeed>550</reloadSpeed>
-		<projectileSpeed>500</projectileSpeed>
+		<projectileSpeed>400</projectileSpeed>
 	</turretStats>
 	<projectileStats>
-		<scaleX>0.1</scaleX>
-		<scaleY>0.1</scaleY>
-		<scaleZ>0.05</scaleZ>
+		<scaleX>0.2</scaleX>
+		<scaleY>0.2</scaleY>
+		<scaleZ>0.1</scaleZ>
 		<diffuseMap>res/textures/fx/particle.png</diffuseMap>
 	</projectileStats>
 </itemStats>
