@@ -1,7 +1,7 @@
 #ifndef _MINIMAP_H_
 #define _MINIMAP_H_
 
-#include "targetableobject.h"
+#include "ship.h"
 
 //pretty self explanitory
 //a minimap ui element
