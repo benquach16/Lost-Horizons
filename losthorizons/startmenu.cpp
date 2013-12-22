@@ -83,7 +83,7 @@ void StartMenu::run(MissionMenu *missionMenu)
 		if (newgame->isPressed()) {
 			//dont do crap yet just open the missionmenu
 			//game->createNewGame();
-			//setVisible(false);
+			setVisible(false);
 			missionMenu->setVisible(true);
 			
 		}
