@@ -5,14 +5,14 @@
 using namespace base;
 
 Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-	: Ship(faction, shipType, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker),
+	: Ship(faction, shipType, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
 	  playerCam(0), gameMenu(0), stationMenu(0)
 {
 	init();
 }
 
 Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
-	: Ship(0, info, subsystems, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker),
+	: Ship(0, info, subsystems, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
 	  playerCam(0), gameMenu(0), stationMenu(0)
 {
 	init();
@@ -21,6 +21,7 @@ Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3d
 Player::~Player()
 {
 	delete hud;
+	delete minimap;
 	delete intercom;
 	delete turning;
 	delete gameMenu;
@@ -32,6 +33,7 @@ bool Player::run()
 	control();
 
 	hud->run(this);
+	minimap->run();
 	if (info.shield < 10) 
 	{
 		intercom->postMessage(L"Sir, our shields are down");

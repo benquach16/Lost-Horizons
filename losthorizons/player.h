@@ -4,6 +4,7 @@
 #include "ship.h"
 #include "hud.h"
 #include "intercom.h"
+#include "minimap.h"
 #include "turningmarker.h"
 #include "playercamera.h"
 #include "gamemenu.h"
@@ -23,6 +24,7 @@ private:
 	void control();
 
 	HUD *hud;
+	Minimap *minimap;
 	Intercom *intercom;
 	TurningMarker *turning;
 	PlayerCamera *playerCam;

@@ -9,10 +9,11 @@ class Fleet
 {
 public:
 	Fleet();
-
+	~Fleet();
 private:
 	//so we got an initial problem here, which is double pointers
-	vector<Ship*> shipsInFleet;
+	//ship needs to tell its fleet that it fuckin lost
+	std::vector<Ship*> shipsInFleet;
 };
 
 

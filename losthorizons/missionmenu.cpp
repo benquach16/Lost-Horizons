@@ -19,7 +19,7 @@ MissionMenu::MissionMenu() :
 	cancel = guienv->addButton(rect<s32>(220,60,320,80), window, -1, L"Cancel");
 	//we'll put the description below the buttons
 	description = guienv->addStaticText(L"", rect<s32>(220, 100, 380, 380), true, true, window);
-		
+	missionList->addItem(L"test mission");
 }
 
 MissionMenu::~MissionMenu()

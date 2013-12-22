@@ -258,6 +258,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="marker.cpp" />
     <ClCompile Include="messagemenu.cpp" />
+    <ClCompile Include="minimap.cpp" />
     <ClCompile Include="mission.cpp" />
     <ClCompile Include="missionmanager.cpp" />
     <ClCompile Include="missionmenu.cpp" />

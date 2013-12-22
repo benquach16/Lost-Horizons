@@ -518,6 +518,9 @@
     <ClCompile Include="fleet.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
+    <ClCompile Include="minimap.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">
