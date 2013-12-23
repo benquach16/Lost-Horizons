@@ -22,6 +22,15 @@ enum E_AI_STATE
 };
 
 
+//this is different than states cause each ship is meant to do something specific
+//combat, trading, mining, etc
+enum E_AI_ROLE
+{
+	SHIP_MINER,
+	SHIP_TRADER,
+	SHIP_COMBAT
+};
+
 enum E_SUBSYSTEM_TYPE
 {
 	SUBSYSTEM_BRIDGE,

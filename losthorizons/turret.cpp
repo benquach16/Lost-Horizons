@@ -92,10 +92,7 @@ void TurretSlot::aim(const core::vector3df &point)
 			diff.Y += -parent->getRotation().Y + 180 + offset->getRotation().Y;
 			childTurret->aim(diff);
 			canFire = true;
-			//draw pretty lines here
 
-			vdriver->setTransform(video::ETS_WORLD, core::matrix4());
-			vdriver->draw3DLine(offset->getAbsolutePosition(), point, video::SColor(255,0,255,0));			
 		} else {
 			//just reset the aim and not shoot
 			//good shit

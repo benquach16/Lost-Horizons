@@ -38,7 +38,7 @@ bool Player::run()
 	{
 		intercom->postMessage(L"Sir, our shields are down");
 	}
-	//move turret aim lines to here so only player has them
+	
 	intercom->run();
 	turning->run(getPosition(), getRotation(), getTargetRotation());
 	playerCam->run(getPosition());
@@ -51,6 +51,22 @@ bool Player::run()
 		//add cool lines
 		vdriver->draw2DLine(vector2d<s32>(shipTarget->getScreenPosition().X, 0), vector2d<s32>(shipTarget->getScreenPosition().X, height), video::SColor(128,128,128,140));
 		vdriver->draw2DLine(vector2d<s32>(0, shipTarget->getScreenPosition().Y), vector2d<s32>(width, shipTarget->getScreenPosition().Y), video::SColor(128,128,128,140));
+
+		//move turret aim lines to here so only player has them
+		for(unsigned i = 0; i < mediumTurrets.size(); i++)
+		{
+			//draw pretty lines here
+			vdriver->setTransform(video::ETS_WORLD, core::matrix4());
+			vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
+				shipTarget->getPosition(), video::SColor(255,0,255,0));			
+		}
+		for(unsigned i = 0; i < lightTurrets.size(); i++)
+		{
+			//draw pretty lines here
+			vdriver->setTransform(video::ETS_WORLD, core::matrix4());
+			vdriver->draw3DLine(lightTurrets[i]->getPosition(),
+				shipTarget->getPosition(), video::SColor(255,0,255,0));	
+		}
 	}
 	return Ship::run();
 }

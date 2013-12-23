@@ -4,7 +4,7 @@
 
 #define SHIPWIDTH 2
 #define FIGWIDTH 1
-#define DEFAULTZOOM 0.025
+#define DEFAULTZOOM 0.025f
 
 using namespace base;
 
@@ -78,7 +78,7 @@ void Minimap::runRegular()
 		//make sure that that icon is within 200 200
 		if(x < 200.f && z < 200.f)
 		{
-		//if(TargetableObject::allTargets[i]->getTargetableObjectType() == TARGETABLEOBJECT_SHIP)
+		
 			if(Ship::allShips[0]->getShipTarget() == TargetableObject::allTargets[i])
 			{
 				//white box
@@ -87,15 +87,23 @@ void Minimap::runRegular()
 			}
 			else
 			{
-				vdriver->draw2DRectangle(video::SColor(255, 0, 0, 255), rect<s32>((s32)(x-SHIPWIDTH), (s32)(z-SHIPWIDTH),
+				if(TargetableObject::allTargets[i]->getTargetableObjectType() == TARGETABLEOBJECT_SHIP)
+				{
+					vdriver->draw2DRectangle(video::SColor(200, 64, 200, 255), rect<s32>((s32)(x-SHIPWIDTH), (s32)(z-SHIPWIDTH),
 																				(s32)(x+SHIPWIDTH), (s32)(z+SHIPWIDTH)));
+				}
+				else if(TargetableObject::allTargets[i]->getTargetableObjectType() == TARGETABLEOBJECT_FIGHTER)
+				{
+					vdriver->draw2DRectangle(video::SColor(200, 128, 128, 0), rect<s32>((s32)(x-FIGWIDTH), (s32)(z-FIGWIDTH),
+																				(s32)(x+FIGWIDTH), (s32)(z+FIGWIDTH)));
+				}
 			}
 		}
 	}
 	//fuck it we'll just draw a line for player orientation
 	playerRotation.Y-=90;
-	double x = 30*cos((double)(playerRotation.Y*3.1415)/180);
-	double y = 30*sin((double)(playerRotation.Y*3.1415)/180);
+	double x = 30*cos((double)(playerRotation.Y*PI)/180);
+	double y = 30*sin((double)(playerRotation.Y*PI)/180);
 	x+=100;
 	y+=100;
 	vdriver->draw2DLine(position2d<s32>(100,100),position2d<s32>((s32)x,(s32)y),
