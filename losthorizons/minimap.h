@@ -12,9 +12,15 @@ public:
 	~Minimap();
 	void run();
 	//make sure we can enlarge the minimap on the screen
+	void zoomIn();
+	void zoomOut();
+	void enlarge();
 protected:
-	//heres the hard part
-	//actually drawing everything on the thing
+	//we use two different run fucntions based on our bool
+	void runRegular();
+	void runEnlarged();
+	float zoomFactor;
+	bool enlarged;
 };
 
 #endif

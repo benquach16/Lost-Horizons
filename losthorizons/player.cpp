@@ -158,4 +158,12 @@ void Player::control()
 		warpToTarget();
 		intercom->postMessage(L"Yes sir, initiating warp sequence");
 	}
+	if(receiver->isKeyReleased(irr::KEY_MINUS))
+	{
+		minimap->zoomOut();
+	}
+	if(receiver->isKeyReleased(irr::KEY_PLUS))
+	{
+		minimap->zoomIn();
+	}
 }
