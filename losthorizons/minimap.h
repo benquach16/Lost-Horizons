@@ -19,6 +19,9 @@ protected:
 	//we use two different run fucntions based on our bool
 	void runRegular();
 	void runEnlarged();
+	//draw functions to make all this easier on ourselves
+	//and so we have less copy paste
+	void drawObject(unsigned i, const f32 x, const f32 z);
 	float zoomFactor;
 	bool enlarged;
 };

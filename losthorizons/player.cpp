@@ -182,4 +182,8 @@ void Player::control()
 	{
 		minimap->zoomIn();
 	}
+	if(receiver->isKeyReleased(irr::KEY_KEY_M))
+	{
+		minimap->enlarge();
+	}
 }
