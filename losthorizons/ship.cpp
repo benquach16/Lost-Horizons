@@ -265,6 +265,16 @@ void Ship::damage(int damage)
 	}
 }
 
+void Ship::damage(int damage, const vector3df& projectilePosition)
+{
+	//bigger damage function to take into account shield rotation
+	//calculate the angle so we can see if it hit the shield or not
+	//we only do x and z because y is only a formality in this game
+	float x = projectilePosition.X - getPosition().X;
+	float z = projectilePosition.Z - getPosition().Z;
+	
+}
+
 void Ship::setTargetRotation(const vector3df &newTargetRotation)
 {
 	info.targetRotation = newTargetRotation;

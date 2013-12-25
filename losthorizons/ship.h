@@ -55,11 +55,18 @@ struct ShipInformation
 	ObjectManager::E_SHIP_LIST shipType;
 	E_GAME_FACTION currentFaction;
 	E_AI_STATE currentAIState;
+	E_AI_ROLE currentAIRole;
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
 	bool docked, warping;
+	//directional shielding
+	int maxShieldFore, shieldFore;
+	int maxShieldPort, shieldPort;
+	int maxShieldStarboard, shieldStarboard;
+	bool shieldActivated;
 	ShipInformation() {}
+	//do something later about this autistic block of code
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTION faction)
 		: shipType(shipType), currentFaction(faction), currentAIState(AI_PATROLLING),
 		  hull(ObjectManager::shipList[shipType]->getMaxHull()), maxHull(hull),
@@ -70,7 +77,11 @@ struct ShipInformation
 		  crew(ObjectManager::shipList[shipType]->getMaxCrew()), maxCrew(crew),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType]->getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType]->getMaxTurn()),
-		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false)
+		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false),
+		  maxShieldFore(ObjectManager::shipList[shipType]->getMaxShield()/3),
+		  maxShieldPort(ObjectManager::shipList[shipType]->getMaxShield()/3),
+		  maxShieldStarboard(ObjectManager::shipList[shipType]->getMaxShield()/3),
+		  shieldActivated(false)
 	{}
 };
 
@@ -97,6 +108,8 @@ public:
 	//combat functions
 	void fireTurrets();
 	void damage(int damage);
+	//overloaded to grab the position of the projectile as it hits the ship
+	void damage(int damage, const vector3df& projectilePosition);
 
 	//rotate ship to specific angle
 	void setTargetRotation(const vector3df &newTargetRotation);
@@ -159,6 +172,7 @@ protected:
 	//change the ship's position
 	void rotate();
 	void movement();
+
 
 private:
 	//turret functions

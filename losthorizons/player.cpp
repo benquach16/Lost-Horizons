@@ -56,16 +56,22 @@ bool Player::run()
 		for(unsigned i = 0; i < mediumTurrets.size(); i++)
 		{
 			//draw pretty lines here
-			vdriver->setTransform(video::ETS_WORLD, core::matrix4());
-			vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
-				shipTarget->getPosition(), video::SColor(255,0,255,0));			
+			if(mediumTurrets[i]->getCanFire())
+			{
+				vdriver->setTransform(video::ETS_WORLD, core::matrix4());
+				vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
+					shipTarget->getPosition(), video::SColor(255,0,255,0));	
+			}
 		}
 		for(unsigned i = 0; i < lightTurrets.size(); i++)
 		{
-			//draw pretty lines here
-			vdriver->setTransform(video::ETS_WORLD, core::matrix4());
-			vdriver->draw3DLine(lightTurrets[i]->getPosition(),
-				shipTarget->getPosition(), video::SColor(255,0,255,0));	
+			if(lightTurrets[i]->getCanFire())
+			{
+				//draw pretty lines here
+				vdriver->setTransform(video::ETS_WORLD, core::matrix4());
+				vdriver->draw3DLine(lightTurrets[i]->getPosition(),
+					shipTarget->getPosition(), video::SColor(255,0,255,0));	
+			}
 		}
 	}
 	return Ship::run();
