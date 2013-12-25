@@ -118,7 +118,7 @@ TurretSlot::~TurretSlot()
 	removeTurret();
 }
 
-const Ship* TurretSlot::getParent() const
+Ship* TurretSlot::getParent() const
 {
 	return parent;
 }
@@ -192,6 +192,7 @@ void Turret::fire(const vector3df &rotation)
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
 		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename(), getPosition());
+		parentSlot->getParent()->modifyEnergy(-((TurretProperties*)ObjectManager::itemList[turretType])->getEnergyUse());
 	}
 }
 

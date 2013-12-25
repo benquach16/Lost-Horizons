@@ -191,6 +191,8 @@ private:
 
 	//controls how fast we want the shields to recharge
 	u32 shieldTimer;
+	//seperate timer for energy recharge
+	u32 energyTimer;
 
 	//timekeeping variables
 	u32 currentTime;

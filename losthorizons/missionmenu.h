@@ -3,6 +3,7 @@
 
 #include "irrlicht.h"
 #include "menuwindow.h"
+#include "missionproperties.h"
 
 using namespace irr;
 
@@ -15,6 +16,7 @@ class MissionMenu : public MenuWindow
 	void run();
  protected:
 	//do menustuff
+	std::vector<MissionProperties> missions;
 	gui::IGUIListBox *missionList;
 	gui::IGUIStaticText *description;
 	gui::IGUIButton *accept;

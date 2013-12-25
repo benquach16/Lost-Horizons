@@ -36,6 +36,7 @@ void MissionMenu::getMissionList()
 	{
 		//parse the mission file i guess
 		MissionProperties p(input);
+		missions.push_back(p);
 		missionList->addItem(p.getName());
 	}
 }
@@ -50,15 +51,16 @@ void MissionMenu::run()
 		int i = missionList->getSelected();
 		if(i != -1)
 		{
-			//have something selected so lets load the description
+			//have something selected so lets load the descriptio
+			description->setText(missions[i].getDesc());
+			if(accept->isPressed())
+			{
+				gConfig.bPlay = true;
+				game->createNewGame();
+				setVisible(false);
+			}
 		}
-		//for now just start the gaem when the player presses accept
-		if(accept->isPressed())
-		{
-			gConfig.bPlay = true;
-			game->createNewGame();
-			setVisible(false);
-		}
+
 		if(cancel->isPressed())
 		{
 			gConfig.bPlay = false;

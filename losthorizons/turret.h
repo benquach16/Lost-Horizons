@@ -36,7 +36,7 @@ public:
 	~TurretSlot();
 
 	//used for projectile generation
-	const Ship* getParent() const;
+	Ship* getParent() const;
 	const core::vector3df& getCurrentAim() const;
 	const core::vector3df& getPosition() const;
 

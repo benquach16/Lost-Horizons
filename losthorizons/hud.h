@@ -29,6 +29,7 @@ private:
 	gui::IGUIStaticText *hull;
 	gui::IGUIStaticText *armor;
 	gui::IGUIStaticText *shield;
+	gui::IGUIStaticText *energy;
 
 	gui::IGUIImage *targetBkg;
 	gui::IGUIStaticText *targetName;
