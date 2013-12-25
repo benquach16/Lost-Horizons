@@ -4,8 +4,8 @@
 	<description>Do stuff that other people tell you to do.</description>
 	<create>
 	<!--enums work this so we have 0 = terran 1 = provian 2 = pirate 3 = neutral -->
-		<ship type="0" faction="2" posX="-1000" posY="0" posZ="2300"/>
-		<ship type="0" faction="2" posX="500" posY="0" posZ="2000"/>
+		<ship type="1" faction="2" posX="-822" posY="0" posZ="2400"/>
+		<ship type="1" faction="2" posX="600" posY="0" posZ="1800"/>
 	</create>
 	<objectives num="1">
 		<A type="sweep" posX="0" posY="0" posZ="2000" radius="2000"/>

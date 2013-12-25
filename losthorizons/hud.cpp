@@ -89,6 +89,16 @@ void HUD::updatePlayerInfo(const ShipInformation &info)
 
 	shield->setText((core::stringw(L"Shield [") + core::stringw(info.shield) + L"]").c_str());
 	energy->setText((core::stringw(L"Energy [") + core::stringw(info.energy) + L"]").c_str());
+	if(info.energy < info.maxEnergy/4)
+	{
+		energy->setOverrideColor(video::SColor(255,255,0,0));
+	}
+	else if(info.energy < info.maxEnergy/2)
+	{
+		energy->setOverrideColor(video::SColor(255,255,255,0));
+	}
+	else
+		energy->setOverrideColor(video::SColor(255,255,255,255));
 }
 
 void HUD::updateTargetInfo(const Ship *player, const TargetableObject *target)
