@@ -77,7 +77,7 @@ struct ShipInformation
 		  crew(ObjectManager::shipList[shipType]->getMaxCrew()), maxCrew(crew),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType]->getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType]->getMaxTurn()),
-		  targetRotation(vector3df(0.f,0.f,0.f)), docked(false), warping(false),
+		targetRotation(vector3df()), docked(false), warping(false),
 		  maxShieldFore(ObjectManager::shipList[shipType]->getMaxShield()/3),
 		  maxShieldPort(ObjectManager::shipList[shipType]->getMaxShield()/3),
 		  maxShieldStarboard(ObjectManager::shipList[shipType]->getMaxShield()/3),
@@ -110,7 +110,8 @@ public:
 	void damage(int damage);
 	//overloaded to grab the position of the projectile as it hits the ship
 	void damage(int damage, const vector3df& projectilePosition);
-
+	//does exactly what it says
+	void modifyEnergy(int modifier);
 	//rotate ship to specific angle
 	void setTargetRotation(const vector3df &newTargetRotation);
 	const vector3df& getTargetRotation() const;

@@ -44,6 +44,11 @@ TurretProperties::TurretProperties(const std::string &f) : ModelProperties(f)
 					std::wstringstream iss(file->getNodeData());
 					iss >> projectileSpeed;
 				}
+				if(currentSection.equals_ignore_case(L"energyUse"))
+				{
+					std::wstringstream iss(file->getNodeData());
+					iss >> energyUse;
+				}
 				if(currentSection.equals_ignore_case(L"fireSound"))
 				{
 					std::wstring tmp = file->getNodeData();
@@ -104,6 +109,10 @@ TurretProperties::TurretProperties(const std::string &f) : ModelProperties(f)
 				if(core::stringw(L"projectileSpeed").equals_ignore_case(file->getNodeName()))
 				{
 					currentSection=L"projectileSpeed";
+				}
+				if(core::stringw(L"energyUse").equals_ignore_case(file->getNodeName()))
+				{
+					currentSection=L"energyUse";
 				}
 				if(core::stringw(L"scaleX").equals_ignore_case(file->getNodeName()))
 				{
@@ -170,6 +179,11 @@ const int& TurretProperties::getRange() const
 const int& TurretProperties::getProjectileSpeed() const
 {
 	return projectileSpeed;
+}
+
+const int TurretProperties::getEnergyUse() const
+{
+	return energyUse;
 }
 
 const wchar_t *TurretProperties::getProjectileTex() const

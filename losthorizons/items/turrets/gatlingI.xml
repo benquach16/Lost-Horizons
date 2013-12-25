@@ -19,6 +19,7 @@
 		<range>500</range>
 		<reloadSpeed>500</reloadSpeed>
 		<projectileSpeed>900</projectileSpeed>
+		<energyUse>1</energyUse>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.06</scaleX>

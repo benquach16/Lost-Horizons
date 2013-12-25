@@ -25,6 +25,7 @@ public:
 	const f32& getReloadSpeed() const;
 	const int& getRange() const;
 	const int& getProjectileSpeed() const;
+	const int getEnergyUse() const;
 
 	const wchar_t *getProjectileTex() const;
 	const char *getSoundFilename() const;
@@ -38,6 +39,7 @@ protected:
 	int turnSpeed;
 	int damage;
 	int range;
+	int energyUse;
 	int projectileSpeed;
 	core::vector3df projectileScale;
 	std::wstring projectileTexture;

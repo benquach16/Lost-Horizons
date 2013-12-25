@@ -15,10 +15,11 @@
 	<turretStats class="medium">
 		<fireSound>res/sounds/weapons/photon.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
-		<damage>39</damage>
+		<damage>69</damage>
 		<range>1100</range>
 		<reloadSpeed>950</reloadSpeed>
 		<projectileSpeed>280</projectileSpeed>
+		<energyUse>70</energyUse>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.3</scaleX>

@@ -16,7 +16,7 @@
 		<maxHull>1000</maxHull>
 		<maxArmor>500</maxArmor>
 		<maxShield>1000</maxShield>
-		<maxVelocity>65</maxVelocity>
+		<maxVelocity>85</maxVelocity>
 		<maxTurn>13</maxTurn>
 		<maxEnergy>1000</maxEnergy>
 		<maxCrew>200</maxCrew>

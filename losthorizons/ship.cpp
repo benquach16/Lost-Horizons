@@ -232,13 +232,16 @@ void Ship::decreaseVelocity()
 void Ship::fireTurrets()
 {
 	//lets do this in a way that doesn't involve middlemen
-	for (unsigned i = 0; i < mediumTurrets.size(); ++i) 
+	if(info.energy > 0)
 	{
-		mediumTurrets[i]->fire();
-	}
-	for (unsigned i = 0; i < lightTurrets.size(); ++i)
-	{
-		lightTurrets[i]->fire();
+		for (unsigned i = 0; i < mediumTurrets.size(); ++i) 
+		{
+			mediumTurrets[i]->fire();
+		}
+		for (unsigned i = 0; i < lightTurrets.size(); ++i)
+		{
+			lightTurrets[i]->fire();
+		}
 	}
 }
 
@@ -273,6 +276,20 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 	float x = projectilePosition.X - getPosition().X;
 	float z = projectilePosition.Z - getPosition().Z;
 	
+}
+
+void Ship::modifyEnergy(int modifier)
+{
+	if(info.energy > 0)
+	{
+		//just make sure we cant hit neg energy
+		if((info.energy + modifier) < 0)
+		{
+			info.energy = 0;
+		}
+		else
+			info.energy += modifier;
+	}
 }
 
 void Ship::setTargetRotation(const vector3df &newTargetRotation)
