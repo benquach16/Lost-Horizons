@@ -15,11 +15,11 @@
 	<turretStats class="light">
 		<fireSound>res/sounds/weapons/plasma.wav</fireSound>
 		<turnSpeed>10</turnSpeed>
-		<damage>50</damage>
+		<damage>55</damage>
 		<range>700</range>
 		<reloadSpeed>650</reloadSpeed>
 		<projectileSpeed>420</projectileSpeed>
-		<energyUse>40</energyUse>
+		<energyUse>55</energyUse>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.2</scaleX>

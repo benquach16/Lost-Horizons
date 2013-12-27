@@ -13,11 +13,12 @@ wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator"
 
 //time between ai updates to save cpu speed
 #define AITIMER 100
+#define ENERGYTIMER 5000
 
 Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
-	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), energyTimer(0),
-	  fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size()), shipFleet(0)
+	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), energyTimer(0), energyRechargeTimer(0),
+	  fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size()), shipFleet(0), shouldFire(true)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -61,8 +62,8 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 
 Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(ID, *ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info),
-	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), energyTimer(0),
-	  fighterUpdateTime(0), index(allShips.size()), shipFleet(0)
+	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), energyTimer(0), energyRechargeTimer(0),
+	  fighterUpdateTime(0), index(allShips.size()), shipFleet(0), shouldFire(true)
 {
 	//add it to the ships list
 	allShips.push_back(this);
@@ -81,8 +82,8 @@ Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, cons
 //copy constructor
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info),
-	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), energyTimer(0),
-	  fighterUpdateTime(0), index(allShips.size()), shipFleet(0)
+	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), energyTimer(0), energyRechargeTimer(0),
+	  fighterUpdateTime(0), index(allShips.size()), shipFleet(0), shouldFire(true)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -192,10 +193,10 @@ bool Ship::run()
 			movement();
 
 			//recharge shields
-			if(info.energy < info.maxEnergy && energyTimer < timer->getTime())
+			if(info.energy < info.maxEnergy && energyTimer < timer->getTime() && energyRechargeTimer < timer->getTime())
 			{
 				//piggyback off the shield recharge timer
-				info.energy++;
+				info.energy += 5;
 				energyTimer = timer->getTime() + 50;
 			}
 			if (subsystems[SUBSYSTEM_SHIELD] > 0 && info.shield < info.maxShield && shieldTimer < timer->getTime())
@@ -242,6 +243,7 @@ void Ship::fireTurrets()
 	//lets do this in a way that doesn't involve middlemen
 	if(info.energy > 0)
 	{
+		energyRechargeTimer = timer->getTime() + ENERGYTIMER;
 		for (unsigned i = 0; i < mediumTurrets.size(); ++i) 
 		{
 			mediumTurrets[i]->fire();
@@ -443,7 +445,15 @@ void Ship::warpToTarget()
 	
 }
 
+void Ship::addToFleet(Fleet *f)
+{
+	
+}
 
+void Ship::removeFromFleet(Fleet *f)
+{
+
+}
 
 //all private functions go under here
 //private function
@@ -693,7 +703,19 @@ void Ship::runAI()
 			//do ship target AI;
 			info.velocity = info.maxVelocity;
 			launchFighters();
-			fireTurrets();
+			//firing turrets ain't going to be that simple
+			//ai has to handle the fact that it now has ENERGY
+			//so we make it shoot in bursts
+			if(info.energy > 0 && shouldFire)
+				fireTurrets();
+			else if(info.energy < info.maxEnergy)
+			{
+				shouldFire = false;
+			}
+			if(!shouldFire && info.energy > info.maxEnergy/2)
+			{
+				shouldFire = true;
+			}
 		}
 		else
 		{
@@ -777,6 +799,7 @@ void Ship::searchForTarget()
 			{
 				setTarget(allShips[i]);
 				info.currentAIState = AI_ATTACKING;
+				return;
 			}
 		}
 	}

@@ -201,12 +201,17 @@ private:
 	u32 shieldTimer;
 	//seperate timer for energy recharge
 	u32 energyTimer;
+	u32 energyRechargeTimer;
 
 	//timekeeping variables
 	u32 currentTime;
 	u32 fighterLaunchTime;
 	u32 fighterDamageTime;
 	u32 fighterUpdateTime;
+
+	//some ai variables to make them super l33t
+	//we named this should fire, because it can fire, but that doesnt mean it should
+	bool shouldFire;
 
 	//iterator to this
 	unsigned index;

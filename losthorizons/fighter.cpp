@@ -161,11 +161,14 @@ void Fighter::searchForFighterTargets()
 //protected function
 void Fighter::searchForShipTargets()
 {
-	for (unsigned i = 0; i < Ship::allShips.size(); ++i) {
+	for (unsigned i = 0; i < Ship::allShips.size(); ++i) 
+	{
 		if (Ship::allShips[i]->getFaction() != faction &&
 			(faction == FACTION_PIRATE || Ship::allShips[i]->getFaction() == FACTION_PIRATE) &&
-			Ship::allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000) {
+			Ship::allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000) 
+		{
 			shipTarget = Ship::allShips[i];
+			return;
 		}
 	}
 }

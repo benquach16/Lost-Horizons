@@ -206,7 +206,7 @@ void Turret::fire(const vector3df &rotation)
 	//stopgap fix so we can have dynamically firing weapons
 	//since volley fire looks pretty unrealistic
 	//probably should modify this later
-	if (rand()%(int)((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed() < 3) {
+	if (rand()%(int)((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed() < 10) {
 		//for now, projectile gets an ID. change to ship pointer later
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
