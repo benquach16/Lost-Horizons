@@ -1,4 +1,5 @@
 float4x4    matWorldViewProj;
+float screenWidth;
 
  
 struct VERTEXOUTPUT

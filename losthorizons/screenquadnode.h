@@ -17,7 +17,7 @@ public:
 		f32 shiftX, shiftY;
         shiftX = 0.5f/width;
         shiftY = 0.5f/height;  
- 
+		box.reset(0,0,0);
         vertices[0] = video::S3DVertex2TCoords(
                     -1.0f,-1.0f,0.0f,
                     0.0f,0.0f,-1.0f,
@@ -51,10 +51,10 @@ public:
 		material.BackfaceCulling=false;             
 		material.MaterialType = video::EMT_LIGHTMAP_ADD; 
 		setAutomaticCulling(scene::EAC_OFF);
-
-        for(unsigned i = 0; i < 4; i++)
-			box.addInternalPoint(vertices[i].Pos);
+		  material.ZBuffer = video::ECFN_ALWAYS;
+		material.ZWriteEnable = false;
 	}
+
     void render()
     {
 		video::IVideoDriver* drv = getSceneManager()->getVideoDriver();
@@ -68,6 +68,7 @@ public:
 
 		drv->drawIndexedTriangleList(&vertices[0],4,&indices[0],2);
     }
+
 	virtual void OnRegisterSceneNode()
 	{
 		if(IsVisible)
@@ -76,7 +77,7 @@ public:
 		}
 		ISceneNode::OnRegisterSceneNode();
 	}
-    virtual const core::aabbox3d<f32>& getBoundingBox() const
+    const core::aabbox3d<f32>& getBoundingBox() const
     {
         return box;
     }

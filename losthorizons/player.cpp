@@ -58,19 +58,27 @@ bool Player::run()
 			//draw pretty lines here
 			if(mediumTurrets[i]->getCanFire())
 			{
+				/*
 				vdriver->setTransform(video::ETS_WORLD, core::matrix4());
 				vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
 					shipTarget->getPosition(), video::SColor(255,0,255,0));	
+					*/
+				//2d line is a temporary fix
+				//becaause with postprocessing enabled, 3d lines do not work!!!!!!
+				vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
+				vdriver->draw2DLine(t, shipTarget->getScreenPosition(), video::SColor(255,0,255,0));
 			}
 		}
 		for(unsigned i = 0; i < lightTurrets.size(); i++)
 		{
 			if(lightTurrets[i]->getCanFire())
 			{
+				/*
 				//draw pretty lines here
 				vdriver->setTransform(video::ETS_WORLD, core::matrix4());
 				vdriver->draw3DLine(lightTurrets[i]->getPosition(),
 					shipTarget->getPosition(), video::SColor(255,0,255,0));	
+					*/
 			}
 		}
 	}

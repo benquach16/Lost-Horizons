@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "fleet.h"
+#include "ship.h"
 
 Fleet::Fleet()
 {

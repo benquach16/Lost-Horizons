@@ -4,8 +4,8 @@
 
 using namespace base;
 
-PostProcessEffect::PostProcessEffect() : 
-	screenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, 10))
+PostProcessEffect::PostProcessEffect() :
+	screenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, -1))
 	//secondScreenQuad(new ScreenQuadNode(scenemngr->getRootSceneNode(), scenemngr, 11))
 {
 
@@ -15,6 +15,8 @@ PostProcessEffect::PostProcessEffect() :
 	secondRenderTarget = vdriver->addRenderTargetTexture(dimension2du(width, height), "secondRenderTarget");
 	screenQuad->setMaterialTexture(0, renderTarget);
 	screenQuad->setMaterialTexture(1, secondRenderTarget);
+	//screenQuad->getMaterial(0).setTexture(0, renderTarget);
+	//screenQuad->getMaterial(0).setTexture(1, secondRenderTarget);
 	//in order to set up multiple render passes, we need multiple render targets so we can draw the first pass
 	//and the second pass, then merge them
 	BloomCallback *bp = new BloomCallback;
@@ -29,6 +31,7 @@ PostProcessEffect::PostProcessEffect() :
 		video::EVST_VS_3_0, "shaders/saturation.hlsl", "PixelShaderFunction", video::EPST_PS_3_0, bp, video::EMT_SOLID);
 	//secondScreenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial2);
 	bp->drop();
+
 }
 
 PostProcessEffect::~PostProcessEffect()
@@ -47,13 +50,12 @@ void PostProcessEffect::render()
 	vdriver->draw2DImage(renderTarget, rect<s32>(0,0,width, height), rect<s32>(0,0,width, height));
 	*/
 	//first pass
-	vdriver->setRenderTarget(renderTarget,true, true, video::SColor(0,0,0,255));
+	vdriver->setRenderTarget(renderTarget,true, true, video::SColor(255,0,0,255));
 	screenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial1);
 	//secondScreenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial2);
 	//vdriver->draw2DImage(renderTarget, rect<s32>(0,0,width, height), rect<s32>(0,0,width, height));
 	scenemngr->drawAll();
-
-	vdriver->setRenderTarget(secondRenderTarget, true, true, video::SColor(0,0,0,255));
+	vdriver->setRenderTarget(secondRenderTarget, true, true, video::SColor(255,0,0,255));
 	screenQuad->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterial2);
 	scenemngr->drawAll();
 	vdriver->setRenderTarget(video::ERT_FRAME_BUFFER, true, true);

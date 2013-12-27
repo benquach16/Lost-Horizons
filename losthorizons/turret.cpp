@@ -33,10 +33,15 @@ bool TurretSlot::getCanFire()
 
 bool TurretSlot::fire()
 {
-	if (childTurret && canFire) {
-		childTurret->fire(currentAim);
+	if (childTurret && canFire) 
+	{
+		//flip the y axis because it is fucked
+		vector3df realAim = currentAim;
+		realAim.Y += 180;
+		childTurret->fire(realAim);
 		return true;
-	} else
+	}
+	else
 		return false;
 }
 
@@ -61,10 +66,10 @@ void TurretSlot::aim(const core::vector3df &point)
 		const float x = (point.X-offset->getAbsolutePosition().X);
 		const float y = (point.Y-offset->getAbsolutePosition().Y);
 		const float z = (point.Z-offset->getAbsolutePosition().Z);
-		float angleY = std::atan2(x,z)*static_cast<float>(180/3.1415);
+		float angleY = std::atan2(x,z)*static_cast<float>(180/PI);
 
-		float tmp  = sqrt(x*x+z*z);
-		float angleX = std::atan2(tmp,y)*static_cast<float>(180/3.1415);
+		float t  = sqrt(x*x+z*z);
+		float angleX = std::atan2(t,y)*static_cast<float>(180/PI);
 
 		angleX -= 90;
 		if(angleY>360) 
@@ -73,23 +78,37 @@ void TurretSlot::aim(const core::vector3df &point)
 			angleY+=360;
 		currentAim = vector3df(angleX, angleY,0);*/
 		const int difference = (360 - properties.arc)/2;
+		//THIS IS THE CAUSE OF ALL OUR PROBLEMS
+		//THIS IS WHY WE CANT HAVE NICE THINGS
+		//THIS FUCKING LINE
+		vector3df diff = currentAim = (parent->getPosition() - point).getHorizontalAngle();
 		
-		vector3df diff = currentAim = (point - offset->getAbsolutePosition()).getHorizontalAngle();
-		//std::cout << offset->getAbsoluteTransformation().getRotationDegrees().Y << std::endl;
+		//std::cout << diff.Y << std::endl;
 
 		//normalize angles
-		float tmp = parent->getRotation().Y + 180 + rotationOffset.Y;
+		float tmp = parent->getRotation().Y + rotationOffset.Y;
 		if (tmp > 360)
 			tmp -= 360;
-		else if (tmp < 0)
+		if (tmp < 0)
 			tmp += 360;
-		if ((diff.Y + difference) < tmp || (diff.Y - difference) > tmp) {
+		float left = (diff.Y + difference);
+		if(left < 0)
+			left += 360;
+		if(left > 360)
+			left -= 360;
+		float right = (diff.Y - difference);
+		if(right < 0)
+			right += 360;
+		if (right > 360)
+			right -= 360;
+		if ( left < tmp || right > tmp) 
+		{
 			//inside the arc horizontally
 			//pass rotation to the turret so we dont do math again unnecessarily
 			//draw so player knows which turrets can shoot
 			//angleY -= parent->getRotation().Y;
 			//angleY += 180 - offset->getRotation().Y;
-			diff.Y += -parent->getRotation().Y + 180 + offset->getRotation().Y;
+			diff.Y += -parent->getRotation().Y + offset->getRotation().Y;
 			childTurret->aim(diff);
 			canFire = true;
 

@@ -8,6 +8,7 @@
 #include "projectile.h"
 #include "cargo.h"
 #include "fighter.h"
+#include "fleet.h"
 
 //for finite state machine implementation
 enum E_AI_STATE
@@ -149,6 +150,11 @@ public:
 	
 	void warpToTarget();
 
+	//some misc functions
+	//fleet functions
+	void addToFleet(Fleet *f);
+	void removeFromFleet(Fleet *f);
+
 
 protected:
 	//ship stats
@@ -173,6 +179,8 @@ protected:
 	//change the ship's position
 	void rotate();
 	void movement();
+	//fleet that the ship is attached to, if any
+	Fleet *shipFleet;
 
 
 private:

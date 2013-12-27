@@ -40,7 +40,7 @@ void BaseApplication::init()
 	game = new Gameloop(data);
 
 	missionMenu = new MissionMenu();
-	//effect = new PostProcessEffect;
+	effect = new PostProcessEffect;
 	gConfig.bFirstRun = false;
 }
 
@@ -50,7 +50,7 @@ void BaseApplication::killDevice()
 	delete game;
 	delete missionMenu;
 							 
-	//delete effect;
+	delete effect;
 	graphics->closeDevice();
 	graphics->run();
     graphics->drop();
@@ -81,8 +81,9 @@ void BaseApplication::run()
 		//run menu or game
 		menu->run(missionMenu);
 		missionMenu->run();
-		//effect->render();
-		scenemngr->drawAll();
+
+		effect->render();
+		//scenemngr->drawAll();
 		vdriver->runAllOcclusionQueries(false);
 		vdriver->updateAllOcclusionQueries(false);
 		if (!menu->getVisible()) {

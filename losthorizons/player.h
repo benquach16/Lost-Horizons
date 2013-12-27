@@ -9,6 +9,7 @@
 #include "playercamera.h"
 #include "gamemenu.h"
 #include "stationmenu.h"
+#include "fleet.h"
 
 class Player : public Ship
 {

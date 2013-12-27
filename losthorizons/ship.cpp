@@ -17,7 +17,7 @@ wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator"
 Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
 	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), energyTimer(0),
-	  fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size())
+	  fighterDamageTime(0), fighterUpdateTime(0), index(allShips.size()), shipFleet(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -62,7 +62,7 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(ID, *ObjectManager::shipList[info.shipType], position, rotation, info.currentFaction), info(info),
 	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), energyTimer(0),
-	  fighterUpdateTime(0), index(allShips.size())
+	  fighterUpdateTime(0), index(allShips.size()), shipFleet(0)
 {
 	//add it to the ships list
 	allShips.push_back(this);
@@ -82,7 +82,7 @@ Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, cons
 Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[s->info.shipType], position, rotation, s->faction), info(s->info),
 	  shipTarget(0), shieldTimer(0), currentTime(0), fighterLaunchTime(0), fighterDamageTime(0), energyTimer(0),
-	  fighterUpdateTime(0), index(allShips.size())
+	  fighterUpdateTime(0), index(allShips.size()), shipFleet(0)
 {
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
@@ -93,7 +93,8 @@ Ship::Ship(const Ship *s, const vector3df &position, const vector3df &rotation)
 	//add it to the ships list
 	allShips.push_back(this);
 
-	for (unsigned i = 0; i < SUBSYSTEM_COUNT; ++i) {
+	for (unsigned i = 0; i < SUBSYSTEM_COUNT; ++i) 
+	{
 		subsystems[i] = s->subsystems[i];
 	}
 
@@ -239,7 +240,7 @@ void Ship::decreaseVelocity()
 void Ship::fireTurrets()
 {
 	//lets do this in a way that doesn't involve middlemen
-	if(info.energy > 5)
+	if(info.energy > 0)
 	{
 		for (unsigned i = 0; i < mediumTurrets.size(); ++i) 
 		{
