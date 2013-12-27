@@ -19,7 +19,8 @@ TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *join
 void TurretSlot::assignTurret(const ObjectManager::E_ITEM_LIST turretType)
 {
 	//ensure that its a turret or else we will crash
-	if (ObjectManager::itemList[turretType]->getItemType() == ITEM_TURRET) {
+	if (ObjectManager::itemList[turretType]->getItemType() == ITEM_TURRET) 
+	{
 		//make sure that the childturret pointer is clear
 		removeTurret();
 		childTurret = new Turret(turretType, offset, this);
@@ -81,7 +82,16 @@ void TurretSlot::aim(const core::vector3df &point)
 		//THIS IS THE CAUSE OF ALL OUR PROBLEMS
 		//THIS IS WHY WE CANT HAVE NICE THINGS
 		//THIS FUCKING LINE
+		//we have serious issues with negatives for some reason
+		vector3df positionDifference;
+		if(parent->getPosition().Y > point.Y)
+			positionDifference.Y = parent->getPosition().Y - point.Y;
+		else
+			positionDifference.Y = point.Y - parent->getPosition().Y;
+		positionDifference.X = parent->getPosition().X - point.X;
+		positionDifference.Z = parent->getPosition().Z - point.Z;
 		vector3df diff = currentAim = (parent->getPosition() - point).getHorizontalAngle();
+		
 		
 		//std::cout << diff.Y << std::endl;
 
@@ -112,12 +122,16 @@ void TurretSlot::aim(const core::vector3df &point)
 			childTurret->aim(diff);
 			canFire = true;
 
-		} else {
+		} 
+		else 
+		{
 			//just reset the aim and not shoot
 			//good shit
 			resetAim();
 		}
-	} else {
+	} 
+	else 
+	{
 		//no turret so 
 		canFire = false;
 	}
@@ -206,7 +220,8 @@ void Turret::fire(const vector3df &rotation)
 	//stopgap fix so we can have dynamically firing weapons
 	//since volley fire looks pretty unrealistic
 	//probably should modify this later
-	if (rand()%(int)((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed() < 10) {
+	if (rand()%(int)((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed() < 10) 
+	{
 		//for now, projectile gets an ID. change to ship pointer later
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
