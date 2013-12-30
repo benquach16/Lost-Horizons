@@ -39,7 +39,7 @@ void BloomCallback::OnSetConstants(video::IMaterialRendererServices* services, s
 	f32 offsetY = 1.f/height;
 	f32 offset[2] = {offsetX, offsetY};
 	//services->setVertexShaderConstant("Offset", offset, 2);
-	f32 w = width;
+
 	//services->setPixelShaderConstant("screenWidth", &w, 1);
 }
 

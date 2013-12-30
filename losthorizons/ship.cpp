@@ -11,9 +11,11 @@ wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator"
 	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
+//some globals for ship class
 //time between ai updates to save cpu speed
 #define AITIMER 100
 #define ENERGYTIMER 5000
+#define SHIELDTIMER 15000
 
 Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
@@ -152,6 +154,12 @@ Ship::~Ship()
 	allShips[index] = allShips.back();
 	allShips[index]->index = index;
 	allShips.pop_back();
+	if(shipFleet)
+	{
+		//make sure the fleet doesnt hold old pointers
+		shipFleet->removeShipFromFleet(this);
+		shipFleet = 0;
+	}
 }
 
 bool Ship::run()
@@ -241,6 +249,7 @@ void Ship::decreaseVelocity()
 void Ship::fireTurrets()
 {
 	//lets do this in a way that doesn't involve middlemen
+	//later just call each of the fire functions
 	if(info.energy > 0)
 	{
 		energyRechargeTimer = timer->getTime() + ENERGYTIMER;
@@ -253,6 +262,32 @@ void Ship::fireTurrets()
 			lightTurrets[i]->fire();
 		}
 	}
+}
+
+void Ship::fireLightTurrets()
+{
+	if(info.energy > 0)
+	{
+		energyRechargeTimer = timer->getTime() + ENERGYTIMER;
+		for (unsigned i = 0; i < lightTurrets.size(); ++i)
+		{
+			lightTurrets[i]->fire();
+		}
+	}	
+}
+
+void Ship::fireMediumTurrets()
+{
+	if(info.energy > 0)
+	{
+		energyRechargeTimer = timer->getTime() + ENERGYTIMER;
+		for (unsigned i = 0; i < mediumTurrets.size(); ++i) 
+		{
+			mediumTurrets[i]->fire();
+		}
+
+	}
+
 }
 
 void Ship::damage(int damage)
@@ -274,7 +309,9 @@ void Ship::damage(int damage)
 		//since armor and hull are damaged, kill off some of the crew
 		info.crew -= (rand()%info.crew)/4;
 		//and damage a subsystem
-		subsystems[rand()%SUBSYSTEM_COUNT] -= rand()%100;
+		int i = rand()%SUBSYSTEM_COUNT;
+		if(subsystems[i] > 0)
+			subsystems[i] -= rand()%100;
 	}
 }
 
@@ -285,7 +322,13 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 	//we only do x and z because y is only a formality in this game
 	float x = projectilePosition.X - getPosition().X;
 	float z = projectilePosition.Z - getPosition().Z;
-	
+	//do math here
+	float angle = std::atan2(x,z) * (180.f/PI);
+	angle += getRotation().Y;
+	if(angle > 360)
+		angle -= 360;
+	if(angle < 0)
+		angle += 360;
 }
 
 void Ship::modifyEnergy(int modifier)
@@ -447,12 +490,20 @@ void Ship::warpToTarget()
 
 void Ship::addToFleet(Fleet *f)
 {
-	
+	//we set our shipfleet to this
+	//should really only be used by the fleet class!!!
+	shipFleet = f;
 }
 
 void Ship::removeFromFleet(Fleet *f)
 {
+	f->removeShipFromFleet(this);
+	shipFleet = 0;
+}
 
+Fleet* Ship::getFleet()
+{
+	return shipFleet;
 }
 
 //all private functions go under here
@@ -767,6 +818,11 @@ void Ship::runAI()
 	else if(info.currentAIState == AI_FOLLOWING)
 	{
 		//need to add a shitton of functionality for player control at this point
+
+		vector3df targetVector = shipFleet->getCommandingShip()->getPosition() - getPosition();
+		targetVector = targetVector.getHorizontalAngle();
+		
+		setTargetRotation(targetVector);
 	}
 }
 
@@ -777,6 +833,14 @@ void Ship::updateStates()
 	{
 		//if hull is less than half, try to flee
 		info.currentAIState = AI_FLEEING;
+	}
+	else if (shipFleet)
+	{
+		//if we're in a fleet
+		//do stuff we're told to do
+		//unless we're like the command ship
+		//if we are then we resume whatever the fuck we were doing
+		info.currentAIState = AI_FOLLOWING;
 	}
 	else if (shipTarget && info.currentAIState != AI_TRADING)
 	{

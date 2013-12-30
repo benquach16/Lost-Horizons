@@ -25,7 +25,7 @@ Gameloop::~Gameloop()
 void Gameloop::init()
 {
 	gameSceneManager->createScene();
-	missionManager->addMission(MissionProperties("missions/tutorial.xml"));
+	//missionManager->addMission(MissionProperties("missions/tutorial.xml"));
 }
 
 void Gameloop::run()

@@ -61,12 +61,13 @@ void TurretSlot::drawArc()
 void TurretSlot::aim(const core::vector3df &point)
 {
 	aimPoint->setPosition(joint->getAbsolutePosition());
-	if (childTurret) {
+	if (childTurret) 
+	{
 		//do some math to find the angle to face this point
-		/*
-		const float x = (point.X-offset->getAbsolutePosition().X);
-		const float y = (point.Y-offset->getAbsolutePosition().Y);
-		const float z = (point.Z-offset->getAbsolutePosition().Z);
+		
+		const float x = offset->getAbsolutePosition().X - point.X;
+		const float y = offset->getAbsolutePosition().Y - point.Y;
+		const float z = offset->getAbsolutePosition().Z - point.Z;
 		float angleY = std::atan2(x,z)*static_cast<float>(180/PI);
 
 		float t  = sqrt(x*x+z*z);
@@ -75,22 +76,21 @@ void TurretSlot::aim(const core::vector3df &point)
 		angleX -= 90;
 		if(angleY>360) 
 			angleY-=360;
-		if(angleY < 0)
+		if(angleY < -360)
 			angleY+=360;
-		currentAim = vector3df(angleX, angleY,0);*/
+		currentAim = vector3df(angleX, angleY,0);
 		const int difference = (360 - properties.arc)/2;
 		//THIS IS THE CAUSE OF ALL OUR PROBLEMS
 		//THIS IS WHY WE CANT HAVE NICE THINGS
 		//THIS FUCKING LINE
 		//we have serious issues with negatives for some reason
+		//probably some issues with angles so we're going to fix it
+		/*
 		vector3df positionDifference;
-		if(parent->getPosition().Y > point.Y)
-			positionDifference.Y = parent->getPosition().Y - point.Y;
-		else
-			positionDifference.Y = point.Y - parent->getPosition().Y;
+		positionDifference.Y = point.Y - parent->getPosition().Y;
 		positionDifference.X = parent->getPosition().X - point.X;
-		positionDifference.Z = parent->getPosition().Z - point.Z;
-		vector3df diff = currentAim = (parent->getPosition() - point).getHorizontalAngle();
+		positionDifference.Z = parent->getPosition().Z - point.Z;*/
+		vector3df diff = currentAim;// = positionDifference.getHorizontalAngle();
 		
 		
 		//std::cout << diff.Y << std::endl;
@@ -99,15 +99,15 @@ void TurretSlot::aim(const core::vector3df &point)
 		float tmp = parent->getRotation().Y + rotationOffset.Y;
 		if (tmp > 360)
 			tmp -= 360;
-		if (tmp < 0)
+		if (tmp < -360)
 			tmp += 360;
 		float left = (diff.Y + difference);
-		if(left < 0)
+		if(left < -360)
 			left += 360;
 		if(left > 360)
 			left -= 360;
 		float right = (diff.Y - difference);
-		if(right < 0)
+		if(right < -360)
 			right += 360;
 		if (right > 360)
 			right -= 360;

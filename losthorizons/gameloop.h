@@ -22,6 +22,8 @@ public:
 	//newgame or loadgame instances
 	void createNewGame();
 	void createLoadedGame(const std::string &filename);
+	//move missionloading into this class
+	void loadMissionList();
 
 	//functions for managing the scene
 	GameSceneManager *getGameSceneManager() const;

@@ -23,6 +23,7 @@
 		<maxFighters>10</maxFighters>
 		<maxCargo>2000</maxCargo>
 		<numEngines>3</numEngines>
+		<maxActiveShields>1</maxActiveShields>
 		<heavyTurret num="0">
 		</heavyTurret>
 		<mediumTurret num="4">

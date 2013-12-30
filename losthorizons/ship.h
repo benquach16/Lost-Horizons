@@ -22,7 +22,6 @@ enum E_AI_STATE
 	AI_FOLLOWING,
 };
 
-
 //this is different than states cause each ship is meant to do something specific
 //combat, trading, mining, etc
 enum E_AI_ROLE
@@ -107,9 +106,16 @@ public:
 	void decreaseVelocity();
 
 	//combat functions
+	//this fires all turrets
 	void fireTurrets();
+	//have some functions that don't fire all turrets
+	void fireLightTurrets();
+	void fireMediumTurrets();
+	void fireHeavyTurrets();
+
 	void damage(int damage);
 	//overloaded to grab the position of the projectile as it hits the ship
+	//this is mainly for directional shielding
 	void damage(int damage, const vector3df& projectilePosition);
 	//does exactly what it says
 	void modifyEnergy(int modifier);
@@ -154,7 +160,8 @@ public:
 	//fleet functions
 	void addToFleet(Fleet *f);
 	void removeFromFleet(Fleet *f);
-
+	//realized we needed this or else no ships would ever be added to another ones fleet
+	Fleet *getFleet();
 
 protected:
 	//ship stats

@@ -148,6 +148,14 @@ void Player::control()
 		fireTurrets();
 		intercom->postMessage(L"Firing all available batteries sir!");
 	}
+	if(receiver->isKeyDown(irr::KEY_KEY_1))
+	{
+		fireLightTurrets();
+	}
+	if(receiver->isKeyDown(irr::KEY_KEY_2))
+	{
+		fireMediumTurrets();
+	}
 	//do docking
 	if (receiver->isKeyReleased(irr::KEY_KEY_V))
 	{

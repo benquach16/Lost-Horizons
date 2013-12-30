@@ -22,23 +22,24 @@ public:
 	~ShipProperties();
 
 	//accessors because visual studio
-	const int& getMaxHull() const;
-	const int& getMaxArmor() const;
-	const int& getMaxShield() const;
-	const int& getMaxTurn() const;
-	const f32& getMaxVel() const;
-	const int& getMaxCargo() const;
-	const int& getNumEngines() const;
+	const int getMaxHull() const;
+	const int getMaxArmor() const;
+	const int getMaxShield() const;
+	const int getMaxTurn() const;
+	const f32 getMaxVel() const;
+	const int getMaxCargo() const;
+	const int getNumEngines() const;
+	const int getMaxActiveShields() const;
 
-	const int& getMaxEnergy() const;
-	const int& getMaxCrew() const;
+	const int getMaxEnergy() const;
+	const int getMaxCrew() const;
 
-	const int& getMaxLTurrets() const;
-	const int& getMaxMTurrets() const;
-	const int& getMaxHTurrets() const;
-	const int& getMaxPTurrets() const;
+	const int getMaxLTurrets() const;
+	const int getMaxMTurrets() const;
+	const int getMaxHTurrets() const;
+	const int getMaxPTurrets() const;
 
-	const int& getMaxFighters() const;
+	const int getMaxFighters() const;
 
 	std::vector<turretInformation> heavyTurrets;
 	std::vector<turretInformation> mediumTurrets;	
@@ -55,6 +56,7 @@ protected:
 	f32 maxVelocity;
 	int maxCargo;
 	int numEngines;
+	int maxActiveShields;
 
 	//logistic statistics
 	int maxEnergy;
