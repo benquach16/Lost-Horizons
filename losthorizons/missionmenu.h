@@ -16,7 +16,7 @@ class MissionMenu : public MenuWindow
 	void run();
  protected:
 	//do menustuff
-	std::vector<MissionProperties> missions;
+
 	gui::IGUIListBox *missionList;
 	gui::IGUIStaticText *description;
 	gui::IGUIButton *accept;

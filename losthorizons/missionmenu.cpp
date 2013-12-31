@@ -20,7 +20,12 @@ MissionMenu::MissionMenu() :
 	cancel = guienv->addButton(rect<s32>(220,60,320,80), window, -1, L"Cancel");
 	//we'll put the description below the buttons
 	description = guienv->addStaticText(L"", rect<s32>(220, 100, 380, 380), true, true, window);
-	getMissionList();
+	game->loadMissionList();
+	//now get!
+	for(unsigned i = 0; i < game->getMissionList().size(); i++)
+	{
+		missionList->addItem(game->getMissionList()[i].getName());
+	}
 }
 
 MissionMenu::~MissionMenu()
@@ -36,7 +41,7 @@ void MissionMenu::getMissionList()
 	{
 		//parse the mission file i guess
 		MissionProperties p(input);
-		missions.push_back(p);
+
 		missionList->addItem(p.getName());
 	}
 }
@@ -52,11 +57,13 @@ void MissionMenu::run()
 		if(i != -1)
 		{
 			//have something selected so lets load the descriptio
-			description->setText(missions[i].getDesc());
+			description->setText(game->getMissionList()[i].getDesc());
 			if(accept->isPressed())
 			{
 				gConfig.bPlay = true;
+				
 				game->createNewGame();
+				game->addMissionFromList(i);
 				setVisible(false);
 			}
 		}

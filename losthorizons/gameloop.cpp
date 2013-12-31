@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "gameloop.h"
 #include "globals.h"
+#include <iostream>
+#include <fstream>
 
 using namespace base;
 
@@ -60,6 +62,30 @@ void Gameloop::createLoadedGame(const std::string &filename)
 {
 	data->load(filename);
 }// plan to get rid of this and just do things from the savemenu class
+
+void Gameloop::loadMissionList()
+{
+	//load missions into this class
+	std::ifstream file("missions/list");
+	std::string input;
+	while(getline(file, input))
+	{
+		
+		//parse the mission file i guess
+		MissionProperties p(input);
+		missionList.push_back(p);
+	}
+}
+
+void Gameloop::addMissionFromList(const int i)
+{
+	missionManager->addMission(missionList[i]);
+}
+
+const std::vector<MissionProperties> Gameloop::getMissionList() const
+{
+	return missionList;
+}
 
 GameSceneManager *Gameloop::getGameSceneManager() const
 {

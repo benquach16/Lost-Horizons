@@ -24,13 +24,17 @@ public:
 	void createLoadedGame(const std::string &filename);
 	//move missionloading into this class
 	void loadMissionList();
+	void addMissionFromList(const int i);
+	const std::vector<MissionProperties> getMissionList() const;
 
 	//functions for managing the scene
 	GameSceneManager *getGameSceneManager() const;
 	MissionManager *getMissionManager() const;
+	//hacky function :(
 	void setPointers(Player* player, Intercom *intercom);
 
 private:
+	std::vector<MissionProperties> missionList;
 	DataManager *data;// plan to get rid of this
 	GameSceneManager *gameSceneManager;
 	MissionManager *missionManager;
