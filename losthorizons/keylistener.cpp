@@ -87,6 +87,11 @@ bool KeyListener::isKeyPressed(EKEY_CODE keyCode)
 	return keysRepeatCount[keyCode] == 0 || keysRepeatCount[keyCode] > REPEATDELAY;
 }
 
+bool KeyListener::isKeyUp(EKEY_CODE keyCode)
+{
+	return !keys[keyCode];
+}
+
 const int KeyListener::getMouseX() const
 {
 	return mouseX;

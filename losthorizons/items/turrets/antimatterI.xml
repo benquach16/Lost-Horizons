@@ -15,11 +15,11 @@
 	<turretStats class="light">
 		<fireSound>res/sounds/weapons/antimatter.wav</fireSound>
 		<turnSpeed>10</turnSpeed>
-		<damage>48</damage>
+		<damage>58</damage>
 		<range>1000</range>
-		<reloadSpeed>550</reloadSpeed>
+		<reloadSpeed>1500</reloadSpeed>
 		<projectileSpeed>400</projectileSpeed>
-		<energyUse>25</energyUse>
+		<energyUse>12</energyUse>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.2</scaleX>

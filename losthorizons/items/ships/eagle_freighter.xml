@@ -17,7 +17,7 @@
 		<maxArmor>500</maxArmor>
 		<maxShield>1000</maxShield>
 		<maxVelocity>85</maxVelocity>
-		<maxTurn>13</maxTurn>
+		<maxTurn>17</maxTurn>
 		<maxEnergy>1000</maxEnergy>
 		<maxCrew>200</maxCrew>
 		<maxFighters>0</maxFighters>

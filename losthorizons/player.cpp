@@ -6,14 +6,14 @@ using namespace base;
 
 Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: Ship(faction, shipType, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
-	  playerCam(0), gameMenu(0), stationMenu(0)
+	  playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true)
 {
 	init();
 }
 
 Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
 	: Ship(0, info, subsystems, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
-	  playerCam(0), gameMenu(0), stationMenu(0)
+	  playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true)
 {
 	init();
 }
@@ -144,18 +144,17 @@ void Player::control()
 		rot.X += 35*frameDeltaTime;
 		setTargetRotation(getTargetRotation() + core::vector3df(35*frameDeltaTime,0,0));
 	}
-	if (receiver->isKeyDown(irr::KEY_SPACE)) {
+	if (receiver->isKeyDown(irr::KEY_SPACE) && shootReleased) 
+	{
 		fireTurrets();
 		intercom->postMessage(L"Firing all available batteries sir!");
+		shootReleased = false;
 	}
-	if(receiver->isKeyDown(irr::KEY_KEY_1))
+	else if (receiver->isKeyUp(irr::KEY_SPACE))
 	{
-		fireLightTurrets();
+		shootReleased = true;
 	}
-	if(receiver->isKeyDown(irr::KEY_KEY_2))
-	{
-		fireMediumTurrets();
-	}
+	//lets use the 1-4 keys for stuff like ship abilities
 	//do docking
 	if (receiver->isKeyReleased(irr::KEY_KEY_V))
 	{

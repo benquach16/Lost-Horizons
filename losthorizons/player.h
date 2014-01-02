@@ -23,6 +23,7 @@ public:
 private:
 	void init();
 	void control();
+	bool shootReleased;
 
 	HUD *hud;
 	Minimap *minimap;

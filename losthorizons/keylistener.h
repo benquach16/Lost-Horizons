@@ -20,6 +20,7 @@ public:
 	virtual bool isKeyDown(EKEY_CODE keyCode) const;
 	bool isKeyReleased(EKEY_CODE keyCode);
 	bool isKeyPressed(EKEY_CODE keyCode);
+	bool isKeyUp(EKEY_CODE keyCode);
 	const int getMouseX() const;
 	const int getMouseY() const;
 	const int getMouseWheel() const;

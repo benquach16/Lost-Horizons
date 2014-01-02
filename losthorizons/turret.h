@@ -90,7 +90,7 @@ public:
 protected:
 	TurretSlot *parentSlot;
 	const ObjectManager::E_ITEM_LIST turretType;
-
+	int shootTimer;
 	//pointer to joint that our fire position is
 	scene::IBoneSceneNode *shootJoint;
 };

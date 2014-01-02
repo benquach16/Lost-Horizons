@@ -66,7 +66,7 @@ void TurretSlot::aim(const core::vector3df &point)
 		//do some math to find the angle to face this point
 		
 		const float x = offset->getAbsolutePosition().X - point.X;
-		const float y = offset->getAbsolutePosition().Y - point.Y;
+		const float y = point.Y - offset->getAbsolutePosition().Y;
 		const float z = offset->getAbsolutePosition().Z - point.Z;
 		float angleY = std::atan2(x,z)*static_cast<float>(180/PI);
 
@@ -187,7 +187,7 @@ Turret::Turret() : turretType(ObjectManager::E_ITEM_LIST::ANTIMATTERI)
 Turret::Turret(const ObjectManager::E_ITEM_LIST turretType, ISceneNode *parent, TurretSlot *parentSlot) : 
 	Object(((TurretProperties*)ObjectManager::itemList[turretType])->getFilename(), vector3df(0,0,0), vector3df(0,0,0),
 	((TurretProperties*)ObjectManager::itemList[turretType])->getScale()),
-	turretType(turretType), shootJoint(0), parentSlot(parentSlot)
+	turretType(turretType), shootJoint(0), parentSlot(parentSlot), shootTimer(0)
 {
 	shootJoint = mesh->getJointNode("shoot");
 	mesh->setParent(parent);
@@ -220,13 +220,15 @@ void Turret::fire(const vector3df &rotation)
 	//stopgap fix so we can have dynamically firing weapons
 	//since volley fire looks pretty unrealistic
 	//probably should modify this later
-	if (rand()%(int)((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed() < 10) 
+	if(shootTimer < timer->getTime())
 	{
 		//for now, projectile gets an ID. change to ship pointer later
 		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
 		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename(), getPosition());
 		parentSlot->getParent()->modifyEnergy(-((TurretProperties*)ObjectManager::itemList[turretType])->getEnergyUse());
+		int i = ((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed();
+		shootTimer = timer->getTime() + i + rand()%i-(i/2);
 	}
 }
 

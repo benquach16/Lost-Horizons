@@ -15,11 +15,11 @@
 	<turretStats class="medium">
 		<fireSound>res/sounds/weapons/rail.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
-		<damage>62</damage>
+		<damage>72</damage>
 		<range>1500</range>
-		<reloadSpeed>750</reloadSpeed>
+		<reloadSpeed>2500</reloadSpeed>
 		<projectileSpeed>330</projectileSpeed>
-		<energyUse>40</energyUse>
+		<energyUse>20</energyUse>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.1</scaleX>
