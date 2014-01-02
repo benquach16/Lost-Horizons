@@ -559,6 +559,23 @@ void Ship::movement()
 	setPosition(getPosition()*0.2f + core::vector3df(X,Y,Z)*0.8f);
 }
 
+//protected function
+vector3df Ship::getAlteredShipPosition() const
+{
+	//get the predicted position of the target ship
+	vector3df ret(shipTarget->getPosition());
+	if(shipTarget->getTargetableObjectType() == TARGETABLEOBJECT_SHIP)
+	{
+		float x = std::sin((shipTarget->getRotation().Y*PI)/180);
+		float z = std::cos((shipTarget->getRotation().Y*PI)/180);
+		float y = std::sin((shipTarget->getRotation().X*PI)/180);
+		ret.X += x * ((Ship*)shipTarget)->getInfo().velocity *2;
+		ret.Z += z * ((Ship*)shipTarget)->getInfo().velocity *2;
+		ret.Y += y * ((Ship*)shipTarget)->getInfo().velocity *2;
+	}
+	return ret;
+}
+
 //private function
 //initialises the turret slot classes for each ship
 void Ship::initTurrets()
@@ -617,7 +634,8 @@ void Ship::aimTurrets()
 		}
 		for (unsigned i = 0; i < mediumTurrets.size(); ++i)
 		{
-			mediumTurrets[i]->aim(shipTarget->getPosition());
+			//mediumTurrets[i]->aim(shipTarget->getPosition());
+			mediumTurrets[i]->aim(getAlteredShipPosition());
 		}
 		for (unsigned i = 0; i < lightTurrets.size(); i++)
 		{

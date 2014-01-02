@@ -186,6 +186,10 @@ protected:
 	//change the ship's position
 	void rotate();
 	void movement();
+	//function allows ship to do accuracy prediction
+	//important for targets more than 5 feet away!
+	vector3df getAlteredShipPosition() const;
+
 	//fleet that the ship is attached to, if any
 	Fleet *shipFleet;
 

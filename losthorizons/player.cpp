@@ -66,7 +66,8 @@ bool Player::run()
 				//2d line is a temporary fix
 				//becaause with postprocessing enabled, 3d lines do not work!!!!!!
 				vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
-				vdriver->draw2DLine(t, shipTarget->getScreenPosition(), video::SColor(255,0,255,0));
+				vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getAlteredShipPosition());
+				vdriver->draw2DLine(t, i, video::SColor(255,0,255,0));
 			}
 		}
 		for(unsigned i = 0; i < lightTurrets.size(); i++)
