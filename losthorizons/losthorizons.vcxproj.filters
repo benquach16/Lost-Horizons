@@ -321,6 +321,9 @@
     <ClInclude Include="minimap.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="missile.h">
+      <Filter>Header Files\objects\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -520,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="minimap.cpp">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="missile.cpp">
+      <Filter>Source Files\objects\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

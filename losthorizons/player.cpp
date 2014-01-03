@@ -97,6 +97,8 @@ void Player::init()
 	playerCam = game->getGameSceneManager()->createPlayerCam(vector3df(500.f,500.f,500.f));
 	gameMenu = new GameMenu(this);
 	stationMenu = new StationMenu(this);
+	shipFleet = new Fleet;
+	shipFleet->addShipToFleet(this);
 }
 
 void Player::control()

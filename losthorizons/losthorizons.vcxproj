@@ -169,6 +169,7 @@
     <ClInclude Include="marker.h" />
     <ClInclude Include="menutab.h" />
     <ClInclude Include="minimap.h" />
+    <ClInclude Include="missile.h" />
     <ClInclude Include="mission.h" />
     <ClInclude Include="missionmanager.h" />
     <ClInclude Include="missionmenu.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="marker.cpp" />
     <ClCompile Include="messagemenu.cpp" />
     <ClCompile Include="minimap.cpp" />
+    <ClCompile Include="missile.cpp" />
     <ClCompile Include="mission.cpp" />
     <ClCompile Include="missionmanager.cpp" />
     <ClCompile Include="missionmenu.cpp" />

@@ -12,7 +12,7 @@
 		<scaleY>3</scaleY>
 		<scaleZ>3</scaleZ>
 	</modelStats>
-	<turretStats class="medium">
+	<turretStats class="medium" type="direct">
 		<fireSound>res/sounds/weapons/rail.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
 		<damage>72</damage>

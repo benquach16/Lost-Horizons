@@ -12,7 +12,7 @@
 		<scaleY>3</scaleY>
 		<scaleZ>3</scaleZ>
 	</modelStats>
-	<turretStats class="pd">
+	<turretStats class="pd" type="direct">
 		<fireSound>res/sounds/weapons/gatling.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
 		<damage>5</damage>

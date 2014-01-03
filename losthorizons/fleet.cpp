@@ -24,8 +24,8 @@ void Fleet::run()
 
 void Fleet::addShipToFleet(Ship *s)
 {
-	s->addToFleet(this);
 	shipsInFleet.push_back(s);
+	s->addToFleet(this);
 }
 
 void Fleet::removeShipFromFleet(Ship *s)
@@ -36,7 +36,7 @@ void Fleet::removeShipFromFleet(Ship *s)
 		if(shipsInFleet[i] == s)
 		{
 			//flip
-			shipsInFleet[i]->removeFromFleet(this);
+			shipsInFleet[i]->removeFromFleet();
 			shipsInFleet[i] = shipsInFleet.back();
 			shipsInFleet.pop_back();
 			return;

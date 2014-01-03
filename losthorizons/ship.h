@@ -28,7 +28,8 @@ enum E_AI_ROLE
 {
 	SHIP_MINER,
 	SHIP_TRADER,
-	SHIP_COMBAT
+	SHIP_COMBAT,
+	SHIP_ESCORT
 };
 
 enum E_SUBSYSTEM_TYPE
@@ -49,6 +50,15 @@ enum E_SUBSYSTEM_TYPE
 	SUBSYSTEM_COUNT
 };
 
+enum E_SHIELD_DIRECTIONS
+{
+	SHIELD_NULL,
+	SHIELD_PORT,
+	SHIELD_STARBOARD,
+	SHIELD_FORE,
+	SHIELD_AFT //ships shouldnt really have this except for very very speicific ones
+};
+
 //store all the ship info in a struct so we can save it easily
 struct ShipInformation
 {
@@ -61,10 +71,7 @@ struct ShipInformation
 	vector3df targetRotation;
 	bool docked, warping;
 	//directional shielding
-	int maxShieldFore, shieldFore;
-	int maxShieldPort, shieldPort;
-	int maxShieldStarboard, shieldStarboard;
-	bool shieldActivated;
+	E_SHIELD_DIRECTIONS shieldDirection;
 	ShipInformation() {}
 	//do something later about this autistic block of code
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTION faction)
@@ -77,10 +84,7 @@ struct ShipInformation
 		  crew(ObjectManager::shipList[shipType]->getMaxCrew()), maxCrew(crew),
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType]->getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType]->getMaxTurn()),
-		targetRotation(vector3df()), docked(false), warping(false),
-		  maxShieldFore(ObjectManager::shipList[shipType]->getMaxShield()/3),
-		  maxShieldPort(ObjectManager::shipList[shipType]->getMaxShield()/3),
-		  maxShieldStarboard(ObjectManager::shipList[shipType]->getMaxShield()/3),
+		  targetRotation(vector3df()), docked(false), warping(false),
 		  shieldActivated(false)
 	{}
 };
@@ -108,10 +112,7 @@ public:
 	//combat functions
 	//this fires all turrets
 	void fireTurrets();
-	//have some functions that don't fire all turrets
-	void fireLightTurrets();
-	void fireMediumTurrets();
-	void fireHeavyTurrets();
+
 
 	void damage(int damage);
 	//overloaded to grab the position of the projectile as it hits the ship
@@ -159,7 +160,8 @@ public:
 	//some misc functions
 	//fleet functions
 	void addToFleet(Fleet *f);
-	void removeFromFleet(Fleet *f);
+	void removeFromFleet();
+	void setShipRole(const E_AI_ROLE newRole);
 	//realized we needed this or else no ships would ever be added to another ones fleet
 	Fleet *getFleet();
 

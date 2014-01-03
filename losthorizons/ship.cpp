@@ -264,31 +264,6 @@ void Ship::fireTurrets()
 	}
 }
 
-void Ship::fireLightTurrets()
-{
-	if(info.energy > 0)
-	{
-		energyRechargeTimer = timer->getTime() + ENERGYTIMER;
-		for (unsigned i = 0; i < lightTurrets.size(); ++i)
-		{
-			lightTurrets[i]->fire();
-		}
-	}	
-}
-
-void Ship::fireMediumTurrets()
-{
-	if(info.energy > 0)
-	{
-		energyRechargeTimer = timer->getTime() + ENERGYTIMER;
-		for (unsigned i = 0; i < mediumTurrets.size(); ++i) 
-		{
-			mediumTurrets[i]->fire();
-		}
-
-	}
-
-}
 
 void Ship::damage(int damage)
 {
@@ -329,6 +304,7 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		angle -= 360;
 	if(angle < 0)
 		angle += 360;
+	
 }
 
 void Ship::modifyEnergy(int modifier)
@@ -495,9 +471,8 @@ void Ship::addToFleet(Fleet *f)
 	shipFleet = f;
 }
 
-void Ship::removeFromFleet(Fleet *f)
+void Ship::removeFromFleet()
 {
-	f->removeShipFromFleet(this);
 	shipFleet = 0;
 }
 
@@ -752,13 +727,14 @@ void Ship::runAI()
 				//break target
 				shipTarget = 0;
 			}
-			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1000)
+			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1500)
 			{
 				//too close
 				//turn away
-				setTargetRotation(getTargetRotation() + vector3df(0, (f32)(rand() % 180), 0));
+				setTargetRotation(getTargetRotation() + vector3df(0, 90, 0));
+				//make sure we keep our sides to the target ship at this range
 			}
-			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2000)
+			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2500)
 			{
 				//get closer
 				//calculate vector to target
@@ -858,7 +834,13 @@ void Ship::updateStates()
 		//do stuff we're told to do
 		//unless we're like the command ship
 		//if we are then we resume whatever the fuck we were doing
-		info.currentAIState = AI_FOLLOWING;
+		//find out if theres enemies nearby
+		shipTarget = 0;
+		searchForTarget();
+		if(!shipTarget)
+			info.currentAIState = AI_FOLLOWING;
+		else
+			info.currentAIState = AI_ATTACKING;
 	}
 	else if (shipTarget && info.currentAIState != AI_TRADING)
 	{

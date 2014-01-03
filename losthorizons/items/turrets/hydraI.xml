@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <itemStats type="turret">
-	<name>Baeldor Photon Cannon Mk I</name>
-	<description>The Photon Cannon is a direct energy weapon used by the Provian Consortium, manufactured by the Baeldor Group. They pack more of a punch at the cost of range.</description>
+	<name>Ares Hydra Missile Launcher Mk I</name>
+	<description>The Hydra Missile Launcher is a staple amongst missile destroyers.</description>
 	<cost>2500</cost>
 	<weight>20</weight>
 	<modelStats>
@@ -12,14 +12,14 @@
 		<scaleY>3</scaleY>
 		<scaleZ>3</scaleZ>
 	</modelStats>
-	<turretStats class="medium" type="direct">
+	<turretStats class="light" type="missile">
 		<fireSound>res/sounds/weapons/photon.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
 		<damage>84</damage>
 		<range>1100</range>
 		<reloadSpeed>3050</reloadSpeed>
-		<projectileSpeed>280</projectileSpeed>
-		<energyUse>25</energyUse>
+		<projectileSpeed>50</projectileSpeed>
+		<energyUse>15</energyUse>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.3</scaleX>
