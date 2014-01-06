@@ -3,17 +3,16 @@
 
 #include "irrlicht.h"
 #include "menuwindow.h"
-#include "missionproperties.h"
 
 using namespace irr;
 
 class MissionMenu : public MenuWindow
 {
  public:
-	MissionMenu();
+	MissionMenu(gui::IGUIWindow *menu);
 	~MissionMenu();
-	void getMissionList();
 	void run();
+	void loadMissions();
  protected:
 	//do menustuff
 

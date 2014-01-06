@@ -54,6 +54,7 @@ StartMenu::StartMenu(DataManager *data)
 
 	//create child windows
 	config = new OptionMenu(window);
+	missionMenu = new MissionMenu(window);
 	confirmClose = new MessageMenu(rect<s32>(width/2-120,height/2-40,width/2+120,height/2+40), window, 0, MessageMenu::YESNO, false, false);
 	confirmClose->moveButtons(position2d<s32>(0,-5));
 	confirmClose->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"You did not save. Are you sure?");
@@ -68,7 +69,7 @@ StartMenu::~StartMenu()
 	delete confirmClose;
 }
 
-void StartMenu::run(MissionMenu *missionMenu)
+void StartMenu::run()
 {
 	MenuWindow::run();
 	if (getVisible()) 
@@ -83,7 +84,6 @@ void StartMenu::run(MissionMenu *missionMenu)
 		if (newgame->isPressed()) {
 			//dont do crap yet just open the missionmenu
 			//game->createNewGame();
-			setVisible(false);
 			missionMenu->setVisible(true);
 			
 		}
@@ -125,6 +125,7 @@ void StartMenu::run(MissionMenu *missionMenu)
 			game = new Gameloop(data);
 		}
 		config->run();
+		missionMenu->run();
 		close = MessageMenu::YES == confirmClose->run();
 	}
 
@@ -147,4 +148,9 @@ void StartMenu::shift()
 		savegame->setVisible(false);
 		quit->setVisible(true);
 	}
+}
+
+void StartMenu::missionMenuLoad()
+{
+	missionMenu->loadMissions();
 }

@@ -25,7 +25,6 @@ public:
 private:
 	DevConsole console;
 	StartMenu *menu;
-	MissionMenu *missionMenu;
 	DataManager *data;
 	PostProcessEffect *effect;
 

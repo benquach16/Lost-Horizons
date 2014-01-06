@@ -15,8 +15,9 @@ public:
 	StartMenu(DataManager *data);
 	~StartMenu();
 
-	void run(MissionMenu *missionMenu);
+	void run();
 	void shift();
+	void missionMenuLoad();
 
 private:
 	DataManager *data;
@@ -24,6 +25,7 @@ private:
 	bool close;
 	OptionMenu *config;
 	MessageMenu *confirmClose;
+	MissionMenu *missionMenu;
 	gui::IGUIButton *resume;
 	gui::IGUIButton *newgame;
 	gui::IGUIButton *loadgame;

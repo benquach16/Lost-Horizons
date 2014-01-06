@@ -13,7 +13,7 @@
 using namespace base;
 
 BaseApplication::BaseApplication()
-	: menu(0), data(new DataManager), effect(0), then(0.f), missionMenu(0)
+	: menu(0), data(new DataManager), effect(0), then(0.f)
 {
 	gConfig.Load();
 	getBits();
@@ -38,8 +38,7 @@ void BaseApplication::init()
 
 	menu = new StartMenu(data);
 	game = new Gameloop(data);
-
-	missionMenu = new MissionMenu();
+	menu->missionMenuLoad();
 	effect = new PostProcessEffect;
 	gConfig.bFirstRun = false;
 }
@@ -48,7 +47,6 @@ void BaseApplication::killDevice()
 {
 	delete menu;
 	delete game;
-	delete missionMenu;
 							 
 	delete effect;
 	graphics->closeDevice();
@@ -79,8 +77,7 @@ void BaseApplication::run()
 		then = now;
 
 		//run menu or game
-		menu->run(missionMenu);
-		missionMenu->run();
+		menu->run();
 
 		effect->render();
 		//scenemngr->drawAll();
