@@ -103,6 +103,9 @@ void Player::init()
 
 void Player::control()
 {
+
+
+
 	//all actions the player can do are stored here
 	if (receiver->isKeyPressed(KEY_LBUTTON) && !gameMenu->getVisible() && !stationMenu->getVisible()) {
 		//do target selection code here
@@ -210,4 +213,17 @@ void Player::control()
 	{
 		minimap->enlarge();
 	}
+	if(receiver->isKeyDown(irr::KEY_NUMPAD8))
+	{
+		info.shieldDirection = SHIELD_FORE;
+	}	
+	else if(receiver->isKeyDown(irr::KEY_NUMPAD4))
+	{
+		info.shieldDirection = SHIELD_PORT;
+	}
+	else if(receiver->isKeyDown(irr::KEY_NUMPAD6))
+	{
+		info.shieldDirection = SHIELD_STARBOARD;
+	}
+
 }

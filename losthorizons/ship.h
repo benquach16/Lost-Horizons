@@ -85,7 +85,7 @@ struct ShipInformation
 		  velocity(0.f), maxVelocity(ObjectManager::shipList[shipType]->getMaxVel()),
 		  maxTurn((f32)ObjectManager::shipList[shipType]->getMaxTurn()),
 		  targetRotation(vector3df()), docked(false), warping(false),
-		  shieldActivated(false)
+		  shieldDirection(SHIELD_NULL)
 	{}
 };
 
@@ -191,10 +191,11 @@ protected:
 	//function allows ship to do accuracy prediction
 	//important for targets more than 5 feet away!
 	vector3df getAlteredShipPosition() const;
+	void drawShields();
 
 	//fleet that the ship is attached to, if any
 	Fleet *shipFleet;
-
+	scene::ISceneNode *shield;
 
 private:
 	//turret functions

@@ -125,7 +125,8 @@ void StartMenu::run()
 			game = new Gameloop(data);
 		}
 		config->run();
-		missionMenu->run();
+		if(missionMenu->run())
+			setVisible(false);
 		close = MessageMenu::YES == confirmClose->run();
 	}
 

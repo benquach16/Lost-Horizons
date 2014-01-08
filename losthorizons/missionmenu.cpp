@@ -27,7 +27,7 @@ MissionMenu::~MissionMenu()
 }
 
 
-void MissionMenu::run()
+bool MissionMenu::run()
 {
 	//do missionmenu stuff here
 	MenuWindow::run();
@@ -46,6 +46,7 @@ void MissionMenu::run()
 				game->createNewGame();
 				game->addMissionFromList(i);
 				setVisible(false);
+				return true;
 			}
 		}
 
@@ -55,6 +56,7 @@ void MissionMenu::run()
 			setVisible(false);
 		}
 	}
+	return false;
 }
 
 void MissionMenu::loadMissions()

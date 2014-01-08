@@ -20,7 +20,7 @@ BaseApplication::BaseApplication()
 	receiver = new KeyListener;
 	sound = irrklang::createIrrKlangDevice();
 	sound->setSoundVolume(gConfig.iSFX/10.f);
-	sound->setDefault3DSoundMinDistance(500);
+	sound->setDefault3DSoundMinDistance(200);
 }
 
 BaseApplication::~BaseApplication()

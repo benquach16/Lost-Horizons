@@ -37,7 +37,7 @@ bool Projectile::run()
 				//hit a target
 				//std::cout << "HIT TARGET" << std::endl;
 				Impact *impact = new Impact(getPosition());
-				Ship::allShips[i]->damage(damage);
+				Ship::allShips[i]->damage(damage, getPosition());
 				remove();
 			} else {
 				i++;

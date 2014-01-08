@@ -60,6 +60,10 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	//need to add in stuff like ship roles!!!!!!
 	if(faction == FACTION_NEUTRAL)
 		info.currentAIState = AI_TRADING;
+
+	shield = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/misc/shield.x"), 0, -1, getPosition());
+	shield->setMaterialFlag(video::EMF_LIGHTING, false);
+	shield->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 }
 
 Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
@@ -151,6 +155,7 @@ Ship::~Ship()
 		coronaEffects.back()->remove();
 		coronaEffects.pop_back();
 	}
+	shield->remove();
 	allShips[index] = allShips.back();
 	allShips[index]->index = index;
 	allShips.pop_back();
@@ -166,11 +171,7 @@ bool Ship::run()
 {
 	if (info.hull > 0)
 	{
-		if (info.docked)
-		{
-			//if the ship is docked it most certaintly cannot move
-		}
-		else
+		if (!info.docked)
 		{
 			//make sure its alive to do anything
 			//if the crew is 0 the ship is effectively dead
@@ -178,7 +179,7 @@ bool Ship::run()
 			//and movement
 			rotate();
 			aimTurrets();
-			
+			drawShields();
 			if (info.warping)
 			{
 				//ok so we're warping
@@ -269,11 +270,8 @@ void Ship::damage(int damage)
 {
 	//do damage stuff here
 	//check shields, then armor then hull
-	if (info.shield > 0)
-	{
-		info.shield -= damage;
-	}
-	else if (info.armor > 0)
+
+	if (info.armor > 0)
 	{
 		info.armor -= damage;
 	}
@@ -292,19 +290,66 @@ void Ship::damage(int damage)
 
 void Ship::damage(int damage, const vector3df& projectilePosition)
 {
-	//bigger damage function to take into account shield rotation
-	//calculate the angle so we can see if it hit the shield or not
-	//we only do x and z because y is only a formality in this game
-	float x = projectilePosition.X - getPosition().X;
-	float z = projectilePosition.Z - getPosition().Z;
-	//do math here
-	float angle = std::atan2(x,z) * (180.f/PI);
-	angle += getRotation().Y;
-	if(angle > 360)
-		angle -= 360;
-	if(angle < 0)
-		angle += 360;
-	
+	//check this first to increase performance
+	if(info.shield > 0)
+	{
+		//bigger damage function to take into account shield rotation
+		//calculate the angle so we can see if it hit the shield or not
+		//we only do x and z because y is only a formality in this game
+		float x = projectilePosition.Z - getPosition().Z;
+		float z = projectilePosition.X - getPosition().X;
+		//do math here
+		float angle = std::atan2(x,z) * (180.f/PI);
+		angle+=getRotation().Y;
+		if(angle > 360)
+			angle -= 360;
+		if(angle < 0)
+			angle += 360;
+		std::cout << angle;
+		if(angle > 45 && angle < 135)
+		{
+			//std::cout << "front" << std::endl;
+			if(info.shieldDirection == SHIELD_FORE)
+			{
+				//damage the shields
+				info.shield -= damage;
+			}
+			else
+				this->damage(damage);
+		}
+		else if(angle > 135 && angle < 225)
+		{
+			//std::cout << "left" << std::endl;	
+			if(info.shieldDirection == SHIELD_PORT)
+			{
+				info.shield -= damage;
+			}
+			else
+				this->damage(damage);
+		}
+		else if(angle > 225 && angle < 315)
+		{
+			//std::cout << "back" << std::endl;
+			if(info.shieldDirection == SHIELD_AFT)
+			{
+				info.shield -= damage;
+			}
+			else
+				this->damage(damage);
+		}
+		else
+		{
+			//std::cout << "right" << std::endl;
+			if(info.shieldDirection == SHIELD_STARBOARD)
+			{
+				info.shield -= damage;
+			}
+			else
+				this->damage(damage);
+		}
+	}
+	else
+		this->damage(damage);
 }
 
 void Ship::modifyEnergy(int modifier)
@@ -544,11 +589,45 @@ vector3df Ship::getAlteredShipPosition() const
 		float x = std::sin((shipTarget->getRotation().Y*PI)/180);
 		float z = std::cos((shipTarget->getRotation().Y*PI)/180);
 		float y = std::sin((shipTarget->getRotation().X*PI)/180);
-		ret.X += x * ((Ship*)shipTarget)->getInfo().velocity *2;
-		ret.Z += z * ((Ship*)shipTarget)->getInfo().velocity *2;
-		ret.Y += y * ((Ship*)shipTarget)->getInfo().velocity *2;
+		ret.X += x * ((Ship*)shipTarget)->getInfo().velocity *3;
+		ret.Z += z * ((Ship*)shipTarget)->getInfo().velocity *3;
+		ret.Y += y * ((Ship*)shipTarget)->getInfo().velocity *3;
 	}
 	return ret;
+}
+
+void Ship::drawShields()
+{
+	shield->setPosition(getPosition());
+	//info.shieldDirection = SHIELD_FORE;
+	if(info.shieldDirection == SHIELD_FORE)
+	{
+		shield->setRotation(getRotation());
+		shield->setScale(vector3df(0.5,1,1));
+		shield->setVisible(true);
+	}
+	else if(info.shieldDirection == SHIELD_PORT)
+	{
+		shield->setRotation(getRotation() + vector3df(0,-90,0));
+		shield->setScale(vector3df(1,1,0.5));
+		shield->setVisible(true);
+	}
+	else if(info.shieldDirection == SHIELD_STARBOARD)
+	{
+		shield->setRotation(getRotation() + vector3df(0, 90, 0));
+		shield->setScale(vector3df(1,1,0.5));
+		shield->setVisible(true);
+	}
+	else if(info.shieldDirection == SHIELD_AFT)
+	{
+		shield->setRotation(getRotation() + vector3df(0, 180, 0));
+		shield->setScale(vector3df(0.5, 1, 1));
+		shield->setVisible(true);
+	}
+	else
+	{
+		shield->setVisible(false);
+	}
 }
 
 //private function
@@ -614,7 +693,8 @@ void Ship::aimTurrets()
 		}
 		for (unsigned i = 0; i < lightTurrets.size(); i++)
 		{
-			lightTurrets[i]->aim(shipTarget->getPosition());
+			//lightTurrets[i]->aim(shipTarget->getPosition());
+			lightTurrets[i]->aim(getAlteredShipPosition());
 		}
 	}
 	else
@@ -733,6 +813,7 @@ void Ship::runAI()
 				//turn away
 				setTargetRotation(getTargetRotation() + vector3df(0, 90, 0));
 				//make sure we keep our sides to the target ship at this range
+				info.shieldDirection = SHIELD_STARBOARD;
 			}
 			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2500)
 			{
@@ -744,6 +825,7 @@ void Ship::runAI()
 						targetVector.X = 0;
 				targetVector.Z = 0;
 				setTargetRotation(targetVector);
+				info.shieldDirection = SHIELD_FORE;
 			}
 			//do ship target AI;
 			info.velocity = info.maxVelocity;
