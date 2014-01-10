@@ -6,6 +6,7 @@
 //a simple command console
 
 //#include <queue>
+#include <forward_list>
 #include <vector>
 
 class DevConsole
@@ -25,8 +26,12 @@ private:
 		KB_GRAVEACCENT = '`',
 		KB_TAB = '\t',
 		KB_BACKSPACE = '\b',
+		KB_CONTROL_K = 11,
 		KB_SPECIAL1 = 0,
 		KB_SPECIAL2 = 0xE0,
+		// AFTER KB_SPECIAL2
+		KB_HOME = 71,
+		KB_END = 79,
 		KB_UP = 72,
 		KB_LEFT = 75,
 		KB_RIGHT = 77,
@@ -47,12 +52,18 @@ private:
 	//	void run();
 	//};
 
+	typedef bool (*function)(const std::stringstream& tokenize);
+	void registerCommand(const std::string& name, const function& command);
+	bool executeCommand(const std::string& name, const std::stringstream& args);
+
 	void clearLine();
 	bool parse();
 
 	//std::queue<message> messages; going to just do shit immediately now
 	char buf[CONSOLEBUFFERSIZE];
 	unsigned size, index;
+	std::string token;
+	std::forward_list< std::pair<std::string, function> > commands;
 	std::vector<std::string> history;
 	unsigned historyIndex;
 

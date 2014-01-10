@@ -600,33 +600,30 @@ void Ship::drawShields()
 {
 	shield->setPosition(getPosition());
 	//info.shieldDirection = SHIELD_FORE;
-	if(info.shieldDirection == SHIELD_FORE)
-	{
+	switch (info.shieldDirection) {
+	case SHIELD_FORE:
 		shield->setRotation(getRotation());
 		shield->setScale(vector3df(0.5,1,1));
 		shield->setVisible(true);
-	}
-	else if(info.shieldDirection == SHIELD_PORT)
-	{
+		break;
+	case SHIELD_PORT:
 		shield->setRotation(getRotation() + vector3df(0,-90,0));
 		shield->setScale(vector3df(1,1,0.5));
 		shield->setVisible(true);
-	}
-	else if(info.shieldDirection == SHIELD_STARBOARD)
-	{
+		break;
+	case SHIELD_STARBOARD:
 		shield->setRotation(getRotation() + vector3df(0, 90, 0));
 		shield->setScale(vector3df(1,1,0.5));
 		shield->setVisible(true);
-	}
-	else if(info.shieldDirection == SHIELD_AFT)
-	{
+		break;
+	case SHIELD_AFT:
 		shield->setRotation(getRotation() + vector3df(0, 180, 0));
 		shield->setScale(vector3df(0.5, 1, 1));
 		shield->setVisible(true);
-	}
-	else
-	{
+		break;
+	default:
 		shield->setVisible(false);
+		break;
 	}
 }
 
@@ -781,124 +778,131 @@ void Ship::runAI()
 	//make sure to comment this thoroughly!
 	//and seperate into seperate functions if it becomes too big!!
 	updateStates();
-	if (info.currentAIState == AI_FLEEING)
+	switch (info.currentAIState)
 	{
-		//do fleeing code here
-		//fly away from painful things :(
-		//recall fighters
-		if (shipTarget)
+		case AI_FLEEING:
 		{
-			//fly away from it and stop shooting
-			vector3df targetVector = getPosition() - shipTarget->getPosition();
-			targetVector = targetVector.getHorizontalAngle();
+			//do fleeing code here
+			//fly away from painful things :(
+			//recall fighters
+			if (shipTarget)
+			{
+				//fly away from it and stop shooting
+				vector3df targetVector = getPosition() - shipTarget->getPosition();
+				targetVector = targetVector.getHorizontalAngle();
 
-			setTargetRotation(targetVector);
+				setTargetRotation(targetVector);
+			}
+			//second objective is to find a friendly planet to warp to
+			break;
 		}
-		//second objective is to find a friendly planet to warp to
-
-	}
-	else if (info.currentAIState == AI_ATTACKING)
-	{
-		//do attacking code here
-		if (shipTarget)
+		case AI_ATTACKING:
 		{
-			if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
+			//do attacking code here
+			if (shipTarget)
 			{
-				//break target
-				shipTarget = 0;
+				if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
+				{
+					//break target
+					shipTarget = 0;
+				}
+				else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1500)
+				{
+					//too close
+					//turn away
+					setTargetRotation(getTargetRotation() + vector3df(0, 90, 0));
+					//make sure we keep our sides to the target ship at this range
+					info.shieldDirection = SHIELD_STARBOARD;
+				}
+				else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2500)
+				{
+					//get closer
+					//calculate vector to target
+					vector3df targetVector = shipTarget->getPosition() - getPosition();
+					targetVector = targetVector.getHorizontalAngle();
+					if(targetVector.X > 70 || targetVector.X < -70)
+							targetVector.X = 0;
+					targetVector.Z = 0;
+					setTargetRotation(targetVector);
+					info.shieldDirection = SHIELD_FORE;
+				}
+				//do ship target AI;
+				info.velocity = info.maxVelocity;
+				launchFighters();
+				//firing turrets ain't going to be that simple
+				//ai has to handle the fact that it now has ENERGY
+				//so we make it shoot in bursts
+				if(info.energy > 0 && shouldFire)
+					fireTurrets();
+				else if(info.energy < info.maxEnergy)
+				{
+					shouldFire = false;
+				}
+				if(!shouldFire && info.energy > info.maxEnergy/2)
+				{
+					shouldFire = true;
+				}
 			}
-			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1500)
+			else
 			{
-				//too close
-				//turn away
-				setTargetRotation(getTargetRotation() + vector3df(0, 90, 0));
-				//make sure we keep our sides to the target ship at this range
-				info.shieldDirection = SHIELD_STARBOARD;
+				//if theres no target, change the state
+				info.currentAIState = AI_PATROLLING;
 			}
-			else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2500)
+			break;
+		}
+		case AI_PATROLLING:
+		{
+			//crooze
+			info.velocity = info.maxVelocity/2;
+			//search for targets
+			if (currentTime < timer->getTime())
 			{
-				//get closer
-				//calculate vector to target
+				searchForTarget();
+				currentTime = timer->getTime() + AITIMER;
+			}
+			break;
+		}
+		case AI_TRADING:
+		{
+			//implement trading code here
+			info.velocity = info.maxVelocity/2;
+			//generally, traders should be neutral
+			//generally
+			//we find arbitrary space station for now and fly to it
+			//shiptargets for traders are meant to be stations to fly to
+			if(!shipTarget)
+			{
+				searchForFriendlyStation();
+				//we should probably have a list of stations to travel to
+				//make it fly to a random station
+				//should generate it on the fly
+			}
+			else
+			{
+				//orient towards station
 				vector3df targetVector = shipTarget->getPosition() - getPosition();
 				targetVector = targetVector.getHorizontalAngle();
-				if(targetVector.X > 70 || targetVector.X < -70)
-						targetVector.X = 0;
-				targetVector.Z = 0;
+
 				setTargetRotation(targetVector);
-				info.shieldDirection = SHIELD_FORE;
+				//why doesn't this proc?
+				if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 500)
+				{
+					//should probably switch space stations
+					searchForFriendlyStation();
+				}
 			}
-			//do ship target AI;
-			info.velocity = info.maxVelocity;
-			launchFighters();
-			//firing turrets ain't going to be that simple
-			//ai has to handle the fact that it now has ENERGY
-			//so we make it shoot in bursts
-			if(info.energy > 0 && shouldFire)
-				fireTurrets();
-			else if(info.energy < info.maxEnergy)
-			{
-				shouldFire = false;
-			}
-			if(!shouldFire && info.energy > info.maxEnergy/2)
-			{
-				shouldFire = true;
-			}
+			break;
 		}
-		else
+		case AI_FOLLOWING:
 		{
-			//if theres no target, change the state
-			info.currentAIState = AI_PATROLLING;
-		}
-	}
-	else if (info.currentAIState == AI_PATROLLING)
-	{
-		//crooze
-		info.velocity = info.maxVelocity/2;
-		//search for targets
-		if (currentTime < timer->getTime())
-		{
-			searchForTarget();
-			currentTime = timer->getTime() + AITIMER;
-		}
-	}
-	else if (info.currentAIState == AI_TRADING)
-	{
-		//implement trading code here
-		info.velocity = info.maxVelocity/2;
-		//generally, traders should be neutral
-		//generally
-		//we find arbitrary space station for now and fly to it
-		//shiptargets for traders are meant to be stations to fly to
-		if(!shipTarget)
-		{
-			searchForFriendlyStation();
-			//we should probably have a list of stations to travel to
-			//make it fly to a random station
-			//should generate it on the fly
-		}
-		else
-		{
-			//orient towards station
-			vector3df targetVector = shipTarget->getPosition() - getPosition();
+			//need to add a shitton of functionality for player control at this point
+
+			vector3df targetVector = shipFleet->getCommandingShip()->getPosition() - getPosition();
 			targetVector = targetVector.getHorizontalAngle();
-
-			setTargetRotation(targetVector);
-			//why doesn't this proc?
-			if(getPosition().getDistanceFrom(shipTarget->getPosition()) < 500)
-			{
-				//should probably switch space stations
-				searchForFriendlyStation();
-			}
-		}
-	}
-	else if(info.currentAIState == AI_FOLLOWING)
-	{
-		//need to add a shitton of functionality for player control at this point
-
-		vector3df targetVector = shipFleet->getCommandingShip()->getPosition() - getPosition();
-		targetVector = targetVector.getHorizontalAngle();
 		
-		setTargetRotation(targetVector);
+			setTargetRotation(targetVector);
+			break;
+		}
 	}
 }
 

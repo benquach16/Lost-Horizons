@@ -6,9 +6,13 @@
 
 using namespace base;
 
+bool create(const std::stringstream& tokenize);
+
 DevConsole::DevConsole()
 	: size(0), index(0), historyIndex(0)
 {
+	registerCommand("create", create);
+
 	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	buf[0] = '\0';
 }
@@ -48,6 +52,7 @@ void DevConsole::run()
 				history.push_back(buf);
 				historyIndex = history.size();
 				index = size = 0;
+				token.clear();
 			}
 			break;
 		case KB_GRAVEACCENT:
@@ -79,10 +84,35 @@ void DevConsole::run()
 				}
 			}
 			break;
+		case KB_CONTROL_K:
+			historyIndex = history.size();
+			if (index == size) {
+				clearLine();
+				index = size = 0;
+			} else {
+				GetConsoleScreenBufferInfo(hstdout, &csbi);
+				for (unsigned i = index; i < size; ++i) {
+					_putch(' ');
+				}
+				size = index;
+				SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
+			}
+			break;
 		case KB_SPECIAL1:
+			_getch();
 			break;
 		case KB_SPECIAL2:
 			switch (_getch()) {
+			case KB_HOME:
+				GetConsoleScreenBufferInfo(hstdout, &csbi);
+				index = csbi.dwCursorPosition.X = 0;
+				SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
+				break;
+			case KB_END:
+				GetConsoleScreenBufferInfo(hstdout, &csbi);
+				index = csbi.dwCursorPosition.X = size;
+				SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
+				break;
 			case KB_UP:
 				if (historyIndex > 0) {
 					historyIndex--;
@@ -141,6 +171,23 @@ void DevConsole::run()
 	} while (keyPressed != KB_GRAVEACCENT);
 }
 
+void DevConsole::registerCommand(const std::string& name, const function& command)
+{
+	commands.push_front(std::pair<std::string, function>(name, command));
+}
+
+bool DevConsole::executeCommand(const std::string& name, const std::stringstream& args)
+{
+	std::forward_list< std::pair<std::string, function> >::iterator i = commands.begin();
+	while (i != commands.end()) {
+		if ((*i).first == name) {
+			return (*i).second(args);
+		}
+		i++;
+	}
+	return false;
+}
+
 void DevConsole::clearLine()
 {
 	GetConsoleScreenBufferInfo(hstdout, &csbi);
@@ -159,5 +206,13 @@ bool DevConsole::parse()
 	buf[size] = '\0';
 	std::stringstream tokenize;
 	tokenize << buf;
+	tokenize >> token;
+	return executeCommand(token, tokenize);
+}
+
+bool create(const std::stringstream& tokenize)
+{
+	//do shit
+
 	return true;
 }
