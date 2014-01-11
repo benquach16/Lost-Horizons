@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <itemStats type="ship"> 
-	<name>Praetorian Class Cruiser</name>
-	<description>Terran Federation Cruiser. A mainstay of the Terran Fleet, it as established a reputation as one of the most verstile ships in the Navy.</description> 
+	<name>Legion Class Destroyer</name>
+	<description>Terran Federation Destroyer. A mainstay of the Terran Fleet, it as established a reputation as one of the most verstile ships in the Navy.</description> 
 	<cost>75000</cost> 
 	<weight>1200000</weight>
 	<modelStats>
-		<filename>res/models/ships/praetorian.X</filename>
+		<filename>res/models/ships/legion.X</filename>
 		<diffuseMap>res/models/ships/shiphull.png</diffuseMap>
 		<normalMap>res/models/ships/shiphull_normal.jpg</normalMap>
-		<scaleX>0.15</scaleX>
-		<scaleY>0.15</scaleY>
-		<scaleZ>0.15</scaleZ>
+		<scaleX>0.23</scaleX>
+		<scaleY>0.23</scaleY>
+		<scaleZ>0.23</scaleZ>
 	</modelStats>
 	<shipStats>
 		<maxHull>2000</maxHull>
 		<maxArmor>1000</maxArmor>
 		<maxShield>2000</maxShield>
-		<maxVelocity>80</maxVelocity>
-		<maxTurn>20</maxTurn>
-		<maxEnergy>1000</maxEnergy>
-		<maxCrew>800</maxCrew>
-		<maxFighters>10</maxFighters>
-		<maxCargo>2000</maxCargo>
+		<maxVelocity>95</maxVelocity>
+		<maxTurn>25</maxTurn>
+		<maxEnergy>700</maxEnergy>
+		<maxCrew>400</maxCrew>
+		<maxFighters>5</maxFighters>
+		<maxCargo>1000</maxCargo>
 		<numEngines>3</numEngines>
 		<maxActiveShields>1</maxActiveShields>
 		<heavyTurret num="0">

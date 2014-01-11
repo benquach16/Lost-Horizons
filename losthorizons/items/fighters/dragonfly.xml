@@ -14,8 +14,8 @@
 	</modelStats>
 	<fighterStats>
 		<maxHull>20</maxHull>
-		<maxTurn>50</maxTurn>
-		<maxVelocity>110</maxVelocity>
+		<maxTurn>100</maxTurn>
+		<maxVelocity>170</maxVelocity>
 		<maxFuel>360000</maxFuel>
 	</fighterStats>
 </itemStats>
