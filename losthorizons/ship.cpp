@@ -129,7 +129,11 @@ Ship& Ship::operator=(const Ship *s)
 		{
 				delete lightTurrets[i];
 		}
-
+		//after we clear make sure we create
+		for(unsigned i = 0; i < s->heavyTurrets.size(); i++)
+		{
+			
+		}
 	}
 	return *this;
 }
@@ -238,13 +242,13 @@ bool Ship::run()
 void Ship::increaseVelocity()
 {
 	if (info.velocity < info.maxVelocity)
-		info.velocity += (5+abs(info.velocity)/2)*frameDeltaTime;
+		info.velocity += (10+abs(info.velocity)/2)*frameDeltaTime;
 }
 
 void Ship::decreaseVelocity()
 {
 	if (info.velocity > -info.maxVelocity)
-		info.velocity -= (1+abs(info.velocity)/2)*frameDeltaTime;
+		info.velocity -= (10+abs(info.velocity)/2)*frameDeltaTime;
 }
 
 void Ship::fireTurrets()
@@ -300,15 +304,15 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		float z = projectilePosition.X - getPosition().X;
 		//do math here
 		float angle = std::atan2(x,z) * (180.f/PI);
-		angle+=getRotation().Y;
+		angle += getRotation().Y;
 		if(angle > 360)
 			angle -= 360;
-		if(angle < 0)
+		if(angle < 1)
 			angle += 360;
 		std::cout << angle;
 		if(angle > 45 && angle < 135)
 		{
-			//std::cout << "front" << std::endl;
+			std::cout << "front" << std::endl;
 			if(info.shieldDirection == SHIELD_FORE)
 			{
 				//damage the shields
@@ -319,7 +323,7 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		}
 		else if(angle > 135 && angle < 225)
 		{
-			//std::cout << "left" << std::endl;	
+			std::cout << "left" << std::endl;	
 			if(info.shieldDirection == SHIELD_PORT)
 			{
 				info.shield -= damage;
@@ -329,7 +333,7 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		}
 		else if(angle > 225 && angle < 315)
 		{
-			//std::cout << "back" << std::endl;
+			std::cout << "back" << std::endl;
 			if(info.shieldDirection == SHIELD_AFT)
 			{
 				info.shield -= damage;
@@ -339,7 +343,7 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		}
 		else
 		{
-			//std::cout << "right" << std::endl;
+			std::cout << "right" << std::endl;
 			if(info.shieldDirection == SHIELD_STARBOARD)
 			{
 				info.shield -= damage;
@@ -903,6 +907,11 @@ void Ship::runAI()
 			setTargetRotation(targetVector);
 			break;
 		}
+		case AI_DOORDER:
+		{
+			//ai should so tuff here
+			break;
+		}
 	}
 }
 
@@ -923,10 +932,18 @@ void Ship::updateStates()
 		//find out if theres enemies nearby
 		shipTarget = 0;
 		searchForTarget();
-		if(!shipTarget)
-			info.currentAIState = AI_FOLLOWING;
+		if(info.currentAIState != ORDER_NULL)
+		{
+			//have something specific to do
+			info.currentAIState = AI_DOORDER;
+		}
 		else
-			info.currentAIState = AI_ATTACKING;
+		{
+			if(!shipTarget)
+				info.currentAIState = AI_FOLLOWING;
+			else
+				info.currentAIState = AI_ATTACKING;
+		}
 	}
 	else if (shipTarget && info.currentAIState != AI_TRADING)
 	{
@@ -945,6 +962,7 @@ void Ship::searchForTarget()
 		if ((allShips[i]->getInfo().currentFaction == FACTION_PIRATE && this->getInfo().currentFaction != FACTION_PIRATE) || 
 			(allShips[i]->getInfo().currentFaction != FACTION_PIRATE && this->getInfo().currentFaction == FACTION_PIRATE))
 		{
+			//get ship
 			if (allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{
 				setTarget(allShips[i]);

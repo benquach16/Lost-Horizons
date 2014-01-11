@@ -6,6 +6,14 @@
 #include "objectmanager.h"
 #include "ship.h"
 
+enum E_FIGHTER_STANCE
+{
+	FIGHTER_STANCE_ATTACK,
+	FIGHTER_STANCE_DEFEND,
+	//ignore fighter targets
+	FIGHTER_STANCE_ATTACK_IGNORE,
+};
+
 //fighter info struct
 struct FighterInformation
 {
@@ -14,12 +22,14 @@ struct FighterInformation
 	f32 velocity, maxTurn;
 	unsigned maxFuel, fuel;
 	vector3df targetRotation;
+	E_FIGHTER_STANCE currentStance;
 	FighterInformation() {}
 	FighterInformation(ObjectManager::E_FIGHTER_LIST fighterType) 
 		: maxHull(ObjectManager::fighterList[fighterType]->getMaxHull()), hull(maxHull),
 		velocity(ObjectManager::fighterList[fighterType]->getMaxVelocity()),
 		maxTurn(ObjectManager::fighterList[fighterType]->getMaxTurn()),
-		maxFuel(ObjectManager::fighterList[fighterType]->getMaxFuel()), fuel(maxFuel)
+		maxFuel(ObjectManager::fighterList[fighterType]->getMaxFuel()), fuel(maxFuel),
+		currentStance(FIGHTER_STANCE_DEFEND)
 	{}
 };
 

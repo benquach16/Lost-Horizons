@@ -7,7 +7,7 @@ using namespace base;
 
 std::vector<Fighter*> Fighter::allFighters;
 
-#define PATROLDISTANCE 500
+#define PATROLDISTANCE 200
 #define AITIMER 200
 
 //large constructor
@@ -38,10 +38,13 @@ Fighter::~Fighter()
 bool Fighter::run()
 {
 	//run basic control and ai here
-	if (info.hull > 1) {
+	if (info.hull > 1) 
+	{
 		rotate();
 		movement();
-		if (fighterTarget) {
+		//make sure that fighters are a higher priority than ships
+		if (fighterTarget && info.currentStance != FIGHTER_STANCE_ATTACK_IGNORE) 
+		{
 			//if theres another fighter to fight
 			//fly at it
 			const f32 dist = getPosition().getDistanceFromSQ(fighterTarget->getPosition());
@@ -59,30 +62,50 @@ bool Fighter::run()
 				}
 			}
 		}
-		else if (shipTarget) {
+		else if (shipTarget) 
+		{
 			//attack the ship
 			searchForFighterTargets();
 			const f32 dist = getPosition().getDistanceFromSQ(shipTarget->getPosition());
-			if (dist > 250000) {
+			if (dist > 250000) 
+			{
 				info.targetRotation = (shipTarget->getPosition() - getPosition()).getHorizontalAngle();
-			} else if (dist < 40000) {
+			}
+			else if (dist < 40000) 
+			{
 				info.targetRotation = (shipTarget->getPosition() - getPosition()).getHorizontalAngle() + vector3df(0,(f32)(rand()%180 + 90),0);
 			}
-			if (dist < 250000) {
+			if (dist < 250000) 
+			{
 				//fire projectile or missile
+				
 			}
 		}
-		else {
+		else 
+		{
+			//no targets around!
+			//do patrol stuff!!
 			searchForFighterTargets();
-			searchForShipTargets();
+			if(info.currentStance == FIGHTER_STANCE_ATTACK || 
+				 info.currentStance == FIGHTER_STANCE_ATTACK_IGNORE)
+				searchForShipTargets();
 			//patrol for targets around home ship
-			if (homeBase) {
-
+			if (homeBase) 
+			{
+				//get the distance from the home ship
+				if(getPosition().getDistanceFrom(homeBase->getPosition()) > PATROLDISTANCE)
+				{
+					vector3df targetVector = homeBase->getPosition() - getPosition();
+					targetVector = targetVector.getHorizontalAngle();
+					info.targetRotation = targetVector;
+					//info.targetRotation.Y += rand()%180-90;
+					//info.targetRotation.X += rand()&180-90;
+				}
 			}
 		}
-
 	}
-	else {
+	else 
+	{
 		remove();
 	}
 	return TargetableObject::run();

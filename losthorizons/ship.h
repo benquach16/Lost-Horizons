@@ -20,6 +20,7 @@ enum E_AI_STATE
 	AI_ASSAULTING,
 	AI_TRADING,
 	AI_FOLLOWING,
+	AI_DOORDER
 };
 
 //this is different than states cause each ship is meant to do something specific
@@ -30,6 +31,15 @@ enum E_AI_ROLE
 	SHIP_TRADER,
 	SHIP_COMBAT,
 	SHIP_ESCORT
+};
+
+//we have to be able to give commands to our slave ships
+enum E_AI_ORDER
+{
+	ORDER_NULL,
+	ORDER_MOVETOLOCATION,
+	ORDER_ATTACKGENERAL,
+	ORDER_ATTACKTARGET
 };
 
 enum E_SUBSYSTEM_TYPE
@@ -66,6 +76,7 @@ struct ShipInformation
 	E_GAME_FACTION currentFaction;
 	E_AI_STATE currentAIState;
 	E_AI_ROLE currentAIRole;
+	E_AI_ORDER currentAIOrder;
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;

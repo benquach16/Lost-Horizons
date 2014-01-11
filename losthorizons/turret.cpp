@@ -88,18 +88,17 @@ void TurretSlot::aim(const core::vector3df &point)
 		positionDifference.X = parent->getPosition().X - point.X;
 		positionDifference.Z = parent->getPosition().Z - point.Z;*/
 		vector3df diff = currentAim;// = positionDifference.getHorizontalAngle();
-
 		
 		//std::cout << diff.Y << std::endl;
 
 		//normalize angles
 		float tmp = parent->getRotation().Y - rotationOffset.Y;
-  
-		
+		if(point.X < offset->getAbsolutePosition().X)
+			tmp = parent->getRotation().Y + rotationOffset.Y;
+
 		float left = (diff.Y + difference);
-
 		float right = (diff.Y - difference);
-
+		//std::cout << tmp << " left : " << left << " right : " << right << std::endl;
 		if ( left < tmp || right > tmp) 
 		{
 			//inside the arc horizontally
@@ -107,7 +106,7 @@ void TurretSlot::aim(const core::vector3df &point)
 			//draw so player knows which turrets can shoot
 			//angleY -= parent->getRotation().Y;
 			//angleY += 180 - offset->getRotation().Y;
-			//std::cout << tmp << " left : " << left << " right : " << right << std::endl;
+			
 			diff.Y += -parent->getRotation().Y + offset->getRotation().Y;
 			childTurret->aim(diff);
 			canFire = true;

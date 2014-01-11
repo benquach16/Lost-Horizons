@@ -3,12 +3,11 @@
 
 #include "stdafx.h"
 
-using namespace irr;
-
 //the visuals manager has a very simple job - to make the game look cool
 //it simply controls the dust and nebula fog in space
 
 #define NUMDUSTCLOUDS 20
+#define NUMFOGCLOUDS 20
 
 class VisualsManager
 {
@@ -17,9 +16,10 @@ public:
 	~VisualsManager();
 	void run();
 
-private:
-	scene::IBillboardSceneNode* dust[NUMDUSTCLOUDS];
-
+protected:
+	irr::scene::ICameraSceneNode *cam;
+	irr::scene::IBillboardSceneNode* dust[NUMDUSTCLOUDS];
+	irr::scene::IBillboardSceneNode* fog[NUMFOGCLOUDS];
 };
 
 #endif
