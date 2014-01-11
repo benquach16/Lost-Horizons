@@ -13,6 +13,7 @@ class MissionMenu : public MenuWindow
 	~MissionMenu();
 	bool run();
 	void loadMissions();
+	void clear();
  protected:
 	//do menustuff
 

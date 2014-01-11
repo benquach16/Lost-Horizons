@@ -123,6 +123,8 @@ void StartMenu::run()
 			shift();
 			delete game;
 			game = new Gameloop(data);
+			missionMenu->clear();
+			missionMenuLoad();
 		}
 		config->run();
 		if(missionMenu->run())

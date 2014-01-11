@@ -56,6 +56,7 @@ bool MissionMenu::run()
 			setVisible(false);
 		}
 	}
+	
 	return false;
 }
 
@@ -67,4 +68,9 @@ void MissionMenu::loadMissions()
 	{
 		missionList->addItem(game->getMissionList()[i].getName());
 	}
+}
+
+void MissionMenu::clear()
+{
+	missionList->clear();
 }

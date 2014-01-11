@@ -16,6 +16,7 @@ Gameloop::Gameloop(DataManager *data)
 Gameloop::~Gameloop()
 {
 	//clear everything we created
+	missionList.empty();
 	delete gameSceneManager;
 	delete missionManager;
 	delete objectManager;
