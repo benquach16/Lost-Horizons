@@ -65,7 +65,7 @@ Ship *GameSceneManager::createShip(u16 ID, const ShipInformation &info, const s8
 		return new Ship(ID, info, subsystems, position, rotation);
 }
 
-SpaceStation *GameSceneManager::createStation(const E_GAME_FACTION faction, ObjectManager::E_STATION_LIST stationType, const vector3df &position,
+SpaceStation *GameSceneManager::createStation(const E_GAME_FACTION faction, const ObjectManager::E_STATION_LIST stationType, const vector3df &position,
 									   const vector3df& rotation)
 {
 	return new SpaceStation(faction, stationType, position, rotation);

@@ -52,9 +52,9 @@ private:
 	//	void run();
 	//};
 
-	typedef bool (*function)(const std::stringstream& tokenize);
+	typedef bool (*function)(const void* args);
 	void registerCommand(const std::string& name, const function& command);
-	bool executeCommand(const std::string& name, const std::stringstream& args);
+	bool executeCommand(const std::string& name, void* args);
 
 	void clearLine();
 	bool parse();
@@ -62,7 +62,6 @@ private:
 	//std::queue<message> messages; going to just do shit immediately now
 	char buf[CONSOLEBUFFERSIZE];
 	unsigned size, index;
-	std::string token;
 	std::forward_list< std::pair<std::string, function> > commands;
 	std::vector<std::string> history;
 	unsigned historyIndex;

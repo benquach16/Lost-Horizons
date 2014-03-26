@@ -1,18 +1,19 @@
 #include "stdafx.h"
 #include "devconsole.h"
 #include "globals.h"
+#include "string_util.h"
 #include <conio.h>
 #include <sstream>
 
 using namespace base;
 
-bool create(const std::stringstream& tokenize);
+bool create(const void* args);
 
 DevConsole::DevConsole()
 	: size(0), index(0), historyIndex(0)
 {
 	registerCommand("create", create);
-
+	
 	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	buf[0] = '\0';
 }
@@ -52,7 +53,6 @@ void DevConsole::run()
 				history.push_back(buf);
 				historyIndex = history.size();
 				index = size = 0;
-				token.clear();
 			}
 			break;
 		case KB_GRAVEACCENT:
@@ -176,7 +176,7 @@ void DevConsole::registerCommand(const std::string& name, const function& comman
 	commands.push_front(std::pair<std::string, function>(name, command));
 }
 
-bool DevConsole::executeCommand(const std::string& name, const std::stringstream& args)
+bool DevConsole::executeCommand(const std::string& name, void* args)
 {
 	std::forward_list< std::pair<std::string, function> >::iterator i = commands.begin();
 	while (i != commands.end()) {
@@ -205,14 +205,118 @@ bool DevConsole::parse()
 	// now figure out what it does and add it to the queue
 	buf[size] = '\0';
 	std::stringstream tokenize;
+	std::string command;
 	tokenize << buf;
-	tokenize >> token;
-	return executeCommand(token, tokenize);
+	tokenize >> command;
+	return executeCommand(command, (void*)&tokenize);
 }
 
-bool create(const std::stringstream& tokenize)
+bool create(const void* args)
 {
-	//do shit
+	//make some needed variables with default values
+	E_GAME_FACTION faction = FACTION_TERRAN;
+	f64 posX = 0, posY = 0, posZ = 0;
+
+	//this is INCREDIBLY MESSY right now, but it will be fixed later (make vector in parse())
+	//tons of repeating code :(
+	std::stringstream* arguments = (std::stringstream*)args;
+	std::string token;
+	*arguments >> token;
+	if (token == "cam") {
+		while (*arguments >> token) {
+			if (token == "-abs") {
+				*arguments >> token;
+				if (!TryParse(token, &posX)) {
+					return false;
+				}
+				*arguments >> token;
+				if (!TryParse(token, &posY)) {
+					return false;
+				}
+				*arguments >> token;
+				if (!TryParse(token, &posZ)) {
+					return false;
+				}
+			} else if (token == "-rel") {
+				*arguments >> token;
+				// TODO
+			} else if (token == "-aim") {
+				*arguments >> token;
+				// TODO
+			} else {
+				return false;
+			}
+		}
+		game->getGameSceneManager()->createPlayerCam(vector3df((f32)posX, (f32)posY, (f32)posZ));
+	} else if (token == "ship") {
+		ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER;
+		while (*arguments >> token) {
+			if (token == "-abs") {
+				*arguments >> token;
+				if (!TryParse(token, &posX)) {
+					return false;
+				}
+				*arguments >> token;
+				if (!TryParse(token, &posY)) {
+					return false;
+				}
+				*arguments >> token;
+				if (!TryParse(token, &posZ)) {
+					return false;
+				}
+			} else if (token == "-rel") {
+				*arguments >> token;
+				// TODO
+			} else if (token == "-aim") {
+				*arguments >> token;
+				// TODO
+			} else if (token == "-faction") {
+				*arguments >> token;
+				// TODO
+			} else if (token == "-type") {
+				*arguments >> token;
+				// TODO
+			} else {
+				return false;
+			}
+		}
+		game->getGameSceneManager()->createShip(faction, shipType, vector3df((f32)posX, (f32)posY, (f32)posZ));
+	} else if (token == "station") {
+		ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING;
+		while (*arguments >> token) {
+			if (token == "-abs") {
+				*arguments >> token;
+				if (!TryParse(token, &posX)) {
+					return false;
+				}
+				*arguments >> token;
+				if (!TryParse(token, &posY)) {
+					return false;
+				}
+				*arguments >> token;
+				if (!TryParse(token, &posZ)) {
+					return false;
+				}
+			} else if (token == "-rel") {
+				*arguments >> token;
+				// TODO
+			} else if (token == "-aim") {
+				*arguments >> token;
+				// TODO
+			} else if (token == "-faction") {
+				*arguments >> token;
+				// TODO
+			} else if (token == "-type") {
+				*arguments >> token;
+				// TODO
+			} else {
+				return false;
+			}
+		}
+		game->getGameSceneManager()->createStation(faction, stationType, vector3df((f32)posX, (f32)posY, (f32)posZ));
+	} else {
+		return false;
+	}
 
 	return true;
 }

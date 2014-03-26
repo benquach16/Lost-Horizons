@@ -250,6 +250,7 @@
     <ClCompile Include="hangartab.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="impact.cpp" />
+    <ClCompile Include="ini_io.cpp" />
     <ClCompile Include="intercom.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="itemproperties.cpp" />
@@ -289,6 +290,7 @@
     <ClCompile Include="stationmenu.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="storetab.cpp" />
+    <ClCompile Include="string_util.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="targetableobject.cpp" />
     <ClCompile Include="trigger.cpp" />

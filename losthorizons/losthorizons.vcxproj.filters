@@ -527,6 +527,12 @@
     <ClCompile Include="missile.cpp">
       <Filter>Source Files\objects\Object</Filter>
     </ClCompile>
+    <ClCompile Include="string_util.cpp">
+      <Filter>Source Files\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="ini_io.cpp">
+      <Filter>Source Files\lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="losthorizons.rc">
