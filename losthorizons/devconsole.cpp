@@ -4,15 +4,22 @@
 #include "string_util.h"
 #include <conio.h>
 #include <sstream>
+#include <fstream>
 
 using namespace base;
 
-bool create(const void* args);
+namespace command
+{
+	//commands for the dev console are forward declared here and defined at the end of this file
+	//bool execute(std::vector<std::string>& args);
+	bool create(std::vector<std::string>& args);
+}
 
 DevConsole::DevConsole()
 	: size(0), index(0), historyIndex(0)
 {
-	registerCommand("create", create);
+	//registerCommand("execute", command::execute);
+	registerCommand("create", command::create);
 	
 	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	buf[0] = '\0';
@@ -171,12 +178,30 @@ void DevConsole::run()
 	} while (keyPressed != KB_GRAVEACCENT);
 }
 
+bool DevConsole::execute(const std::string filename)
+{
+	std::ifstream file(filename.c_str());
+	if (file.bad()) {
+		return false;
+	}
+	std::string line;
+	std::vector<std::string> lines;
+	while (std::getline(file, line)) {
+		lines.push_back(line);
+	}
+	file.close();
+	for (unsigned i = 0; i < lines.size(); ++i) {
+		parse(lines[i]);
+	}
+	return true;
+}
+
 void DevConsole::registerCommand(const std::string& name, const function& command)
 {
 	commands.push_front(std::pair<std::string, function>(name, command));
 }
 
-bool DevConsole::executeCommand(const std::string& name, void* args)
+bool DevConsole::executeCommand(const std::string& name, std::vector<std::string>& args)
 {
 	std::forward_list< std::pair<std::string, function> >::iterator i = commands.begin();
 	while (i != commands.end()) {
@@ -199,117 +224,108 @@ void DevConsole::clearLine()
 	SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
 }
 
-bool DevConsole::parse()
+bool DevConsole::parse(std::string line)
 {
-	// make sure it's valid here
-	// now figure out what it does and add it to the queue
-	buf[size] = '\0';
 	std::stringstream tokenize;
-	std::string command;
-	tokenize << buf;
+	std::string command, token;
+	std::vector<std::string> args;
+
+	if (line.empty()) {
+		buf[size] = '\0';
+		tokenize << buf;
+	} else {
+		tokenize << line;
+	}
+
 	tokenize >> command;
-	return executeCommand(command, (void*)&tokenize);
+	while (tokenize >> token) {
+		args.push_back(token);
+	}
+
+	return executeCommand(command, args);
 }
 
-bool create(const void* args)
+
+//definitions for dev console commands start here
+//bool command::execute(std::vector<std::string>& args)
+//{
+//	register bool success = true;
+//	for (unsigned i = 0; i < args.size(); ++i) {
+//		success = success && console->execute(args[i]);
+//	}
+//	return success;
+//}
+
+bool command::create(std::vector<std::string>& args)
 {
 	//make some needed variables with default values
 	E_GAME_FACTION faction = FACTION_TERRAN;
 	f64 posX = 0, posY = 0, posZ = 0;
 
-	//this is INCREDIBLY MESSY right now, but it will be fixed later (make vector in parse())
-	//tons of repeating code :(
-	std::stringstream* arguments = (std::stringstream*)args;
-	std::string token;
-	*arguments >> token;
-	if (token == "cam") {
-		while (*arguments >> token) {
-			if (token == "-abs") {
-				*arguments >> token;
-				if (!TryParse(token, &posX)) {
-					return false;
-				}
-				*arguments >> token;
-				if (!TryParse(token, &posY)) {
-					return false;
-				}
-				*arguments >> token;
-				if (!TryParse(token, &posZ)) {
-					return false;
-				}
-			} else if (token == "-rel") {
-				*arguments >> token;
-				// TODO
-			} else if (token == "-aim") {
-				*arguments >> token;
-				// TODO
-			} else {
+	//process the common stuff in the arguments
+	for (unsigned i = 1; i < args.size(); ++i) {
+		if (args[i] == "-abs") {
+			args[i].clear();
+			i++;
+			if (!TryParse(args[i], &posX)) {
+				return false;
+			}
+			args[i].clear();
+			i++;
+			if (!TryParse(args[i], &posY)) {
+				return false;
+			}
+			args[i].clear();
+			i++;
+			if (!TryParse(args[i], &posZ)) {
+				return false;
+			}
+			args[i].clear();
+		} else if (args[i] == "-rel") {
+			args[i].clear();
+			i++;
+			// TODO
+		} else if (args[i] == "-aim") {
+			args[i].clear();
+			i++;
+			// TODO
+		} else if (args[i] == "-faction") {
+			args[i].clear();
+			i++;
+			// TODO
+		}
+	}
+
+	//take care of the rest
+	if (args.empty()) {
+		return false;
+	} else if (args[0] == "cam") {
+		for (unsigned i = 1; i < args.size(); ++i) {
+			if (!args[i].empty()) {
 				return false;
 			}
 		}
 		game->getGameSceneManager()->createPlayerCam(vector3df((f32)posX, (f32)posY, (f32)posZ));
-	} else if (token == "ship") {
+	} else if (args[0] == "ship") {
 		ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER;
-		while (*arguments >> token) {
-			if (token == "-abs") {
-				*arguments >> token;
-				if (!TryParse(token, &posX)) {
-					return false;
-				}
-				*arguments >> token;
-				if (!TryParse(token, &posY)) {
-					return false;
-				}
-				*arguments >> token;
-				if (!TryParse(token, &posZ)) {
-					return false;
-				}
-			} else if (token == "-rel") {
-				*arguments >> token;
+		for (unsigned i = 1; i < args.size(); ++i) {
+			if (args[i] == "-type") {
+				args[i].clear();
+				i++;
 				// TODO
-			} else if (token == "-aim") {
-				*arguments >> token;
-				// TODO
-			} else if (token == "-faction") {
-				*arguments >> token;
-				// TODO
-			} else if (token == "-type") {
-				*arguments >> token;
-				// TODO
-			} else {
+			} else if (!args.empty()) {
 				return false;
 			}
 		}
 		game->getGameSceneManager()->createShip(faction, shipType, vector3df((f32)posX, (f32)posY, (f32)posZ));
-	} else if (token == "station") {
+	} else if (args[0] == "station") {
 		ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING;
-		while (*arguments >> token) {
-			if (token == "-abs") {
-				*arguments >> token;
-				if (!TryParse(token, &posX)) {
-					return false;
-				}
-				*arguments >> token;
-				if (!TryParse(token, &posY)) {
-					return false;
-				}
-				*arguments >> token;
-				if (!TryParse(token, &posZ)) {
-					return false;
-				}
-			} else if (token == "-rel") {
-				*arguments >> token;
+		for (unsigned i = 1; i < args.size(); ++i) {
+			if (args[i] == "-type") {
+				args[i].clear();
+				i++;
 				// TODO
-			} else if (token == "-aim") {
-				*arguments >> token;
-				// TODO
-			} else if (token == "-faction") {
-				*arguments >> token;
-				// TODO
-			} else if (token == "-type") {
-				*arguments >> token;
-				// TODO
-			} else {
+			} else if (!args.empty()) {
 				return false;
 			}
 		}

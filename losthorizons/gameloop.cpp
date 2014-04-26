@@ -9,7 +9,7 @@ using namespace base;
 Gameloop::Gameloop(DataManager *data)
 	: data(data), gameSceneManager(new GameSceneManager), missionManager(new MissionManager),
 	  objectManager(new ObjectManager), visualsManager(new VisualsManager), musicManager(new MusicManager),
-		player(0),intercom(0)
+	  player(0), intercom(0)
 {
 }
 

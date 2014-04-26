@@ -16,6 +16,7 @@ public:
 	~DevConsole();
 	//take care of the first thing in the queue
 	void run();
+	bool execute(const std::string filename);
 	//run a loop that allows you to add messages to the queue
 	//void postMessage();
 
@@ -52,12 +53,12 @@ private:
 	//	void run();
 	//};
 
-	typedef bool (*function)(const void* args);
+	typedef bool (*function)(std::vector<std::string>& args);
 	void registerCommand(const std::string& name, const function& command);
-	bool executeCommand(const std::string& name, void* args);
+	bool executeCommand(const std::string& name, std::vector<std::string>& args);
 
 	void clearLine();
-	bool parse();
+	bool parse(std::string line = "");
 
 	//std::queue<message> messages; going to just do shit immediately now
 	char buf[CONSOLEBUFFERSIZE];
