@@ -45,6 +45,7 @@ bool MissionMenu::run()
 				
 				game->createNewGame();
 				game->addMissionFromList(i);
+				console->execute("missions/tutorial.txt");
 				setVisible(false);
 				return true;
 			}

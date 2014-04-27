@@ -1,0 +1,5 @@
+#create ship -faction 2 -type 1 -abs 500 0 2000
+#create ship -faction 2 -type 1 -abs -1000 0 2300
+create ship -faction 3 -type 2 -abs -400 0 -400
+create station -faction 0 -type 0 -abs 1000 0 500
+create station -faction 0 -type 1 -abs 2000 -100 -2000

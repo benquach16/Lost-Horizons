@@ -11,14 +11,14 @@ using namespace base;
 namespace command
 {
 	//commands for the dev console are forward declared here and defined at the end of this file
-	//bool execute(std::vector<std::string>& args);
+	bool execute(std::vector<std::string>& args);
 	bool create(std::vector<std::string>& args);
 }
 
 DevConsole::DevConsole()
 	: size(0), index(0), historyIndex(0)
 {
-	//registerCommand("execute", command::execute);
+	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
 	
 	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -181,13 +181,15 @@ void DevConsole::run()
 bool DevConsole::execute(const std::string filename)
 {
 	std::ifstream file(filename.c_str());
-	if (file.bad()) {
+	if (!file.is_open()) {
 		return false;
 	}
 	std::string line;
 	std::vector<std::string> lines;
 	while (std::getline(file, line)) {
-		lines.push_back(line);
+		if (!line.empty() && line[0] != '#') {
+			lines.push_back(line);
+		}
 	}
 	file.close();
 	for (unsigned i = 0; i < lines.size(); ++i) {
@@ -247,19 +249,19 @@ bool DevConsole::parse(std::string line)
 
 
 //definitions for dev console commands start here
-//bool command::execute(std::vector<std::string>& args)
-//{
-//	register bool success = true;
-//	for (unsigned i = 0; i < args.size(); ++i) {
-//		success = success && console->execute(args[i]);
-//	}
-//	return success;
-//}
+bool command::execute(std::vector<std::string>& args)
+{
+	bool success = !args.empty();
+	for (unsigned i = 0; i < args.size(); ++i) {
+		success = success && console->execute(args[i]);
+	}
+	return success;
+}
 
 bool command::create(std::vector<std::string>& args)
 {
 	//make some needed variables with default values
-	E_GAME_FACTION faction = FACTION_TERRAN;
+	E_GAME_FACTION faction = (E_GAME_FACTION)0;
 	f64 posX = 0, posY = 0, posZ = 0;
 
 	//process the common stuff in the arguments
@@ -284,15 +286,24 @@ bool command::create(std::vector<std::string>& args)
 		} else if (args[i] == "-rel") {
 			args[i].clear();
 			i++;
+
+			args[i].clear();
 			// TODO
 		} else if (args[i] == "-aim") {
 			args[i].clear();
 			i++;
+
+			args[i].clear();
 			// TODO
 		} else if (args[i] == "-faction") {
 			args[i].clear();
 			i++;
-			// TODO
+			unsigned temp;
+			if (!TryParse(args[i], &temp)) {
+				return false;
+			}
+			faction = (E_GAME_FACTION)(temp%4);//add FACTION_COUNT to faction enums
+			args[i].clear();
 		}
 	}
 
@@ -307,25 +318,35 @@ bool command::create(std::vector<std::string>& args)
 		}
 		game->getGameSceneManager()->createPlayerCam(vector3df((f32)posX, (f32)posY, (f32)posZ));
 	} else if (args[0] == "ship") {
-		ObjectManager::E_SHIP_LIST shipType = ObjectManager::E_SHIP_LIST::PRAE_CRUISER;
+		ObjectManager::E_SHIP_LIST shipType = (ObjectManager::E_SHIP_LIST)0;
 		for (unsigned i = 1; i < args.size(); ++i) {
 			if (args[i] == "-type") {
 				args[i].clear();
 				i++;
-				// TODO
-			} else if (!args.empty()) {
+				unsigned temp;
+				if (!TryParse(args[i], &temp)) {
+					return false;
+				}
+				shipType = (ObjectManager::E_SHIP_LIST)(temp%3);//add SHIP_COUNT to ship enums
+				args[i].clear();
+			} else if (!args[i].empty()) {
 				return false;
 			}
 		}
 		game->getGameSceneManager()->createShip(faction, shipType, vector3df((f32)posX, (f32)posY, (f32)posZ));
 	} else if (args[0] == "station") {
-		ObjectManager::E_STATION_LIST stationType = ObjectManager::E_STATION_LIST::TRADING;
+		ObjectManager::E_STATION_LIST stationType = (ObjectManager::E_STATION_LIST)0;
 		for (unsigned i = 1; i < args.size(); ++i) {
 			if (args[i] == "-type") {
 				args[i].clear();
 				i++;
-				// TODO
-			} else if (!args.empty()) {
+				unsigned temp;
+				if (!TryParse(args[i], &temp)) {
+					return false;
+				}
+				stationType = (ObjectManager::E_STATION_LIST)(temp%2);//add STATION_COUNT to station enums
+				args[i].clear();
+			} else if (!args[i].empty()) {
 				return false;
 			}
 		}

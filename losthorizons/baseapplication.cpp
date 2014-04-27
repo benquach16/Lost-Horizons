@@ -21,6 +21,7 @@ BaseApplication::BaseApplication()
 	sound = irrklang::createIrrKlangDevice();
 	sound->setSoundVolume(gConfig.iSFX/10.f);
 	sound->setDefault3DSoundMinDistance(200);
+	console = new DevConsole;
 }
 
 BaseApplication::~BaseApplication()
@@ -28,6 +29,7 @@ BaseApplication::~BaseApplication()
 	delete receiver;
 	delete data;
 	sound->drop();
+	delete console;
 	killDevice();
 	gConfig.Save();
 }
@@ -96,7 +98,7 @@ void BaseApplication::run()
 
 		if (receiver->isKeyPressed(KEY_OEM_3)) {
 			SetForegroundWindow(GetConsoleWindow());
-			console.run();
+			console->run();
 			SetForegroundWindow((HWND)vdriver->getExposedVideoData().D3D9.HWnd);
 		}
 	}

@@ -23,7 +23,6 @@ public:
 	void run();
 
 private:
-	DevConsole console;
 	StartMenu *menu;
 	DataManager *data;
 	PostProcessEffect *effect;

@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "keylistener.h"
 #include "gameloop.h"
+#include "devconsole.h"
 
 namespace base
 {
@@ -15,6 +16,7 @@ namespace base
 	extern irr::gui::IGUIEnvironment* guienv;
 	extern irr::ITimer* timer;
 	extern Gameloop* game;
+	extern DevConsole* console;
 
 	extern f32 frameDeltaTime;
 	extern u32 width, height;
