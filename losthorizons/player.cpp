@@ -49,6 +49,7 @@ bool Player::run()
 		//make the ship's target have a square around it
 		vdriver->draw2DImage(vdriver->getTexture("res/menu/target.png"), shipTarget->getScreenPosition() - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
 		//add cool lines
+
 		vdriver->draw2DLine(vector2d<s32>(shipTarget->getScreenPosition().X, 0), vector2d<s32>(shipTarget->getScreenPosition().X, height), video::SColor(128,128,128,140));
 		vdriver->draw2DLine(vector2d<s32>(0, shipTarget->getScreenPosition().Y), vector2d<s32>(width, shipTarget->getScreenPosition().Y), video::SColor(128,128,128,140));
 
@@ -65,9 +66,14 @@ bool Player::run()
 					*/
 				//2d line is a temporary fix
 				//becaause with postprocessing enabled, 3d lines do not work!!!!!!
-				vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
-				vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getAlteredShipPosition());
+				if(shipTarget->getScreenPosition().X > 1&& shipTarget->getScreenPosition().Y > 1)
+				{
+					
+					vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
+					vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getAlteredShipPosition());
+					
 				vdriver->draw2DLine(t, i, video::SColor(255,0,255,0));
+				}
 			}
 		}
 		for(unsigned i = 0; i < lightTurrets.size(); i++)
@@ -224,6 +230,10 @@ void Player::control()
 	else if(receiver->isKeyDown(irr::KEY_NUMPAD6))
 	{
 		info.shieldDirection = SHIELD_STARBOARD;
+	}
+	else if(receiver->isKeyDown(irr::KEY_NUMPAD5))
+	{
+		info.shieldDirection = SHIELD_NULL;
 	}
 
 }

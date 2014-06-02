@@ -21,6 +21,7 @@ Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3d
 	std::cout << '[' << ID << "]Fighter object created" << std::endl;
 
 	allFighters.push_back(this);
+	info.currentStance = FIGHTER_STANCE_ATTACK;
 }
 
 Fighter::~Fighter()
@@ -187,7 +188,6 @@ void Fighter::searchForShipTargets()
 	for (unsigned i = 0; i < Ship::allShips.size(); ++i) 
 	{
 		if (Ship::allShips[i]->getFaction() != faction &&
-			(faction == FACTION_PIRATE || Ship::allShips[i]->getFaction() == FACTION_PIRATE) &&
 			Ship::allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000) 
 		{
 			shipTarget = Ship::allShips[i];

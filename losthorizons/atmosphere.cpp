@@ -21,5 +21,5 @@ void Atmosphere::run()
 {
 	//rotate to face the camera
 	//not quite a billboard which is why we need a seperate class
-	atmosphereSceneNode->setRotation((scenemngr->getActiveCamera()->getAbsolutePosition() - atmosphereSceneNode->getAbsolutePosition()).getHorizontalAngle());
+	//atmosphereSceneNode->setRotation((scenemngr->getActiveCamera()->getAbsolutePosition() - atmosphereSceneNode->getAbsolutePosition()).getHorizontalAngle());
 }
