@@ -56,7 +56,17 @@ bool Fleet::isShipInFleet(const Ship *s) const
 	return false;
 }
 
+void Fleet::moveToPosition(const vector3df &position)
+{
+	for(unsigned i = 0; i < shipsInFleet.size(); i++)
+	{
+		
+	}
+}
+
 const Ship* Fleet::getCommandingShip() const
 {
 	return shipsInFleet[0];
 }
+
+

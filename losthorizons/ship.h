@@ -173,6 +173,9 @@ public:
 	void addToFleet(Fleet *f);
 	void removeFromFleet();
 	void setShipRole(const E_AI_ROLE newRole);
+	const E_AI_ROLE getShipRole() const;
+	void giveShipOrder(const E_AI_ORDER newOrder);
+	const E_AI_ORDER getShipOrder() const;
 	//realized we needed this or else no ships would ever be added to another ones fleet
 	Fleet *getFleet();
 

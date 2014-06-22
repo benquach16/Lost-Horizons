@@ -525,6 +525,22 @@ void Ship::removeFromFleet()
 	shipFleet = 0;
 }
 
+void Ship::setShipRole(const E_AI_ROLE newRole)
+{
+	info.currentAIRole = newRole;
+
+}
+
+const E_AI_ROLE Ship::getShipRole() const
+{
+	return info.currentAIRole;
+}
+
+void Ship::giveShipOrder(const E_AI_ORDER newOrder)
+{
+	info.currentAIOrder = newOrder;
+}
+
 Fleet* Ship::getFleet()
 {
 	return shipFleet;
@@ -781,9 +797,38 @@ void Ship::runAI()
 {
 	//make sure to comment this thoroughly!
 	//and seperate into seperate functions if it becomes too big!!
+	//TODO: REWRITE THIS STATE MACHINE
 	updateStates();
 	switch (info.currentAIState)
 	{
+		//transitions go here
+		//this is undergoing serious revision
+		case AI_FLEEING:
+		{
+			if(!shipTarget)
+			{
+				info.currentAIState = AI_PATROLLING;
+			}
+		}
+		case AI_PATROLLING:
+		{
+			//search for targets and attack
+			if(shipTarget && info.hull > info.maxHull/2)
+			{
+				info.currentAIState = AI_ATTACKING;
+			}
+			break;
+		}
+		default:
+		{
+			info.currentAIState = AI_PATROLLING;
+			break;
+		}
+	}
+
+	switch(info.currentAIState)
+	{
+		//actions go here
 		case AI_FLEEING:
 		{
 			//do fleeing code here
@@ -900,7 +945,6 @@ void Ship::runAI()
 		case AI_FOLLOWING:
 		{
 			//need to add a shitton of functionality for player control at this point
-
 			vector3df targetVector = shipFleet->getCommandingShip()->getPosition() - getPosition();
 			targetVector = targetVector.getHorizontalAngle();
 		

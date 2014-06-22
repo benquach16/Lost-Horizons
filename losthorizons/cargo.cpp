@@ -4,8 +4,8 @@
 
 using namespace base;
 
-#define SPINSPEED 10
-#define MAXMONEY 10000
+const int SPINSPEED = 10;
+const int MAXMONEY = 10000;
 
 Cargo::Cargo(const vector3df &position, const bool randomizeContents)
 	: TargetableObject(L"Cargo Container", L"", L"res/models/equipment/loot.3DS", position, vector3df(), vector3df(1,1,1), FACTION_NEUTRAL)

@@ -35,8 +35,8 @@ public:
 	bool isShipInFleet(const Ship *s) const;
 	//fleet orders, applies to every ship
 	void moveToPosition(const vector3df &position);
-	void attackTarget(Ship *target);
-
+	void attackTarget(const Ship *target);
+	
 	//some simple getters
 	const Ship* getCommandingShip() const;
 private:
