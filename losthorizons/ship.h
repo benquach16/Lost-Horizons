@@ -34,6 +34,7 @@ enum E_AI_ROLE
 };
 
 //we have to be able to give commands to our slave ships
+//maybe make struct?
 enum E_AI_ORDER
 {
 	ORDER_NULL,

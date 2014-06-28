@@ -798,7 +798,9 @@ void Ship::runAI()
 	//make sure to comment this thoroughly!
 	//and seperate into seperate functions if it becomes too big!!
 	//TODO: REWRITE THIS STATE MACHINE
-	updateStates();
+	//REIMPLEMENT ACCORDING TO PROPER STATE MACHINE GUIDELINES
+
+	//updateStates();
 	switch (info.currentAIState)
 	{
 		//transitions go here
@@ -809,14 +811,70 @@ void Ship::runAI()
 			{
 				info.currentAIState = AI_PATROLLING;
 			}
+			break;
+		}
+		case AI_ATTACKING:
+		{
+			if(!shipTarget)
+			{
+				//target probably destroyed so go back
+				info.currentAIState = AI_PATROLLING;
+			}
+			if(info.hull < info.maxHull/2)
+			{
+				//fuck it run
+				info.currentAIState = AI_FLEEING;
+			}
+			break;
 		}
 		case AI_PATROLLING:
 		{
 			//search for targets and attack
-			if(shipTarget && info.hull > info.maxHull/2)
+			if(shipTarget && info.hull > info.maxHull/2 && 
+				info.currentAIRole == SHIP_COMBAT || info.currentAIRole == SHIP_ESCORT)
 			{
 				info.currentAIState = AI_ATTACKING;
 			}
+			if(shipFleet)
+			{
+				//check if we got an order
+				if(info.currentAIState != ORDER_NULL)
+				{
+					//have something specific to do
+					info.currentAIState = AI_DOORDER;
+				}
+				else
+				{
+					//no order so do whatever
+					if(!shipTarget)
+					{
+						//make sure we don't follow ourselves
+						if(shipFleet && this != shipFleet->getCommandingShip())
+						{
+							//rotate to the ship
+							info.currentAIState = AI_FOLLOWING;
+						}
+					}
+					else
+					{
+						info.currentAIState = AI_ATTACKING;
+					}
+				}
+			}
+			break;
+		}
+		case AI_TRADING:
+		{
+			break;
+		}
+		case AI_FOLLOWING:
+		{
+			//follow the lead ship in the fleet
+
+			break;
+		}
+		case AI_DOORDER:
+		{
 			break;
 		}
 		default:
@@ -960,6 +1018,7 @@ void Ship::runAI()
 }
 
 //private function
+//DEPRECATED
 void Ship::updateStates()
 {
 	if (info.hull < info.maxHull/2)

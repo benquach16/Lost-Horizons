@@ -11,6 +11,14 @@
 #include "stationmenu.h"
 #include "fleet.h"
 
+//allow the player to switch between 3 modes for different things
+enum E_PLAYER_COMMAND_MODE
+{
+	MODE_TACTICAL,
+	MODE_NAVIGATION,
+	MODE_COMMAND
+};
+
 class Player : public Ship
 {
 public:
@@ -18,9 +26,12 @@ public:
 	Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation);
 	virtual ~Player();
 	virtual bool run();
+	void playerCommandFleet();
 	virtual const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
 
 private:
+	E_PLAYER_COMMAND_MODE currentMode;
+
 	void init();
 	void control();
 	bool shootReleased;

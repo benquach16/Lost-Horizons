@@ -6,14 +6,14 @@ using namespace base;
 
 Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: Ship(faction, shipType, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
-	  playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true)
+	playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true), currentMode(MODE_TACTICAL)
 {
 	init();
 }
 
 Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
 	: Ship(0, info, subsystems, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
-	  playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true)
+	  playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true), currentMode(MODE_TACTICAL)
 {
 	init();
 }
@@ -31,7 +31,11 @@ Player::~Player()
 bool Player::run()
 {
 	control();
-
+	if(currentMode == MODE_COMMAND)
+	{
+		//allow player ro command fleet
+		playerCommandFleet();
+	}
 	hud->run(this);
 	minimap->run();
 	if (info.shield < 10) 
@@ -235,5 +239,25 @@ void Player::control()
 	{
 		info.shieldDirection = SHIELD_NULL;
 	}
+
+	//allow ship commands to go here
+	if(receiver->isKeyDown(irr::KEY_F1))
+	{
+		currentMode = MODE_TACTICAL;
+	}
+	else if(receiver->isKeyDown(irr::KEY_F2))
+	{
+		currentMode = MODE_NAVIGATION;
+	}
+	else if(receiver->isKeyDown(irr::KEY_F3))
+	{
+		currentMode = MODE_COMMAND;
+	}
+}
+
+void Player::playerCommandFleet()
+{
+	//this gets alittle tricky to do intuitively
+	//make sure we highlight all of the player's subordinate ships
 
 }
