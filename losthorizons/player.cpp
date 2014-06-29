@@ -259,5 +259,9 @@ void Player::playerCommandFleet()
 {
 	//this gets alittle tricky to do intuitively
 	//make sure we highlight all of the player's subordinate ships
-
+	//player should always be head of fleet
+	for(unsigned i = 1; i < fleet->shipsInFleet(); i++)
+	{
+		
+	}
 }

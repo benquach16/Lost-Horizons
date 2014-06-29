@@ -69,4 +69,7 @@ const Ship* Fleet::getCommandingShip() const
 	return shipsInFleet[0];
 }
 
-
+const std::vector<Ship*> Fleet::getShipsInFleet() const
+{
+	return shipsInFleet;
+}

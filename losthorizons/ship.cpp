@@ -7,15 +7,16 @@ using namespace base;
 
 //set up static elements
 std::vector<Ship*> Ship::allShips;
+//TODO: start putting stuff like this in an xml file
 wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator",
 	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
 //some globals for ship class
 //time between ai updates to save cpu speed
-#define AITIMER 100
-#define ENERGYTIMER 5000
-#define SHIELDTIMER 15000
+const int AITIMER = 100;
+const int ENERGYTIMER = 5000;
+const int SHIELDTIMER = 15000;
 
 Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
@@ -870,7 +871,7 @@ void Ship::runAI()
 		case AI_FOLLOWING:
 		{
 			//follow the lead ship in the fleet
-
+			
 			break;
 		}
 		case AI_DOORDER:

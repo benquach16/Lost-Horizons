@@ -70,6 +70,7 @@ bool Fighter::run()
 			const f32 dist = getPosition().getDistanceFromSQ(shipTarget->getPosition());
 			if (dist > 250000) 
 			{
+				//some strange issues with rotation when past the enemy ship
 				info.targetRotation = (shipTarget->getPosition() - getPosition()).getHorizontalAngle();
 			}
 			else if (dist < 40000) 
@@ -176,7 +177,7 @@ void Fighter::searchForFighterTargets()
 	for (unsigned i = 0; i < allFighters.size(); ++i) {
 		if (allFighters[i]->faction != faction &&
 			(faction == FACTION_PIRATE || allFighters[i]->faction == FACTION_PIRATE) &&
-			allFighters[i]->getPosition().getDistanceFrom(getPosition()) < 1000) {
+			allFighters[i]->getPosition().getDistanceFromSQ(getPosition()) < 100000) {
 			fighterTarget = allFighters[i];
 		}
 	}
@@ -188,7 +189,7 @@ void Fighter::searchForShipTargets()
 	for (unsigned i = 0; i < Ship::allShips.size(); ++i) 
 	{
 		if (Ship::allShips[i]->getFaction() != faction &&
-			Ship::allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000) 
+			Ship::allShips[i]->getPosition().getDistanceFromSQ(getPosition()) < 50000000) 
 		{
 			shipTarget = Ship::allShips[i];
 			return;
@@ -201,6 +202,8 @@ void Fighter::patrol()
 {
 	if (getPosition().getDistanceFrom(homeBase->getPosition()) > PATROLDISTANCE) {
 		//too far from home so reorient
-
+		vector3df angleVect = homeBase->getPosition() - getPosition();
+		angleVect = angleVect.getHorizontalAngle();
+		info.targetRotation = angleVect;
 	}
 }
