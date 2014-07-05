@@ -2,6 +2,7 @@
 #include "ship.h"
 #include "globals.h"
 #include <iostream>
+#pragma hdrstop
 
 using namespace base;
 
@@ -59,8 +60,10 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	//artificially force neutral ships to be traders right now
 	//this should be TEMPORARY
 	//need to add in stuff like ship roles!!!!!!
+	//Redundant. can just use setRole function now
+	/*
 	if(faction == FACTION_NEUTRAL)
-		info.currentAIState = AI_TRADING;
+		info.currentAIState = AI_TRADING;*/
 
 	shield = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/misc/shield.x"), 0, -1, getPosition());
 	shield->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -547,6 +550,11 @@ Fleet* Ship::getFleet()
 	return shipFleet;
 }
 
+void Ship::highlightShip()
+{
+	//lets try something that will work for sure
+}
+
 //all private functions go under here
 //private function
 //rotates ship to point
@@ -802,6 +810,7 @@ void Ship::runAI()
 	//REIMPLEMENT ACCORDING TO PROPER STATE MACHINE GUIDELINES
 
 	//updateStates();
+	//std::cout << info.currentAIOrder << std::endl;
 	switch (info.currentAIState)
 	{
 		//transitions go here
@@ -826,6 +835,11 @@ void Ship::runAI()
 				//fuck it run
 				info.currentAIState = AI_FLEEING;
 			}
+			if(info.currentAIOrder != ORDER_NULL)
+			{
+				//do order
+				info.currentAIState = AI_DOORDER;
+			}
 			break;
 		}
 		case AI_PATROLLING:
@@ -839,7 +853,7 @@ void Ship::runAI()
 			if(shipFleet)
 			{
 				//check if we got an order
-				if(info.currentAIState != ORDER_NULL)
+				if(info.currentAIOrder != ORDER_NULL && info.currentAIOrder != ORDER_ATTACKGENERAL)
 				{
 					//have something specific to do
 					info.currentAIState = AI_DOORDER;
@@ -871,11 +885,15 @@ void Ship::runAI()
 		case AI_FOLLOWING:
 		{
 			//follow the lead ship in the fleet
-			
+			//if we're following we have no order so just attack ships in range
 			break;
 		}
 		case AI_DOORDER:
 		{
+			if(info.currentAIOrder == ORDER_NULL)
+			{
+				info.currentAIState = AI_PATROLLING;
+			}
 			break;
 		}
 		default:
@@ -1008,11 +1026,26 @@ void Ship::runAI()
 			targetVector = targetVector.getHorizontalAngle();
 		
 			setTargetRotation(targetVector);
+
+			//match ship speed
+			f32 topShipVelocity = shipFleet->getCommandingShip()->getInfo().velocity;
+			if(topShipVelocity < info.maxVelocity)
+			{
+				info.velocity = topShipVelocity;
+			}
+			else
+			{
+				info.velocity = info.maxVelocity;
+			}
 			break;
 		}
 		case AI_DOORDER:
 		{
 			//ai should so tuff here
+			if(info.currentAIOrder == ORDER_ATTACKTARGET)
+			{
+				//attack a specific target
+			}
 			break;
 		}
 	}

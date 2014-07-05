@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 #include "globals.h"
+#pragma hdrstop
 
 using namespace base;
 
@@ -260,8 +261,9 @@ void Player::playerCommandFleet()
 	//this gets alittle tricky to do intuitively
 	//make sure we highlight all of the player's subordinate ships
 	//player should always be head of fleet
-	for(unsigned i = 1; i < fleet->shipsInFleet(); i++)
+	for(unsigned i = 1; i < shipFleet->getShipsInFleet().size(); i++)
 	{
-		
+		//lets try to color our ships
+		shipFleet->getShipsInFleet()[i]->highlightShip();
 	}
 }

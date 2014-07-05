@@ -87,7 +87,7 @@ struct ShipInformation
 	ShipInformation() {}
 	//do something later about this autistic block of code
 	ShipInformation(ObjectManager::E_SHIP_LIST shipType, E_GAME_FACTION faction)
-		: shipType(shipType), currentFaction(faction), currentAIState(AI_PATROLLING),
+		: shipType(shipType), currentFaction(faction), currentAIState(AI_PATROLLING), currentAIOrder(ORDER_NULL),
 		  hull(ObjectManager::shipList[shipType]->getMaxHull()), maxHull(hull),
 		  armor(ObjectManager::shipList[shipType]->getMaxArmor()), maxArmor(armor),
 		  shield(ObjectManager::shipList[shipType]->getMaxShield()), maxShield(shield),
@@ -179,6 +179,7 @@ public:
 	const E_AI_ORDER getShipOrder() const;
 	//realized we needed this or else no ships would ever be added to another ones fleet
 	Fleet *getFleet();
+	void highlightShip();
 
 protected:
 	//ship stats
