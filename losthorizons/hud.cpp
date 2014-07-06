@@ -48,6 +48,17 @@ void HUD::setVisible(bool visible)
 
 }
 
+void HUD::initializePlayerShipsInFleet(Ship* player)
+{
+	
+	for(unsigned i = 0; i < player->getFleet()->size(); i++)
+	{
+		fleetShipInfo shipInfo;
+		shipInfo.bkgImage = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(width - 140, height - 140));
+		playerShipsInFleet.push_back(shipInfo);
+	}
+}
+
 HUD::~HUD()
 {
 	shipWheel->remove();

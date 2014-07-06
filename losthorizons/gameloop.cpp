@@ -22,7 +22,8 @@ Gameloop::~Gameloop()
 	delete objectManager;
 	delete visualsManager;
 	delete musicManager;
-	delete player;
+	//dont think we actually need to delete the pointer to player
+	//delete player;
 }
 
 void Gameloop::init()

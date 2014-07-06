@@ -264,6 +264,8 @@ void Player::playerCommandFleet()
 	for(unsigned i = 1; i < shipFleet->getShipsInFleet().size(); i++)
 	{
 		//lets try to color our ships
-		shipFleet->getShipsInFleet()[i]->highlightShip();
+		//and display their stats on the menu
+		//shipFleet->getShipsInFleet()[i]->highlightShip();
+		
 	}
 }

@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -276,7 +276,9 @@
     <ClCompile Include="optionmenu.cpp" />
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="planetproperties.cpp" />
-    <ClCompile Include="player.cpp" />
+    <ClCompile Include="player.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="playercamera.cpp" />
     <ClCompile Include="postprocess.cpp" />
     <ClCompile Include="projectile.cpp" />
@@ -288,7 +290,9 @@
     <ClCompile Include="spacestationproperties.cpp" />
     <ClCompile Include="startmenu.cpp" />
     <ClCompile Include="stationmenu.cpp" />
-    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="storetab.cpp" />
     <ClCompile Include="string_util.cpp" />
     <ClCompile Include="sun.cpp" />

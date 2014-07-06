@@ -30,4 +30,8 @@
 #include "atmosphere.h"
 #include "callback.h"
 #include "gameloop.h"
+#include "hud.h"
+#include "gamescene.h"
+#include "gamescenemanager.h"
+#include "missile.h"
 

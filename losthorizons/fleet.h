@@ -39,7 +39,9 @@ public:
 	
 	//some simple getters
 	const Ship* getCommandingShip() const;
+	Ship* operator[](unsigned i);
 	std::vector<Ship*> getShipsInFleet() const;
+	const unsigned size() const;
 private:
 	//so we got an initial problem here, which is double pointers
 	//ship needs to tell its fleet that it fuckin lost

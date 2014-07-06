@@ -69,7 +69,17 @@ const Ship* Fleet::getCommandingShip() const
 	return shipsInFleet[0];
 }
 
+Ship* Fleet::operator[](unsigned i)
+{
+	return shipsInFleet[i];
+}
+
 std::vector<Ship*> Fleet::getShipsInFleet() const
 {
 	return shipsInFleet;
+}
+
+const unsigned Fleet::size() const
+{
+	return shipsInFleet.size();
 }

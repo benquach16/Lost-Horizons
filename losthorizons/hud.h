@@ -1,6 +1,5 @@
 #ifndef _HUD_H_
 #define _HUD_H_
-
 #include "stdafx.h"
 #include "ship.h"
 
@@ -14,7 +13,19 @@ public:
 	//player target information
 	void run(const Ship *player);
 	void setVisible(bool visible);
+	void initializePlayerShipsInFleet(Ship* player);
 	virtual ~HUD();
+
+	//use a struct for ui handling
+	struct fleetShipInfo
+	{
+		gui::IGUIImage *bkgImage;
+		gui::IGUIStaticText *name;
+		gui::IGUIStaticText *hull;
+		gui::IGUIStaticText *armor;
+		gui::IGUIStaticText *shield;
+		gui::IGUIStaticText *currentOrder;
+	};
 
 private:
 	void updatePlayerInfo(const ShipInformation &info);
@@ -38,6 +49,8 @@ private:
 	gui::IGUIStaticText *targetHull;
 	gui::IGUIStaticText *targetArmor;
 	gui::IGUIStaticText *targetShield;
+
+	std::vector<fleetShipInfo> playerShipsInFleet;
 };
 
 #endif
