@@ -10,6 +10,7 @@ Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST sh
 	playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true), currentMode(MODE_TACTICAL)
 {
 	init();
+	hud->initializePlayerShipsInFleet(shipFleet);
 }
 
 Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
@@ -38,6 +39,7 @@ bool Player::run()
 		playerCommandFleet();
 	}
 	hud->run(this);
+	
 	minimap->run();
 	if (info.shield < 10) 
 	{

@@ -13,7 +13,10 @@ public:
 	//player target information
 	void run(const Ship *player);
 	void setVisible(bool visible);
-	void initializePlayerShipsInFleet(Ship* player);
+	void initializePlayerShipsInFleet(Fleet *playerFleet);
+	void updatePlayerShipsInFleet(Fleet *playerFleet);
+
+	void setFleetVisible(bool visibile);
 	virtual ~HUD();
 
 	//use a struct for ui handling

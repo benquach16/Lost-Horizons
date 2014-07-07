@@ -4,6 +4,14 @@
 
 using namespace base;
 
+const int TARGETINFOSIZE = 120;
+
+//save strings here
+const wchar_t HULL_STRING_BEGIN[] = L"Hull [";
+const wchar_t ARMOR_STRING_BEGIN[] = L"Armor [";
+const wchar_t SHIELD_STRING_BEGIN[] = L"Shield [";
+const wchar_t ENERGY_STRING_BEGIN[] = L"Energy [";
+
 //gunna have a huge initializer list here
 HUD::HUD()
 	: shipWheel(0), velocity(0), hull(0), armor(0), energy(0), shield(0), targetBkg(0), targetName(0),
@@ -25,12 +33,12 @@ HUD::HUD()
 	energy = guienv->addStaticText(L"power", rect<int>(10,height-25,width/2+35,height), false);
 
 	targetBkg = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(width-140,20));
-	targetName = guienv->addStaticText(L"No Target Selected", rect<s32>(0,0,120,120), false, true, targetBkg);
-	targetFaction = guienv->addStaticText(L"", rect<s32>(0,15,120,120), false, true, targetBkg);
-	targetDistance = guienv->addStaticText(L"", rect<s32>(0,30,120,120), false, true, targetBkg);
-	targetHull = guienv->addStaticText(L"", rect<s32>(0,45,120,120), false, true, targetBkg);
-	targetArmor = guienv->addStaticText(L"", rect<s32>(0,60,120,120), false, true, targetBkg);
-	targetShield = guienv->addStaticText(L"", rect<s32>(0,75,120,120), false, true, targetBkg);
+	targetName = guienv->addStaticText(L"No Target Selected", rect<s32>(0,0,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
+	targetFaction = guienv->addStaticText(L"", rect<s32>(0,15,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
+	targetDistance = guienv->addStaticText(L"", rect<s32>(0,30,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
+	targetHull = guienv->addStaticText(L"", rect<s32>(0,45,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
+	targetArmor = guienv->addStaticText(L"", rect<s32>(0,60,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
+	targetShield = guienv->addStaticText(L"", rect<s32>(0,75,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
 }
 
 void HUD::run(const Ship *player)
@@ -45,17 +53,39 @@ void HUD::setVisible(bool visible)
 	shipWheel->setVisible(visible);
 	velocity->setVisible(visible);
 	targetBkg->setVisible(visible);
-
+	playerShipsInFleet.clear();
 }
 
-void HUD::initializePlayerShipsInFleet(Ship* player)
+void HUD::initializePlayerShipsInFleet(Fleet *playerFleet)
 {
 	
-	for(unsigned i = 0; i < player->getFleet()->size(); i++)
+	for(unsigned i = 0; i < playerFleet->size(); i++)
 	{
 		fleetShipInfo shipInfo;
-		shipInfo.bkgImage = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(width - 140, height - 140));
+		shipInfo.bkgImage = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(200 * (i+1), height - 130));
+		shipInfo.name = guienv->addStaticText(
+			playerFleet->getShipsInFleet()[i]->getName(), rect<s32>(0,0,200,200), false, true, shipInfo.bkgImage);
+
+		shipInfo.hull = guienv->addStaticText(HULL_STRING_BEGIN, rect<s32>(0,15,200,200), false, true, shipInfo.bkgImage);
 		playerShipsInFleet.push_back(shipInfo);
+	}
+}
+
+void HUD::updatePlayerShipsInFleet(Fleet *playerFleet)
+{
+	//update fleet information
+	for(unsigned i = 0 ; i < playerFleet->size(); i++)
+	{
+
+	}
+}
+
+void HUD::setFleetVisible(bool visible)
+{
+	//this isnt super efficient but therers not many ways to do this
+	for(unsigned i = 0; i < playerShipsInFleet.size(); i++)
+	{
+		playerShipsInFleet[i].bkgImage->setVisible(visible);
 	}
 }
 
@@ -68,14 +98,20 @@ HUD::~HUD()
 	hull->remove();
 	shield->remove();
 	energy->remove();
+	for(unsigned i = 0; i < playerShipsInFleet.size(); i++)
+	{
+		playerShipsInFleet[i].bkgImage->remove();
+	}
+	playerShipsInFleet.clear();
 }
+
 
 //private function
 void HUD::updatePlayerInfo(const ShipInformation &info)
 {
 	//lets change the color based on damage
 	velocity->setText((core::stringw((int)info.velocity) + L"km/s").c_str());
-	hull->setText((core::stringw(L"Hull [") + core::stringw(info.hull) + L"]").c_str());
+	hull->setText((core::stringw(HULL_STRING_BEGIN) + core::stringw(info.hull) + L"]").c_str());
 	if(info.hull < info.maxHull/4)
 	{
 		hull->setOverrideColor(video::SColor(255,255,0,0));
@@ -86,7 +122,7 @@ void HUD::updatePlayerInfo(const ShipInformation &info)
 	}
 	else
 		hull->setOverrideColor(video::SColor(255,255,255,255));
-	armor->setText((core::stringw(L"Armor [") + core::stringw(info.armor) + L"]").c_str());
+	armor->setText((core::stringw(ARMOR_STRING_BEGIN) + core::stringw(info.armor) + L"]").c_str());
 	if(info.armor < info.maxArmor/4)
 	{
 		armor->setOverrideColor(video::SColor(255,255,0,0));
@@ -98,8 +134,8 @@ void HUD::updatePlayerInfo(const ShipInformation &info)
 	else
 		armor->setOverrideColor(video::SColor(255,255,255,255));
 
-	shield->setText((core::stringw(L"Shield [") + core::stringw(info.shield) + L"]").c_str());
-	energy->setText((core::stringw(L"Energy [") + core::stringw(info.energy) + L"]").c_str());
+	shield->setText((core::stringw(SHIELD_STRING_BEGIN) + core::stringw(info.shield) + L"]").c_str());
+	energy->setText((core::stringw(ENERGY_STRING_BEGIN) + core::stringw(info.energy) + L"]").c_str());
 	if(info.energy < info.maxEnergy/4)
 	{
 		energy->setOverrideColor(video::SColor(255,255,0,0));
@@ -124,9 +160,9 @@ void HUD::updateTargetInfo(const Ship *player, const TargetableObject *target)
 		{
 			//draw hull armor and shield
 			const Ship* shipTarget = (Ship*)target;
-			targetHull->setText((core::stringw(L"Hull [") + core::stringw(shipTarget->getInfo().hull) + L"]").c_str());
-			targetArmor->setText((core::stringw(L"Armor [") + core::stringw(shipTarget->getInfo().armor) + L"]").c_str());
-			targetShield->setText((core::stringw(L"Shield [") + core::stringw(shipTarget->getInfo().shield) + L"]").c_str());
+			targetHull->setText((core::stringw(HULL_STRING_BEGIN) + core::stringw(shipTarget->getInfo().hull) + L"]").c_str());
+			targetArmor->setText((core::stringw(ARMOR_STRING_BEGIN) + core::stringw(shipTarget->getInfo().armor) + L"]").c_str());
+			targetShield->setText((core::stringw(SHIELD_STRING_BEGIN) + core::stringw(shipTarget->getInfo().shield) + L"]").c_str());
 		}
 		else 
 		{
