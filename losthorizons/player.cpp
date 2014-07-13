@@ -18,6 +18,7 @@ Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3d
 	  playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true), currentMode(MODE_TACTICAL)
 {
 	init();
+	hud->initializePlayerShipsInFleet(shipFleet);
 }
 
 Player::~Player()
@@ -37,9 +38,10 @@ bool Player::run()
 	{
 		//allow player ro command fleet
 		playerCommandFleet();
+		
+		hud->updatePlayerShipsInFleet(this->shipFleet);
 	}
 	hud->run(this);
-	
 	minimap->run();
 	if (info.shield < 10) 
 	{
@@ -260,6 +262,8 @@ void Player::control()
 
 void Player::playerCommandFleet()
 {
+	//draw command sphere
+	
 	//this gets alittle tricky to do intuitively
 	//make sure we highlight all of the player's subordinate ships
 	//player should always be head of fleet
@@ -268,6 +272,16 @@ void Player::playerCommandFleet()
 		//lets try to color our ships
 		//and display their stats on the menu
 		//shipFleet->getShipsInFleet()[i]->highlightShip();
-		
+		if(shipFleet->getShipsInFleet()[i]->getShipTarget())
+		{
+			//it if has a target
+			
+			vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(
+				shipFleet->getShipsInFleet()[i]->getPosition());
+			vector2di v = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(
+				shipFleet->getShipsInFleet()[i]->getShipTarget()->getPosition());
+					
+			vdriver->draw2DLine(t, v, video::SColor(255,255,0,0));
+		}
 	}
 }

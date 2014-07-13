@@ -12,6 +12,7 @@ const wchar_t ARMOR_STRING_BEGIN[] = L"Armor [";
 const wchar_t SHIELD_STRING_BEGIN[] = L"Shield [";
 const wchar_t ENERGY_STRING_BEGIN[] = L"Energy [";
 
+
 //gunna have a huge initializer list here
 HUD::HUD()
 	: shipWheel(0), velocity(0), hull(0), armor(0), energy(0), shield(0), targetBkg(0), targetName(0),
@@ -53,30 +54,47 @@ void HUD::setVisible(bool visible)
 	shipWheel->setVisible(visible);
 	velocity->setVisible(visible);
 	targetBkg->setVisible(visible);
-	playerShipsInFleet.clear();
+	
 }
 
-void HUD::initializePlayerShipsInFleet(Fleet *playerFleet)
+void HUD::initializePlayerShipsInFleet(const Fleet *playerFleet)
 {
 	
-	for(unsigned i = 0; i < playerFleet->size(); i++)
+	for(unsigned i = 1; i < playerFleet->size(); i++)
 	{
 		fleetShipInfo shipInfo;
-		shipInfo.bkgImage = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(200 * (i+1), height - 130));
+		shipInfo.bkgImage = guienv->addImage(vdriver->getTexture("res/menu/target_info.png"), core::position2d<s32>(200 * i, height - 130));
 		shipInfo.name = guienv->addStaticText(
 			playerFleet->getShipsInFleet()[i]->getName(), rect<s32>(0,0,200,200), false, true, shipInfo.bkgImage);
 
 		shipInfo.hull = guienv->addStaticText(HULL_STRING_BEGIN, rect<s32>(0,15,200,200), false, true, shipInfo.bkgImage);
+		shipInfo.armor = guienv->addStaticText(ARMOR_STRING_BEGIN, rect<s32>(0,30,200,200), false, true, shipInfo.bkgImage);
+		shipInfo.shield = guienv->addStaticText(SHIELD_STRING_BEGIN, rect<s32>(0,45,200,200), false, true, shipInfo.bkgImage);
+		shipInfo.currentOrder = guienv->addStaticText(L"", rect<s32>(0,60,200,200), false, true, shipInfo.bkgImage);
 		playerShipsInFleet.push_back(shipInfo);
 	}
 }
 
-void HUD::updatePlayerShipsInFleet(Fleet *playerFleet)
+void HUD::updatePlayerShipsInFleet(const Fleet *playerFleet)
 {
-	//update fleet information
-	for(unsigned i = 0 ; i < playerFleet->size(); i++)
+	//update fleet informations
+	if(playerFleet->size() != playerShipsInFleet.size())
 	{
-
+		//we need to implement a hash so we can see the vectors are not the same
+		//we want a constant time checkingn method
+		clearPlayerFleetList();
+		//reinit
+		initializePlayerShipsInFleet(playerFleet);
+	}
+	for(unsigned i = 1; i < playerFleet->size(); i++)
+	{
+		playerShipsInFleet[i-1].hull->setText((core::stringw(HULL_STRING_BEGIN) + 
+			core::stringw(playerFleet->getShipsInFleet()[i]->getInfo().hull) + L"]").c_str());
+		playerShipsInFleet[i-1].armor->setText((core::stringw(ARMOR_STRING_BEGIN) +
+			core::stringw(playerFleet->getShipsInFleet()[i]->getInfo().armor) + L"]").c_str());
+		playerShipsInFleet[i-1].shield->setText((core::stringw(SHIELD_STRING_BEGIN) +
+			core::stringw(playerFleet->getShipsInFleet()[i]->getInfo().shield) + L"]").c_str());
+		playerShipsInFleet[i-1].currentOrder->setText(Ship::orderNames[playerFleet->getShipsInFleet()[i]->getInfo().currentAIOrder]);
 	}
 }
 
@@ -98,11 +116,7 @@ HUD::~HUD()
 	hull->remove();
 	shield->remove();
 	energy->remove();
-	for(unsigned i = 0; i < playerShipsInFleet.size(); i++)
-	{
-		playerShipsInFleet[i].bkgImage->remove();
-	}
-	playerShipsInFleet.clear();
+	clearPlayerFleetList();
 }
 
 
@@ -182,4 +196,15 @@ void HUD::updateTargetInfo(const Ship *player, const TargetableObject *target)
 		targetArmor->setText(L"");
 		targetShield->setText(L"");
 	}
+}
+
+void HUD::clearPlayerFleetList()
+{
+	//simple for loop
+	for(unsigned i = 0; i < playerShipsInFleet.size(); i++)
+	{
+		playerShipsInFleet[i].bkgImage->remove();
+
+	}
+	playerShipsInFleet.clear();
 }

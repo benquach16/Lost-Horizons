@@ -13,6 +13,9 @@ wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator"
 	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
+wchar_t *Ship::orderNames[] = { L"Following", L"Moving to Location", L"Attacking",
+								L"Attacking Target", L"Attacking Target and Moving"};
+
 //some globals for ship class
 //time between ai updates to save cpu speed
 const int AITIMER = 100;
@@ -1042,12 +1045,29 @@ void Ship::runAI()
 		case AI_DOORDER:
 		{
 			//ai should so tuff here
+			//call second statemachine
 			if(info.currentAIOrder == ORDER_ATTACKTARGET)
 			{
 				//attack a specific target
 			}
 			break;
 		}
+	}
+}
+
+void Ship::doOrderSM()
+{
+	//second statemachine
+	//transitions
+	switch(info.currentAIOrder)
+	{
+
+	}
+
+	//actions
+	switch(info.currentAIOrder)
+	{
+		
 	}
 }
 

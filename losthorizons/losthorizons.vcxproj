@@ -165,6 +165,8 @@
     <ClInclude Include="globals.h" />
     <ClInclude Include="hangartab.h" />
     <ClInclude Include="ini_io.h" />
+    <ClInclude Include="intercomhandler.h" />
+    <ClInclude Include="intercommessage.h" />
     <ClInclude Include="jobtab.h" />
     <ClInclude Include="marker.h" />
     <ClInclude Include="menutab.h" />

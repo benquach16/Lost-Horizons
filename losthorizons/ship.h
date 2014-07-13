@@ -40,7 +40,9 @@ enum E_AI_ORDER
 	ORDER_NULL,
 	ORDER_MOVETOLOCATION,
 	ORDER_ATTACKGENERAL,
-	ORDER_ATTACKTARGET
+	ORDER_ATTACKTARGET,
+	ORDER_ATTACKANDMOVE,
+	ORDER_COUNT
 };
 
 enum E_SUBSYSTEM_TYPE
@@ -109,6 +111,8 @@ public:
 	static std::vector<Ship*> allShips;
 	//use this to pull names of the subsystem
 	static wchar_t *subsystemNames[SUBSYSTEM_COUNT];
+	//this is mostly for use by other classes but keep it in ship for conciseness
+	static wchar_t *orderNames[ORDER_COUNT];
 
 	Ship(const E_GAME_FACTION& faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
 	Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation);
@@ -223,6 +227,7 @@ private:
 
 	//AI functions
 	void runAI();
+	void doOrderSM();
 	void updateStates();
 	void searchForTarget();
 	void searchForFriendlyStation();

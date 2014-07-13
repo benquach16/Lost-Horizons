@@ -13,8 +13,8 @@ public:
 	//player target information
 	void run(const Ship *player);
 	void setVisible(bool visible);
-	void initializePlayerShipsInFleet(Fleet *playerFleet);
-	void updatePlayerShipsInFleet(Fleet *playerFleet);
+	void initializePlayerShipsInFleet(const Fleet *playerFleet);
+	void updatePlayerShipsInFleet(const Fleet *playerFleet);
 
 	void setFleetVisible(bool visibile);
 	virtual ~HUD();
@@ -33,7 +33,7 @@ public:
 private:
 	void updatePlayerInfo(const ShipInformation &info);
 	void updateTargetInfo(const Ship *player, const TargetableObject *target);
-
+	void clearPlayerFleetList();
 	//we're going to have this be the parent of everything in the hud
 	//gui::IGUIElement *window;
 	//the pointer to the background image for showing all the ship information

@@ -324,6 +324,12 @@
     <ClInclude Include="missile.h">
       <Filter>Header Files\objects\Object</Filter>
     </ClInclude>
+    <ClInclude Include="intercommessage.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="intercomhandler.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
