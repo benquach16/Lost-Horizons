@@ -13,13 +13,15 @@ wchar_t *Ship::subsystemNames[] = { L"Bridge", L"Deck 1", L"Deck 2", L"Elevator"
 	L"Engine", L"Warp Drive", L"Shield Generator", L"Power Plant",
 	L"Heavy Weapons", L"Medium Weapons", L"Light Weapons", L"Point Defense"};
 
-wchar_t *Ship::orderNames[] = { L"Following", L"Moving to Location", L"Attacking",
-								L"Attacking Target", L"Attacking Target and Moving"};
+wchar_t *Ship::orderNames[] = { L"Waiting for orders", L"Moving to Location", L"Attacking",
+	L"Attacking Target", L"Attacking Target and Moving",
+	L"Following", L"Following and ignoring hostiles"};
 
 //some globals for ship class
 //time between ai updates to save cpu speed
 const int AITIMER = 100;
-const int ENERGYTIMER = 5000;
+const int ENERGYTIMER = 2500;
+const int ENERGYTIMERSHIELD = 5000;
 const int SHIELDTIMER = 15000;
 
 Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
@@ -543,9 +545,52 @@ const E_AI_ROLE Ship::getShipRole() const
 	return info.currentAIRole;
 }
 
-void Ship::giveShipOrder(const E_AI_ORDER newOrder)
+void Ship::giveShipOrder(const E_AI_ORDER newOrder, vector3df &newPosition)
 {
+	info.currentAIState = AI_DOORDER;
 	info.currentAIOrder = newOrder;
+	info.orderMove = newPosition;
+}
+
+void Ship::giveOrderMove(const vector3df& position)
+{
+	
+	info.currentAIState = AI_DOORDER;
+	info.currentAIOrder = ORDER_MOVETOLOCATION;
+	info.orderMove = position;
+}
+
+void Ship::giveOrderAttackGeneral()
+{
+	
+	info.currentAIState = AI_DOORDER;
+	info.currentAIOrder = ORDER_ATTACKGENERAL;
+}
+
+void Ship::giveOrderAttackTarget(TargetableObject* newTarget)
+{
+	shipTarget = newTarget;
+	info.currentAIOrder = ORDER_ATTACKTARGET;
+}
+
+void Ship::giveOrderAttackAndMove(const vector3df& position)
+{
+	info.currentAIState = AI_DOORDER;
+	info.currentAIOrder = ORDER_ATTACKANDMOVE;
+	info.orderMove = position;
+}
+
+void Ship::giveOrderFollow()
+{
+	info.currentAIState = AI_DOORDER;
+	info.currentAIOrder = ORDER_FOLLOW;
+}
+
+void Ship::giveOrderFollowPassive()
+{
+	
+	info.currentAIState = AI_DOORDER;
+	info.currentAIOrder = ORDER_FOLLOW_PASSIVE;
 }
 
 Fleet* Ship::getFleet()
@@ -895,7 +940,13 @@ void Ship::runAI()
 		{
 			if(info.currentAIOrder == ORDER_NULL)
 			{
+				//transition out
 				info.currentAIState = AI_PATROLLING;
+			}
+			else
+			{
+				//if we have an order keep in the same state
+				info.currentAIState = AI_DOORDER;
 			}
 			break;
 		}
@@ -988,6 +1039,10 @@ void Ship::runAI()
 			{
 				searchForTarget();
 				currentTime = timer->getTime() + AITIMER;
+				if(shipTarget)
+				{
+					info.currentAIState = AI_ATTACKING;
+				}
 			}
 			break;
 		}
@@ -1046,10 +1101,7 @@ void Ship::runAI()
 		{
 			//ai should so tuff here
 			//call second statemachine
-			if(info.currentAIOrder == ORDER_ATTACKTARGET)
-			{
-				//attack a specific target
-			}
+			doOrderSM();
 			break;
 		}
 	}
@@ -1059,15 +1111,87 @@ void Ship::doOrderSM()
 {
 	//second statemachine
 	//transitions
+	std::cout << info.currentAIOrder << std::endl;
 	switch(info.currentAIOrder)
 	{
-
+		case ORDER_NULL:
+		{
+			//shouldnt be happening but ok
+			break;
+		}
+		case ORDER_MOVETOLOCATION:
+		{
+			if(info.orderMove.getDistanceFromSQ(getPosition()) < 500)
+			{
+				info.currentAIState = AI_PATROLLING;
+				info.currentAIOrder = ORDER_NULL;
+			}
+			break;
+		}
+		case ORDER_ATTACKGENERAL:
+		{
+			break;
+		}
+		case ORDER_ATTACKTARGET:
+		{
+			break;
+		}
+		case ORDER_ATTACKANDMOVE:
+		{
+			break;
+		}
+		case ORDER_FOLLOW:
+		{
+			break;
+		}
+		case ORDER_FOLLOW_PASSIVE:
+		{
+			break;
+		}
+		default:
+		{
+			info.currentAIOrder = ORDER_ATTACKGENERAL;
+			break;
+		}
 	}
 
 	//actions
 	switch(info.currentAIOrder)
 	{
-		
+		case ORDER_NULL:
+		{
+			//shouldnt be happening but ok
+			break;
+		}		
+		case ORDER_MOVETOLOCATION:
+		{
+			//do nothing but move to this location
+			vector3df targetRotation;
+			targetRotation = info.orderMove - getPosition();
+			info.targetRotation = targetRotation.getHorizontalAngle(); 
+
+			break;
+		}
+		case ORDER_ATTACKGENERAL:
+		{
+			break;
+		}
+		case ORDER_ATTACKTARGET:
+		{
+			break;
+		}
+		case ORDER_ATTACKANDMOVE:
+		{
+			break;
+		}
+		case ORDER_FOLLOW:
+		{
+			break;
+		}
+		case ORDER_FOLLOW_PASSIVE:
+		{
+			break;
+		}
 	}
 }
 
@@ -1123,7 +1247,7 @@ void Ship::searchForTarget()
 			if (allShips[i]->getPosition().getDistanceFrom(getPosition()) < 5000)
 			{
 				setTarget(allShips[i]);
-				info.currentAIState = AI_ATTACKING;
+				//info.currentAIState = AI_ATTACKING;
 				return;
 			}
 		}
@@ -1134,6 +1258,7 @@ void Ship::searchForTarget()
 void Ship::searchForFriendlyStation()
 {
 	//mostly use this for traders that keep going to different space stations
+	//and completely destroy this system later
 	//make more readable
 	int i = rand() % SpaceStation::allStations.size();
 

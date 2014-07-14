@@ -12,6 +12,10 @@ const wchar_t ARMOR_STRING_BEGIN[] = L"Armor [";
 const wchar_t SHIELD_STRING_BEGIN[] = L"Shield [";
 const wchar_t ENERGY_STRING_BEGIN[] = L"Energy [";
 
+const wchar_t MODE_STRING_TACTICAL[] = L"Tactical View";
+const wchar_t MODE_STRING_NAVIGATION[] = L"Navigation View";
+const wchar_t MODE_STRING_COMMAND[] = L"Command Mode";
+
 
 //gunna have a huge initializer list here
 HUD::HUD()
@@ -40,12 +44,27 @@ HUD::HUD()
 	targetHull = guienv->addStaticText(L"", rect<s32>(0,45,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
 	targetArmor = guienv->addStaticText(L"", rect<s32>(0,60,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
 	targetShield = guienv->addStaticText(L"", rect<s32>(0,75,TARGETINFOSIZE,TARGETINFOSIZE), false, true, targetBkg);
+
+	playerMode = guienv->addStaticText(MODE_STRING_TACTICAL, rect<s32>(0,236,200,400));
 }
 
 void HUD::run(const Ship *player)
 {
 	updatePlayerInfo(player->getInfo());
 	updateTargetInfo(player, player->getShipTarget());
+	/*
+	if(player->getCurrentMode() == MODE_TACTICAL)
+	{
+		playerMode->setText(MODE_STRING_TACTICAL);
+	}
+	else if(player->getCurrentMode() == MODE_NAVIGATION)
+	{
+		playerMode->setText(MODE_STRING_NAVIGATION);
+	}
+	else if(player->getCurrentMode() == MODE_COMMAND)
+	{
+		playerMode->setText(MODE_STRING_COMMAND);
+	}*/
 }
 
 void HUD::setVisible(bool visible)
@@ -116,6 +135,7 @@ HUD::~HUD()
 	hull->remove();
 	shield->remove();
 	energy->remove();
+	playerMode->remove();
 	clearPlayerFleetList();
 }
 

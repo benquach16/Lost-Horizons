@@ -42,6 +42,8 @@ enum E_AI_ORDER
 	ORDER_ATTACKGENERAL,
 	ORDER_ATTACKTARGET,
 	ORDER_ATTACKANDMOVE,
+	ORDER_FOLLOW,
+	ORDER_FOLLOW_PASSIVE,
 	ORDER_COUNT
 };
 
@@ -72,6 +74,8 @@ enum E_SHIELD_DIRECTIONS
 	SHIELD_AFT //ships shouldnt really have this except for very very speicific ones
 };
 
+
+
 //store all the ship info in a struct so we can save it easily
 struct ShipInformation
 {
@@ -83,6 +87,7 @@ struct ShipInformation
 	s32 hull, maxHull, armor, maxArmor, shield, maxShield, energy, maxEnergy, crew, maxCrew, fighters, maxFighters;
 	f32 velocity, maxVelocity, maxTurn;
 	vector3df targetRotation;
+	vector3df orderMove;
 	bool docked, warping;
 	//directional shielding
 	E_SHIELD_DIRECTIONS shieldDirection;
@@ -179,7 +184,14 @@ public:
 	void removeFromFleet();
 	void setShipRole(const E_AI_ROLE newRole);
 	const E_AI_ROLE getShipRole() const;
-	void giveShipOrder(const E_AI_ORDER newOrder);
+	void giveShipOrder(const E_AI_ORDER newOrder, vector3df &newPosition);
+	void giveOrderMove(const vector3df &position);
+	void giveOrderAttackGeneral();
+	void giveOrderAttackTarget(TargetableObject* newTarget);
+	void giveOrderAttackAndMove(const vector3df& position);
+	void giveOrderFollow();
+	void giveOrderFollowPassive();
+
 	const E_AI_ORDER getShipOrder() const;
 	//realized we needed this or else no ships would ever be added to another ones fleet
 	Fleet *getFleet();

@@ -53,6 +53,14 @@ bool Player::run()
 	playerCam->run(getPosition());
 	gameMenu->run();
 	stationMenu->run(shipTarget);
+
+	for(unsigned i = 1; i < shipFleet->size(); i++)
+	{
+		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_friendly.png"),
+			shipFleet->getShipsInFleet()[i]->getScreenPosition() - vector2di(16),
+			rect<s32>(0,0,32,32), 0,
+			video::SColor(255,255,255,255), true);
+	}
 	
 	if (shipTarget) {
 		//make the ship's target have a square around it
@@ -81,7 +89,7 @@ bool Player::run()
 					vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
 					vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getAlteredShipPosition());
 					
-				vdriver->draw2DLine(t, i, video::SColor(255,0,255,0));
+				vdriver->draw2DLine(t, i, video::SColor(255,100,255,100));
 				}
 			}
 		}
@@ -106,6 +114,12 @@ const E_TARGETABLEOBJECT_TYPE Player::getTargetableObjectType() const
 	return TARGETABLEOBJECT_PLAYER;
 }
 
+const E_PLAYER_COMMAND_MODE Player::getCurrentMode() const
+{
+	return currentMode;
+}
+
+//private functions
 void Player::init()
 {
 	game->setPointers(this, intercom);
@@ -118,9 +132,6 @@ void Player::init()
 
 void Player::control()
 {
-
-
-
 	//all actions the player can do are stored here
 	if (receiver->isKeyPressed(KEY_LBUTTON) && !gameMenu->getVisible() && !stationMenu->getVisible()) {
 		//do target selection code here
@@ -281,7 +292,28 @@ void Player::playerCommandFleet()
 			vector2di v = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(
 				shipFleet->getShipsInFleet()[i]->getShipTarget()->getPosition());
 					
-			vdriver->draw2DLine(t, v, video::SColor(255,255,0,0));
+			vdriver->draw2DLine(t, v, video::SColor(255,255,122,122));
+		}
+		if(shipFleet->getShipsInFleet()[i]->getInfo().currentAIOrder == ORDER_MOVETOLOCATION)
+		{
+			vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(
+				shipFleet->getShipsInFleet()[i]->getPosition());
+			vector2di v = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(
+				shipFleet->getShipsInFleet()[i]->getInfo().orderMove);
+					
+			vdriver->draw2DLine(t, v, video::SColor(255,122,122,255));
+		}
+		if(shipFleet->getShipsInFleet()[i] == shipTarget)
+		{
+			//if player targeted it we're ready to give orders
+			vdriver->draw2DLine(vector2d<s32>(receiver->getMouseX(), 0), vector2d<s32>(receiver->getMouseX(), height), video::SColor(128,128,150,255));
+			vdriver->draw2DLine(vector2d<s32>(0, receiver->getMouseY()), vector2d<s32>(width, receiver->getMouseY()), video::SColor(128,128,150,255));
+			//just allow us to give move orders for now
+
+			if(receiver->isKeyPressed(irr::KEY_RBUTTON))
+			{
+				shipFleet->getShipsInFleet()[i]->giveOrderMove(vector3df(2000,0,2000));
+			}
 		}
 	}
 }

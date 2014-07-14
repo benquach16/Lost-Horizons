@@ -11,6 +11,7 @@ public:
 	HUD();
 	//So this needs a bunch of inputs, mainly player information and the
 	//player target information
+
 	void run(const Ship *player);
 	void setVisible(bool visible);
 	void initializePlayerShipsInFleet(const Fleet *playerFleet);
@@ -52,6 +53,8 @@ private:
 	gui::IGUIStaticText *targetHull;
 	gui::IGUIStaticText *targetArmor;
 	gui::IGUIStaticText *targetShield;
+
+	gui::IGUIStaticText *playerMode;
 
 	std::vector<fleetShipInfo> playerShipsInFleet;
 };
