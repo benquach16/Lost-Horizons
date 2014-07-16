@@ -92,6 +92,10 @@ Ship::Ship(const u16 ID, const ShipInformation &info, const s8 *subsystems, cons
 	//set up the ship turrets
 	initTurrets();
 	initEngineTrails();
+	
+	shield = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/misc/shield.x"), 0, -1, getPosition());
+	shield->setMaterialFlag(video::EMF_LIGHTING, false);
+	shield->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 }
 
 //copy constructor
@@ -609,21 +613,39 @@ void Ship::highlightShip()
 void Ship::rotate()
 {
 	vector3df currentRot = getRotation();
-	if (currentRot != info.targetRotation) {
-		if (currentRot.Y != info.targetRotation.Y) {
+	//normalize targetrotation
+	//change it so that we dont accidently rotate 360 degrees
+
+	if (currentRot != info.targetRotation) 
+	{
+		if(currentRot.Y > 360)
+		{
+			currentRot.Y -= 360;
+		}
+		if(currentRot.Y < 0)
+		{
+			currentRot.Y += 360;
+		}
+		if (currentRot.Y != info.targetRotation.Y) 
+		{
 			f32 slowY = currentRot.Z = 0.5f*abs(currentRot.Y - info.targetRotation.Y);
+			
 			if (slowY > info.maxTurn)
 				slowY = info.maxTurn;
-			if (currentRot.Z > 4)
-				currentRot.Z = 4.f;
-			if (currentRot.Y < info.targetRotation.Y) {
+			if (currentRot.Z > 5)
+				currentRot.Z = 5.f;
+			//make sure we shorten the length of rotation
+			if (currentRot.Y < info.targetRotation.Y) 
+			{
 				//rotate right
 				currentRot.Y += slowY*frameDeltaTime;
 				currentRot.Z = -currentRot.Z;
-			} else {
-				//rotate left
+			} 
+			else
+			{
 				currentRot.Y -= slowY*frameDeltaTime;
 			}
+			
 		}
 		if (currentRot.X != info.targetRotation.X) {
 			f32 slowX = 0.5f*abs(currentRot.X - info.targetRotation.X);
@@ -934,6 +956,11 @@ void Ship::runAI()
 		{
 			//follow the lead ship in the fleet
 			//if we're following we have no order so just attack ships in range
+			searchForTarget();
+			if(shipTarget)
+			{
+				info.currentAIState = AI_ATTACKING;
+			}
 			break;
 		}
 		case AI_DOORDER:
@@ -1117,14 +1144,19 @@ void Ship::doOrderSM()
 		case ORDER_NULL:
 		{
 			//shouldnt be happening but ok
+			info.currentAIState = AI_PATROLLING;
 			break;
 		}
 		case ORDER_MOVETOLOCATION:
 		{
-			if(info.orderMove.getDistanceFromSQ(getPosition()) < 500)
+			if(info.orderMove.getDistanceFromSQ(getPosition()) < 5000)
 			{
 				info.currentAIState = AI_PATROLLING;
 				info.currentAIOrder = ORDER_NULL;
+			}
+			else
+			{
+				info.currentAIOrder = ORDER_MOVETOLOCATION;
 			}
 			break;
 		}
@@ -1169,7 +1201,8 @@ void Ship::doOrderSM()
 			vector3df targetRotation;
 			targetRotation = info.orderMove - getPosition();
 			info.targetRotation = targetRotation.getHorizontalAngle(); 
-
+			//info.targetRotation.X -= 360;
+			//std::cerr << info.targetRotation.X << " " << getRotation().X << std::endl;
 			break;
 		}
 		case ORDER_ATTACKGENERAL:

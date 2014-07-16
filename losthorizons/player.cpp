@@ -33,14 +33,21 @@ Player::~Player()
 
 bool Player::run()
 {
-	control();
 	if(currentMode == MODE_COMMAND)
 	{
 		//allow player ro command fleet
 		playerCommandFleet();
-		
+		hud->setFleetVisible(true);
 		hud->updatePlayerShipsInFleet(this->shipFleet);
+		grid->setVisible(true);
 	}
+	else
+	{
+		grid->setVisible(false);
+		hud->setFleetVisible(false);
+	}
+	
+	control();
 	hud->run(this);
 	minimap->run();
 	if (info.shield < 10) 
@@ -106,6 +113,20 @@ bool Player::run()
 			}
 		}
 	}
+
+	//allow ship commands to go here
+	if(receiver->isKeyDown(irr::KEY_F1))
+	{
+		currentMode = MODE_TACTICAL;
+	}
+	else if(receiver->isKeyDown(irr::KEY_F2))
+	{
+		currentMode = MODE_NAVIGATION;
+	}
+	else if(receiver->isKeyDown(irr::KEY_F3))
+	{
+		currentMode = MODE_COMMAND;
+	}
 	return Ship::run();
 }
 
@@ -128,6 +149,20 @@ void Player::init()
 	stationMenu = new StationMenu(this);
 	shipFleet = new Fleet;
 	shipFleet->addShipToFleet(this);
+
+	//need to initialize command grid
+	grid = scenemngr->addCubeSceneNode();
+	grid->setMaterialTexture(0,vdriver->getTexture("res/menu/grid.png"));
+	grid->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+	grid->setMaterialFlag(video::EMF_LIGHTING, false);
+	grid->setScale(vector3df(1000,0.1,1000));
+	grid->getMaterial(0).getTextureMatrix(0).setTextureScale(10,10);
+	grid->setVisible(false);
+
+	scene::ITriangleSelector *selector = scenemngr->createTriangleSelector(grid->getMesh(), grid);
+	grid->setTriangleSelector(selector);
+	selector->drop();
+
 }
 
 void Player::control()
@@ -256,25 +291,13 @@ void Player::control()
 		info.shieldDirection = SHIELD_NULL;
 	}
 
-	//allow ship commands to go here
-	if(receiver->isKeyDown(irr::KEY_F1))
-	{
-		currentMode = MODE_TACTICAL;
-	}
-	else if(receiver->isKeyDown(irr::KEY_F2))
-	{
-		currentMode = MODE_NAVIGATION;
-	}
-	else if(receiver->isKeyDown(irr::KEY_F3))
-	{
-		currentMode = MODE_COMMAND;
-	}
+
 }
 
 void Player::playerCommandFleet()
 {
 	//draw command sphere
-	
+	grid->setPosition(getPosition());
 	//this gets alittle tricky to do intuitively
 	//make sure we highlight all of the player's subordinate ships
 	//player should always be head of fleet
@@ -294,7 +317,8 @@ void Player::playerCommandFleet()
 					
 			vdriver->draw2DLine(t, v, video::SColor(255,255,122,122));
 		}
-		if(shipFleet->getShipsInFleet()[i]->getInfo().currentAIOrder == ORDER_MOVETOLOCATION)
+		if(shipFleet->getShipsInFleet()[i]->getInfo().currentAIOrder == ORDER_MOVETOLOCATION ||
+			shipFleet->getShipsInFleet()[i]->getInfo().currentAIOrder == ORDER_ATTACKANDMOVE)
 		{
 			vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(
 				shipFleet->getShipsInFleet()[i]->getPosition());
@@ -312,7 +336,16 @@ void Player::playerCommandFleet()
 
 			if(receiver->isKeyPressed(irr::KEY_RBUTTON))
 			{
-				shipFleet->getShipsInFleet()[i]->giveOrderMove(vector3df(2000,0,2000));
+				//calculate intersection between plane and ray
+				vector3df position;
+				triangle3df tri;
+				ISceneNode *node;
+				core::line3df line = scenemngr->getSceneCollisionManager()->getRayFromScreenCoordinates(
+					vector2d<s32>(receiver->getMouseX(), receiver->getMouseY()),
+					scenemngr->getActiveCamera());
+				position.Y = getPosition().Y;
+				if(scenemngr->getSceneCollisionManager()->getCollisionPoint(line, grid->getTriangleSelector(), position, tri, node))
+					shipFleet->getShipsInFleet()[i]->giveOrderMove(vector3df(position.X,grid->getPosition().Y,position.Z));
 			}
 		}
 	}

@@ -156,6 +156,7 @@
     <ClInclude Include="callback.h" />
     <ClInclude Include="cargo.h" />
     <ClInclude Include="cargotab.h" />
+    <ClInclude Include="commandcontextmenu.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="devconsole.h" />

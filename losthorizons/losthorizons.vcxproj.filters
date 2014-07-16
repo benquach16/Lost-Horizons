@@ -330,6 +330,9 @@
     <ClInclude Include="intercomhandler.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="commandcontextmenu.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

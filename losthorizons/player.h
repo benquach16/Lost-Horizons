@@ -42,6 +42,7 @@ private:
 	Intercom *intercom;
 	TurningMarker *turning;
 	PlayerCamera *playerCam;
+	scene::IMeshSceneNode *grid;
 
 	//ui members
 	GameMenu *gameMenu;
