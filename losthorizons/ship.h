@@ -186,7 +186,7 @@ public:
 	const E_AI_ROLE getShipRole() const;
 	void giveShipOrder(const E_AI_ORDER newOrder, vector3df &newPosition);
 	void giveOrderMove(const vector3df &position);
-	void giveOrderAttackGeneral();
+	void giveOrderAttackGeneral(const vector3df& position);
 	void giveOrderAttackTarget(TargetableObject* newTarget);
 	void giveOrderAttackAndMove(const vector3df& position);
 	void giveOrderFollow();
@@ -240,6 +240,8 @@ private:
 	//AI functions
 	void runAI();
 	void doOrderSM();
+	//because shit attacks alot
+	void runAttacking();
 	void updateStates();
 	void searchForTarget();
 	void searchForFriendlyStation();

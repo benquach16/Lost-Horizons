@@ -3,6 +3,7 @@
 
 #include "ship.h"
 #include "hud.h"
+#include "commandcontextmenu.h"
 #include "intercom.h"
 #include "minimap.h"
 #include "turningmarker.h"
@@ -35,6 +36,9 @@ private:
 	void init();
 	void control();
 	void playerCommandFleet();
+	//automate collsion handling
+	bool getPickedPoint(vector3df& position);
+
 	bool shootReleased;
 
 	HUD *hud;
@@ -43,6 +47,7 @@ private:
 	TurningMarker *turning;
 	PlayerCamera *playerCam;
 	scene::IMeshSceneNode *grid;
+	CommandContextMenu commandMenu;
 
 	//ui members
 	GameMenu *gameMenu;

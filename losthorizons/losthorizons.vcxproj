@@ -237,6 +237,7 @@
     <ClCompile Include="callback.cpp" />
     <ClCompile Include="cargo.cpp" />
     <ClCompile Include="cargotab.cpp" />
+    <ClCompile Include="commandcontextmenu.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
     <ClCompile Include="devconsole.cpp" />

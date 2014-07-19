@@ -23,6 +23,7 @@ const int AITIMER = 100;
 const int ENERGYTIMER = 2500;
 const int ENERGYTIMERSHIELD = 5000;
 const int SHIELDTIMER = 15000;
+const int FIGHTERDAMAGETIMER = 2520;
 
 Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 	: TargetableObject(nextID++, *ObjectManager::shipList[shipType], position, rotation, faction), info(shipType, faction),
@@ -564,11 +565,12 @@ void Ship::giveOrderMove(const vector3df& position)
 	info.orderMove = position;
 }
 
-void Ship::giveOrderAttackGeneral()
+void Ship::giveOrderAttackGeneral(const vector3df& position)
 {
 	
 	info.currentAIState = AI_DOORDER;
 	info.currentAIOrder = ORDER_ATTACKGENERAL;
+	info.orderMove = position;
 }
 
 void Ship::giveOrderAttackTarget(TargetableObject* newTarget)
@@ -618,24 +620,33 @@ void Ship::rotate()
 
 	if (currentRot != info.targetRotation) 
 	{
-		if(currentRot.Y > 360)
-		{
-			currentRot.Y -= 360;
-		}
-		if(currentRot.Y < 0)
-		{
-			currentRot.Y += 360;
-		}
+		
 		if (currentRot.Y != info.targetRotation.Y) 
 		{
 			f32 slowY = currentRot.Z = 0.5f*abs(currentRot.Y - info.targetRotation.Y);
-			
+
 			if (slowY > info.maxTurn)
 				slowY = info.maxTurn;
 			if (currentRot.Z > 5)
 				currentRot.Z = 5.f;
 			//make sure we shorten the length of rotation
-			if (currentRot.Y < info.targetRotation.Y) 
+			//to avoid the 0 - 360 jump
+			//std::cerr << currentRot.Y << " " << info.targetRotation.Y << std::endl;
+			if(currentRot.Y > 270 && info.targetRotation.Y < 90)	
+			{
+				currentRot.Y += slowY*frameDeltaTime;
+				currentRot.Z = -currentRot.Z;
+				if(currentRot.Y > 360)
+					currentRot.Y -= 360;
+			}
+			else if (currentRot.Y < 90 && info.targetRotation.Y > 270)	
+			{
+				currentRot.Y -= slowY*frameDeltaTime;
+				currentRot.Z = -currentRot.Z;
+				if(currentRot.Y < 0)
+					currentRot.Y += 360;
+			}
+			else if (currentRot.Y < info.targetRotation.Y) 
 			{
 				//rotate right
 				currentRot.Y += slowY*frameDeltaTime;
@@ -825,7 +836,7 @@ void Ship::aimTurrets()
 					if (fighterDamageTime < timer->getTime())
 					{
 						Fighter::allFighters[i]->damage(2);
-						fighterDamageTime = timer->getTime() + 2520;
+						fighterDamageTime = timer->getTime() + FIGHTERDAMAGETIMER;
 					}
 				}
 			}
@@ -1008,47 +1019,7 @@ void Ship::runAI()
 			//do attacking code here
 			if (shipTarget)
 			{
-				if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
-				{
-					//break target
-					shipTarget = 0;
-				}
-				else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1500)
-				{
-					//too close
-					//turn away
-					setTargetRotation(getTargetRotation() + vector3df(0, 90, 0));
-					//make sure we keep our sides to the target ship at this range
-					info.shieldDirection = SHIELD_STARBOARD;
-				}
-				else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2500)
-				{
-					//get closer
-					//calculate vector to target
-					vector3df targetVector = shipTarget->getPosition() - getPosition();
-					targetVector = targetVector.getHorizontalAngle();
-					if(targetVector.X > 70 || targetVector.X < -70)
-							targetVector.X = 0;
-					targetVector.Z = 0;
-					setTargetRotation(targetVector);
-					info.shieldDirection = SHIELD_FORE;
-				}
-				//do ship target AI;
-				info.velocity = info.maxVelocity;
-				launchFighters();
-				//firing turrets ain't going to be that simple
-				//ai has to handle the fact that it now has ENERGY
-				//so we make it shoot in bursts
-				if(info.energy > 0 && shouldFire)
-					fireTurrets();
-				else if(info.energy < info.maxEnergy)
-				{
-					shouldFire = false;
-				}
-				if(!shouldFire && info.energy > info.maxEnergy/2)
-				{
-					shouldFire = true;
-				}
+				runAttacking();
 			}
 			else
 			{
@@ -1138,7 +1109,7 @@ void Ship::doOrderSM()
 {
 	//second statemachine
 	//transitions
-	std::cout << info.currentAIOrder << std::endl;
+	//std::cout << info.currentAIOrder << std::endl;
 	switch(info.currentAIOrder)
 	{
 		case ORDER_NULL:
@@ -1149,7 +1120,7 @@ void Ship::doOrderSM()
 		}
 		case ORDER_MOVETOLOCATION:
 		{
-			if(info.orderMove.getDistanceFromSQ(getPosition()) < 5000)
+			if(info.orderMove.getDistanceFromSQ(getPosition()) < 50000)
 			{
 				info.currentAIState = AI_PATROLLING;
 				info.currentAIOrder = ORDER_NULL;
@@ -1162,10 +1133,27 @@ void Ship::doOrderSM()
 		}
 		case ORDER_ATTACKGENERAL:
 		{
+			if(info.orderMove.getDistanceFromSQ(getPosition()) < 50000)
+			{
+				info.currentAIState = AI_PATROLLING;
+				info.currentAIOrder = ORDER_NULL;
+			}
+			else
+			{
+				info.currentAIOrder = ORDER_ATTACKGENERAL;
+			}
 			break;
 		}
 		case ORDER_ATTACKTARGET:
 		{
+			if(!shipTarget)
+			{
+				info.currentAIOrder = ORDER_FOLLOW;				
+			}
+			else
+			{
+				info.currentAIOrder = ORDER_ATTACKTARGET;
+			}
 			break;
 		}
 		case ORDER_ATTACKANDMOVE:
@@ -1182,7 +1170,7 @@ void Ship::doOrderSM()
 		}
 		default:
 		{
-			info.currentAIOrder = ORDER_ATTACKGENERAL;
+			info.currentAIOrder = ORDER_FOLLOW;
 			break;
 		}
 	}
@@ -1207,14 +1195,35 @@ void Ship::doOrderSM()
 		}
 		case ORDER_ATTACKGENERAL:
 		{
+			//same thing as attack code
+			//
+			if(shipTarget)
+			{
+				//attack ship target
+				runAttacking();
+			}
+			else
+			{
+				//else just move to point
+				vector3df targetRotation;
+				targetRotation = info.orderMove - getPosition();
+				info.targetRotation = targetRotation.getHorizontalAngle(); 
+				searchForTarget();
+			}
+
 			break;
 		}
 		case ORDER_ATTACKTARGET:
 		{
+			if(shipTarget)
+			{
+				runAttacking();
+			}
 			break;
 		}
 		case ORDER_ATTACKANDMOVE:
 		{
+
 			break;
 		}
 		case ORDER_FOLLOW:
@@ -1262,6 +1271,52 @@ void Ship::updateStates()
 	else if (shipTarget && info.currentAIState != AI_TRADING)
 	{
 		info.currentAIState = AI_ATTACKING;
+	}
+}
+
+//private function
+void Ship::runAttacking()
+{
+	if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
+	{
+		//break target
+		shipTarget = 0;
+	}
+	else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1500)
+	{
+		//too close
+		//turn away
+		setTargetRotation(getTargetRotation() + vector3df(0, 90, 0));
+		//make sure we keep our sides to the target ship at this range
+		info.shieldDirection = SHIELD_STARBOARD;
+	}
+	else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2500)
+	{
+		//get closer
+		//calculate vector to target
+		vector3df targetVector = shipTarget->getPosition() - getPosition();
+		targetVector = targetVector.getHorizontalAngle();
+		if(targetVector.X > 70 || targetVector.X < -70)
+			targetVector.X = 0;
+		targetVector.Z = 0;
+		setTargetRotation(targetVector);
+		info.shieldDirection = SHIELD_FORE;
+	}
+	//do ship target AI;
+	info.velocity = info.maxVelocity;
+	launchFighters();
+	//firing turrets ain't going to be that simple
+	//ai has to handle the fact that it now has ENERGY
+	//so we make it shoot in bursts
+	if(info.energy > 0 && shouldFire)
+		fireTurrets();
+	else if(info.energy < info.maxEnergy)
+	{
+		shouldFire = false;
+	}
+	if(!shouldFire && info.energy > info.maxEnergy/2)
+	{
+		shouldFire = true;
 	}
 }
 

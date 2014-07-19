@@ -195,9 +195,24 @@ bool Turret::run()
 void Turret::aim(const core::vector3df &rotation)
 {
 	core::vector3df temp(getRotation());
-	if (temp.Y < rotation.Y) {
+	if (temp.Y > 270 && rotation.Y < 90)
+	{
 		temp.Y += ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
-	} else if (temp.Y > rotation.Y) {
+		if(temp.Y > 360)
+			temp.Y -= 360;
+	}
+	else if (temp.Y < 90 && rotation.Y > 270)
+	{
+		temp.Y -= ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
+		if(temp.Y < 0)
+			temp.Y += 360;
+	}
+	else if (temp.Y < rotation.Y) 
+	{
+		temp.Y += ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
+	} 
+	else if (temp.Y > rotation.Y) 
+	{
 		temp.Y -= ((TurretProperties*)ObjectManager::itemList[turretType])->getMaxTurn()*frameDeltaTime;
 	}
 	temp.Y = rotation.Y;//turret rotation is still messed up

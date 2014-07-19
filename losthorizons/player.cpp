@@ -155,7 +155,7 @@ void Player::init()
 	grid->setMaterialTexture(0,vdriver->getTexture("res/menu/grid.png"));
 	grid->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	grid->setMaterialFlag(video::EMF_LIGHTING, false);
-	grid->setScale(vector3df(1000,0.1,1000));
+	grid->setScale(vector3df(1000,0.1f,1000));
 	grid->getMaterial(0).getTextureMatrix(0).setTextureScale(10,10);
 	grid->setVisible(false);
 
@@ -333,20 +333,62 @@ void Player::playerCommandFleet()
 			vdriver->draw2DLine(vector2d<s32>(receiver->getMouseX(), 0), vector2d<s32>(receiver->getMouseX(), height), video::SColor(128,128,150,255));
 			vdriver->draw2DLine(vector2d<s32>(0, receiver->getMouseY()), vector2d<s32>(width, receiver->getMouseY()), video::SColor(128,128,150,255));
 			//just allow us to give move orders for now
-
 			if(receiver->isKeyPressed(irr::KEY_RBUTTON))
 			{
+				commandMenu.setVisible(true);
+			}
+			//shortcut hotkeys go here
+			if(receiver->isKeyPressed(irr::KEY_KEY_1))
+			{
+				// move to this locaation hotkey
 				//calculate intersection between plane and ray
+
 				vector3df position;
-				triangle3df tri;
-				ISceneNode *node;
-				core::line3df line = scenemngr->getSceneCollisionManager()->getRayFromScreenCoordinates(
-					vector2d<s32>(receiver->getMouseX(), receiver->getMouseY()),
-					scenemngr->getActiveCamera());
-				position.Y = getPosition().Y;
-				if(scenemngr->getSceneCollisionManager()->getCollisionPoint(line, grid->getTriangleSelector(), position, tri, node))
+				if(getPickedPoint(position))
 					shipFleet->getShipsInFleet()[i]->giveOrderMove(vector3df(position.X,grid->getPosition().Y,position.Z));
+			}
+			else if(receiver->isKeyPressed(irr::KEY_KEY_2))
+			{
+				// general attack hotkey
+				vector3df position;
+				if(getPickedPoint(position))
+					shipFleet->getShipsInFleet()[i]->giveOrderAttackGeneral(vector3df(position.X,grid->getPosition().Y,position.Z));
+			}
+			else if(receiver->isKeyPressed(irr::KEY_KEY_3))
+			{
+				// attack target hotkey
+				// right now its kinda a hacky method
+
+				
+			}
+			else if(receiver->isKeyPressed(irr::KEY_KEY_4))
+			{
+				// move here and attack hotkey
+				vector3df position;
+				if(getPickedPoint(position))
+					shipFleet->getShipsInFleet()[i]->giveOrderAttackAndMove(vector3df(position.X,grid->getPosition().Y,position.Z));
+			}
+			else if(receiver->isKeyPressed(irr::KEY_KEY_5))
+			{
+				// follow hotkey
+				shipFleet->getShipsInFleet()[i]->giveOrderFollow();
+			}
+			else if(receiver->isKeyPressed(irr::KEY_KEY_6))
+			{
+				// follow passive hotkey
+				shipFleet->getShipsInFleet()[i]->giveOrderFollowPassive();
 			}
 		}
 	}
+}
+
+bool Player::getPickedPoint(vector3df& position)
+{
+	triangle3df tri;
+	ISceneNode *node;
+	core::line3df line = scenemngr->getSceneCollisionManager()->getRayFromScreenCoordinates(
+		vector2d<s32>(receiver->getMouseX(), receiver->getMouseY()),
+		scenemngr->getActiveCamera());
+	position.Y = getPosition().Y;
+	return scenemngr->getSceneCollisionManager()->getCollisionPoint(line, grid->getTriangleSelector(), position, tri, node);
 }
