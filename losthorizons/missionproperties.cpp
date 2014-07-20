@@ -82,8 +82,7 @@ MissionProperties::MissionProperties(const std::string &f)
 							float y = file->getAttributeValueAsFloat(L"posY");
 							float z = file->getAttributeValueAsFloat(L"posZ");
 							int radius = file->getAttributeValueAsInt(L"radius");
-							Objective obj(type, vector3df(x,y,z), radius);
-							objectives.push_back(obj);
+							createObjective(vector3df(x, y, z), type);
 						}
 					}	
 				}
@@ -105,6 +104,11 @@ MissionProperties::MissionProperties(const std::string &f)
 
 MissionProperties::~MissionProperties()
 {
+	for(unsigned i = 0; i < objectives.size(); i++)
+	{
+		//delete objectives[i];
+	}
+	objectives.clear();
 }
 
 const wchar_t *MissionProperties::getName() const
@@ -117,7 +121,7 @@ const wchar_t *MissionProperties::getDesc() const
 	return description.c_str();
 }
 
-const std::vector<Objective>& MissionProperties::getObjs() const
+const std::vector<Objective*>& MissionProperties::getObjs() const
 {
 	return objectives;
 }
@@ -144,5 +148,14 @@ E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 	{
 		std::cout << "Failed to read from mission file!" << std::endl;
 		exit(1);
+	}
+}
+
+void MissionProperties::createObjective(const vector3df &position, E_OBJECTIVE_TYPE type)
+{
+	if(type == OBJECTIVE_SWEEP)
+	{
+		SweepObjective* obj = new SweepObjective(position);
+		objectives.push_back(obj);
 	}
 }

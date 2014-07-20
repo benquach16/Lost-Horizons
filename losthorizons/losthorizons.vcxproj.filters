@@ -91,6 +91,12 @@
     <Filter Include="Source Files\objects\Object\TargetableObject\Ship">
       <UniqueIdentifier>{1878b561-bd35-419a-bcb3-46849912db4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\missions\objective">
+      <UniqueIdentifier>{d5e3963c-8465-48bb-aaa6-a448654548a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\missions\objective">
+      <UniqueIdentifier>{71600160-b61b-4324-9562-0ae1575142d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -246,9 +252,6 @@
     <ClInclude Include="shiptab.h">
       <Filter>Header Files\ui\tabs\gamemenu</Filter>
     </ClInclude>
-    <ClInclude Include="objective.h">
-      <Filter>Header Files\missions</Filter>
-    </ClInclude>
     <ClInclude Include="trigger.h">
       <Filter>Header Files\missions</Filter>
     </ClInclude>
@@ -332,6 +335,18 @@
     </ClInclude>
     <ClInclude Include="commandcontextmenu.h">
       <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="sweepobjective.h">
+      <Filter>Header Files\missions\objective</Filter>
+    </ClInclude>
+    <ClInclude Include="objectscene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objective.h">
+      <Filter>Header Files\missions</Filter>
+    </ClInclude>
+    <ClInclude Include="destroyobjective.h">
+      <Filter>Header Files\missions\objective</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,9 +476,6 @@
     <ClCompile Include="missionproperties.cpp">
       <Filter>Source Files\properties</Filter>
     </ClCompile>
-    <ClCompile Include="objective.cpp">
-      <Filter>Source Files\missions</Filter>
-    </ClCompile>
     <ClCompile Include="cargotab.cpp">
       <Filter>Source Files\ui\tabs\gamemenu</Filter>
     </ClCompile>
@@ -544,6 +556,12 @@
     </ClCompile>
     <ClCompile Include="commandcontextmenu.cpp">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="objective.cpp">
+      <Filter>Source Files\missions</Filter>
+    </ClCompile>
+    <ClCompile Include="sweepobjective.cpp">
+      <Filter>Source Files\missions\objective</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

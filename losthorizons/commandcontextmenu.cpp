@@ -32,6 +32,7 @@ CommandContextMenu::CommandContextMenu()
 
 CommandContextMenu::~CommandContextMenu()
 {
+	contextMenu->remove();
 }
 
 void CommandContextMenu::run()

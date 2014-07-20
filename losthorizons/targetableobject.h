@@ -14,6 +14,14 @@ enum E_TARGETABLEOBJECT_TYPE
 	TARGETABLEOBJECT_MISC
 };
 
+
+//we need to move a shitton of stuff to get save loading to work with this system
+enum E_TARGETABLEOBJECT_COMPONENTS
+{
+	COMPONENT_DAMAGEABLE = 1, //2^n
+	COMPONENT_MOVEABLE = 2,
+};
+
 //object class in which player can target
 class TargetableObject : public Object
 {

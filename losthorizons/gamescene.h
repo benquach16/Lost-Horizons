@@ -31,6 +31,8 @@ private:
 	ISceneNode *skybox;
 	std::stack<ISceneNode*> sceneObjects;		//stores static scene node objects
 	std::stack<Object*> dynamicObjects;			//stores the stuff with more complexity
+
+	
 };
 
 #endif

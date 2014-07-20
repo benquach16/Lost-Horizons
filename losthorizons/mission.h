@@ -26,7 +26,7 @@ public:
 protected:
 	std::wstring name;
 	std::wstring description;
-	std::vector<Objective> objectives;
+	std::vector<Objective*> objectives;
 
 };
 

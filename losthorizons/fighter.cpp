@@ -7,8 +7,8 @@ using namespace base;
 
 std::vector<Fighter*> Fighter::allFighters;
 
-#define PATROLDISTANCE 200
-#define AITIMER 200
+const int PATROLDISTANCE = 200;
+const int AITIMER = 200;
 
 //large constructor
 Fighter::Fighter(const ObjectManager::E_FIGHTER_LIST fighterType, const vector3df& position, const vector3df& rotation, const E_GAME_FACTION faction, 

@@ -210,6 +210,10 @@ protected:
 	std::vector<TurretSlot*> mediumTurrets;
 	std::vector<TurretSlot*> lightTurrets;
 	std::vector<TurretSlot*> pdTurrets;
+	
+	//fighters
+	//i dont understand why this breaks everything
+	//std::vector<Fighter*> launchedFighters;
 
 	//important misc variables
 	TargetableObject *shipTarget;
@@ -247,6 +251,7 @@ private:
 	void searchForTarget();
 	void searchForFriendlyStation();
 	void setCorrectShieldAngle();
+	void setCorrectShieldAngle(const vector3df &targetRotation);	//for optimization reaasons we don't calculate this twice
 
 	//controls how fast we want the shields to recharge
 	u32 shieldTimer;

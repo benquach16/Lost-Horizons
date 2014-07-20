@@ -499,6 +499,7 @@ void Ship::launchFighters()
 			//TODO MAKE DIFFERENT FIGHTERS AVAILABLE TO SHIPS
 			Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
 			getPosition(), getRotation(), info.currentFaction, this);
+			//launchedFighters.push_back(f);
 			fighterLaunchTime = timer->getTime() + 500;
 			info.fighters--;
 		}
@@ -1283,6 +1284,7 @@ void Ship::doOrderSM()
 				{
 					shouldFire = true;
 				}
+				setCorrectShieldAngle();
 			}
 			else
 			{
@@ -1406,7 +1408,7 @@ void Ship::runAttacking()
 			targetVector.X = 0;
 		targetVector.Z = 0;
 		setTargetRotation(targetVector);
-		info.shieldDirection = SHIELD_FORE;
+		setCorrectShieldAngle(targetVector);
 	}
 	//do ship target AI;
 	info.velocity = info.maxVelocity;
@@ -1466,4 +1468,40 @@ void Ship::setCorrectShieldAngle()
 	//grab the angle to the shiptarget
 	vector3df targetRotation;
 	targetRotation = shipTarget->getPosition() - getPosition();
+	if(targetRotation.X > 315 && targetRotation.X < 45)
+	{
+		info.shieldDirection = SHIELD_FORE;
+	}
+	else if(targetRotation.X > 45 && targetRotation.X < 135)
+	{
+		info.shieldDirection = SHIELD_PORT;
+	}
+	else if(targetRotation.X > 135 && targetRotation.X < 225)
+	{
+		
+	}
+	else if(targetRotation.X > 225 && targetRotation.X < 315)
+	{
+		info.shieldDirection = SHIELD_STARBOARD;
+	}
+}
+
+void Ship::setCorrectShieldAngle(const vector3df& targetRotation)
+{
+	if(targetRotation.X > 315 && targetRotation.X < 45)
+	{
+		info.shieldDirection = SHIELD_FORE;
+	}
+	else if(targetRotation.X > 45 && targetRotation.X < 135)
+	{
+		info.shieldDirection = SHIELD_PORT;
+	}
+	else if(targetRotation.X > 135 && targetRotation.X < 225)
+	{
+		
+	}
+	else if(targetRotation.X > 225 && targetRotation.X < 315)
+	{
+		info.shieldDirection = SHIELD_STARBOARD;
+	}
 }

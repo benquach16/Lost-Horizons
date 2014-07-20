@@ -159,6 +159,7 @@
     <ClInclude Include="commandcontextmenu.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
+    <ClInclude Include="destroyobjective.h" />
     <ClInclude Include="devconsole.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="missiontab.h" />
     <ClInclude Include="musicmanager.h" />
     <ClInclude Include="objective.h" />
+    <ClInclude Include="objectscene.h" />
     <ClInclude Include="officer.h" />
     <ClInclude Include="shiptab.h" />
     <ClInclude Include="smallexplosion.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="storetab.h" />
     <ClInclude Include="string_util.h" />
     <ClInclude Include="sun.h" />
+    <ClInclude Include="sweepobjective.h" />
     <ClInclude Include="targetableobject.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="trigger.h" />
@@ -300,6 +303,7 @@
     <ClCompile Include="storetab.cpp" />
     <ClCompile Include="string_util.cpp" />
     <ClCompile Include="sun.cpp" />
+    <ClCompile Include="sweepobjective.cpp" />
     <ClCompile Include="targetableobject.cpp" />
     <ClCompile Include="trigger.cpp" />
     <ClCompile Include="turningmarker.cpp" />

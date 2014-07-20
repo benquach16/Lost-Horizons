@@ -4,6 +4,7 @@
 #include <string>
 #include <queue>
 #include "objective.h"
+#include "sweepobjective.h"
 
 //we use this because we dont want to create the ships
 //when this file is parsed. instead, we want to 
@@ -28,14 +29,15 @@ public:
 
 	const wchar_t *getName() const;
 	const wchar_t *getDesc() const;
-	const std::vector<Objective>& getObjs() const;
+	const std::vector<Objective*>& getObjs() const;
 	std::queue<shipCreateQueue> getCreationQueue() const;
 protected:
 	E_OBJECTIVE_TYPE getObjectiveType(const wchar_t *text);
+	void createObjective(const vector3df& position, E_OBJECTIVE_TYPE type);
 	std::wstring name;
 	std::wstring description;
 	unsigned numOfObjectives;
-	std::vector<Objective> objectives;
+	std::vector<Objective*> objectives;
 	std::queue<shipCreateQueue> creationQueue;
 };
 
