@@ -29,6 +29,7 @@ Player::~Player()
 	delete turning;
 	delete gameMenu;
 	delete stationMenu;
+	grid->remove();
 }
 
 bool Player::run()
@@ -337,47 +338,92 @@ void Player::playerCommandFleet()
 			{
 				commandMenu.setVisible(true);
 			}
+			if(receiver->isKeyPressed(irr::KEY_LBUTTON) && commandMenu.getVisible())
+			{
+				playerOrderShip(i, commandMenu.getSelected());
+			}
 			//shortcut hotkeys go here
 			if(receiver->isKeyPressed(irr::KEY_KEY_1))
 			{
-				// move to this locaation hotkey
-				//calculate intersection between plane and ray
-
-				vector3df position;
-				if(getPickedPoint(position))
-					shipFleet->getShipsInFleet()[i]->giveOrderMove(vector3df(position.X,grid->getPosition().Y,position.Z));
+				playerOrderShip(i, 0);
 			}
 			else if(receiver->isKeyPressed(irr::KEY_KEY_2))
 			{
-				// general attack hotkey
-				vector3df position;
-				if(getPickedPoint(position))
-					shipFleet->getShipsInFleet()[i]->giveOrderAttackGeneral(vector3df(position.X,grid->getPosition().Y,position.Z));
+				playerOrderShip(i, 1);
 			}
 			else if(receiver->isKeyPressed(irr::KEY_KEY_3))
 			{
 				// attack target hotkey
 				// right now its kinda a hacky method
-
+				playerOrderShip(i, 2);
 				
 			}
 			else if(receiver->isKeyPressed(irr::KEY_KEY_4))
 			{
-				// move here and attack hotkey
-				vector3df position;
-				if(getPickedPoint(position))
-					shipFleet->getShipsInFleet()[i]->giveOrderAttackAndMove(vector3df(position.X,grid->getPosition().Y,position.Z));
 			}
 			else if(receiver->isKeyPressed(irr::KEY_KEY_5))
 			{
-				// follow hotkey
-				shipFleet->getShipsInFleet()[i]->giveOrderFollow();
+				playerOrderShip(i, 4);
 			}
 			else if(receiver->isKeyPressed(irr::KEY_KEY_6))
 			{
-				// follow passive hotkey
-				shipFleet->getShipsInFleet()[i]->giveOrderFollowPassive();
+				playerOrderShip(i, 5);
 			}
+		}
+	}
+}
+
+void Player::playerOrderShip(unsigned i, int order)
+{
+	switch(order)
+	{
+		case 0:
+		{
+
+			// move to this locaation hotkey
+			//calculate intersection between plane and ray
+
+			vector3df position;
+			if(getPickedPoint(position))
+				shipFleet->getShipsInFleet()[i]->giveOrderMove(vector3df(position.X,grid->getPosition().Y,position.Z));
+			break;
+		}
+		case 1:
+		{
+
+			// general attack hotkey
+			vector3df position;
+			if(getPickedPoint(position))
+				shipFleet->getShipsInFleet()[i]->giveOrderAttackGeneral(vector3df(position.X,grid->getPosition().Y,position.Z));
+			break;
+		}
+		case 2:
+		{
+			break;
+		}
+		case 3:
+		{
+
+			// move here and attack hotkey
+			vector3df position;
+			if(getPickedPoint(position))
+				shipFleet->getShipsInFleet()[i]->giveOrderAttackAndMove(vector3df(position.X,grid->getPosition().Y,position.Z));
+			break;
+		}
+		case 4:
+		{
+			shipFleet->getShipsInFleet()[i]->giveOrderFollow();
+			break;
+		}
+		case 5:
+		{
+			shipFleet->getShipsInFleet()[i]->giveOrderFollowPassive();
+			break;
+		}
+		default:
+		{
+			//do nothing
+			break;
 		}
 	}
 }

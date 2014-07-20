@@ -11,6 +11,7 @@ public:
 	void run();
 	void setVisible(bool visible);
 	const bool getVisible() const;
+	const int getSelected() const;
 private:
 	irr::gui::IGUIContextMenu *contextMenu;
 };

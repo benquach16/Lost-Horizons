@@ -323,10 +323,10 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 			angle -= 360;
 		if(angle < 1)
 			angle += 360;
-		std::cout << angle;
+		//std::cout << angle;
 		if(angle > 45 && angle < 135)
 		{
-			std::cout << "front" << std::endl;
+			//std::cout << "front" << std::endl;
 			if(info.shieldDirection == SHIELD_FORE)
 			{
 				//damage the shields
@@ -337,7 +337,7 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		}
 		else if(angle > 135 && angle < 225)
 		{
-			std::cout << "left" << std::endl;	
+			//std::cout << "left" << std::endl;	
 			if(info.shieldDirection == SHIELD_PORT)
 			{
 				info.shield -= damage;
@@ -347,7 +347,7 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		}
 		else if(angle > 225 && angle < 315)
 		{
-			std::cout << "back" << std::endl;
+			//std::cout << "back" << std::endl;
 			if(info.shieldDirection == SHIELD_AFT)
 			{
 				info.shield -= damage;
@@ -357,7 +357,7 @@ void Ship::damage(int damage, const vector3df& projectilePosition)
 		}
 		else
 		{
-			std::cout << "right" << std::endl;
+			//std::cout << "right" << std::endl;
 			if(info.shieldDirection == SHIELD_STARBOARD)
 			{
 				info.shield -= damage;
@@ -496,9 +496,9 @@ void Ship::launchFighters()
 	{
 		if (fighterLaunchTime < timer->getTime())
 		{
-				//TODO MAKE DIFFERENT FIGHTERS AVAILABLE TO SHIPS
-				Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
-				getPosition(), getRotation(), info.currentFaction, this);
+			//TODO MAKE DIFFERENT FIGHTERS AVAILABLE TO SHIPS
+			Fighter *f = new Fighter(ObjectManager::E_FIGHTER_LIST::DRAGONFLY, 
+			getPosition(), getRotation(), info.currentFaction, this);
 			fighterLaunchTime = timer->getTime() + 500;
 			info.fighters--;
 		}
@@ -632,14 +632,14 @@ void Ship::rotate()
 			//make sure we shorten the length of rotation
 			//to avoid the 0 - 360 jump
 			//std::cerr << currentRot.Y << " " << info.targetRotation.Y << std::endl;
-			if(currentRot.Y > 270 && info.targetRotation.Y < 90)	
+			if(currentRot.Y > 270 && info.targetRotation.Y < 120)	
 			{
 				currentRot.Y += slowY*frameDeltaTime;
 				currentRot.Z = -currentRot.Z;
 				if(currentRot.Y > 360)
 					currentRot.Y -= 360;
 			}
-			else if (currentRot.Y < 90 && info.targetRotation.Y > 270)	
+			else if (currentRot.Y < 120 && info.targetRotation.Y > 270)	
 			{
 				currentRot.Y -= slowY*frameDeltaTime;
 				currentRot.Z = -currentRot.Z;
@@ -662,12 +662,32 @@ void Ship::rotate()
 			f32 slowX = 0.5f*abs(currentRot.X - info.targetRotation.X);
 			if (slowX > info.maxTurn)
 				slowX = info.maxTurn;
-			if (currentRot.X > info.targetRotation.X) {
+			//std::cerr << currentRot.X << " " << info.targetRotation.X << std::endl;
+			if(currentRot.X > 270 && info.targetRotation.X < 90)	
+			{
+				currentRot.X += slowX*frameDeltaTime;
+				if(currentRot.X > 360)
+				{
+					currentRot.X -= 360;
+				}
+			}
+			else if (currentRot.X < 90 && info.targetRotation.X > 270)	
+			{
+				currentRot.X -= slowX*frameDeltaTime;
+				if(currentRot.X < 0)
+				{
+					currentRot.X += 360;
+				}
+			}
+			else if (currentRot.X > info.targetRotation.X) 
+			{
 				//rotate up
 				//make sure we cant rotate past 70 up and down
 				if(currentRot.X > -70)
 					currentRot.X -= slowX*frameDeltaTime;
-			} else {
+			}
+			else 
+			{
 				//rotate down
 				if(currentRot.X < 70)
 					currentRot.X += slowX*frameDeltaTime;
@@ -1191,6 +1211,7 @@ void Ship::doOrderSM()
 			info.targetRotation = targetRotation.getHorizontalAngle(); 
 			//info.targetRotation.X -= 360;
 			//std::cerr << info.targetRotation.X << " " << getRotation().X << std::endl;
+			info.velocity = info.maxVelocity;
 			break;
 		}
 		case ORDER_ATTACKGENERAL:
@@ -1205,6 +1226,7 @@ void Ship::doOrderSM()
 			else
 			{
 				//else just move to point
+				info.velocity = info.maxVelocity;
 				vector3df targetRotation;
 				targetRotation = info.orderMove - getPosition();
 				info.targetRotation = targetRotation.getHorizontalAngle(); 
@@ -1223,7 +1245,35 @@ void Ship::doOrderSM()
 		}
 		case ORDER_ATTACKANDMOVE:
 		{
-
+			vector3df targetRotation;
+			targetRotation = info.orderMove - getPosition();
+			info.targetRotation = targetRotation.getHorizontalAngle(); 
+			//while attacking
+			if(shipTarget)
+			{
+				if (getPosition().getDistanceFromSQ(shipTarget->getPosition()) > 20000000)
+				{
+					//break target
+					shipTarget = 0;
+				}
+				//firing turrets ain't going to be that simple
+				//ai has to handle the fact that it now has ENERGY
+				//so we make it shoot in bursts
+				if(info.energy > 0 && shouldFire)
+					fireTurrets();
+				else if(info.energy < info.maxEnergy)
+				{
+					shouldFire = false;
+				}
+				if(!shouldFire && info.energy > info.maxEnergy/2)
+				{
+					shouldFire = true;
+				}
+			}
+			else
+			{
+				searchForTarget();
+			}
 			break;
 		}
 		case ORDER_FOLLOW:
@@ -1277,12 +1327,13 @@ void Ship::updateStates()
 //private function
 void Ship::runAttacking()
 {
-	if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 20000)
+	//TODO: MAKE SURE SHIELD TURNS RIGHT
+	if (getPosition().getDistanceFromSQ(shipTarget->getPosition()) > 20000000)
 	{
 		//break target
 		shipTarget = 0;
 	}
-	else if (getPosition().getDistanceFrom(shipTarget->getPosition()) < 1500)
+	else if (getPosition().getDistanceFromSQ(shipTarget->getPosition()) < 2250000)
 	{
 		//too close
 		//turn away
@@ -1290,7 +1341,7 @@ void Ship::runAttacking()
 		//make sure we keep our sides to the target ship at this range
 		info.shieldDirection = SHIELD_STARBOARD;
 	}
-	else if (getPosition().getDistanceFrom(shipTarget->getPosition()) > 2500)
+	else if (getPosition().getDistanceFromSQ(shipTarget->getPosition()) > 6250000)
 	{
 		//get closer
 		//calculate vector to target
@@ -1352,4 +1403,12 @@ void Ship::searchForFriendlyStation()
 
 	setTarget(SpaceStation::allStations[i]);
 	
+}
+
+void Ship::setCorrectShieldAngle()
+{
+	//assume we have a shiptarget
+	//grab the angle to the shiptarget
+	vector3df targetRotation;
+	targetRotation = shipTarget->getPosition() - getPosition();
 }

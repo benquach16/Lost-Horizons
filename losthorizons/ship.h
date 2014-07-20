@@ -245,6 +245,7 @@ private:
 	void updateStates();
 	void searchForTarget();
 	void searchForFriendlyStation();
+	void setCorrectShieldAngle();
 
 	//controls how fast we want the shields to recharge
 	u32 shieldTimer;

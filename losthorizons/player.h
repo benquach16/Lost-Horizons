@@ -36,6 +36,7 @@ private:
 	void init();
 	void control();
 	void playerCommandFleet();
+	void playerOrderShip(unsigned i, int order);
 	//automate collsion handling
 	bool getPickedPoint(vector3df& position);
 
