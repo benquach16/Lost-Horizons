@@ -599,6 +599,12 @@ void Ship::giveOrderFollowPassive()
 	info.currentAIOrder = ORDER_FOLLOW_PASSIVE;
 }
 
+void Ship::removeOrder()
+{
+	info.currentAIState = AI_PATROLLING;
+	info.currentAIOrder = ORDER_NULL;
+}
+
 Fleet* Ship::getFleet()
 {
 	return shipFleet;
@@ -951,6 +957,10 @@ void Ship::runAI()
 			{
 				info.currentAIState = AI_ATTACKING;
 			}
+			if(info.currentAIRole == SHIP_TRADER)
+			{
+				info.currentAIState = AI_TRADING;
+			}
 			if(shipFleet)
 			{
 				//check if we got an order
@@ -981,6 +991,10 @@ void Ship::runAI()
 		}
 		case AI_TRADING:
 		{
+			if(info.currentAIRole != SHIP_TRADER)
+			{
+				info.currentAIState = AI_PATROLLING;
+			}
 			break;
 		}
 		case AI_FOLLOWING:
@@ -1278,10 +1292,51 @@ void Ship::doOrderSM()
 		}
 		case ORDER_FOLLOW:
 		{
+			if(!shipTarget)
+			{
+				searchForTarget();
+				//need to add a shitton of functionality for player control at this point
+				vector3df targetVector = shipFleet->getCommandingShip()->getPosition() - getPosition();
+				targetVector = targetVector.getHorizontalAngle();
+
+				setTargetRotation(targetVector);
+
+				//match ship speed
+				f32 topShipVelocity = shipFleet->getCommandingShip()->getInfo().velocity;
+				if(topShipVelocity < info.maxVelocity)
+				{
+					info.velocity = topShipVelocity;
+				}
+				else
+				{
+					info.velocity = info.maxVelocity;
+				}
+			}
+			else
+			{
+				runAttacking();
+			}
+
 			break;
 		}
 		case ORDER_FOLLOW_PASSIVE:
 		{
+			//need to add a shitton of functionality for player control at this point
+			vector3df targetVector = shipFleet->getCommandingShip()->getPosition() - getPosition();
+			targetVector = targetVector.getHorizontalAngle();
+
+			setTargetRotation(targetVector);
+
+			//match ship speed
+			f32 topShipVelocity = shipFleet->getCommandingShip()->getInfo().velocity;
+			if(topShipVelocity < info.maxVelocity)
+			{
+				info.velocity = topShipVelocity;
+			}
+			else
+			{
+				info.velocity = info.maxVelocity;
+			}
 			break;
 		}
 	}

@@ -191,6 +191,7 @@ public:
 	void giveOrderAttackAndMove(const vector3df& position);
 	void giveOrderFollow();
 	void giveOrderFollowPassive();
+	void removeOrder();
 
 	const E_AI_ORDER getShipOrder() const;
 	//realized we needed this or else no ships would ever be added to another ones fleet
