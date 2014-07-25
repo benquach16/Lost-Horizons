@@ -8,7 +8,8 @@ Mission::Mission()
 }
 
 Mission::Mission(const MissionProperties& missionInfo) : 
-	name(missionInfo.getName()), description(missionInfo.getDesc())
+	name(missionInfo.getName()), description(missionInfo.getDesc()),
+	objectives(missionInfo.getObjs())
 {
 	//create ships from missioninfo here 
 	//because we don't want to load as we parse the file
@@ -23,13 +24,7 @@ Mission::Mission(const MissionProperties& missionInfo) :
 		q.pop();
 	}
 
-	for(unsigned i = 0; i < missionInfo.getObjs().size(); i++)
-	{
-		//make sure we reallocate here
-		//make sure we start with derived class!!!!!!
-		//do not use base class constructor!!!!
-		//objectives.push_back(new Objective(*missionInfo.getObjs()[i]));
-	}
+
 }
 
 Mission::~Mission()
@@ -45,6 +40,8 @@ bool Mission::run()
 	if(objectives.size() > 0)
 	{
 		//make sure we still have objectives to run
+		//how do we make it apparent that the player has an objective on fucking screen
+
 		if(objectives[0]->run())
 		{
 			//objective completed

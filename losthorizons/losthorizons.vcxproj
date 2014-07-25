@@ -157,15 +157,18 @@
     <ClInclude Include="cargo.h" />
     <ClInclude Include="cargotab.h" />
     <ClInclude Include="commandcontextmenu.h" />
+    <ClInclude Include="component.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="destroyobjective.h" />
     <ClInclude Include="devconsole.h" />
+    <ClInclude Include="dialoguetree.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="fleet.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="hangartab.h" />
+    <ClInclude Include="healthcomponent.h" />
     <ClInclude Include="ini_io.h" />
     <ClInclude Include="intercomhandler.h" />
     <ClInclude Include="intercommessage.h" />
@@ -244,6 +247,7 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
     <ClCompile Include="devconsole.cpp" />
+    <ClCompile Include="dialoguetree.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fighter.cpp" />

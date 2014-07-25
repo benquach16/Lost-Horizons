@@ -97,6 +97,9 @@
     <Filter Include="Source Files\missions\objective">
       <UniqueIdentifier>{71600160-b61b-4324-9562-0ae1575142d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\objects\Object\Component">
+      <UniqueIdentifier>{c569482f-c133-4890-a352-f650f688f63f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -348,6 +351,15 @@
     <ClInclude Include="destroyobjective.h">
       <Filter>Header Files\missions\objective</Filter>
     </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Header Files\objects\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="healthcomponent.h">
+      <Filter>Header Files\objects\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="dialoguetree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -562,6 +574,9 @@
     </ClCompile>
     <ClCompile Include="sweepobjective.cpp">
       <Filter>Source Files\missions\objective</Filter>
+    </ClCompile>
+    <ClCompile Include="dialoguetree.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

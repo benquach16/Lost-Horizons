@@ -104,11 +104,7 @@ MissionProperties::MissionProperties(const std::string &f)
 
 MissionProperties::~MissionProperties()
 {
-	for(unsigned i = 0; i < objectives.size(); i++)
-	{
-		//delete objectives[i];
-	}
-	objectives.clear();
+
 }
 
 const wchar_t *MissionProperties::getName() const

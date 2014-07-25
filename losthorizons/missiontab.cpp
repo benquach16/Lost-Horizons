@@ -27,12 +27,17 @@ void MissionTab::run()
 	if(selected != -1)
 	{
 		//we have one selected
-		std::vector<Mission> missions = missionManager->getMissions();
-		missionDescription->setText(missions[selected].getDesc());
+		std::vector<Mission*> missions = missionManager->getMissions();
+		missionDescription->setText(missions[selected]->getDesc());
 		//how do we tell player ware objective is?
 		//we set objective marker
 		marker->setVisible(true);
-		marker->setPosition(missions[selected].getCurrObjPos());
+		marker->setPosition(missions[selected]->getCurrObjPos());
+		//draw 2d interface
+		position2di pos = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(marker->getPosition());
+		vdriver->draw2DLine(vector2d<s32>(pos.X, 0), vector2d<s32>(pos.X, height), video::SColor(255, 150, 150,100));
+		vdriver->draw2DLine(vector2d<s32>(0, pos.Y), vector2d<s32>(width, pos.Y), video::SColor(255, 150, 150,100));
+
 	}
 	else
 	{
@@ -47,7 +52,7 @@ void MissionTab::loadMissions()
 	{
 		for(unsigned i = 0; i < missionManager->getMissions().size(); ++i)
 		{
-			missionList->addItem(missionManager->getMissions()[i].getName());
+			missionList->addItem(missionManager->getMissions()[i]->getName());
 		}
 	}
 }

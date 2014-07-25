@@ -20,10 +20,10 @@ public:
 	void addMission(const MissionProperties& missionInfo);
 
 	//returns an rvalue
-	const std::vector<Mission>& getMissions() const;
+	const std::vector<Mission*>& getMissions() const;
 
 protected:
-	std::vector<Mission> missionList;
+	std::vector<Mission*> missionList;
 };
 
 #endif
