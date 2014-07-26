@@ -360,6 +360,9 @@
     <ClInclude Include="dialoguetree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dialogueproperties.h">
+      <Filter>Header Files\properties</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -577,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="dialoguetree.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogueproperties.cpp">
+      <Filter>Source Files\properties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

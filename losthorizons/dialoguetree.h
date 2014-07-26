@@ -2,6 +2,7 @@
 #define _DIALOGUETREE_H_
 
 #include <vector>
+#include <string>
 #include <irrlicht.h>
 
 //so we can implement a basic dialog system for mission intros/tutorials/etc
@@ -13,6 +14,10 @@ public:
 	void addChild(DialogueTree *child);
 
 protected:
+	std::string speaker;
+	std::string description;
+	irr::gui::IGUIImage *speakerImage;
+
 	DialogueTree *parent;
 	std::vector<DialogueTree*> children;
 };

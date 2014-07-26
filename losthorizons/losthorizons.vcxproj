@@ -162,6 +162,7 @@
     <ClInclude Include="datamanager.h" />
     <ClInclude Include="destroyobjective.h" />
     <ClInclude Include="devconsole.h" />
+    <ClInclude Include="dialogueproperties.h" />
     <ClInclude Include="dialoguetree.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="datamanager.cpp" />
     <ClCompile Include="devconsole.cpp" />
+    <ClCompile Include="dialogueproperties.cpp" />
     <ClCompile Include="dialoguetree.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="explosion.cpp" />
