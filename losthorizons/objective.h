@@ -45,6 +45,7 @@ protected:
 	E_OBJECTIVE_STATE state;
 	E_OBJECTIVE_TYPE type;
 	vector3df position;
+	unsigned timeKeeping;
 };
 
 #endif

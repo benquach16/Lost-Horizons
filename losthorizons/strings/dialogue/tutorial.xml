@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<speaker npc="Admiral Jackson">
+	<text>Test text</text>
+	<response>Response 1</response>
+	<speaker npc="Admiral Jackson">
+		<text>Response Response</text>
+	</speaker>
+	<response>Response 2</response>
+	<speaker npc="Admiral Jackson">
+		<text>Response Response Response</text>
+	</speaker>
+</speaker>

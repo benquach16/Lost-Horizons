@@ -3,13 +3,13 @@
 #include <iostream>
 
 Objective::Objective(const std::wstring &desciption, const vector3df& position) : 
-	description(description), position(position), state(OBJECTIVE_STATE_INPROGRESS)
+	description(description), position(position), state(OBJECTIVE_STATE_INPROGRESS), timeKeeping(0)
 {
 
 }
 
 Objective::Objective(const vector3df& position) : 
-	description(L""), position(position), state(OBJECTIVE_STATE_INPROGRESS)
+	description(L""), position(position), state(OBJECTIVE_STATE_INPROGRESS), timeKeeping(0)
 {
 }
 
