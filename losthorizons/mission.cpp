@@ -67,3 +67,9 @@ const vector3df Mission::getCurrObjPos() const
 		return objectives[0]->getPosition();
 	return vector3df();
 }
+
+std::vector<Objective*> Mission::getObjectives() const
+{
+	return objectives;
+}
+

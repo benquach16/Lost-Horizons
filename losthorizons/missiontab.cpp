@@ -9,8 +9,8 @@ MissionTab::MissionTab(IGUITabControl *tabs)
 	  missionManager(game->getMissionManager()), marker(new Marker)
 {
 	missionList = guienv->addListBox(rect<s32>(20,20,300,480), tab);
-	missionDescription = guienv->addStaticText(L"", rect<s32>(320,20,780,480), false, true, tab);
-
+	missionDescription = guienv->addStaticText(L"", rect<s32>(320,20,780,280), false, true, tab);
+	objectivesList = guienv->addListBox(rect<s32>(320,280,780,480), tab);
 	marker->setVisible(false);
 }
 
@@ -37,7 +37,13 @@ void MissionTab::run()
 		position2di pos = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(marker->getPosition());
 		vdriver->draw2DLine(vector2d<s32>(pos.X, 0), vector2d<s32>(pos.X, height), video::SColor(255, 150, 150,100));
 		vdriver->draw2DLine(vector2d<s32>(0, pos.Y), vector2d<s32>(width, pos.Y), video::SColor(255, 150, 150,100));
-
+		
+		//load objectives
+		objectivesList->clear();
+		for(unsigned i = 0; i < missions[selected]->getObjectives().size(); i++)
+		{
+			objectivesList->addItem(missions[selected]->getObjectives()[i]->getDescription().c_str());
+		}
 	}
 	else
 	{
@@ -54,5 +60,6 @@ void MissionTab::loadMissions()
 		{
 			missionList->addItem(missionManager->getMissions()[i]->getName());
 		}
+		
 	}
 }

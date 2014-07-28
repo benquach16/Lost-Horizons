@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <mission>
-	<name>Getting started</name>
-	<description>Do stuff that other people tell you to do.</description>
+	<name>Mission 1: Pirate Sweep</name>
+	<description>Destroy all pirate ships in the area.</description>
 	<create>
 	<!--enums work this so we have 0 = terran 1 = provian 2 = pirate 3 = neutral -->
-		<ship type="1" faction="2" posX="-822" posY="0" posZ="2400"/>
-		<ship type="1" faction="2" posX="600" posY="0" posZ="1800"/>
+		<ship type="1" faction="2" posX="-822" posY="0" posZ="4400"/>
+		<ship type="1" faction="2" posX="600" posY="-600" posZ="3800"/>
+		<ship type="1" faction="2" posX="-1235" posY="200" posZ="3800"/>		
 	</create>
 	<objectives num="1">
 		<A type="sweep" posX="0" posY="0" posZ="2000" radius="2000"/>

@@ -40,6 +40,7 @@ public:
 	virtual bool run();
 	const vector3df& getPosition() const;
 	virtual const E_OBJECTIVE_TYPE getObjectiveType() const;
+	const std::wstring& getDescription() const;
 protected:
 	std::wstring description;
 	E_OBJECTIVE_STATE state;

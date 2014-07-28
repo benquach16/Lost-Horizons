@@ -18,7 +18,7 @@ private:
 	//list of all the missions
 	IGUIListBox *missionList;
 	IGUIStaticText *missionDescription;
-
+	IGUIListBox *objectivesList;
 	MissionManager *missionManager;
 	Marker *marker;
 };

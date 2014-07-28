@@ -32,4 +32,9 @@ const E_OBJECTIVE_TYPE Objective::getObjectiveType() const
 	return type;
 }
 
+const std::wstring& Objective::getDescription() const
+{
+	return description;
+}
+
 

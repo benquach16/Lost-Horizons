@@ -23,6 +23,8 @@ public:
 
 	const vector3df getCurrObjPos() const;
 
+	std::vector<Objective*> getObjectives() const;
+
 protected:
 	std::wstring name;
 	std::wstring description;
