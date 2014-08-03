@@ -17,7 +17,7 @@ public:
 	~Projectile();
 
 	//does everything a projectile is supposed to
-	bool run();
+	virtual bool run();
 
 protected:
 	void movement();

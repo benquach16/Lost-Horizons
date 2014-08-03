@@ -81,6 +81,7 @@ TurretProperties::TurretProperties(const std::string &f) : ModelProperties(f)
 				{
 					turretClass = getTurretClass(file->getAttributeValue(L"class"));
 					currentTree=L"turretStats";
+
 				}
 				if(core::stringw(L"fireSound").equals_ignore_case(file->getNodeName()))
 				{
@@ -230,5 +231,18 @@ E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
 		//error!
 		std::cout << "Error loading files!" << std::endl;
 		std::exit(1);
+	}
+}
+
+//protected function
+E_TURRET_TYPE TurretProperties::getTurretType(const std::wstring &str)
+{
+	if(str == L"direct")
+	{
+		return TURRET_TYPE_DIRECT;
+	}
+	else
+	{
+		//error!
 	}
 }

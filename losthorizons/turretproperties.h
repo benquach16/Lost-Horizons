@@ -11,6 +11,12 @@ enum E_TURRET_CLASS
 	TURRET_PD
 };
 
+enum E_TURRET_TYPE
+{
+	TURRET_TYPE_DIRECT,
+	TURRET_TYPE_MISSILE,
+};
+
 //for turrets
 class TurretProperties : public ModelProperties
 {
@@ -36,6 +42,9 @@ public:
 protected:
 	E_TURRET_CLASS getTurretClass(const std::wstring &str);
 	E_TURRET_CLASS turretClass;
+	E_TURRET_TYPE getTurretType(const std::wstring &str);
+	E_TURRET_TYPE turretType;
+
 	int turnSpeed;
 	int damage;
 	int range;
