@@ -15,6 +15,7 @@ enum E_TURRET_TYPE
 {
 	TURRET_TYPE_DIRECT,
 	TURRET_TYPE_MISSILE,
+	TURRET_TYPE_LASER,
 };
 
 //for turrets
@@ -38,7 +39,7 @@ public:
 	const core::vector3df& getProjectileScale() const;
 
 	const E_TURRET_CLASS getTurretClass() const;
-
+	const E_TURRET_TYPE getWeaponType() const;
 protected:
 	E_TURRET_CLASS getTurretClass(const std::wstring &str);
 	E_TURRET_CLASS turretClass;

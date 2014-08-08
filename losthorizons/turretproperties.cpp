@@ -80,6 +80,7 @@ TurretProperties::TurretProperties(const std::string &f) : ModelProperties(f)
 				if(core::stringw(L"turretStats").equals_ignore_case(file->getNodeName()))
 				{
 					turretClass = getTurretClass(file->getAttributeValue(L"class"));
+					turretType = getTurretType(file->getAttributeValue(L"type"));
 					currentTree=L"turretStats";
 
 				}
@@ -207,6 +208,11 @@ const E_TURRET_CLASS TurretProperties::getTurretClass() const
 	return turretClass;
 }
 
+const E_TURRET_TYPE TurretProperties::getWeaponType() const
+{
+	return turretType;
+}
+
 //protected function
 E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
 {
@@ -229,7 +235,7 @@ E_TURRET_CLASS TurretProperties::getTurretClass(const std::wstring &str)
 	else
 	{
 		//error!
-		std::cout << "Error loading files!" << std::endl;
+		std::cout << "Error loading turret information!" << std::endl;
 		std::exit(1);
 	}
 }
@@ -241,8 +247,18 @@ E_TURRET_TYPE TurretProperties::getTurretType(const std::wstring &str)
 	{
 		return TURRET_TYPE_DIRECT;
 	}
+	else if(str == L"missile")
+	{
+		return TURRET_TYPE_MISSILE;
+	}
+	else if(str == L"laser")
+	{
+		return TURRET_TYPE_LASER;
+	}
 	else
 	{
 		//error!
+		std::cout << "Error loading turret information!" << std::endl;
+		std::exit(1);
 	}
 }

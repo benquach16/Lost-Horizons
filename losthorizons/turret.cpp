@@ -227,7 +227,21 @@ void Turret::fire(const vector3df &rotation)
 	if(shootTimer < timer->getTime())
 	{
 		//for now, projectile gets an ID. change to ship pointer later
-		Projectile *p = new Projectile(parentSlot->getParent()->getID(),*((TurretProperties*)ObjectManager::itemList[turretType]), shootJoint->getAbsolutePosition(), rotation);
+		if(((TurretProperties*)ObjectManager::itemList[turretType])->getWeaponType() == TURRET_TYPE_MISSILE)
+		{
+			//how is babby formed
+			if(parentSlot->getParent()->getShipTarget())
+			Missile *m = new Missile(parentSlot->getParent()->getID(), 
+				parentSlot->getParent()->getShipTarget(),
+				*((TurretProperties*)ObjectManager::itemList[turretType]),
+				shootJoint->getAbsolutePosition(), rotation);
+		}
+		else
+		{
+			Projectile *p = new Projectile(parentSlot->getParent()->getID(),
+				*((TurretProperties*)ObjectManager::itemList[turretType]), 
+				shootJoint->getAbsolutePosition(), rotation);
+		}
 		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
 		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename(), getPosition());
 		parentSlot->getParent()->modifyEnergy(-((TurretProperties*)ObjectManager::itemList[turretType])->getEnergyUse());

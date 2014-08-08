@@ -2,18 +2,21 @@
 #define _MISSILE_H_
 
 #include "projectile.h"
+#include "targetableobject.h"
 
 //we want cool looking shit
 class Missile : public Projectile
 {
 public:
 	static std::vector<Missile*> allMissiles;
-	Missile();
+	Missile(const u16 ID, const TargetableObject *target, const TurretProperties &turretProps, 
+		const vector3df &position, 
+		const vector3df &rotation);
 	virtual ~Missile();
 	virtual bool run();
 
 protected:
-	TargetableObject* target;
+	const TargetableObject* target;
 };
 
 #endif
