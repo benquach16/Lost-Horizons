@@ -12,14 +12,14 @@
 		<scaleY>3</scaleY>
 		<scaleZ>3</scaleZ>
 	</modelStats>
-	<turretStats class="light" type="missile">
-		<fireSound>res/sounds/weapons/photon.wav</fireSound>
+	<turretStats class="medium" type="missile">
+		<fireSound>res/sounds/weapons/missile.wav</fireSound>
 		<turnSpeed>5</turnSpeed>
 		<damage>84</damage>
-		<range>1100</range>
-		<reloadSpeed>3050</reloadSpeed>
-		<projectileSpeed>50</projectileSpeed>
-		<energyUse>15</energyUse>
+		<range>2800</range>
+		<reloadSpeed>4050</reloadSpeed>
+		<projectileSpeed>200</projectileSpeed>
+		<energyUse>35</energyUse>
 	</turretStats>
 	<projectileStats>
 		<scaleX>0.3</scaleX>

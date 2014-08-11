@@ -27,6 +27,7 @@ protected:
 	u16 ID;
 	int damage;
 	int range;
+	int rangeSqrt;
 	int velocity;
 
 	//iterator to this

@@ -3,6 +3,10 @@
 #include "missile.h"
 
 using namespace base;
+using namespace core;
+using namespace video;
+
+const int MISSILETIMER = 1500;
 
 Missile::Missile(const u16 ID, const TargetableObject *target, const TurretProperties &turretProps, 
 		const vector3df &position, 
@@ -12,20 +16,65 @@ Projectile(ID, turretProps,
 		   rotation),
 		   target(target)
 {
-
+	missileTimer = timer->getTime() + MISSILETIMER;
+	initMissile();
 }
 
 Missile::~Missile()
 {
-
+	exhaust->remove();
 }
 
 bool Missile::run()
 {
 	//fly torwards the target
 	//but not liike too fast you know
-	vector3df targetRotation = target->getPosition() - getPosition();
-	targetRotation = targetRotation.getHorizontalAngle();
-	setRotation(targetRotation);
+	if(missileTimer < timer->getTime())
+	{
+		vector3df targetRotation = target->getPosition() - getPosition();
+		targetRotation = targetRotation.getHorizontalAngle();
+		//TODO delta time and rotation speed
+		vector3df rot(getRotation());
+		if(targetRotation.X > getRotation().X || (getRotation().X > 270 && targetRotation.X < 90))
+		{
+			rot.X += 0.5f;
+		}
+		else if(targetRotation.X < getRotation().X || (targetRotation.X > 270 && getRotation().X < 90))
+		{
+			rot.X -= 0.5f;
+		}
+		if(rot.X < 0)
+		{
+			rot.X += 360;
+		}
+		if(rot.X > 360)
+		{
+			rot.X -= 360;
+		}
+		setRotation(rot);
+	}
+	else
+	{
+		setRotation(getRotation() + vector3df(-0.5,0,0));
+	}
 	return Projectile::run();
+}
+
+void Missile::initMissile()
+{
+	exhaust=scenemngr->addParticleSystemSceneNode(false, mesh);
+	scene::IParticleEmitter *em = exhaust->createPointEmitter(vector3df(0,0,0),
+		20,40,
+		SColor(255,255,255,255),
+		SColor(255,255,255,255),
+		1000,
+		2000,
+		0,
+		dimension2df(5,5),
+		dimension2df(15,15));
+	exhaust->setEmitter(em);
+	em->drop();
+	exhaust->setMaterialTexture(0,vdriver->getTexture("res/textures/engine_trails.pcx"));
+	exhaust->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+	exhaust->setMaterialFlag(video::EMF_LIGHTING,false);
 }

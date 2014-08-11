@@ -11,7 +11,7 @@ class DialogueTree
 public:
 	DialogueTree(DialogueTree *parent = 0);
 	~DialogueTree();
-	void addChild(DialogueTree *child);
+	void addChild(DialogueTree *child, const std::wstring &response);
 	void setParent(DialogueTree *parent);
 	void setSpeaker(const std::wstring& speaker);
 	void setDescription(const std::wstring& description);
@@ -20,9 +20,10 @@ public:
 	void clear();
 	
 protected:
-	std::wstring speaker;
-	std::wstring description;
 	irr::gui::IGUIImage *speakerImage;
+	irr::gui::IGUIStaticText *speaker;
+	irr::gui::IGUIStaticText *description;
+	irr::gui::IGUIWindow *window;
 
 	DialogueTree *parent;
 	//this is undoubtedly, going to be awful

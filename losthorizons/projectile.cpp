@@ -16,6 +16,7 @@ Projectile::Projectile(const u16 ID, const TurretProperties &turretProps, const 
 	mesh->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
 	allProjectiles.push_back(this);
+	rangeSqrt = range * range;
 }
 
 Projectile::~Projectile()
@@ -68,5 +69,5 @@ bool Projectile::inRange()
 	const float x = originalPosition.X - getPosition().X;
 	const float y = originalPosition.Y - getPosition().Y;
 	const float z = originalPosition.Z - getPosition().Z;
-	return x*x + y*y + z*z < range*range;
+	return x*x + y*y + z*z < rangeSqrt;
 }

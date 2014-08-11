@@ -8,6 +8,11 @@ class GotoObjective : public Objective
 public:
 	GotoObjective();
 	~GotoObjective();
+
+	virtual bool run();
+
+protected:
+
 };
 
 #endif

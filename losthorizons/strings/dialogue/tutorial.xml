@@ -8,5 +8,9 @@
 	<response>Response 2</response>
 	<speaker npc="Admiral Jackson">
 		<text>Response Response Response</text>
+		<response>Response Response 2</response>
+		<speaker npc="Admiral Jackson">
+			<text>Words</text>
+		</speaker>
 	</speaker>
 </speaker>

@@ -16,6 +16,9 @@ public:
 	virtual bool run();
 
 protected:
+	void initMissile();
+	scene::IParticleSystemSceneNode *exhaust;
+	int missileTimer;
 	const TargetableObject* target;
 };
 
