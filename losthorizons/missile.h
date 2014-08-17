@@ -16,6 +16,7 @@ public:
 	virtual bool run();
 
 protected:
+	int index;
 	void initMissile();
 	scene::IParticleSystemSceneNode *exhaust;
 	int missileTimer;

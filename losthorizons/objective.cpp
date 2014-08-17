@@ -2,6 +2,9 @@
 #include "objective.h"
 #include <iostream>
 
+
+const int OBJECTIVE_CHECK_TIMER = 500;
+
 Objective::Objective(const std::wstring &desciption, const vector3df& position) : 
 	description(description), position(position), state(OBJECTIVE_STATE_INPROGRESS), timeKeeping(0)
 {

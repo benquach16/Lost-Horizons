@@ -168,6 +168,7 @@
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="fleet.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="gotoobjective.h" />
     <ClInclude Include="hangartab.h" />
     <ClInclude Include="healthcomponent.h" />
     <ClInclude Include="ini_io.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="gamescene.cpp" />
     <ClCompile Include="gamescenemanager.cpp" />
     <ClCompile Include="globals.cpp" />
+    <ClCompile Include="gotoobjective.cpp" />
     <ClCompile Include="hangartab.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="impact.cpp" />

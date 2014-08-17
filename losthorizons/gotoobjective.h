@@ -6,10 +6,12 @@
 class GotoObjective : public Objective
 {
 public:
-	GotoObjective();
+	GotoObjective(const std::wstring& description, const irr::core::vector3df& position);
+	GotoObjective(const vector3df& position);
 	~GotoObjective();
 
 	virtual bool run();
+	virtual const E_OBJECTIVE_TYPE getObjectiveType() const;
 
 protected:
 

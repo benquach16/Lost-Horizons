@@ -11,6 +11,7 @@ using namespace irr;
 enum E_OBJECTIVE_TYPE
 {
 	OBJECTIVE_SWEEP,
+	OBJECTIVE_GOTO,
 	OBJECTIVE_COURIER,
 	OBJECTIVE_NAVIGATE,
 	OBJECTIVE_RETRIEVAL,
@@ -31,10 +32,12 @@ enum E_OBJECTIVE_STATE
 class Objective
 {
 public:
+
+
 	Objective(const std::wstring &description, const vector3df& position);
 	Objective(const vector3df& position);
 	virtual ~Objective();
-
+	
 	//run function
 	//return true if player completed the objective
 	virtual bool run();
@@ -42,6 +45,7 @@ public:
 	virtual const E_OBJECTIVE_TYPE getObjectiveType() const;
 	const std::wstring& getDescription() const;
 protected:
+
 	std::wstring description;
 	E_OBJECTIVE_STATE state;
 	E_OBJECTIVE_TYPE type;

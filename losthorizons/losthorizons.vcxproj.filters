@@ -363,6 +363,9 @@
     <ClInclude Include="dialogueproperties.h">
       <Filter>Header Files\properties</Filter>
     </ClInclude>
+    <ClInclude Include="gotoobjective.h">
+      <Filter>Header Files\missions\objective</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -583,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="dialogueproperties.cpp">
       <Filter>Source Files\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="gotoobjective.cpp">
+      <Filter>Source Files\missions\objective</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,8 @@
 #include "globals.h"
 #include "missile.h"
 
+std::vector<Missile*> Missile::allMissiles;
+
 using namespace base;
 using namespace core;
 using namespace video;
@@ -18,11 +20,16 @@ Projectile(ID, turretProps,
 {
 	missileTimer = timer->getTime() + MISSILETIMER;
 	initMissile();
+	index = allMissiles.size();
+	allMissiles.push_back(this);
 }
 
 Missile::~Missile()
 {
 	exhaust->remove();
+	allMissiles[index] = allMissiles.back();
+	allMissiles[index]->index = index;
+	allMissiles.pop_back();
 }
 
 bool Missile::run()
@@ -43,6 +50,14 @@ bool Missile::run()
 		{
 			rot.X -= 0.5f;
 		}
+		if(targetRotation.Y > getRotation().Y || (getRotation().Y > 270 && targetRotation.Y < 90))
+		{
+			rot.Y += 0.5f;
+		}
+		else if(targetRotation.Y < getRotation().Y || (targetRotation.Y > 270 && getRotation().Y < 90))
+		{
+			rot.Y -= 0.5f;
+		}
 		if(rot.X < 0)
 		{
 			rot.X += 360;
@@ -50,6 +65,14 @@ bool Missile::run()
 		if(rot.X > 360)
 		{
 			rot.X -= 360;
+		}
+		if(rot.Y < 0)
+		{
+			rot.Y += 360;
+		}
+		if(rot.Y > 360)
+		{
+			rot.Y -= 360;
 		}
 		setRotation(rot);
 	}
