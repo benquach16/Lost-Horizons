@@ -71,6 +71,7 @@ public:
 	const vector3df& getScale() const;
 	const core::aabbox3df getBoundingBox() const;
 	const bool getVisible() const;
+	const bool getActive() const;
 	//mutators
 	void setPosition(const vector3df &position);
 	void setRotation(const vector3df &rotation);

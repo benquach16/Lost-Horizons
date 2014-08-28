@@ -16,7 +16,8 @@ Missile::Missile(const u16 ID, const TargetableObject *target, const TurretPrope
 Projectile(ID, turretProps,
 		   position,
 		   rotation),
-		   target(target)
+           target(target),
+health(100)
 {
 	missileTimer = timer->getTime() + MISSILETIMER;
 	initMissile();
@@ -42,6 +43,8 @@ bool Missile::run()
 		targetRotation = targetRotation.getHorizontalAngle();
 		//TODO delta time and rotation speed
 		vector3df rot(getRotation());
+		//THIS CODE IS VERY CORRECT
+		//MAKE SURE TO SWAP OTHER ROTATION CODES WITH THIS EVENTUALLY
 		if(targetRotation.X > getRotation().X || (getRotation().X > 270 && targetRotation.X < 90))
 		{
 			rot.X += 0.5f;
@@ -81,6 +84,20 @@ bool Missile::run()
 		setRotation(getRotation() + vector3df(-0.5,0,0));
 	}
 	return Projectile::run();
+}
+
+void Missile::damage(int damage)
+{
+	health -= damage;
+	if(health < 1)
+	{
+		remove();
+	}
+}
+
+const TargetableObject* Missile::getCurrentTarget() const
+{
+	return target;
 }
 
 void Missile::initMissile()

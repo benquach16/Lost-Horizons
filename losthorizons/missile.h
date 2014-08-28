@@ -4,6 +4,7 @@
 #include "projectile.h"
 #include "targetableobject.h"
 
+
 //we want cool looking shit
 class Missile : public Projectile
 {
@@ -14,12 +15,15 @@ public:
 		const vector3df &rotation);
 	virtual ~Missile();
 	virtual bool run();
-
+	void damage(int damage);
+	const TargetableObject *getCurrentTarget() const;
 protected:
+	int health;
 	int index;
 	void initMissile();
 	scene::IParticleSystemSceneNode *exhaust;
 	int missileTimer;
+	//TODO:: replace target pointers with IDs
 	const TargetableObject* target;
 };
 

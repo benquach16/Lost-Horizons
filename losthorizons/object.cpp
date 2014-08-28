@@ -127,6 +127,11 @@ const bool Object::getVisible() const
 	return visible;
 }
 
+const bool Object::getActive() const
+{
+	return active;
+}
+
 void Object::setPosition(const vector3df &position)
 {
 	mesh->setPosition(position);

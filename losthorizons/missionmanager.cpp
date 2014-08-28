@@ -29,6 +29,7 @@ void MissionManager::run(Intercom *intercom)
 		{
 			intercom->postMessage(L"Mission complete sir");
 			missionList[i] = missionList.back();
+			
 			missionList.pop_back();
 		}
 	}
