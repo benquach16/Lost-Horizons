@@ -399,6 +399,20 @@ void Player::playerOrderShip(unsigned i, int order)
 		}
 		case 2:
 		{
+			//this is not a particularly fun method
+			vector3df position;
+			if(getPickedPoint(position))
+			{
+				for(unsigned j = 0; j < Ship::allShips.size(); j++)
+				{
+					if(Ship::allShips[j]->getPosition().getDistanceFromSQ(position) < 400)
+					{
+						//pretty uglie
+						shipFleet->getShipsInFleet()[i]->giveOrderAttackTarget(
+							Ship::allShips[j]);
+					}
+				}
+			}
 			break;
 		}
 		case 3:

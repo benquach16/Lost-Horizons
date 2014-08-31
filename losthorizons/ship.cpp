@@ -1538,7 +1538,7 @@ void Ship::setCorrectShieldAngle(const vector3df& targetRotation)
 	}
 	else if(targetRotation.X > 135 && targetRotation.X < 225)
 	{
-		
+		//TODO: code to see how many arcs a shield gets
 	}
 	else if(targetRotation.X > 225 && targetRotation.X < 315)
 	{

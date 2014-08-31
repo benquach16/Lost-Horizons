@@ -1,9 +1,11 @@
-#include "stdafx.h"
+77;10103;0c#include "stdafx.h"
 #include "hangartab.h"
 #include "globals.h"
 
 using namespace base;
 
+//ALOF OT THIS CODE IS FUCKING WEIRD
+//USE A TREEVIEW INSTEAD!!!!!
 HangarTab::HangarTab(IGUITabControl *tabs, Ship *player)
 	: MenuTab(tabs->addTab(L"Hangar")),
 	  heavySlot(0), heavySlotWeapon(0), mediumSlot(0), mediumSlotWeapon(0), lightSlot(0), lightSlotWeapon(0), 

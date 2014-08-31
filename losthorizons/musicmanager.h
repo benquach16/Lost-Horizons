@@ -6,6 +6,7 @@
 #include "irrklang.h"
 
 //manage the musics.
+//this will be alot handier when we actually get new music.....
 class MusicManager
 {
 public:
