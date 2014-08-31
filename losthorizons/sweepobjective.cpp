@@ -33,12 +33,12 @@ bool SweepObjective::run()
 		{
 			if(Ship::allShips[i]->getPosition().getDistanceFromSQ(position) < 25000000 && Ship::allShips[i]->getFaction() == FACTION_PIRATE)
 			{
-				return true;
+				return false;
 			}
 		}
 		timeKeeping = timer->getTime() + OBJECTIVE_CHECK_TIMER;
 	}
-	return false;
+	return true;
 }
 
 const E_OBJECTIVE_TYPE SweepObjective::getObjectiveType() const

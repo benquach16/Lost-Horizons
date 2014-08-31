@@ -153,6 +153,8 @@ public:
 	void setMediumTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
 	void setLightTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
 	void setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
+
+	//forgot what this function did
 	void repairShip();
 
 	//some setters
@@ -238,7 +240,7 @@ private:
 	//turret functions
 	void initTurrets();
 	void aimTurrets();
-
+	void aimPointDefense();
 	//initialize particle effects
 	void initEngineTrails();
 

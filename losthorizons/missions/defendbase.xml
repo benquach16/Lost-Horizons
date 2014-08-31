@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <mission>
-	<name>Tutorial Mission: Pirate Sweep</name>
-	<description>Destroy all pirate ships in the area.</description>
+	<name>Mission 1: Hold the line</name>
+	<description>Pirate ships are attempting to capture Argrea.</description>
 	<create>
 	<!--enums work this so we have 0 = terran 1 = provian 2 = pirate 3 = neutral -->
 		<ship type="1" faction="2" posX="-822" posY="0" posZ="4400"/>

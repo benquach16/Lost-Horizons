@@ -54,12 +54,15 @@ void MissionTab::run()
 void MissionTab::loadMissions()
 {
 	//load missions from mission manager
-	if(!missionList->getItemCount())
+	if(!missionList->getItemCount() && missionManager->getMissions().size())
 	{
 		for(unsigned i = 0; i < missionManager->getMissions().size(); ++i)
 		{
 			missionList->addItem(missionManager->getMissions()[i]->getName());
 		}
-		
+	}
+	if(!missionManager->getMissions().size())
+	{
+		missionList->clear();
 	}
 }

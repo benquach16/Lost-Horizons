@@ -18,6 +18,7 @@ public:
 	void damage(int damage);
 	const TargetableObject *getCurrentTarget() const;
 protected:
+	//this should be defined by the xml file eventually
 	int health;
 	int index;
 	void initMissile();

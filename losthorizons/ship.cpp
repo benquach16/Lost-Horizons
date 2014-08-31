@@ -853,35 +853,21 @@ void Ship::aimTurrets()
 		}
 	}
 
-	//aim point defense at fighters
-	//this should be temporary until we come up with a faster solution1!!!
-	for (unsigned i = 0; i < Fighter::allFighters.size(); ++i)
-	{
-		if (Fighter::allFighters[i]->getFaction() != faction &&
-			(faction == FACTION_PIRATE || Fighter::allFighters[i]->getFaction() == FACTION_PIRATE))
-		{
-			if (getPosition().getDistanceFromSQ(Fighter::allFighters[i]->getPosition()) < 250000)
-			{
-				for (unsigned j = 0; j < pdTurrets.size(); ++j)
-				{
-					pdTurrets[j]->aim(Fighter::allFighters[i]->getPosition());
-					pdTurrets[j]->fire();
-					if (fighterDamageTime < timer->getTime())
-					{
-						//damage is temporary as shit!!
-						Fighter::allFighters[i]->damage(2);
-						fighterDamageTime = timer->getTime() + FIGHTERDAMAGETIMER;
-					}
-				}
-			}
-		}
-	}
+	aimPointDefense();
+
+}
+
+//private function
+void Ship::aimPointDefense()
+{
+	bool missilesInRange = false;
 	for(unsigned i = 0; i < Missile::allMissiles.size(); i++)
 	{
 		if(Missile::allMissiles[i]->getCurrentTarget() == this)
 		{
 			if (getPosition().getDistanceFromSQ(Missile::allMissiles[i]->getPosition()) < 250000)
 			{
+				missilesInRange = true;
 				for (unsigned j = 0; j < pdTurrets.size(); ++j)
 				{
 					pdTurrets[j]->aim(Missile::allMissiles[i]->getPosition());
@@ -896,7 +882,33 @@ void Ship::aimTurrets()
 			}			
 		}
 	}
-
+	//aim point defense at fighters
+	//this should be temporary until we come up with a faster solution1!!!
+	//also, we really need to able to group fighters and missiles in the same array
+	if(!missilesInRange)
+	{
+		for (unsigned i = 0; i < Fighter::allFighters.size(); ++i)
+		{
+			if (Fighter::allFighters[i]->getFaction() != faction &&
+				(faction == FACTION_PIRATE || Fighter::allFighters[i]->getFaction() == FACTION_PIRATE))
+			{
+				if (getPosition().getDistanceFromSQ(Fighter::allFighters[i]->getPosition()) < 250000)
+				{
+					for (unsigned j = 0; j < pdTurrets.size(); ++j)
+					{
+						pdTurrets[j]->aim(Fighter::allFighters[i]->getPosition());
+						pdTurrets[j]->fire();
+						if (fighterDamageTime < timer->getTime())
+						{
+							//damage is temporary as shit!!
+							Fighter::allFighters[i]->damage(2);
+							fighterDamageTime = timer->getTime() + FIGHTERDAMAGETIMER;
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 //private function
