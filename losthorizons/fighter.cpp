@@ -113,6 +113,7 @@ bool Fighter::run()
 	}
 	else 
 	{
+		new Impact(getPosition());
 		remove();
 	}
 	return TargetableObject::run();
@@ -139,8 +140,6 @@ void Fighter::rotate()
 			f32 slowY = currentRot.Z = 0.5f*abs(currentRot.Y - info.targetRotation.Y);
 			if (slowY > info.maxTurn)
 				slowY = info.maxTurn;
-			if (currentRot.Z > 4)
-				currentRot.Z = 4.f;
 			if (currentRot.Y < info.targetRotation.Y) {
 				//rotate right
 				currentRot.Y += slowY*frameDeltaTime;
