@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "globals.h"
 #include "missile.h"
+#include "impact.h"
 
 std::vector<Missile*> Missile::allMissiles;
 
@@ -17,7 +18,7 @@ Projectile(ID, turretProps,
 		   position,
 		   rotation),
            target(target),
-health(100)
+health(30)
 {
 	missileTimer = timer->getTime() + MISSILETIMER;
 	initMissile();
@@ -37,51 +38,60 @@ bool Missile::run()
 {
 	//fly torwards the target
 	//but not liike too fast you know
-	if(missileTimer < timer->getTime())
+	if(!target->getActive())
 	{
-		vector3df targetRotation = target->getPosition() - getPosition();
-		targetRotation = targetRotation.getHorizontalAngle();
-		//TODO delta time and rotation speed
-		vector3df rot(getRotation());
-		//THIS CODE IS VERY CORRECT
-		//MAKE SURE TO SWAP OTHER ROTATION CODES WITH THIS EVENTUALLY
-		if(targetRotation.X > getRotation().X || (getRotation().X > 270 && targetRotation.X < 90))
-		{
-			rot.X += 0.5f;
-		}
-		else if(targetRotation.X < getRotation().X || (targetRotation.X > 270 && getRotation().X < 90))
-		{
-			rot.X -= 0.5f;
-		}
-		if(targetRotation.Y > getRotation().Y || (getRotation().Y > 270 && targetRotation.Y < 90))
-		{
-			rot.Y += 0.5f;
-		}
-		else if(targetRotation.Y < getRotation().Y || (targetRotation.Y > 270 && getRotation().Y < 90))
-		{
-			rot.Y -= 0.5f;
-		}
-		if(rot.X < 0)
-		{
-			rot.X += 360;
-		}
-		if(rot.X > 360)
-		{
-			rot.X -= 360;
-		}
-		if(rot.Y < 0)
-		{
-			rot.Y += 360;
-		}
-		if(rot.Y > 360)
-		{
-			rot.Y -= 360;
-		}
-		setRotation(rot);
+		remove();
 	}
 	else
 	{
-		setRotation(getRotation() + vector3df(-0.5,0,0));
+		if(missileTimer < timer->getTime())
+		{
+		
+			vector3df targetRotation = target->getPosition() - getPosition();
+			targetRotation = targetRotation.getHorizontalAngle();
+			//TODO delta time and rotation speed
+			vector3df rot(getRotation());
+			//THIS CODE IS VERY CORRECT
+			//MAKE SURE TO SWAP OTHER ROTATION CODES WITH THIS EVENTUALLY
+			if(targetRotation.X > getRotation().X || (getRotation().X > 270 && targetRotation.X < 90))
+			{
+				rot.X += 0.5f;
+			}
+			else if(targetRotation.X < getRotation().X || (targetRotation.X > 270 && getRotation().X < 90))
+			{
+				rot.X -= 0.5f;
+			}
+			if(targetRotation.Y > getRotation().Y || (getRotation().Y > 270 && targetRotation.Y < 90))
+			{
+				rot.Y += 0.5f;
+			}
+			else if(targetRotation.Y < getRotation().Y || (targetRotation.Y > 270 && getRotation().Y < 90))
+			{
+				rot.Y -= 0.5f;
+			}
+			if(rot.X < 0)
+			{
+				rot.X += 360;
+			}
+			if(rot.X > 360)
+			{
+				rot.X -= 360;
+			}
+			if(rot.Y < 0)
+			{
+				rot.Y += 360;
+			}
+			if(rot.Y > 360)
+			{
+				rot.Y -= 360;
+			}
+			setRotation(rot);
+		}
+		else
+		{
+			setRotation(getRotation() + vector3df(-0.5,0,0));
+		}
+
 	}
 	return Projectile::run();
 }
@@ -91,6 +101,7 @@ void Missile::damage(int damage)
 	health -= damage;
 	if(health < 1)
 	{
+		new Impact(getPosition());
 		remove();
 	}
 }
@@ -104,11 +115,11 @@ void Missile::initMissile()
 {
 	exhaust=scenemngr->addParticleSystemSceneNode(false, mesh);
 	scene::IParticleEmitter *em = exhaust->createPointEmitter(vector3df(0,0,0),
-		20,40,
+		50,100,
 		SColor(255,255,255,255),
 		SColor(255,255,255,255),
 		1000,
-		2000,
+		1000,
 		0,
 		dimension2df(5,5),
 		dimension2df(15,15));

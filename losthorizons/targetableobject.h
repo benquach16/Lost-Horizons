@@ -16,14 +16,7 @@ enum E_TARGETABLEOBJECT_TYPE
 };
 
 
-//we need to move a shitton of stuff to get save loading to work with this system
-enum E_TARGETABLEOBJECT_COMPONENTS
-{
-	COMPONENT_DAMAGEABLE = 0x0001, //2^n
-	COMPONENT_MOVEABLE = 0x0002,
-	COMPONENT_FACTION = 0x0004,
-	COMPONENT_CANTARGET = 0x0008
-};
+
 
 //object class in which player can target
 class TargetableObject : public Object
@@ -53,8 +46,6 @@ public:
 	//mutators
 	//void setFaction(const E_GAME_FACTION faction);
 	//void setTargetable(bool targetable);
-	void setComponentMask(E_TARGETABLEOBJECT_COMPONENTS components);
-	void addComponentToMask(E_TARGETABLEOBJECT_COMPONENTS component);
 
 	//some accessors
 	const u16 getID() const;
@@ -64,7 +55,6 @@ public:
 	const E_GAME_FACTION getFaction() const;
 	const bool getTargetable() const;
 	const vector2di& getScreenPosition() const;
-	const E_TARGETABLEOBJECT_COMPONENTS getComponentMask() const;
 	
 
 
@@ -78,7 +68,6 @@ protected:
 	std::wstring name;
 	std::wstring description;
 	E_GAME_FACTION faction;
-	E_TARGETABLEOBJECT_COMPONENTS componentMask;
 
 	//for drawing targetting icons
 	bool targetable;

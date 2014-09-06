@@ -43,6 +43,11 @@ bool Fighter::run()
 	{
 		rotate();
 		movement();
+		if(shipTarget && !shipTarget->getActive())
+		{
+			shipTarget = 0;
+		}
+
 		//make sure that fighters are a higher priority than ships
 		if (fighterTarget && info.currentStance != FIGHTER_STANCE_ATTACK_IGNORE) 
 		{

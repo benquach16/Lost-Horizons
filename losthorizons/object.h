@@ -18,6 +18,16 @@ enum E_GAME_FACTION
 	FACTION_NEUTRAL
 };
 
+//we need to move a shitton of stuff to get save loading to work with this system
+enum E_OBJECT_COMPONENTS
+{
+	COMPONENT_DAMAGEABLE = 0x0001, //2^n
+	COMPONENT_MOVEABLE = 0x0002,
+	COMPONENT_FACTION = 0x0004,
+	COMPONENT_CANTARGET = 0x0008,
+	COMPONENT_TARGETABLE = 0x0010,
+};
+
 //This is the base class of all renderable (3d really) objects in the game
 class Object
 {
@@ -79,6 +89,7 @@ public:
 	void setVisible(const bool visibile);
 
 protected:
+	E_OBJECT_COMPONENTS componentMask;
 	//3d infomation
 	std::wstring filename;
 	scene::IAnimatedMeshSceneNode *mesh;

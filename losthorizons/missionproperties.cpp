@@ -140,6 +140,8 @@ E_OBJECTIVE_TYPE MissionProperties::getObjectiveType(const wchar_t *text)
 		return OBJECTIVE_RETRIEVAL;
 	else if(text[0] == L'd')
 		return OBJECTIVE_DEFEND;
+	else if(text[0] == L'g')
+		return OBJECTIVE_GOTO;
 	else
 	{
 		std::cout << "Failed to read from mission file!" << std::endl;

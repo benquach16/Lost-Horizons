@@ -17,6 +17,7 @@ protected:
 	scene::IBoneSceneNode *parent;
 	//scene::IAnimatedMeshSceneNode *mesh;
 	scene::IParticleSystemSceneNode *particle;
+	scene::IParticleSystemSceneNode *smoke;
 };
 
 #endif
