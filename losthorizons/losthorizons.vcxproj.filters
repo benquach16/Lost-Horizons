@@ -366,6 +366,9 @@
     <ClInclude Include="gotoobjective.h">
       <Filter>Header Files\missions\objective</Filter>
     </ClInclude>
+    <ClInclude Include="rearmmenu.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -589,6 +592,9 @@
     </ClCompile>
     <ClCompile Include="gotoobjective.cpp">
       <Filter>Source Files\missions\objective</Filter>
+    </ClCompile>
+    <ClCompile Include="rearmmenu.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

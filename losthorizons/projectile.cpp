@@ -4,6 +4,9 @@
 #include <iostream>
 
 using namespace base;
+using namespace irr;
+using namespace core;
+using namespace video;
 
 std::vector<Projectile*> Projectile::allProjectiles;
 
@@ -17,11 +20,33 @@ Projectile::Projectile(const u16 ID, const TurretProperties &turretProps, const 
 
 	allProjectiles.push_back(this);
 	rangeSqrt = range * range;
+	/*
+	system=scenemngr->addParticleSystemSceneNode(false);
+	aabbox3df box = mesh->getTransformedBoundingBox();
+	box.MaxEdge -= getPosition();
+	box.MinEdge -= getPosition();
+	scene::IParticleEmitter *em = system->createBoxEmitter(
+		box,
+		vector3df(0,0,0),
+		400,400,
+		SColor(255,255,255,255),
+		SColor(255,255,255,255),
+		1000,
+		1000,
+		0,
+		dimension2df(2,2),
+		dimension2df(2,2));
+	system->setEmitter(em);
+	em->drop();
+	system->setMaterialTexture(0,vdriver->getTexture("res/textures/fx/smoke2.png"));
+	system->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+	system->setMaterialFlag(video::EMF_LIGHTING,false);*/
 }
 
 Projectile::~Projectile()
 {
 	//swap with back and pop
+	//system->remove();
 	allProjectiles[index] = allProjectiles.back();
 	allProjectiles[index]->index = index;
 	allProjectiles.pop_back();
@@ -54,10 +79,14 @@ bool Projectile::run()
 void Projectile::movement()
 {
 	//similar movement code as ships
+	
+
+
 	const f32 temp = frameDeltaTime*velocity;
 	const f32 X = sin(getRotation().Y*PI/180)*temp + getPosition().X;
 	const f32 Y = sin(-getRotation().X*PI/180)*temp + getPosition().Y;
 	const f32 Z = cos(getRotation().Y*PI/180)*temp + getPosition().Z;
+	//system->setPosition(getPosition());
 	setPosition(core::vector3df(X,Y,Z));
 }
 

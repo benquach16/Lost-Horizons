@@ -188,6 +188,7 @@
     <ClInclude Include="objective.h" />
     <ClInclude Include="objectscene.h" />
     <ClInclude Include="officer.h" />
+    <ClInclude Include="rearmmenu.h" />
     <ClInclude Include="shiptab.h" />
     <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />
@@ -297,6 +298,7 @@
     <ClCompile Include="playercamera.cpp" />
     <ClCompile Include="postprocess.cpp" />
     <ClCompile Include="projectile.cpp" />
+    <ClCompile Include="rearmmenu.cpp" />
     <ClCompile Include="savemenu.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipproperties.cpp" />

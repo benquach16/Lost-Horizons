@@ -31,6 +31,7 @@ protected:
 	int velocity;
 
 	//iterator to this
+	irr::scene::IParticleSystemSceneNode *system;
 	unsigned index;
 };
 
