@@ -21,7 +21,6 @@ BaseApplication::BaseApplication()
 	sound = irrklang::createIrrKlangDevice();
 	sound->setSoundVolume(gConfig.iSFX/10.f);
 	sound->setDefault3DSoundMinDistance(200);
-	console = new DevConsole;
 }
 
 BaseApplication::~BaseApplication()
@@ -29,7 +28,6 @@ BaseApplication::~BaseApplication()
 	delete receiver;
 	delete data;
 	sound->drop();
-	delete console;
 	killDevice();
 	gConfig.Save();
 }
@@ -40,6 +38,7 @@ void BaseApplication::init()
 
 	menu = new StartMenu(data);
 	game = new Gameloop(data);
+	console = new DevConsole;
 	menu->missionMenuLoad();
 	effect = new PostProcessEffect;
 	gConfig.bFirstRun = false;
@@ -49,7 +48,7 @@ void BaseApplication::killDevice()
 {
 	delete menu;
 	delete game;
-							 
+	delete console;
 	delete effect;
 	graphics->closeDevice();
 	graphics->run();
@@ -96,11 +95,12 @@ void BaseApplication::run()
 
 		vdriver->endScene();
 
-		if (receiver->isKeyPressed(KEY_OEM_3)) {
-			SetForegroundWindow(GetConsoleWindow());
-			console->run();
-			SetForegroundWindow((HWND)vdriver->getExposedVideoData().D3D9.HWnd);
+		if (receiver->isKeyReleased(KEY_OEM_3)) {
+			//SetForegroundWindow(GetConsoleWindow());
+			console->setVisible(!console->getVisible());
+			//SetForegroundWindow((HWND)vdriver->getExposedVideoData().D3D9.HWnd);
 		}
+		console->run();
 	}
 }
 

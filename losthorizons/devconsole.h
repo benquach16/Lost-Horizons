@@ -1,15 +1,17 @@
 #ifndef _DEVCONSOLE_H_
 #define _DEVCONSOLE_H_
 
-#define CONSOLEBUFFERSIZE 80
-
 //a simple command console
+
+#include "menuwindow.h"
 
 //#include <queue>
 #include <forward_list>
 #include <vector>
 
-class DevConsole
+using namespace irr;
+
+class DevConsole : public MenuWindow
 {
 public:
 	DevConsole();
@@ -21,6 +23,10 @@ public:
 	//void postMessage();
 
 private:
+	gui::IGUIListBox *history;
+	gui::IGUIEditBox *editBox;
+
+	/*
 	enum KEY_PRESS
 	{
 		KB_RETURN = '\r',
@@ -38,6 +44,7 @@ private:
 		KB_RIGHT = 77,
 		KB_DOWN = 80
 	};
+	*/
 
 	/*enum E_ACTION_TYPE
 	{
@@ -61,14 +68,14 @@ private:
 	bool parse(std::string line = "");
 
 	//std::queue<message> messages; going to just do shit immediately now
-	char buf[CONSOLEBUFFERSIZE];
+	//char buf[CONSOLEBUFFERSIZE];
 	unsigned size, index;
 	std::forward_list< std::pair<std::string, function> > commands;
-	std::vector<std::string> history;
+	//std::vector<std::string> history;
 	unsigned historyIndex;
 
-	HANDLE hstdout;
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	//HANDLE hstdout;
+	//CONSOLE_SCREEN_BUFFER_INFO csbi;
 };
 
 #endif

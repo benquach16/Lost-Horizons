@@ -2,7 +2,7 @@
 #include "devconsole.h"
 #include "globals.h"
 #include "string_util.h"
-#include <conio.h>
+//#include <conio.h>//stop using this once the devconsole becomes a menu
 #include <sstream>
 #include <fstream>
 
@@ -15,14 +15,30 @@ namespace command
 	bool create(std::vector<std::string>& args);
 }
 
+#define CONSOLEBUFFERSIZE 80
+
 DevConsole::DevConsole()
-	: size(0), index(0), historyIndex(0)
+	: MenuWindow(guienv->addWindow(rect<s32>(0,0,width,height))),
+	  history(guienv->addListBox(rect<s32>(width/2-512,20,width/2+512,height-40), window)),
+	  editBox(guienv->addEditBox(L"this is the edit box!", rect<s32>(width/2-512,height-30,width/2+512,height-10), false, window)),
+	  size(0), index(0), historyIndex(0)
 {
+	window->setDrawBackground(false);
+	window->setDraggable(false);
+	window->getCloseButton()->setVisible(false);
+	history->setAutoScrollEnabled(true);
+	//editBox->setDrawBackground(false);
+	editBox->setMax(CONSOLEBUFFERSIZE);
+	editBox->setMultiLine(false);
+
 	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
 	
-	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	buf[0] = '\0';
+	//hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	//buf[0] = '\0';
+	for (unsigned i = 0; i < 30; ++i) {
+		history->addItem(L"This is the list box!");
+	}
 }
 
 DevConsole::~DevConsole()
@@ -39,6 +55,7 @@ DevConsole::~DevConsole()
 
 void DevConsole::run()
 {
+	/*
 	GetConsoleScreenBufferInfo(hstdout, &csbi);
 	COORD returnPos = csbi.dwCursorPosition;
 
@@ -176,6 +193,15 @@ void DevConsole::run()
 			break;
 		}
 	} while (keyPressed != KB_GRAVEACCENT);
+	*/
+
+	//begin rewrite
+	MenuWindow::run();
+	if (getVisible())
+	{
+		//body
+
+	}
 }
 
 bool DevConsole::execute(const std::string filename)
@@ -217,6 +243,7 @@ bool DevConsole::executeCommand(const std::string& name, std::vector<std::string
 
 void DevConsole::clearLine()
 {
+	/*
 	GetConsoleScreenBufferInfo(hstdout, &csbi);
 	csbi.dwCursorPosition.X = 0;
 	SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
@@ -224,6 +251,7 @@ void DevConsole::clearLine()
 		_putch(' ');
 	}
 	SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
+	*/
 }
 
 bool DevConsole::parse(std::string line)
@@ -233,8 +261,8 @@ bool DevConsole::parse(std::string line)
 	std::vector<std::string> args;
 
 	if (line.empty()) {
-		buf[size] = '\0';
-		tokenize << buf;
+		//buf[size] = '\0';
+		//tokenize << buf;
 	} else {
 		tokenize << line;
 	}
