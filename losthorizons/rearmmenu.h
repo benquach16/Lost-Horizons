@@ -13,7 +13,7 @@ public:
 protected:
 	irr::gui::IGUIWindow *window;
 	irr::gui::IGUIListBox *shipsInFleet;
-	irr::gui::IGUiTreeView *equipmentTree;
+	//irr::gui::IGUiTreeView *equipmentTree;
 	irr::gui::IGUIListBox *availableWeapons;
 };
 

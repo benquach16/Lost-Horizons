@@ -5,12 +5,12 @@
 
 using namespace base;
 
-RearmMenu::RearmMenu
+RearmMenu::RearmMenu()
 {
 	
 }
 
-RearmMenu::~RearmMenu
+RearmMenu::~RearmMenu()
 {
 	
 }

@@ -1,9 +1,10 @@
-77;10103;0c#include "stdafx.h"
+#include "stdafx.h"
 #include "hangartab.h"
 #include "globals.h"
 
 using namespace base;
 
+//77;10103;0c
 //ALOF OT THIS CODE IS FUCKING WEIRD
 //USE A TREEVIEW INSTEAD!!!!!
 HangarTab::HangarTab(IGUITabControl *tabs, Ship *player)
