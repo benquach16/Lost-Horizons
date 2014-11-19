@@ -48,10 +48,10 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	initEngineTrails();
 
 	setNormalMap(vdriver->getTexture(ObjectManager::shipList[shipType]->getNormalMap()));
-	//setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,3);
-	//setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,2);
-	//setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,1);
-	//setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,0);
+	setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,3);
+	setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,2);
+	setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,1);
+	setMediumTurret(ObjectManager::E_ITEM_LIST::HYDRAI,0);
 	setLightTurret(ObjectManager::E_ITEM_LIST::ANTIMATTERI,0);
 	setLightTurret(ObjectManager::E_ITEM_LIST::ANTIMATTERI,1);
 	setLightTurret(ObjectManager::E_ITEM_LIST::ANTIMATTERI,2);

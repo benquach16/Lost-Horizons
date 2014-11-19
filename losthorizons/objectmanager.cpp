@@ -13,14 +13,19 @@ ObjectManager::ObjectManager()
 	//read in items and ships
 	//heres the list of items and ships so far
 	//would prefer not to use pointers but since there are inherited classes we have to
+	// hardcoded loading lists like this is bad
+	// eventually, loading lists will be in plain text files
+	// see notes about the item lists in objectmanager.h
 	std::cout << "Loading item properties...." << std::endl;
 	itemList.push_back(new ItemProperties("items/water.xml"));
 	itemList.push_back(new ItemProperties("items/iridium.xml"));
 	itemList.push_back(new ItemProperties("items/nanoalloys.xml"));
 	itemList.push_back(new TurretProperties("items/turrets/railgunI.xml"));
+	itemList.push_back(new TurretProperties("items/turrets/hydraI.xml"));
 	itemList.push_back(new TurretProperties("items/turrets/antimatterI.xml"));
 	itemList.push_back(new TurretProperties("items/turrets/gatlingI.xml"));
 	itemList.push_back(new TurretProperties("items/turrets/photonI.xml"));
+	itemList.push_back(new TurretProperties("items/turrets/plasmaI.xml"));
 	shipList.push_back(new ShipProperties("items/ships/praetorian_cruiser.xml"));
 	shipList.push_back(new ShipProperties("items/ships/ishtar_cruiser.xml"));
 	shipList.push_back(new ShipProperties("items/ships/eagle_freighter.xml"));

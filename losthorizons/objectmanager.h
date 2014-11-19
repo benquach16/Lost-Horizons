@@ -19,15 +19,20 @@ public:
 	
 	//enum of all items in the game
 	//position in the enum should relate to the index
+	// this will eventually be rewritten to support adding in new items without
+	// having to add code and recompile the game
+	// that will be necessary if we want this game to be easily modded
 	enum E_ITEM_LIST
 	{
 		WATER,
 		IRIDIUM,
 		NANOALLOYS,
 		RAILGUNI,	//weapons should start here for organization
+		HYDRAI,
 		ANTIMATTERI,
 		GATLINGI,
 		PHOTONI,
+		PLASMAI,
 		//number of items
 		ITEM_COUNT
 	};
