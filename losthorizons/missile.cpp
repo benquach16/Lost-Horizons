@@ -38,11 +38,7 @@ bool Missile::run()
 {
 	//fly torwards the target
 	//but not liike too fast you know
-	if(!target->getActive())
-	{
-		remove();
-	}
-	else
+	if (target)
 	{
 		if(missileTimer < timer->getTime())
 		{
@@ -93,6 +89,15 @@ bool Missile::run()
 		}
 
 	}
+	else
+	{
+		// it will detonate itself if the target is gone
+		// alternatively, it could be set to just fly straight until it
+		// hits something else or its timer is reached
+		// or we could think of something fancier such as behavior depends
+		// on the type of missile :^)
+		remove();
+	}
 	return Projectile::run();
 }
 
@@ -104,6 +109,11 @@ void Missile::damage(int damage)
 		new Impact(getPosition());
 		remove();
 	}
+}
+
+void Missile::setTarget(TargetableObject *newTarget)
+{
+	target = newTarget;
 }
 
 const TargetableObject* Missile::getCurrentTarget() const

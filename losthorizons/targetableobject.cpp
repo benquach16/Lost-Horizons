@@ -50,6 +50,10 @@ void TargetableObject::removeThisFromTargets()
 	for (unsigned i = 0; i < Ship::allShips.size(); i++)
 		if (Ship::allShips[i]->getShipTarget() == this)
 			Ship::allShips[i]->setTarget(0);
+	//loop thru missile list and remove this if it is a target
+	for (unsigned i = 0; i < Missile::allMissiles.size(); i++)
+		if (Missile::allMissiles[i]->getCurrentTarget() == this)
+			Missile::allMissiles[i]->setTarget(0);
 }
 
 const u16 TargetableObject::getID() const

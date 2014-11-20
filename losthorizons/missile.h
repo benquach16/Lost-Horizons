@@ -16,6 +16,7 @@ public:
 	virtual ~Missile();
 	virtual bool run();
 	void damage(int damage);
+	void setTarget(TargetableObject *newTarget);
 	const TargetableObject *getCurrentTarget() const;
 protected:
 	//this should be defined by the xml file eventually

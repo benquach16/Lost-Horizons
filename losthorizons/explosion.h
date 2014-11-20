@@ -8,7 +8,7 @@ class Explosion : public Effect
 {
 public:
 	Explosion(const core::vector3df& position);
-	~Explosion();
+	virtual ~Explosion();
 	virtual bool run();
 
 protected:

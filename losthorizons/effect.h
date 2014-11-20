@@ -12,11 +12,11 @@ using namespace irr;
 class Effect
 {
 public:
+	static std::vector<Effect*> allEffects;
+
 	Effect(int milliseconds);
 	virtual ~Effect();
 	virtual bool run();
-
-	static std::vector<Effect*> allEffects;
 
 protected:
 	//the length of the effect before we delete it

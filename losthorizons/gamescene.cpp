@@ -114,7 +114,6 @@ void GameScene::run()
 		if (Object::allObjects[i]->run())
 			i++;
 		else {
-			//TODO :: DO NOT DO CLEANUP IMMEDIATELY!!!!!!
 			delete Object::allObjects[i];
 		}
 	}
