@@ -34,6 +34,11 @@ Player::~Player()
 
 bool Player::run()
 {
+	// let's make the player invinvible until we can get some bugs sorted out
+	// until the console can enable godmode, it'll be done like this
+	if (info.armor < 1000) info.armor = 427912304;
+	// I'M FUXXING INVINCIBLE
+
 	if(currentMode == MODE_COMMAND)
 	{
 		//allow player ro command fleet

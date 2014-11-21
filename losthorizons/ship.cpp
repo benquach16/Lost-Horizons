@@ -1452,7 +1452,12 @@ void Ship::runAttacking()
 	}
 	//do ship target AI;
 	info.velocity = info.maxVelocity;
-	launchFighters();
+	
+	// fighters cause a crash when 2 ships are destroyed
+	//launchFighters();
+	// don't know what's going on yet; disabled for now
+	// probably has to do with the fighters' shipTargets
+	
 	//firing turrets ain't going to be that simple
 	//ai has to handle the fact that it now has ENERGY
 	//so we make it shoot in bursts

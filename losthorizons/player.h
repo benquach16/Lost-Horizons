@@ -20,6 +20,13 @@ enum E_PLAYER_COMMAND_MODE
 	MODE_COMMAND
 };
 
+// TODO: the player class needs to be reworked so that the game doesn't
+// crash when the player's ship is destroyed
+// i recommend we make the player a separate entity from his ship
+// that simply gets attached to whatever he is controlling
+// the player could simply be the camera
+// this method also has the added advantage of making it super easy to
+// swap out the player's ship
 class Player : public Ship
 {
 public:

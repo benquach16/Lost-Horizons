@@ -21,12 +21,14 @@ public:
 protected:
 	//this should be defined by the xml file eventually
 	int health;
-	int index;
 	void initMissile();
 	scene::IParticleSystemSceneNode *exhaust;
 	int missileTimer;
 	//TODO:: replace target pointers with IDs
 	const TargetableObject* target;
+
+private:
+	unsigned index;
 };
 
 #endif

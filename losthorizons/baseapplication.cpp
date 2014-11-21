@@ -84,7 +84,7 @@ void BaseApplication::run()
 		//scenemngr->drawAll();
 		vdriver->runAllOcclusionQueries(false);
 		vdriver->updateAllOcclusionQueries(false);
-		if (!menu->getVisible()) {
+		if (!menu->getVisible() && !console->getVisible()) {
 			game->run();
 			if (receiver->isKeyDown(KEY_ESCAPE)) {
 				menu->setVisible(true);
@@ -96,9 +96,7 @@ void BaseApplication::run()
 		vdriver->endScene();
 
 		if (receiver->isKeyReleased(KEY_OEM_3)) {
-			//SetForegroundWindow(GetConsoleWindow());
 			console->setVisible(!console->getVisible());
-			//SetForegroundWindow((HWND)vdriver->getExposedVideoData().D3D9.HWnd);
 		}
 		console->run();
 	}

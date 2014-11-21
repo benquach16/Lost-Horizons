@@ -242,7 +242,12 @@ void Turret::fire(const vector3df &rotation)
 				*((TurretProperties*)ObjectManager::itemList[turretType]), 
 				shootJoint->getAbsolutePosition(), rotation);
 		}
-		Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
+
+		// disable muzzle flash effect for now; it causes a crash because it gets parented
+		// by a ship's turret joint. when the ship is destroyed, the muzzle flash is
+		// ultimately cleaned up along with the ship without allEffects being updated
+		// then when the gameloop goes to run the muzzle flash, oops 
+		//Muzzleflash *m = new Muzzleflash(shootJoint, getRotation());
 		sound->play3D(((TurretProperties*)ObjectManager::itemList[turretType])->getSoundFilename(), getPosition());
 		parentSlot->getParent()->modifyEnergy(-((TurretProperties*)ObjectManager::itemList[turretType])->getEnergyUse());
 		int i = ((TurretProperties*)ObjectManager::itemList[turretType])->getReloadSpeed();

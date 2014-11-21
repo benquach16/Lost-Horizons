@@ -30,8 +30,9 @@ protected:
 	int rangeSqrt;
 	int velocity;
 
+private:
+	//irr::scene::IParticleSystemSceneNode *system;
 	//iterator to this
-	irr::scene::IParticleSystemSceneNode *system;
 	unsigned index;
 };
 

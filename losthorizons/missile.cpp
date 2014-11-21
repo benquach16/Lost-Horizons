@@ -11,18 +11,14 @@ using namespace video;
 
 const int MISSILETIMER = 1500;
 
-Missile::Missile(const u16 ID, const TargetableObject *target, const TurretProperties &turretProps, 
-		const vector3df &position, 
-		const vector3df &rotation) : 
-Projectile(ID, turretProps,
-		   position,
-		   rotation),
-           target(target),
-health(30)
+Missile::Missile(const u16 ID, const TargetableObject *target, const TurretProperties &turretProps,
+				 const vector3df &position, const vector3df &rotation)
+				 : Projectile(ID, turretProps, position, rotation),
+				   target(target), health(30), index(allMissiles.size())
 {
+	// TODO: all projectiles should have a timer; do this the same way effects are done
 	missileTimer = timer->getTime() + MISSILETIMER;
 	initMissile();
-	index = allMissiles.size();
 	allMissiles.push_back(this);
 }
 
