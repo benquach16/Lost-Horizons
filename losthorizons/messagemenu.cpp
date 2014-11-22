@@ -4,6 +4,8 @@
 
 using namespace base;
 
+// TODO: redo this class so that it is useful for asking for input during dialogue
+// or perhaps there's no need for this
 MessageMenu::MessageMenu(const rect<s32> &rectangle, gui::IGUIElement *parent, const wchar_t *caption, unsigned flags, bool draggable, bool drawTitleBar, bool modal, s32 id)
 	: MenuWindow(guienv->addWindow(rectangle, modal, caption, parent, id)),
 	  value((MSGBOX_FLAG)(-1)), endTime(0), close(0), yes(0), no(0)
@@ -49,5 +51,7 @@ void MessageMenu::run()
 
 int MessageMenu::getSelected()
 {
-	return value;
+	int val = value;
+	value = (MSGBOX_FLAG)(-1);
+	return val;
 }

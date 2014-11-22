@@ -13,7 +13,7 @@
 using namespace base;
 
 BaseApplication::BaseApplication()
-	: menu(0), data(new DataManager), effect(0), then(0.f)
+	: menu(0), data(new DataManager), effect(0), then(0)
 {
 	gConfig.Load();
 	getBits();
@@ -70,21 +70,28 @@ void BaseApplication::run()
 			data->push();
 		}
 
+		if (receiver->isKeyPressed(KEY_OEM_3)) {
+			console->setVisible(!console->getVisible());
+		}
+
 		vdriver->beginScene(true, true, video::SColor(255,0,0,0));
 
 		//calculate the new frameDeltaTime
-		const f32 now = (f32)graphics->getTimer()->getTime();
+		const u32 now = graphics->getTimer()->getTime();
 		frameDeltaTime = (now - then)/1000.f; // Time in seconds
 		then = now;
-
-		//run menu or game
-		menu->run();
 
 		effect->render();
 		//scenemngr->drawAll();
 		vdriver->runAllOcclusionQueries(false);
 		vdriver->updateAllOcclusionQueries(false);
-		if (!menu->getVisible() && !console->getVisible()) {
+
+		//run console, menu, or game
+		if (console->getVisible()) {
+			console->run();
+		} else if (menu->getVisible()) {
+			menu->run();
+		} else {
 			game->run();
 			if (receiver->isKeyDown(KEY_ESCAPE)) {
 				menu->setVisible(true);
@@ -94,10 +101,6 @@ void BaseApplication::run()
 		guienv->drawAll();
 
 		vdriver->endScene();
-
-		if (receiver->isKeyReleased(KEY_OEM_3)) {
-			console->setVisible(!console->getVisible());
-		}//console->run();
 	}
 }
 

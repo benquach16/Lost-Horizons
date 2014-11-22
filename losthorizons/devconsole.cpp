@@ -197,11 +197,8 @@ void DevConsole::run()
 	*/
 
 	//begin rewrite
-	if (visible) // get rid of this and only run console when base calls
-	{
-		//body
-		font->draw(L"The console is now open", rect<s32>(0,0,base::width,base::height), video::SColor(255,255,255,255));
-	}
+	vdriver->draw2DRectangle(video::SColor(85,255,255,255), rect<s32>(0,0,base::width,base::height));
+	font->draw(L"The console is now open", rect<s32>(0,0,base::width,base::height), video::SColor(255,255,255,255));
 }
 
 void DevConsole::setVisible(bool show)

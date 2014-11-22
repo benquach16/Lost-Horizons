@@ -69,18 +69,26 @@ StartMenu::~StartMenu()
 
 void StartMenu::run()
 {
-	shift();
+	if (close) {
+		close = false;
+		gConfig.bPlay = false;
+		shift();
+		delete game;
+		game = new Gameloop(data);
+		missionMenu->clear();
+		missionMenuLoad();
+	}
+
 	window->getParent()->getParent()->bringToFront(window->getParent()); // dafuq is dis shit omg so bad
 	if (resume->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 		saved = false;
-		setVisible(false);
+		window->setVisible(false);
 	}
 	 
 	if (newgame->isPressed()) {
 		//dont do crap yet just open the missionmenu
 		//game->createNewGame();
 		missionMenu->setVisible(true);
-			
 	}
 	if (loadgame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 		if (gConfig.bPlay) {
@@ -92,13 +100,13 @@ void StartMenu::run()
 		}
 		//game->createLoadedGame();
 		data->load("saves\\___TEST_SAVE___.lsv");//temporary
-		setVisible(false);
+		window->setVisible(false);
 	}
 	if (savegame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
 		saved = true;
 		//function for saving
 		data->save("saves\\___TEST_SAVE___.lsv");//temporary
-		setVisible(false);
+		window->setVisible(false);
 	}
 	if (closegame->isPressed() && gConfig.bPlay) {
 		if (gConfig.bCheckIfSaved && !saved) {
@@ -113,43 +121,33 @@ void StartMenu::run()
 	if (quit->isPressed()) {
 		gConfig.bRun = false;
 	}
-	if (close) {
-		gConfig.bPlay = false;
-		shift();
-		delete game;
-		game = new Gameloop(data);
-		missionMenu->clear();
-		missionMenuLoad();
-	}
+	
 	if (config->getVisible()) {
 		config->run();
 	}
 	if (missionMenu->getVisible()) {
 		missionMenu->run();
 		if (gConfig.bPlay) {
+			shift();
 			window->setVisible(false);
 		}
 	}
 	if (confirmClose->getVisible()) {
 		confirmClose->run();
+		close = MessageMenu::YES == confirmClose->getSelected();
 	}
-	close = MessageMenu::YES == confirmClose->getSelected();
 }
 
 void StartMenu::shift()
 {
-	//really should change it to fix positions to avoid flying off screen
 	if (gConfig.bPlay) {
 		newgame->setVisible(false);
-		//relative my ass
 		loadgame->setRelativePosition(position2di(width/2-110,height/2+60));
-		//loadgame->move(position2d<s32>(-60,0));
 		savegame->setVisible(true);
 		quit->setVisible(false);
 	} else {
 		newgame->setVisible(true);
 		loadgame->setRelativePosition(position2di(width/2-50,height/2+60));
-		//loadgame->move(position2d<s32>(60,0));
 		savegame->setVisible(false);
 		quit->setVisible(true);
 	}

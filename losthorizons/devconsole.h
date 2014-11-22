@@ -3,7 +3,7 @@
 
 //a simple command console
 
-#include "menuwindow.h"
+//#include "menuwindow.h"
 
 //#include <queue>
 #include <forward_list>

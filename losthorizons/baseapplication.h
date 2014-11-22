@@ -31,7 +31,7 @@ private:
 	void getBits();
 
 	//for delta time calculation
-	f32 then;
+	u32 then;
 };
 
 #endif
