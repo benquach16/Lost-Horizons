@@ -18,27 +18,28 @@ namespace command
 #define CONSOLEBUFFERSIZE 80
 
 DevConsole::DevConsole()
-	: MenuWindow(guienv->addWindow(rect<s32>(0,0,width,height))),
-	  history(guienv->addListBox(rect<s32>(width/2-512,20,width/2+512,height-40), window)),
-	  editBox(guienv->addEditBox(L"this is the edit box!", rect<s32>(width/2-512,height-30,width/2+512,height-10), false, window)),
-	  size(0), index(0), historyIndex(0)
+	: //MenuWindow(guienv->addWindow(rect<s32>(0,0,width,height))),
+	  //history(guienv->addListBox(rect<s32>(width/2-512,20,width/2+512,height-40), window)),
+	  //editBox(guienv->addEditBox(L"this is the edit box!", rect<s32>(width/2-512,height-30,width/2+512,height-10), false, window)),
+	  size(0), index(0), historyIndex(0), visible(false),
+	  font(guienv->getFont("res/font/aldo.xml"))
 {
-	window->setDrawBackground(false);
-	window->setDraggable(false);
-	window->getCloseButton()->setVisible(false);
-	history->setAutoScrollEnabled(true);
+	//window->setDrawBackground(false);
+	//window->setDraggable(false);
+	//window->getCloseButton()->setVisible(false);
+	//history->setAutoScrollEnabled(true);
 	//editBox->setDrawBackground(false);
-	editBox->setMax(CONSOLEBUFFERSIZE);
-	editBox->setMultiLine(false);
+	//editBox->setMax(CONSOLEBUFFERSIZE);
+	//editBox->setMultiLine(false);
 
 	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
 	
 	//hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	//buf[0] = '\0';
-	for (unsigned i = 0; i < 30; ++i) {
-		history->addItem(L"This is the list box!");
-	}
+	//for (unsigned i = 0; i < 30; ++i) {
+	//	history->addItem(L"This is the list box!");
+	//}
 }
 
 DevConsole::~DevConsole()
@@ -196,12 +197,21 @@ void DevConsole::run()
 	*/
 
 	//begin rewrite
-	MenuWindow::run();
-	if (getVisible())
+	if (visible) // get rid of this and only run console when base calls
 	{
 		//body
-
+		font->draw(L"The console is now open", rect<s32>(0,0,base::width,base::height), video::SColor(255,255,255,255));
 	}
+}
+
+void DevConsole::setVisible(bool show)
+{
+	visible = show;
+}
+
+bool DevConsole::getVisible()
+{
+	return visible;
 }
 
 bool DevConsole::execute(const std::string filename)

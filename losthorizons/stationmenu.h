@@ -12,13 +12,17 @@ class StationMenu : public MenuWindow
 public:
 	StationMenu(Ship *player);
 	~StationMenu();
-	virtual void run(const TargetableObject *target);
+	virtual void run();
+
+	void setTarget(TargetableObject *newTarget);
 	
 protected:
 	gui::IGUITabControl *tabs;
 	StoreTab *store;
 	HangarTab *hangar;
 	JobTab *job;
+
+	TargetableObject *target;
 };
 
 #endif

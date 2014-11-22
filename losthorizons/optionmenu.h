@@ -12,8 +12,8 @@ public:
 	OptionMenu(gui::IGUIWindow *menu);
 	~OptionMenu();
 
-	void restart();
 	void run();
+	void discard();
 
 	bool get(gui::IGUICheckBox *item);
 	int get(gui::IGUIComboBox *item, const int* val);

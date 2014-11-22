@@ -97,8 +97,7 @@ void BaseApplication::run()
 
 		if (receiver->isKeyReleased(KEY_OEM_3)) {
 			console->setVisible(!console->getVisible());
-		}
-		console->run();
+		}//console->run();
 	}
 }
 

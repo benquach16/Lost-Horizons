@@ -24,7 +24,6 @@ GameMenu::~GameMenu()
 
 void GameMenu::run()
 {
-	MenuWindow::run();
 	ship->run();
 	cargo->run();
 	mission->run();

@@ -22,7 +22,8 @@ public:
 	MessageMenu(const rect<s32> &rectangle, gui::IGUIElement *parent = 0, const wchar_t *caption = 0, unsigned flags = OKAY, bool draggable = true, bool drawTitleBar = true, bool modal = true, s32 id = -1);
 	~MessageMenu();
 
-	int run();
+	void run();
+	int getSelected();
 
 	void setTimer(int milliseconds) { endTime = milliseconds > 0 ? timer->getTime() + milliseconds : 0; }
 	void moveButtons(position2d<s32> &offset) { if (yes) yes->move(offset); if (no) no->move(offset); }
@@ -30,6 +31,8 @@ public:
 	void addImage(video::ITexture *image, position2d<s32>& pos, bool useAlphaChannel = true) { guienv->addImage(image, pos, useAlphaChannel, window); }
 
 private:
+	MSGBOX_FLAG value;
+
 	unsigned endTime;
 	gui::IGUIButton *close;
 	gui::IGUIButton *yes;

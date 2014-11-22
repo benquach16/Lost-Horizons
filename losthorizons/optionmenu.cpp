@@ -13,6 +13,7 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	window->setDraggable(false);
 	window->setDrawTitlebar(false);
 	window->getCloseButton()->setVisible(false);
+	window->setVisible(gConfig.bFirstRun);
 
 	close = guienv->addButton(rect<s32>(480,360,580,380), window, -1, L"Close");
 	confirm = guienv->addButton(rect<s32>(360,360,460,380), window, -1, L"Apply");
@@ -54,15 +55,38 @@ OptionMenu::OptionMenu(gui::IGUIWindow *menu)
 	fullscreen = guienv->addCheckBox(gConfig.bFullScreen, rect<s32>(20,320,40,340), window);
 	guienv->addStaticText(L"V-sync", rect<s32>(200,320,260,340), false, true, window);
 	vsync = guienv->addCheckBox(gConfig.bVsync, rect<s32>(170,320,190,340), window);
-
-	setVisible(gConfig.bFirstRun);
 }
 
 OptionMenu::~OptionMenu()
 {
 }
 
-void OptionMenu::restart()
+void OptionMenu::run()
+{
+	if (close->isPressed()) {
+		discard();
+		window->setVisible(false);
+	}
+	if (confirm->isPressed()) {
+		if (!gConfig.bFullScreen && gConfig.iResolutionX != get(resolution, resX)) {
+			gConfig.iResolutionX = get(resolution, resX);
+			gConfig.iResolutionY = get(resolution, resY);
+			gConfig.bRestart = true;
+		}
+		if (gConfig.bFullScreen != get(fullscreen)) {
+			gConfig.bFullScreen = get(fullscreen);
+			gConfig.bRestart = true;
+		}
+		if (gConfig.bVsync != get(vsync)) {
+			gConfig.bVsync = get(vsync);
+			gConfig.bRestart = true;
+		}
+		
+		window->setVisible(false);
+	}
+}
+
+void OptionMenu::discard()
 {
 	for (unsigned i = 0; i < 8; ++i) {
 		if (gConfig.iResolutionY == resY[i]) {
@@ -71,34 +95,6 @@ void OptionMenu::restart()
 	}
 	fullscreen->setChecked(gConfig.bFullScreen);
 	vsync->setChecked(gConfig.bVsync);
-}
-
-void OptionMenu::run()
-{
-	MenuWindow::run();
-	if (getVisible()) {
-		if (close->isPressed()) {
-			restart();
-			setVisible(false);
-		}
-		if (confirm->isPressed()) {
-			if (!gConfig.bFullScreen && gConfig.iResolutionX != get(resolution, resX)) {
-				gConfig.iResolutionX = get(resolution, resX);
-				gConfig.iResolutionY = get(resolution, resY);
-				gConfig.bRestart = true;
-			}
-			if (gConfig.bFullScreen != get(fullscreen)) {
-				gConfig.bFullScreen = get(fullscreen);
-				gConfig.bRestart = true;
-			}
-			if (gConfig.bVsync != get(vsync)) {
-				gConfig.bVsync = get(vsync);
-				gConfig.bRestart = true;
-			}
-		
-			setVisible(false);
-		}
-	}
 }
 
 bool OptionMenu::get(gui::IGUICheckBox *item)

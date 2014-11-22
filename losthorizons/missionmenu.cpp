@@ -26,39 +26,30 @@ MissionMenu::~MissionMenu()
 {
 }
 
-
-bool MissionMenu::run()
+void MissionMenu::run()
 {
 	//do missionmenu stuff here
-	MenuWindow::run();
-	if(getVisible())
+	window->getParent()->getParent()->bringToFront(window->getParent());
+	int i = missionList->getSelected();
+	if(i != -1)
 	{
-		window->getParent()->getParent()->bringToFront(window->getParent());
-		int i = missionList->getSelected();
-		if(i != -1)
+		//have something selected so lets load the descriptio
+		description->setText(game->getMissionList()[i].getDesc());
+		if(accept->isPressed())
 		{
-			//have something selected so lets load the descriptio
-			description->setText(game->getMissionList()[i].getDesc());
-			if(accept->isPressed())
-			{
-				gConfig.bPlay = true;
+			gConfig.bPlay = true;
 				
-				game->createNewGame();
-				game->addMissionFromList(i);
-				console->execute("missions/tutorial.txt");
-				setVisible(false);
-				return true;
-			}
-		}
-
-		if(cancel->isPressed())
-		{
-			gConfig.bPlay = false;
-			setVisible(false);
+			game->createNewGame();
+			game->addMissionFromList(i);
+			//console->execute("missions/tutorial.txt");
+			window->setVisible(false);
 		}
 	}
-	
-	return false;
+
+	if(cancel->isPressed())
+	{
+		window->setVisible(false);
+	}
 }
 
 void MissionMenu::loadMissions()

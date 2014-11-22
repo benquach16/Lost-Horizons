@@ -5,12 +5,14 @@
 using namespace base;
 
 MessageMenu::MessageMenu(const rect<s32> &rectangle, gui::IGUIElement *parent, const wchar_t *caption, unsigned flags, bool draggable, bool drawTitleBar, bool modal, s32 id)
-	: MenuWindow(guienv->addWindow(rectangle, modal, caption, parent, id)), endTime(0), close(0), yes(0), no(0)
+	: MenuWindow(guienv->addWindow(rectangle, modal, caption, parent, id)),
+	  value((MSGBOX_FLAG)(-1)), endTime(0), close(0), yes(0), no(0)
 {
 	//create window
 	window->getCloseButton()->setVisible(false);
 	window->setDraggable(draggable);
 	window->setDrawTitlebar(drawTitleBar);
+	window->setVisible(false);
 
 	//create buttons
 	if (flags % 2 == CLOSE) {
@@ -30,22 +32,22 @@ MessageMenu::~MessageMenu()
 {
 }
 
-int MessageMenu::run()
+void MessageMenu::run()
 {
-	MenuWindow::run();
-	if (getVisible()) {
-		if (yes && yes->isPressed()) {
-			setVisible(false);
-			return YES;
-		}
-		if (no && no->isPressed()) {
-			setVisible(false);
-			return NO;
-		}
-		if (close && close->isPressed() || endTime > 0 && timer->getTime() > endTime) {
-			setVisible(false);
-		}
+	if (yes && yes->isPressed()) {
+		window->setVisible(false);
+		value = YES;
 	}
+	if (no && no->isPressed()) {
+		window->setVisible(false);
+		value = NO;
+	}
+	if (close && close->isPressed() || endTime > 0 && timer->getTime() > endTime) {
+		window->setVisible(false);
+	}
+}
 
-	return 0;
+int MessageMenu::getSelected()
+{
+	return value;
 }

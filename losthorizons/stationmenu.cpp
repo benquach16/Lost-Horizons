@@ -20,12 +20,13 @@ StationMenu::~StationMenu()
 	delete hangar;
 }
 
-void StationMenu::run(const TargetableObject *target)
+void StationMenu::run()
 {
-	MenuWindow::run();
-	if (target && target->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION)
-	{
-		store->run(((SpaceStation*)target)->getInventory());
-		hangar->run();
-	}
+	store->run(((SpaceStation*)target)->getInventory());
+	hangar->run();
+}
+
+void StationMenu::setTarget(TargetableObject *newTarget)
+{
+	target = newTarget;
 }

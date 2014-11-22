@@ -58,8 +58,6 @@ StartMenu::StartMenu(DataManager *data)
 	confirmClose = new MessageMenu(rect<s32>(width/2-120,height/2-40,width/2+120,height/2+40), window, 0, MessageMenu::YESNO, false, false);
 	confirmClose->moveButtons(position2d<s32>(0,-5));
 	confirmClose->addText(position2d<s32>(20,15), dimension2d<u32>(60,50), L"You did not save. Are you sure?");
-
-	setVisible(true);
 }
 
 //delete everything
@@ -71,67 +69,71 @@ StartMenu::~StartMenu()
 
 void StartMenu::run()
 {
-	MenuWindow::run();
-	if (getVisible()) 
-	{
-		shift();
-		window->getParent()->getParent()->bringToFront(window->getParent()); // dafuq is dis shit omg so bad
-		if (resume->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
-			saved = false;
-			setVisible(false);
-		}
+	shift();
+	window->getParent()->getParent()->bringToFront(window->getParent()); // dafuq is dis shit omg so bad
+	if (resume->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
+		saved = false;
+		setVisible(false);
+	}
 	 
-		if (newgame->isPressed()) {
-			//dont do crap yet just open the missionmenu
-			//game->createNewGame();
-			missionMenu->setVisible(true);
+	if (newgame->isPressed()) {
+		//dont do crap yet just open the missionmenu
+		//game->createNewGame();
+		missionMenu->setVisible(true);
 			
-		}
-		if (loadgame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
-			if (gConfig.bPlay) {
-				delete game;
-				game = new Gameloop(data);
-			} else {
-				gConfig.bPlay = true;
-				shift();
-			}
-			//game->createLoadedGame();
-			data->load("saves\\___TEST_SAVE___.lsv");//temporary
-			setVisible(false);
-		}
-		if (savegame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
-			saved = true;
-			//function for saving
-			data->save("saves\\___TEST_SAVE___.lsv");//temporary
-			setVisible(false);
-		}
-		if (closegame->isPressed() && gConfig.bPlay) {
-			if (gConfig.bCheckIfSaved && !saved) {
-				confirmClose->setVisible(true);
-			} else {
-				close = true;
-			}
-		}
-		if (options->isPressed()) {
-			config->setVisible(true);
-		}
-		if (quit->isPressed()) {
-			gConfig.bRun = false;
-		}
-		if (close) {
-			gConfig.bPlay = false;
-			shift();
+	}
+	if (loadgame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
+		if (gConfig.bPlay) {
 			delete game;
 			game = new Gameloop(data);
-			missionMenu->clear();
-			missionMenuLoad();
+		} else {
+			gConfig.bPlay = true;
+			shift();
 		}
-		config->run();
-		if(missionMenu->run())
-			setVisible(false);
-		close = MessageMenu::YES == confirmClose->run();
+		//game->createLoadedGame();
+		data->load("saves\\___TEST_SAVE___.lsv");//temporary
+		setVisible(false);
 	}
-
+	if (savegame->isPressed() && receiver->isKeyPressed(KEY_LBUTTON)) {
+		saved = true;
+		//function for saving
+		data->save("saves\\___TEST_SAVE___.lsv");//temporary
+		setVisible(false);
+	}
+	if (closegame->isPressed() && gConfig.bPlay) {
+		if (gConfig.bCheckIfSaved && !saved) {
+			confirmClose->setVisible(true);
+		} else {
+			close = true;
+		}
+	}
+	if (options->isPressed()) {
+		config->setVisible(true);
+	}
+	if (quit->isPressed()) {
+		gConfig.bRun = false;
+	}
+	if (close) {
+		gConfig.bPlay = false;
+		shift();
+		delete game;
+		game = new Gameloop(data);
+		missionMenu->clear();
+		missionMenuLoad();
+	}
+	if (config->getVisible()) {
+		config->run();
+	}
+	if (missionMenu->getVisible()) {
+		missionMenu->run();
+		if (gConfig.bPlay) {
+			window->setVisible(false);
+		}
+	}
+	if (confirmClose->getVisible()) {
+		confirmClose->run();
+	}
+	close = MessageMenu::YES == confirmClose->getSelected();
 }
 
 void StartMenu::shift()

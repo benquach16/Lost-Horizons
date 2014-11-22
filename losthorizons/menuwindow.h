@@ -10,30 +10,24 @@ using namespace irr;
 class MenuWindow
 {
 public:
-	MenuWindow(gui::IGUIWindow *window = 0) : window(window), visible(false) {}
+	MenuWindow(gui::IGUIWindow *window = 0) : window(window) {}
 	virtual ~MenuWindow()
 	{
 		if (window)
 			window->remove();
 	}
 
-	void run()
+	virtual void run() = 0;
+
+	void setVisible(bool visible)
 	{
 		window->setVisible(visible);
 	}
 
-	void setVisible(bool show)
-	{
-		visible = show;
-	}
-
 	bool getVisible()
 	{
-		return visible;
+		return window->isVisible();
 	}
-
-private:
-	bool visible;
 
 protected:
 	gui::IGUIWindow *window;

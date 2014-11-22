@@ -64,8 +64,13 @@ bool Player::run()
 	intercom->run();
 	turning->run(getPosition(), getRotation(), getTargetRotation());
 	playerCam->run(getPosition());
-	gameMenu->run();
-	stationMenu->run(shipTarget);
+	if (gameMenu->getVisible()) {
+		gameMenu->run();
+	}
+	if (stationMenu->getVisible() && shipTarget && shipTarget->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION) {
+		stationMenu->setTarget(shipTarget);
+		stationMenu->run();
+	}
 
 	for(unsigned i = 1; i < shipFleet->size(); i++)
 	{

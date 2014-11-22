@@ -11,7 +11,7 @@
 
 using namespace irr;
 
-class DevConsole : public MenuWindow
+class DevConsole //: public MenuWindow
 {
 public:
 	DevConsole();
@@ -22,9 +22,12 @@ public:
 	//run a loop that allows you to add messages to the queue
 	//void postMessage();
 
+	void setVisible(bool show);
+	bool getVisible();
+
 private:
-	gui::IGUIListBox *history;
-	gui::IGUIEditBox *editBox;
+	//gui::IGUIListBox *history;
+	//gui::IGUIEditBox *editBox;
 
 	/*
 	enum KEY_PRESS
@@ -74,8 +77,11 @@ private:
 	//std::vector<std::string> history;
 	unsigned historyIndex;
 
+	bool visible;
 	//HANDLE hstdout;
 	//CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	gui::IGUIFont *font;
 };
 
 #endif

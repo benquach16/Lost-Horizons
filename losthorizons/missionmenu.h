@@ -11,7 +11,7 @@ class MissionMenu : public MenuWindow
  public:
 	MissionMenu(gui::IGUIWindow *menu);
 	~MissionMenu();
-	bool run();
+	void run();
 	void loadMissions();
 	void clear();
  protected:
