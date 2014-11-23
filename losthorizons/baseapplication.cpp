@@ -72,6 +72,7 @@ void BaseApplication::run()
 
 		if (receiver->isKeyPressed(KEY_OEM_3)) {
 			console->setVisible(!console->getVisible());
+			menu->setVisible(gConfig.bPlay ? false : !menu->getVisible());
 		}
 
 		vdriver->beginScene(true, true, video::SColor(255,0,0,0));

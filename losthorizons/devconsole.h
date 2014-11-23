@@ -67,11 +67,10 @@ private:
 	void registerCommand(const std::string& name, const function& command);
 	bool executeCommand(const std::string& name, std::vector<std::string>& args);
 
-	void clearLine();
 	bool parse(std::string line = "");
 
 	//std::queue<message> messages; going to just do shit immediately now
-	//char buf[CONSOLEBUFFERSIZE];
+	char *buf;
 	unsigned size, index;
 	std::forward_list< std::pair<std::string, function> > commands;
 	//std::vector<std::string> history;

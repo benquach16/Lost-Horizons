@@ -15,14 +15,14 @@ namespace command
 	bool create(std::vector<std::string>& args);
 }
 
-#define CONSOLEBUFFERSIZE 80
+#define CONSOLEBUFFERSIZE 50
 
 DevConsole::DevConsole()
 	: //MenuWindow(guienv->addWindow(rect<s32>(0,0,width,height))),
 	  //history(guienv->addListBox(rect<s32>(width/2-512,20,width/2+512,height-40), window)),
 	  //editBox(guienv->addEditBox(L"this is the edit box!", rect<s32>(width/2-512,height-30,width/2+512,height-10), false, window)),
-	  size(0), index(0), historyIndex(0), visible(false),
-	  font(guienv->getFont("res/font/aldo.xml"))
+	  buf(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0), historyIndex(0),
+	  visible(false), font(guienv->getFont("res/font/aldo.xml"))
 {
 	//window->setDrawBackground(false);
 	//window->setDraggable(false);
@@ -37,6 +37,8 @@ DevConsole::DevConsole()
 	
 	//hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	//buf[0] = '\0';
+	// for testing
+	//strcpy_s(buf, CONSOLEBUFFERSIZE, "The console is now open! This is a test. let us see how many");
 	//for (unsigned i = 0; i < 30; ++i) {
 	//	history->addItem(L"This is the list box!");
 	//}
@@ -44,6 +46,7 @@ DevConsole::DevConsole()
 
 DevConsole::~DevConsole()
 {
+	delete buf;
 }
 
 //void DevConsole::run()
@@ -197,8 +200,96 @@ void DevConsole::run()
 	*/
 
 	//begin rewrite
-	vdriver->draw2DRectangle(video::SColor(85,255,255,255), rect<s32>(0,0,base::width,base::height));
-	font->draw(L"The console is now open", rect<s32>(0,0,base::width,base::height), video::SColor(255,255,255,255));
+	// check keys
+	// should i just iterate through all keys and do case statement just like above?
+	// or should i only check specific ones?
+
+	///*
+	//version 1 begin
+	if (receiver->isKeyPressed(KEY_BACK) && index > 0) {
+		index--;
+		size--;
+		for (unsigned i = index; i < size; ++i) {
+			buf[i] = buf[i + 1];
+		}
+	}
+	if (receiver->isKeyPressed(KEY_RETURN) && index > 0) {
+		if (parse()) {
+			//history.push_back(buf);
+			//historyIndex = history.size();
+			index = size = 0;
+		}
+	}
+	if (receiver->isKeyPressed(KEY_SPACE) && size < CONSOLEBUFFERSIZE) {
+		if (index < size) {
+			for (unsigned i = size; i > index; --i) {
+				buf[i] = buf[i - 1];
+			}
+		}
+		buf[index] = ' ';
+		index++;
+		size++;
+	}
+	if (receiver->isKeyPressed(KEY_LEFT) && index > 0) {
+		index--;
+	}
+	if (receiver->isKeyPressed(KEY_RIGHT) && index < size) {
+		index++;
+	}
+	for (unsigned c = '0'; c < '9'; ++c) {
+		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
+			if (index < size) {
+				for (unsigned i = size; i > index; --i) {
+					buf[i] = buf[i - 1];
+				}
+			}
+			buf[index] = tolower(c);
+			index++;
+			size++;
+		}
+	}
+	for (unsigned c = 'A'; c < 'Z'; ++c) {
+		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
+			if (index < size) {
+				for (unsigned i = size; i > index; --i) {
+					buf[i] = buf[i - 1];
+				}
+			}
+			buf[index] = tolower(c);
+			index++;
+			size++;
+		}
+	}
+	if (receiver->isKeyDown(KEY_LCONTROL) && receiver->isKeyPressed(KEY_KEY_K)) {
+		//historyIndex = history.size();
+		if (index == size) {
+			index = size = 0;
+		} else {
+			size = index;
+		}
+	}
+	//version 1 end
+	//*/
+	//separation between versions
+	/*
+	//version 2 begin
+
+	//version 2 end
+	*/
+
+	// draw shit
+	vdriver->draw2DRectangle(video::SColor(50,0,50,150), rect<s32>(0,0,base::width,base::height));
+	font->draw(L"The console is now open! This is a test. let's see how many characters can fill the spacea\nlalalaalalalalala hahahaahaha!~", rect<s32>(0,0,base::width,base::height), video::SColor(255,255,255,255));
+	for (unsigned i = 0; i < 5; ++i) {
+		vdriver->draw2DLine(vector2d<s32>(15,base::height-35),vector2d<s32>(25-i,base::height-25),video::SColor(255,0,150,50));
+		vdriver->draw2DLine(vector2d<s32>(15,base::height-15),vector2d<s32>(25-i,base::height-25),video::SColor(255,0,150,50));
+	}
+	buf[size] = '\0';
+	font->draw(buf, rect<s32>(30,base::height-40,base::width,base::height), video::SColor(255,0,150,50));
+	
+	// print buf size and index for testing
+	font->draw(core::stringw(size), rect<s32>(80,80,base::width,base::height), video::SColor(255,255,255,255));
+	font->draw(core::stringw(index), rect<s32>(110,90,base::width,base::height), video::SColor(255,255,255,255));
 }
 
 void DevConsole::setVisible(bool show)
@@ -248,19 +339,6 @@ bool DevConsole::executeCommand(const std::string& name, std::vector<std::string
 	return false;
 }
 
-void DevConsole::clearLine()
-{
-	/*
-	GetConsoleScreenBufferInfo(hstdout, &csbi);
-	csbi.dwCursorPosition.X = 0;
-	SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-	for (unsigned i = 0; i < size; ++i) {
-		_putch(' ');
-	}
-	SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-	*/
-}
-
 bool DevConsole::parse(std::string line)
 {
 	std::stringstream tokenize;
@@ -268,8 +346,8 @@ bool DevConsole::parse(std::string line)
 	std::vector<std::string> args;
 
 	if (line.empty()) {
-		//buf[size] = '\0';
-		//tokenize << buf;
+		buf[size] = '\0';
+		tokenize << buf;
 	} else {
 		tokenize << line;
 	}
