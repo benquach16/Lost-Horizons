@@ -16,10 +16,11 @@ namespace command
 
 #define CONSOLEBUFFERSIZE 80
 #define HISTORYPOSITIONX 10
-#define HISTORYPOSITIONY 0
+#define HISTORYPOSITIONY 10
 #define EDITLINEPOSITIONX 30
 #define EDITLINEPOSITIONY base::height-40
 #define ERRORTIME 2000
+#define FONTWIDTH 11
 
 DevConsole::DevConsole()
 	: buffer(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0),
@@ -205,8 +206,8 @@ void DevConsole::run()
 		const unsigned x = receiver->getMouseX()+3;
 		const unsigned y = receiver->getMouseY()+5;
 		if (y > EDITLINEPOSITIONY && y < EDITLINEPOSITIONY+30 &&
-			x > EDITLINEPOSITIONX && x < EDITLINEPOSITIONX+(size+1)*11) {
-			index = (x - EDITLINEPOSITIONX)/11;
+			x > EDITLINEPOSITIONX && x < EDITLINEPOSITIONX+FONTWIDTH*(size+1)) {
+			index = (x - EDITLINEPOSITIONX)/FONTWIDTH;
 		}
 	}
 	if (receiver->isKeyPressed(KEY_RBUTTON)) {
@@ -276,6 +277,16 @@ void DevConsole::run()
 			size = index;
 		}
 	}
+	if (receiver->isKeyPressed(KEY_MINUS) && size < CONSOLEBUFFERSIZE) {
+		if (index < size) {
+			for (unsigned i = size; i > index; --i) {
+				buffer[i] = buffer[i - 1];
+			}
+		}
+		buffer[index] = '-';
+		index++;
+		size++;
+	}
 	for (unsigned c = '0'; c < '9'; ++c) {
 		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
 			if (index < size) {
@@ -315,11 +326,11 @@ void DevConsole::run()
 		font->draw(history[i].c_str(), rect<s32>(HISTORYPOSITIONX,HISTORYPOSITIONY+i*20,0,0), video::SColor(255,0,150,50));
 	}
 	font->draw(">", rect<s32>(EDITLINEPOSITIONX-13,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
-	font->draw("_", rect<s32>(EDITLINEPOSITIONX+11*index,EDITLINEPOSITIONY+2,0,0), video::SColor(255,0,150,50));
+	font->draw("_", rect<s32>(EDITLINEPOSITIONX+FONTWIDTH*index,EDITLINEPOSITIONY+2,0,0), video::SColor(255,0,150,50));
 	buffer[size] = '\0';
 	font->draw(buffer, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
 	if (error) {
-		vdriver->draw2DLine(vector2d<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY+20), vector2d<s32>(EDITLINEPOSITIONX+size*11,EDITLINEPOSITIONY+20), video::SColor(150,255,0,0));
+		vdriver->draw2DLine(vector2d<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY+20), vector2d<s32>(EDITLINEPOSITIONX+FONTWIDTH*size,EDITLINEPOSITIONY+20), video::SColor(150,255,0,0));
 		if (timer->getTime() > errorEnd) {
 			error = false;
 		}
@@ -422,17 +433,17 @@ bool command::create(std::vector<std::string>& args)
 		if (args[i] == "-abs") {
 			args[i].clear();
 			i++;
-			if (!TryParse(args[i], &posX)) {
+			if (i >= args.size() || !TryParse(args[i], &posX)) {
 				return false;
 			}
 			args[i].clear();
 			i++;
-			if (!TryParse(args[i], &posY)) {
+			if (i >= args.size() || !TryParse(args[i], &posY)) {
 				return false;
 			}
 			args[i].clear();
 			i++;
-			if (!TryParse(args[i], &posZ)) {
+			if (i >= args.size() || !TryParse(args[i], &posZ)) {
 				return false;
 			}
 			args[i].clear();
