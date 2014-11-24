@@ -19,10 +19,12 @@ namespace command
 #define HISTORYPOSITIONY 0
 #define EDITLINEPOSITIONX 30
 #define EDITLINEPOSITIONY base::height-40
+#define ERRORTIME 2000
 
 DevConsole::DevConsole()
-	: buf(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0), historyIndex(0),
-	  visible(false), font(guienv->getFont("res/font/sans_mono.png"))
+	: buffer(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0),
+	  error(false), errorEnd(0), historyIndex(0), visible(false),
+	  font(guienv->getFont("res/font/sans_mono.png"))
 {
 	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
@@ -39,7 +41,7 @@ DevConsole::DevConsole()
 
 DevConsole::~DevConsole()
 {
-	delete buf;
+	delete buffer;
 }
 
 //void DevConsole::run()
@@ -199,30 +201,44 @@ void DevConsole::run()
 
 	///*
 	//version 1 begin
+	if (receiver->isKeyPressed(KEY_LBUTTON)) {
+		const unsigned x = receiver->getMouseX()+3;
+		const unsigned y = receiver->getMouseY()+5;
+		if (y > EDITLINEPOSITIONY && y < EDITLINEPOSITIONY+30 &&
+			x > EDITLINEPOSITIONX && x < EDITLINEPOSITIONX+(size+1)*11) {
+			index = (x - EDITLINEPOSITIONX)/11;
+		}
+	}
+	if (receiver->isKeyPressed(KEY_RBUTTON)) {
+		// context menu
+	}
 	if (receiver->isKeyPressed(KEY_BACK) && index > 0) {
 		index--;
 		size--;
 		for (unsigned i = index; i < size; ++i) {
-			buf[i] = buf[i + 1];
+			buffer[i] = buffer[i + 1];
 		}
 	}
 	if (receiver->isKeyPressed(KEY_TAB)) {
 		// autocomplete shit
 	}
-	if (receiver->isKeyPressed(KEY_RETURN) && index > 0) {
+	if (receiver->isKeyPressed(KEY_RETURN) && size > 0) {
 		if (parse()) {
-			history.push_back(buf);
+			history.push_back(buffer);
 			historyIndex = history.size();
 			index = size = 0;
+		} else {
+			error = true;
+			errorEnd = timer->getTime() + ERRORTIME;
 		}
 	}
-	if (receiver->isKeyPressed(KEY_SPACE) && size < CONSOLEBUFFERSIZE) {
+	if (receiver->isKeyPressed(KEY_SPACE) && size < CONSOLEBUFFERSIZE && size > 0) {
 		if (index < size) {
 			for (unsigned i = size; i > index; --i) {
-				buf[i] = buf[i - 1];
+				buffer[i] = buffer[i - 1];
 			}
 		}
-		buf[index] = ' ';
+		buffer[index] = ' ';
 		index++;
 		size++;
 	}
@@ -237,7 +253,7 @@ void DevConsole::run()
 	}
 	if (receiver->isKeyPressed(EKEY_CODE::KEY_UP) && historyIndex > 0) {
 		historyIndex--;
-		strcpy_s(buf, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
+		strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
 		index = size = history[historyIndex].size();
 	}
 	if (receiver->isKeyPressed(KEY_RIGHT) && index < size) {
@@ -246,7 +262,7 @@ void DevConsole::run()
 	if (receiver->isKeyPressed(EKEY_CODE::KEY_DOWN) && historyIndex < history.size()) {
 		historyIndex++;
 		if (historyIndex < history.size()) {
-			strcpy_s(buf, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
+			strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
 			index = size = history[historyIndex].size();
 		} else {
 			index = size = 0;
@@ -264,10 +280,10 @@ void DevConsole::run()
 		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
 			if (index < size) {
 				for (unsigned i = size; i > index; --i) {
-					buf[i] = buf[i - 1];
+					buffer[i] = buffer[i - 1];
 				}
 			}
-			buf[index] = c;
+			buffer[index] = c;
 			index++;
 			size++;
 		}
@@ -276,10 +292,10 @@ void DevConsole::run()
 		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
 			if (index < size) {
 				for (unsigned i = size; i > index; --i) {
-					buf[i] = buf[i - 1];
+					buffer[i] = buffer[i - 1];
 				}
 			}
-			buf[index] = tolower(c);
+			buffer[index] = tolower(c);
 			index++;
 			size++;
 		}
@@ -300,8 +316,14 @@ void DevConsole::run()
 	}
 	font->draw(">", rect<s32>(EDITLINEPOSITIONX-13,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
 	font->draw("_", rect<s32>(EDITLINEPOSITIONX+11*index,EDITLINEPOSITIONY+2,0,0), video::SColor(255,0,150,50));
-	buf[size] = '\0';
-	font->draw(buf, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
+	buffer[size] = '\0';
+	font->draw(buffer, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
+	if (error) {
+		vdriver->draw2DLine(vector2d<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY+20), vector2d<s32>(EDITLINEPOSITIONX+size*11,EDITLINEPOSITIONY+20), video::SColor(150,255,0,0));
+		if (timer->getTime() > errorEnd) {
+			error = false;
+		}
+	}
 	
 	//print stuff for testing
 	font->draw(core::stringw(L"history:") + core::stringw(historyIndex), rect<s32>(500,440,0,0), video::SColor(255,255,255,255));
@@ -364,8 +386,8 @@ bool DevConsole::parse(std::string line)
 	std::vector<std::string> args;
 
 	if (line.empty()) {
-		buf[size] = '\0';
-		tokenize << buf;
+		buffer[size] = '\0';
+		tokenize << buffer;
 	} else {
 		tokenize << line;
 	}

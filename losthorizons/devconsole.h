@@ -68,9 +68,11 @@ private:
 	bool parse(std::string line = "");
 
 	//std::queue<message> messages; going to just do shit immediately now
-	char *buf;
-	unsigned size, index;
 	std::forward_list< std::pair<std::string, function> > commands;
+	char *buffer;
+	unsigned size, index;
+	bool error;
+	unsigned errorEnd;
 	std::vector<std::string> history;
 	unsigned historyIndex;
 
