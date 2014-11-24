@@ -3,15 +3,13 @@
 
 //a simple command console
 
-//#include "menuwindow.h"
-
 //#include <queue>
 #include <forward_list>
 #include <vector>
 
 using namespace irr;
 
-class DevConsole //: public MenuWindow
+class DevConsole
 {
 public:
 	DevConsole();
@@ -73,12 +71,10 @@ private:
 	char *buf;
 	unsigned size, index;
 	std::forward_list< std::pair<std::string, function> > commands;
-	//std::vector<std::string> history;
+	std::vector<std::string> history;
 	unsigned historyIndex;
 
 	bool visible;
-	//HANDLE hstdout;
-	//CONSOLE_SCREEN_BUFFER_INFO csbi;
 
 	gui::IGUIFont *font;
 };

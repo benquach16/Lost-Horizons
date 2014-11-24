@@ -2,7 +2,6 @@
 #include "devconsole.h"
 #include "globals.h"
 #include "string_util.h"
-//#include <conio.h>//stop using this once the devconsole becomes a menu
 #include <sstream>
 #include <fstream>
 
@@ -15,33 +14,27 @@ namespace command
 	bool create(std::vector<std::string>& args);
 }
 
-#define CONSOLEBUFFERSIZE 50
+#define CONSOLEBUFFERSIZE 80
+#define HISTORYPOSITIONX 10
+#define HISTORYPOSITIONY 0
+#define EDITLINEPOSITIONX 30
+#define EDITLINEPOSITIONY base::height-40
 
 DevConsole::DevConsole()
-	: //MenuWindow(guienv->addWindow(rect<s32>(0,0,width,height))),
-	  //history(guienv->addListBox(rect<s32>(width/2-512,20,width/2+512,height-40), window)),
-	  //editBox(guienv->addEditBox(L"this is the edit box!", rect<s32>(width/2-512,height-30,width/2+512,height-10), false, window)),
-	  buf(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0), historyIndex(0),
-	  visible(false), font(guienv->getFont("res/font/aldo.xml"))
+	: buf(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0), historyIndex(0),
+	  visible(false), font(guienv->getFont("res/font/sans_mono.png"))
 {
-	//window->setDrawBackground(false);
-	//window->setDraggable(false);
-	//window->getCloseButton()->setVisible(false);
-	//history->setAutoScrollEnabled(true);
-	//editBox->setDrawBackground(false);
-	//editBox->setMax(CONSOLEBUFFERSIZE);
-	//editBox->setMultiLine(false);
-
 	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
-	
-	//hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	//buf[0] = '\0';
-	// for testing
-	//strcpy_s(buf, CONSOLEBUFFERSIZE, "The console is now open! This is a test. let us see how many");
-	//for (unsigned i = 0; i < 30; ++i) {
-	//	history->addItem(L"This is the list box!");
-	//}
+
+
+	//add junk to history for testing
+	history.push_back("This is a command");
+	history.push_back("This is another command");
+	for (unsigned i = 0; i < 3; ++i) {
+		history.push_back("test test test APPLES");
+	}
+	historyIndex=history.size();
 }
 
 DevConsole::~DevConsole()
@@ -213,10 +206,13 @@ void DevConsole::run()
 			buf[i] = buf[i + 1];
 		}
 	}
+	if (receiver->isKeyPressed(KEY_TAB)) {
+		// autocomplete shit
+	}
 	if (receiver->isKeyPressed(KEY_RETURN) && index > 0) {
 		if (parse()) {
-			//history.push_back(buf);
-			//historyIndex = history.size();
+			history.push_back(buf);
+			historyIndex = history.size();
 			index = size = 0;
 		}
 	}
@@ -230,11 +226,39 @@ void DevConsole::run()
 		index++;
 		size++;
 	}
+	if (receiver->isKeyPressed(KEY_END)) {
+		index = size;
+	}
+	if (receiver->isKeyPressed(KEY_HOME)) {
+		index = 0;
+	}
 	if (receiver->isKeyPressed(KEY_LEFT) && index > 0) {
 		index--;
 	}
+	if (receiver->isKeyPressed(EKEY_CODE::KEY_UP) && historyIndex > 0) {
+		historyIndex--;
+		strcpy_s(buf, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
+		index = size = history[historyIndex].size();
+	}
 	if (receiver->isKeyPressed(KEY_RIGHT) && index < size) {
 		index++;
+	}
+	if (receiver->isKeyPressed(EKEY_CODE::KEY_DOWN) && historyIndex < history.size()) {
+		historyIndex++;
+		if (historyIndex < history.size()) {
+			strcpy_s(buf, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
+			index = size = history[historyIndex].size();
+		} else {
+			index = size = 0;
+		}
+	}
+	if (receiver->isKeyPressed(KEY_DELETE)) {
+		historyIndex = history.size();
+		if (index == size) {
+			index = size = 0;
+		} else {
+			size = index;
+		}
 	}
 	for (unsigned c = '0'; c < '9'; ++c) {
 		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
@@ -243,7 +267,7 @@ void DevConsole::run()
 					buf[i] = buf[i - 1];
 				}
 			}
-			buf[index] = tolower(c);
+			buf[index] = c;
 			index++;
 			size++;
 		}
@@ -260,14 +284,6 @@ void DevConsole::run()
 			size++;
 		}
 	}
-	if (receiver->isKeyDown(KEY_LCONTROL) && receiver->isKeyPressed(KEY_KEY_K)) {
-		//historyIndex = history.size();
-		if (index == size) {
-			index = size = 0;
-		} else {
-			size = index;
-		}
-	}
 	//version 1 end
 	//*/
 	//separation between versions
@@ -279,17 +295,19 @@ void DevConsole::run()
 
 	// draw shit
 	vdriver->draw2DRectangle(video::SColor(50,0,50,150), rect<s32>(0,0,base::width,base::height));
-	font->draw(L"The console is now open! This is a test. let's see how many characters can fill the spacea\nlalalaalalalalala hahahaahaha!~", rect<s32>(0,0,base::width,base::height), video::SColor(255,255,255,255));
-	for (unsigned i = 0; i < 5; ++i) {
-		vdriver->draw2DLine(vector2d<s32>(15,base::height-35),vector2d<s32>(25-i,base::height-25),video::SColor(255,0,150,50));
-		vdriver->draw2DLine(vector2d<s32>(15,base::height-15),vector2d<s32>(25-i,base::height-25),video::SColor(255,0,150,50));
+	for (unsigned i = 0; i < history.size(); ++i) {
+		font->draw(history[i].c_str(), rect<s32>(HISTORYPOSITIONX,HISTORYPOSITIONY+i*20,0,0), video::SColor(255,0,150,50));
 	}
+	font->draw(">", rect<s32>(EDITLINEPOSITIONX-13,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
+	font->draw("_", rect<s32>(EDITLINEPOSITIONX+11*index,EDITLINEPOSITIONY+2,0,0), video::SColor(255,0,150,50));
 	buf[size] = '\0';
-	font->draw(buf, rect<s32>(30,base::height-40,base::width,base::height), video::SColor(255,0,150,50));
+	font->draw(buf, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
 	
-	// print buf size and index for testing
-	font->draw(core::stringw(size), rect<s32>(80,80,base::width,base::height), video::SColor(255,255,255,255));
-	font->draw(core::stringw(index), rect<s32>(110,90,base::width,base::height), video::SColor(255,255,255,255));
+	//print stuff for testing
+	font->draw(core::stringw(L"history:") + core::stringw(historyIndex), rect<s32>(500,440,0,0), video::SColor(255,255,255,255));
+	font->draw(core::stringw(L"size:") + core::stringw(size), rect<s32>(500,460,0,0), video::SColor(255,255,255,255));
+	font->draw(core::stringw(L"index:") + core::stringw(index), rect<s32>(500,480,0,0), video::SColor(255,255,255,255));
+	font->draw(core::stringw(L"fps:") + core::stringw(vdriver->getFPS()), rect<s32>(500,500,0,0), video::SColor(255,255,255,255));
 }
 
 void DevConsole::setVisible(bool show)
