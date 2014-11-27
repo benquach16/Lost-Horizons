@@ -32,6 +32,8 @@ private:
 
 	//for delta time calculation
 	u32 then;
+
+	IGUIFont *debugStatistics;
 };
 
 #endif

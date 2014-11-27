@@ -13,7 +13,7 @@
 using namespace base;
 
 BaseApplication::BaseApplication()
-	: menu(0), data(new DataManager), effect(0), then(0)
+	: menu(0), data(new DataManager), effect(0), then(0), debugStatistics(0)
 {
 	gConfig.Load();
 	getBits();
@@ -35,7 +35,7 @@ BaseApplication::~BaseApplication()
 void BaseApplication::init()
 {
 	buildGraphics();
-
+	debugStatistics = guienv->getFont("res/font/system.xml");
 	menu = new StartMenu(data);
 	game = new Gameloop(data);
 	console = new DevConsole;
@@ -75,12 +75,12 @@ void BaseApplication::run()
 			menu->setVisible(gConfig.bPlay ? false : !menu->getVisible());
 		}
 
-		vdriver->beginScene(true, true, video::SColor(255,0,0,0));
-
 		//calculate the new frameDeltaTime
 		const u32 now = graphics->getTimer()->getTime();
 		frameDeltaTime = (now - then)/1000.f; // Time in seconds
 		then = now;
+
+		vdriver->beginScene(true, true, video::SColor(255,0,0,0));
 
 		effect->render();
 		//scenemngr->drawAll();
@@ -100,6 +100,9 @@ void BaseApplication::run()
 		}
 
 		guienv->drawAll();
+
+		//if (gConfig.bShowFPSCounter)
+		debugStatistics->draw(core::stringw(L"fps:") + core::stringw(vdriver->getFPS()), rect<s32>(200,200,0,0), video::SColor(255,0,255,255));
 
 		vdriver->endScene();
 	}
@@ -136,7 +139,7 @@ void BaseApplication::buildGraphics()
 	height = vdriver->getScreenSize().Height;
 	
 	graphics->setWindowCaption(L"Lost Horizons");
-	if (gConfig.bTopMost && !gConfig.bFullScreen)
+	if (gConfig.bTopMost && !gConfig.bFullScreen)//get rid of this, no need for it
 		SetWindowPos((HWND)vdriver->getExposedVideoData().D3D9.HWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 

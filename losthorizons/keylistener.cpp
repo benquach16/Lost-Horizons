@@ -1,20 +1,11 @@
 #include "stdafx.h"
 #include "keylistener.h"
 
-#define REPEATDELAY 50
-#define REPEATRATE 1 //currently unused
-
 KeyListener::KeyListener()
 	: mouseX(0), mouseY(0), mouseWheel(0)
 {
 	for (unsigned i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
-		keys[i] = false;
-	}
-	for (unsigned i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
-		keysReleased[i] = false;
-	}
-	for (unsigned i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
-		keysRepeatCount[i] = -1;
+		keys[i] = KEY_STATE_UP;
 	}
 }
 
@@ -25,71 +16,75 @@ bool KeyListener::OnEvent(const SEvent& event)
 	{
 	case EET_KEY_INPUT_EVENT:
 		if (event.KeyInput.PressedDown) {
-			keys[event.KeyInput.Key] = true;
-			keysReleased[event.KeyInput.Key] = true;
+			keys[event.KeyInput.Key] = KEY_STATE_PRESSED;
+			ch = event.KeyInput.Char;
 		} else {
-			keys[event.KeyInput.Key] = false;
-			keysRepeatCount[event.KeyInput.Key] = -1;
+			keys[event.KeyInput.Key] = KEY_STATE_RELEASED;
+			ch = 0;
 		}
-		// keys[event.KeyInput.Key] = event.KeyInput.PressedDown;
 		break;
 	case EET_MOUSE_INPUT_EVENT:
 		//mouse events
-		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
-			keys[KEY_LBUTTON] = true;
-			keysReleased[KEY_LBUTTON] = true;
-		}
-		else if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP) {
-			keys[KEY_LBUTTON] = false;
-			keysRepeatCount[KEY_LBUTTON] = -1;
-		}
-		else if (event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) {
-			keys[KEY_RBUTTON] = true;
-			keysReleased[KEY_RBUTTON] = true;
-		}
-		else if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
-			keys[KEY_RBUTTON] = false;
-			keysRepeatCount[KEY_RBUTTON] = -1;
-		}
-		else if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
+		switch (event.MouseInput.Event)
+		{
+		case EMIE_LMOUSE_PRESSED_DOWN:
+			keys[KEY_LBUTTON] = KEY_STATE_PRESSED;
+			break;
+		case EMIE_LMOUSE_LEFT_UP:
+			keys[KEY_LBUTTON] = KEY_STATE_RELEASED;
+			break;
+		case EMIE_RMOUSE_PRESSED_DOWN:
+			keys[KEY_RBUTTON] = KEY_STATE_PRESSED;
+			break;
+		case EMIE_RMOUSE_LEFT_UP:
+			keys[KEY_RBUTTON] = KEY_STATE_RELEASED;
+			break;
+		case EMIE_MOUSE_WHEEL:
 			// how do i make it work?
 			mouseWheel += (int)event.MouseInput.Wheel;
-		}
-		else {
+			break;
+		default:
 			// check the mouse coords
 			mouseX = event.MouseInput.X;
 			mouseY = event.MouseInput.Y;
+			break;
 		}
 		break;
 	}
     return false;
 }
 
-bool KeyListener::isKeyDown(EKEY_CODE keyCode) const
+const bool KeyListener::isKeyDown(EKEY_CODE keyCode) const
 {
-	return keys[keyCode];
+	return keys[keyCode] < KEY_STATE_UP;
 }
 
-bool KeyListener::isKeyReleased(EKEY_CODE keyCode)
+const bool KeyListener::isKeyUp(EKEY_CODE keyCode) const
 {
-	if (!keys[keyCode] && keysReleased[keyCode])
-	{
-		keysReleased[keyCode] = false;
+	return keys[keyCode] > KEY_STATE_DOWN;
+}
+
+const bool KeyListener::isKeyReleased(EKEY_CODE keyCode)
+{
+	if (keys[keyCode] == KEY_STATE_RELEASED) {
+		keys[keyCode] = KEY_STATE_UP;
 		return true;
 	}
 	return false;
 }
 
-bool KeyListener::isKeyPressed(EKEY_CODE keyCode)
+const bool KeyListener::isKeyPressed(EKEY_CODE keyCode)
 {
-	if (keys[keyCode])
-		keysRepeatCount[keyCode]++;
-	return keysRepeatCount[keyCode] == 0 || keysRepeatCount[keyCode] > REPEATDELAY;
+	if (keys[keyCode] == KEY_STATE_PRESSED) {
+		keys[keyCode] = KEY_STATE_DOWN;
+		return true;
+	}
+	return false;
 }
 
-bool KeyListener::isKeyUp(EKEY_CODE keyCode)
+const char KeyListener::getch() const
 {
-	return !keys[keyCode];
+	return ch;
 }
 
 const int KeyListener::getMouseX() const

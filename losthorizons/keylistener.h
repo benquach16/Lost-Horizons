@@ -5,30 +5,31 @@
 
 using namespace irr;
 
-enum E_KEY_STATE
-{
-	KEY_DOWN,
-	KEY_UP,
-	KEY_RELEASED
-}; //currently unused
-
 class KeyListener : public IEventReceiver
 {
 public:
 	KeyListener();
 	virtual bool OnEvent(const SEvent& event);
-	virtual bool isKeyDown(EKEY_CODE keyCode) const;
-	bool isKeyReleased(EKEY_CODE keyCode);
-	bool isKeyPressed(EKEY_CODE keyCode);
-	bool isKeyUp(EKEY_CODE keyCode);
+	const bool isKeyDown(EKEY_CODE keyCode) const;
+	const bool isKeyUp(EKEY_CODE keyCode) const;
+	const bool isKeyReleased(EKEY_CODE keyCode);
+	const bool isKeyPressed(EKEY_CODE keyCode);
+	const char getch() const;
 	const int getMouseX() const;
 	const int getMouseY() const;
 	const int getMouseWheel() const;
 
 private:
-	bool keys[KEY_KEY_CODES_COUNT];
-	bool keysReleased[KEY_KEY_CODES_COUNT];
-	int keysRepeatCount[KEY_KEY_CODES_COUNT];
+	enum E_KEY_STATE
+	{
+		KEY_STATE_PRESSED,
+		KEY_STATE_DOWN,
+		KEY_STATE_UP,
+		KEY_STATE_RELEASED
+	};
+
+	E_KEY_STATE keys[KEY_KEY_CODES_COUNT];
+	unsigned ch;
 	int mouseX, mouseY;
 	int mouseWheel;
 };

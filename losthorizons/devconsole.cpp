@@ -252,7 +252,7 @@ void DevConsole::run()
 	if (receiver->isKeyPressed(KEY_LEFT) && index > 0) {
 		index--;
 	}
-	if (receiver->isKeyPressed(EKEY_CODE::KEY_UP) && historyIndex > 0) {
+	if (receiver->isKeyPressed(KEY_UP) && historyIndex > 0) {
 		historyIndex--;
 		strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
 		index = size = history[historyIndex].size();
@@ -260,7 +260,7 @@ void DevConsole::run()
 	if (receiver->isKeyPressed(KEY_RIGHT) && index < size) {
 		index++;
 	}
-	if (receiver->isKeyPressed(EKEY_CODE::KEY_DOWN) && historyIndex < history.size()) {
+	if (receiver->isKeyPressed(KEY_DOWN) && historyIndex < history.size()) {
 		historyIndex++;
 		if (historyIndex < history.size()) {
 			strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
@@ -340,7 +340,6 @@ void DevConsole::run()
 	font->draw(core::stringw(L"history:") + core::stringw(historyIndex), rect<s32>(500,440,0,0), video::SColor(255,255,255,255));
 	font->draw(core::stringw(L"size:") + core::stringw(size), rect<s32>(500,460,0,0), video::SColor(255,255,255,255));
 	font->draw(core::stringw(L"index:") + core::stringw(index), rect<s32>(500,480,0,0), video::SColor(255,255,255,255));
-	font->draw(core::stringw(L"fps:") + core::stringw(vdriver->getFPS()), rect<s32>(500,500,0,0), video::SColor(255,255,255,255));
 }
 
 void DevConsole::setVisible(bool show)
@@ -422,6 +421,11 @@ bool command::execute(std::vector<std::string>& args)
 	return success;
 }
 
+//this function is big and super ugly
+//gotta rewrite stuff
+//simplify this into multiple commands
+//create, move, destroy
+//other functions that will be needed: show IDs, godmode
 bool command::create(std::vector<std::string>& args)
 {
 	//make some needed variables with default values
