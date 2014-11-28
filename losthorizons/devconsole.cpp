@@ -34,7 +34,7 @@ DevConsole::DevConsole()
 	//add junk to history for testing
 	history.push_back("This is a command");
 	history.push_back("This is another command");
-	for (unsigned i = 0; i < 3; ++i) {
+	for (unsigned i = 0; i < 12; ++i) {
 		history.push_back("test test test APPLES");
 	}
 	historyIndex=history.size();
@@ -55,270 +55,105 @@ DevConsole::~DevConsole()
 
 void DevConsole::run()
 {
-	/*
-	GetConsoleScreenBufferInfo(hstdout, &csbi);
-	COORD returnPos = csbi.dwCursorPosition;
-
-	_putch('\n');
-	_cputs(buf);
-
-	int keyPressed;
-	do {
-		keyPressed = _getch();
-		switch (keyPressed) {
-		case KB_RETURN:
+	// check keys
+	EKEY_CODE keyPressed = receiver->getKey();
+	switch (keyPressed)
+	{
+	case 0:
+	case KEY_OEM_3:
+		break;
+	case KEY_LBUTTON:
+		{
+			const unsigned x = receiver->getMouseX()+3;
+			const unsigned y = receiver->getMouseY()+5;
+			if (y > EDITLINEPOSITIONY && y < EDITLINEPOSITIONY+30 &&
+				x > EDITLINEPOSITIONX && x < EDITLINEPOSITIONX+FONTWIDTH*(size+1)) {
+				index = (x - EDITLINEPOSITIONX)/FONTWIDTH;
+			}
+		}
+		break;
+	case KEY_RBUTTON:
+		// context menu
+		break;
+	case KEY_BACK:
+		if (index > 0) {
+			index--;
+			size--;
+			for (unsigned i = index; i < size; ++i) {
+				buffer[i] = buffer[i + 1];
+			}
+		}
+		break;
+	case KEY_TAB:
+		// autocomplete shit
+		break;
+	case KEY_RETURN:
+		if (size > 0) {
 			if (parse()) {
-				clearLine();
-				SetConsoleCursorPosition(hstdout, returnPos);
-				returnPos.Y++;
-				_putch('>');
-				_cputs(buf);
-				_cputs("\n\n");
-				history.push_back(buf);
+				history.push_back(buffer);
 				historyIndex = history.size();
 				index = size = 0;
-			}
-			break;
-		case KB_GRAVEACCENT:
-			buf[size] = '\0';
-			if (size > 0) {
-				clearLine();
-				index = size;
-			}
-			SetConsoleCursorPosition(hstdout, returnPos);
-			break;
-		case KB_TAB:
-			// autocomplete stuff
-			break;
-		case KB_BACKSPACE:
-			if (index > 0) {
-				index--;
-				size--;
-				_putch('\b');
-				if (index == size) {
-					_cputs(" \b");
-				} else {
-					GetConsoleScreenBufferInfo(hstdout, &csbi);
-					for (unsigned i = index; i < size; ++i) {
-						buf[i] = buf[i + 1];
-						_putch(buf[i]);
-					}
-					_putch(' ');
-					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-				}
-			}
-			break;
-		case KB_CONTROL_K:
-			historyIndex = history.size();
-			if (index == size) {
-				clearLine();
-				index = size = 0;
 			} else {
-				GetConsoleScreenBufferInfo(hstdout, &csbi);
-				for (unsigned i = index; i < size; ++i) {
-					_putch(' ');
-				}
-				size = index;
-				SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-			}
-			break;
-		case KB_SPECIAL1:
-			_getch();
-			break;
-		case KB_SPECIAL2:
-			switch (_getch()) {
-			case KB_HOME:
-				GetConsoleScreenBufferInfo(hstdout, &csbi);
-				index = csbi.dwCursorPosition.X = 0;
-				SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-				break;
-			case KB_END:
-				GetConsoleScreenBufferInfo(hstdout, &csbi);
-				index = csbi.dwCursorPosition.X = size;
-				SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-				break;
-			case KB_UP:
-				if (historyIndex > 0) {
-					historyIndex--;
-					clearLine();
-					_cputs(history[historyIndex].c_str());
-					memcpy(buf, history[historyIndex].c_str(), history[historyIndex].size());
-					index = size = history[historyIndex].size();
-				}
-				break;
-			case KB_LEFT:
-				if (index > 0) {
-					GetConsoleScreenBufferInfo(hstdout, &csbi);
-					csbi.dwCursorPosition.X--;
-					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-					index--;
-				}
-				break;
-			case KB_RIGHT:
-				if (index < size) {
-					GetConsoleScreenBufferInfo(hstdout, &csbi);
-					csbi.dwCursorPosition.X++;
-					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-					index++;
-				}
-				break;
-			case KB_DOWN:
-				if (historyIndex < history.size() - 1) {
-					historyIndex++;
-					clearLine();
-					_cputs(history[historyIndex].c_str());
-					memcpy(buf, history[historyIndex].c_str(), history[historyIndex].size());
-					index = size = history[historyIndex].size();
-				}
-				break;
-			}
-			break;
-		default:
-			if (size < CONSOLEBUFFERSIZE - 1 && __isascii(keyPressed)) {
-				_putch(keyPressed);
-				if (index < size) {
-					GetConsoleScreenBufferInfo(hstdout, &csbi);
-					for (unsigned i = index; i < size; ++i) {
-						_putch(buf[i]);
-					}
-					for (unsigned i = size; i > index; --i) {
-						buf[i] = buf[i - 1];
-					}
-					SetConsoleCursorPosition(hstdout, csbi.dwCursorPosition);
-				}
-				buf[index] = keyPressed;
-				index++;
-				size++;
-			}
-			break;
-		}
-	} while (keyPressed != KB_GRAVEACCENT);
-	*/
-
-	//begin rewrite
-	// check keys
-	// should i just iterate through all keys and do case statement just like above?
-	// or should i only check specific ones?
-
-	///*
-	//version 1 begin
-	if (receiver->isKeyPressed(KEY_LBUTTON)) {
-		const unsigned x = receiver->getMouseX()+3;
-		const unsigned y = receiver->getMouseY()+5;
-		if (y > EDITLINEPOSITIONY && y < EDITLINEPOSITIONY+30 &&
-			x > EDITLINEPOSITIONX && x < EDITLINEPOSITIONX+FONTWIDTH*(size+1)) {
-			index = (x - EDITLINEPOSITIONX)/FONTWIDTH;
-		}
-	}
-	if (receiver->isKeyPressed(KEY_RBUTTON)) {
-		// context menu
-	}
-	if (receiver->isKeyPressed(KEY_BACK) && index > 0) {
-		index--;
-		size--;
-		for (unsigned i = index; i < size; ++i) {
-			buffer[i] = buffer[i + 1];
-		}
-	}
-	if (receiver->isKeyPressed(KEY_TAB)) {
-		// autocomplete shit
-	}
-	if (receiver->isKeyPressed(KEY_RETURN) && size > 0) {
-		if (parse()) {
-			history.push_back(buffer);
-			historyIndex = history.size();
-			index = size = 0;
-		} else {
-			error = true;
-			errorEnd = timer->getTime() + ERRORTIME;
-		}
-	}
-	if (receiver->isKeyPressed(KEY_SPACE) && size < CONSOLEBUFFERSIZE && size > 0) {
-		if (index < size) {
-			for (unsigned i = size; i > index; --i) {
-				buffer[i] = buffer[i - 1];
+				error = true;
+				errorEnd = timer->getTime() + ERRORTIME;
 			}
 		}
-		buffer[index] = ' ';
-		index++;
-		size++;
-	}
-	if (receiver->isKeyPressed(KEY_END)) {
+		break;
+	case KEY_END:
 		index = size;
-	}
-	if (receiver->isKeyPressed(KEY_HOME)) {
+		break;
+	case KEY_HOME:
 		index = 0;
-	}
-	if (receiver->isKeyPressed(KEY_LEFT) && index > 0) {
-		index--;
-	}
-	if (receiver->isKeyPressed(KEY_UP) && historyIndex > 0) {
-		historyIndex--;
-		strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
-		index = size = history[historyIndex].size();
-	}
-	if (receiver->isKeyPressed(KEY_RIGHT) && index < size) {
-		index++;
-	}
-	if (receiver->isKeyPressed(KEY_DOWN) && historyIndex < history.size()) {
-		historyIndex++;
-		if (historyIndex < history.size()) {
+		break;
+	case KEY_LEFT:
+		if (index > 0) {
+			index--;
+		}
+		break;
+	case KEY_UP:
+		if (historyIndex > 0) {
+			historyIndex--;
 			strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
 			index = size = history[historyIndex].size();
-		} else {
-			index = size = 0;
 		}
-	}
-	if (receiver->isKeyPressed(KEY_DELETE)) {
+		break;
+	case KEY_RIGHT:
+		if (index < size) {
+			index++;
+		}
+		break;
+	case KEY_DOWN:
+		if (historyIndex < history.size()) {
+				historyIndex++;
+			if (historyIndex < history.size()) {
+				strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
+				index = size = history[historyIndex].size();
+			} else {
+				index = size = 0;
+			}
+		}
+		break;
+	case KEY_DELETE:
 		historyIndex = history.size();
 		if (index == size) {
 			index = size = 0;
 		} else {
 			size = index;
 		}
-	}
-	if (receiver->isKeyPressed(KEY_MINUS) && size < CONSOLEBUFFERSIZE) {
-		if (index < size) {
-			for (unsigned i = size; i > index; --i) {
-				buffer[i] = buffer[i - 1];
-			}
-		}
-		buffer[index] = '-';
-		index++;
-		size++;
-	}
-	for (unsigned c = '0'; c < '9'; ++c) {
-		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
+		break;
+	default:
+		if (size < CONSOLEBUFFERSIZE) {
 			if (index < size) {
-				for (unsigned i = size; i > index; --i) {
+				for (unsigned i = size; i < index; --i) {
 					buffer[i] = buffer[i - 1];
 				}
 			}
-			buffer[index] = c;
+			buffer[index] = receiver->getChar();
 			index++;
 			size++;
 		}
+		break;
 	}
-	for (unsigned c = 'A'; c < 'Z'; ++c) {
-		if (receiver->isKeyPressed((EKEY_CODE)c) && size < CONSOLEBUFFERSIZE) {
-			if (index < size) {
-				for (unsigned i = size; i > index; --i) {
-					buffer[i] = buffer[i - 1];
-				}
-			}
-			buffer[index] = tolower(c);
-			index++;
-			size++;
-		}
-	}
-	//version 1 end
-	//*/
-	//separation between versions
-	/*
-	//version 2 begin
-
-	//version 2 end
-	*/
 
 	// draw shit
 	vdriver->draw2DRectangle(video::SColor(50,0,50,150), rect<s32>(0,0,base::width,base::height));
@@ -347,7 +182,7 @@ void DevConsole::setVisible(bool show)
 	visible = show;
 }
 
-bool DevConsole::getVisible()
+bool DevConsole::getVisible() const
 {
 	return visible;
 }

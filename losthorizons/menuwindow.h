@@ -24,7 +24,7 @@ public:
 		window->setVisible(visible);
 	}
 
-	bool getVisible()
+	bool getVisible() const
 	{
 		return window->isVisible();
 	}

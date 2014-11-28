@@ -21,32 +21,9 @@ public:
 	//void postMessage();
 
 	void setVisible(bool show);
-	bool getVisible();
+	bool getVisible() const;
 
 private:
-	//gui::IGUIListBox *history;
-	//gui::IGUIEditBox *editBox;
-
-	/*
-	enum KEY_PRESS
-	{
-		KB_RETURN = '\r',
-		KB_GRAVEACCENT = '`',
-		KB_TAB = '\t',
-		KB_BACKSPACE = '\b',
-		KB_CONTROL_K = 11,
-		KB_SPECIAL1 = 0,
-		KB_SPECIAL2 = 0xE0,
-		// AFTER KB_SPECIAL2
-		KB_HOME = 71,
-		KB_END = 79,
-		KB_UP = 72,
-		KB_LEFT = 75,
-		KB_RIGHT = 77,
-		KB_DOWN = 80
-	};
-	*/
-
 	/*enum E_ACTION_TYPE
 	{
 		ACTION_TOGGLE,
@@ -77,7 +54,6 @@ private:
 	unsigned historyIndex;
 
 	bool visible;
-
 	gui::IGUIFont *font;
 };
 

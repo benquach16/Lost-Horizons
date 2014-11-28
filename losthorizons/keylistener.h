@@ -14,7 +14,8 @@ public:
 	const bool isKeyUp(EKEY_CODE keyCode) const;
 	const bool isKeyReleased(EKEY_CODE keyCode);
 	const bool isKeyPressed(EKEY_CODE keyCode);
-	const char getch() const;
+	const EKEY_CODE getKey();
+	const char getChar();
 	const int getMouseX() const;
 	const int getMouseY() const;
 	const int getMouseWheel() const;
@@ -29,6 +30,7 @@ private:
 	};
 
 	E_KEY_STATE keys[KEY_KEY_CODES_COUNT];
+	EKEY_CODE key;
 	unsigned ch;
 	int mouseX, mouseY;
 	int mouseWheel;

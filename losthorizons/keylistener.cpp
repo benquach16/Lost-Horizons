@@ -2,7 +2,7 @@
 #include "keylistener.h"
 
 KeyListener::KeyListener()
-	: mouseX(0), mouseY(0), mouseWheel(0)
+	: key((EKEY_CODE)0), ch(0), mouseX(0), mouseY(0), mouseWheel(0)
 {
 	for (unsigned i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
 		keys[i] = KEY_STATE_UP;
@@ -17,9 +17,11 @@ bool KeyListener::OnEvent(const SEvent& event)
 	case EET_KEY_INPUT_EVENT:
 		if (event.KeyInput.PressedDown) {
 			keys[event.KeyInput.Key] = KEY_STATE_PRESSED;
+			key = event.KeyInput.Key;
 			ch = event.KeyInput.Char;
 		} else {
 			keys[event.KeyInput.Key] = KEY_STATE_RELEASED;
+			key = (EKEY_CODE)0;
 			ch = 0;
 		}
 		break;
@@ -29,15 +31,19 @@ bool KeyListener::OnEvent(const SEvent& event)
 		{
 		case EMIE_LMOUSE_PRESSED_DOWN:
 			keys[KEY_LBUTTON] = KEY_STATE_PRESSED;
+			key = KEY_LBUTTON;
 			break;
 		case EMIE_LMOUSE_LEFT_UP:
 			keys[KEY_LBUTTON] = KEY_STATE_RELEASED;
+			key = (EKEY_CODE)0;
 			break;
 		case EMIE_RMOUSE_PRESSED_DOWN:
 			keys[KEY_RBUTTON] = KEY_STATE_PRESSED;
+			key = KEY_RBUTTON;
 			break;
 		case EMIE_RMOUSE_LEFT_UP:
 			keys[KEY_RBUTTON] = KEY_STATE_RELEASED;
+			key = (EKEY_CODE)0;
 			break;
 		case EMIE_MOUSE_WHEEL:
 			// how do i make it work?
@@ -82,9 +88,18 @@ const bool KeyListener::isKeyPressed(EKEY_CODE keyCode)
 	return false;
 }
 
-const char KeyListener::getch() const
+const EKEY_CODE KeyListener::getKey()
 {
-	return ch;
+	EKEY_CODE temp = key;
+	key = (EKEY_CODE)0;
+	return temp;
+}
+
+const char KeyListener::getChar()
+{
+	unsigned temp = ch;
+	ch = 0;
+	return temp;
 }
 
 const int KeyListener::getMouseX() const
