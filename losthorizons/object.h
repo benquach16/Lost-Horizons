@@ -82,11 +82,13 @@ public:
 	const core::aabbox3df getBoundingBox() const;
 	const bool getVisible() const;
 	const bool getActive() const;
+	const int getIterations() const;
 	//mutators
 	void setPosition(const vector3df &position);
 	void setRotation(const vector3df &rotation);
 	void setScale(const vector3df &scale);
-	void setVisible(const bool visibile);
+	void setVisible(const bool visible);
+	void incrementIterations();
 
 protected:
 	E_OBJECT_COMPONENTS componentMask;
@@ -99,7 +101,7 @@ private:
 	bool visible;
 	//whether the object should still exist
 	bool active;
-
+	int iterations;
 	//iterator to this
 	unsigned index;
 };

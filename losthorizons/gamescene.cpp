@@ -110,15 +110,33 @@ void GameScene::run()
 {
 	//run all of the objects
 	unsigned i = 0;
-	while (i < Object::allObjects.size()) {
+	std::vector<int> deletedObjects(Object::allObjects.size());
+	//unsigned objSize = Object::allObjects.size();
+	while (i < Object::allObjects.size())
+	{
+	   
 		if (Object::allObjects[i]->run())
 			i++;
-		else {
-			delete Object::allObjects[i];
+		else
+		{
+			//TODO :: DO NOT DO CLEANUP IMMEDIATELY!!!!!!
+			//need to make sure that all objects know that ths object is deleted first
+			//make sure we iterate over our list at least once before we can delete
+			//delete Object::allObjects[i];
+			if(Object::allObjects[i]->getIterations() > 2)
+			{
+				delete Object::allObjects[i];
+			}
+			else
+			{
+				Object::allObjects[i]->incrementIterations();
+				i++;
+			}
 		}
 	}
 	//run effects
 	i = 0;
+	//objSize = Effect::allEffects.size();
 	while (i < Effect::allEffects.size()) {
 		if (Effect::allEffects[i]->run())
 			i++;
@@ -128,4 +146,7 @@ void GameScene::run()
 			Effect::allEffects.pop_back();
 		}
 	}
+
+	
+	
 }

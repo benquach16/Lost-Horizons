@@ -15,7 +15,7 @@ Object::Object()
 
 //constructor with mesh already allocated
 Object::Object(scene::IAnimatedMesh *mesh, const vector3df &position, const vector3df &rotation, const vector3df &scale)
-	: mesh(scenemngr->addAnimatedMeshSceneNode(mesh, 0, -1, position, rotation, scale)), active(true), index(allObjects.size())
+	: mesh(scenemngr->addAnimatedMeshSceneNode(mesh, 0, -1, position, rotation, scale)), active(true), index(allObjects.size()), iterations(0)
 {
 	allObjects.push_back(this);
 }
@@ -23,7 +23,7 @@ Object::Object(scene::IAnimatedMesh *mesh, const vector3df &position, const vect
 //constructor to load mesh from file
 Object::Object(const wchar_t *filename, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: filename(filename), mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename), 0, -1, position, rotation, scale)),
-	  active(true), index(allObjects.size())
+	  active(true), index(allObjects.size()), iterations(0)
 {
 	allObjects.push_back(this);
 	//mesh->setDebugDataVisible(true);
@@ -32,7 +32,7 @@ Object::Object(const wchar_t *filename, const vector3df &position, const vector3
 //constructor to load mesh and texture from file 
 Object::Object(const wchar_t *filename, const wchar_t *tex, const vector3df &position, const vector3df &rotation, const vector3df &scale)
 	: filename(filename), mesh(scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh(filename), 0, -1, position, rotation, scale)),
-	  active(true), index(allObjects.size())
+	  active(true), index(allObjects.size()), iterations(0)
 {
 	allObjects.push_back(this);
 	//mesh->setDebugDataVisible(true);
@@ -42,7 +42,7 @@ Object::Object(const wchar_t *filename, const wchar_t *tex, const vector3df &pos
 
 //copy constructor
 Object::Object(const Object *obj)
-	: mesh(scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh())), active(true), index(allObjects.size())
+	: mesh(scenemngr->addAnimatedMeshSceneNode(obj->mesh->getMesh())), active(true), index(allObjects.size()), iterations(0)
 {
 	allObjects.push_back(this);
 	//mesh->setDebugDataVisible(true);
@@ -132,6 +132,11 @@ const bool Object::getActive() const
 	return active;
 }
 
+const int Object::getIterations() const
+{
+	return iterations;
+}
+
 void Object::setPosition(const vector3df &position)
 {
 	mesh->setPosition(position);
@@ -151,4 +156,9 @@ void Object::setVisible(const bool visible)
 {
 	this->visible = visible;
 	mesh->setVisible(visible);
+}
+
+void Object::incrementIterations()
+{
+	iterations++;
 }
