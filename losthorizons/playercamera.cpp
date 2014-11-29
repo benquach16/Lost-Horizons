@@ -4,9 +4,15 @@
 
 using namespace base;
 
+#define DISTANCEINCREMENT 50
+#define DISTANCEMINIMUM 200
+#define DISTANCEMAXIMUM 1500
+
 PlayerCamera::PlayerCamera(const core::vector3df &position)
-	: cam(scenemngr->addCameraSceneNode(0, position)), cameraMode(CAMERA_ORBIT), distance(200), angle(180), angleY(20),
-	  mouseX(0), mouseY(0), oldMouseWheel(0)
+	: cam(scenemngr->addCameraSceneNode(0, position)),
+	  cameraMode(CAMERA_ORBIT),
+	  distance(DISTANCEMINIMUM+DISTANCEINCREMENT),
+	  angle(180), angleY(20), mouseX(0), mouseY(0)
 {
 	cam->setFarValue(500000);
 }
@@ -16,28 +22,30 @@ PlayerCamera::~PlayerCamera()
 	cam->remove();
 }
 
-void PlayerCamera::run(const core::vector3df &pos)
+void PlayerCamera::run(const core::vector3df &targetPos)
 {
+	//update camera angles and distance
 	control();
+	
+	//change camera location
+	switch (cameraMode)
+	{
+	case CAMERA_ORBIT:
+		orbit(targetPos);
+		break;
+	case CAMERA_CHASE:
+		//implement
+		break;
+	case CAMERA_TOP:
+		//implement
+		break;
+	}
+	
+	//rotate camera to look at player position
+	cam->setTarget(targetPos);
 
-	//constantly look at player position
-	//and rotate around it
-	cam->setTarget(pos);
-	//if angle is too big or too small
-	//put it back in 360 limit
-	if (angle > 360) 
-		angle -= 360;
-	else if (angle < 0)
-		angle += 360;
-
-	if (angleY > 360)
-		angle -= 360;
-	else if (angleY < 0)
-		angleY += 360;
-
-	sound->setListenerPosition(cam->getAbsolutePosition(), (cam->getTarget() - cam->getAbsolutePosition()));
-	if (cameraMode == CAMERA_ORBIT)
-		orbit(pos);
+	//change listener position based on new player and cam positions
+	sound->setListenerPosition(cam->getAbsolutePosition(), targetPos - cam->getAbsolutePosition());
 }
 
 void PlayerCamera::orbit(const vector3df &pos)
@@ -55,46 +63,48 @@ void PlayerCamera::orbit(const vector3df &pos)
 
 void PlayerCamera::rotateX(int x)
 {
-	angle -= mouseX - x;
-	mouseX = x;
+	angle += x;
+	//keep it within limits
+	if (angle >= 360) 
+		angle -= 360;
+	else if (angle < 0)
+		angle += 360;
 }
 
 void PlayerCamera::rotateY(int y)
 {
-	angleY -= mouseY - y;
-	mouseY = y;
+	angleY += y;
+	//keep it within limits
+	if (angleY >= 360)
+		angleY -= 360;
+	else if (angleY < 0)
+		angleY += 360;
 }
 
 void PlayerCamera::zoom(int z)
 {
-	if (z != oldMouseWheel) {
-		distance += (oldMouseWheel - z)*50;
-		if (distance > -150 && distance < 150) {
-			distance *= -1;
-			while (distance > -150 && distance < 150)
-				distance += distance < 0 ? -50 : 50;
-		}
-		else if (distance < -1500)
-			distance = -1500;
-		else if (distance > 1500)
-			distance = 1500;
-		oldMouseWheel = z;
-	}
-}
-
-void PlayerCamera::updateMousePosition(int x, int y)
-{
-	mouseX = x;
-	mouseY = y;
+	distance += z*DISTANCEINCREMENT;
+	//keep it within limits
+	if (distance > -DISTANCEMINIMUM && distance < 0)
+		distance = DISTANCEMINIMUM;
+	else if (distance >= 0 && distance < DISTANCEMINIMUM)
+		distance = -DISTANCEMINIMUM;
+	else if (distance < -DISTANCEMAXIMUM)
+		distance = -DISTANCEMAXIMUM;
+	else if (distance > DISTANCEMAXIMUM)
+		distance = DISTANCEMAXIMUM;
 }
 
 void PlayerCamera::control()
 {
+	const int x = receiver->getMouseX();
+	const int y = receiver->getMouseY();
 	if (receiver->isKeyDown(KEY_RBUTTON)) {
 		//we can rotate the camera around this way
-		rotateX(receiver->getMouseX());
-		rotateY(receiver->getMouseY());
-	} else
-		updateMousePosition(receiver->getMouseX(), receiver->getMouseY());
+		rotateX(x - mouseX);
+		rotateY(y - mouseY);
+	}
+	mouseX = x;
+	mouseY = y;
 	zoom(receiver->getMouseWheel());
 }

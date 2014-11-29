@@ -112,7 +112,9 @@ const int KeyListener::getMouseY() const
 	return mouseY;
 }
 
-const int KeyListener::getMouseWheel() const
+const int KeyListener::getMouseWheel()
 {
-	return mouseWheel;
+	int temp = mouseWheel;
+	mouseWheel = 0;
+	return temp;
 }

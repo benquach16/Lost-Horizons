@@ -18,7 +18,7 @@ public:
 	const char getChar();
 	const int getMouseX() const;
 	const int getMouseY() const;
-	const int getMouseWheel() const;
+	const int getMouseWheel();
 
 private:
 	enum E_KEY_STATE

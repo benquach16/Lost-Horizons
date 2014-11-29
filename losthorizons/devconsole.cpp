@@ -10,6 +10,7 @@ using namespace base;
 namespace command
 {
 	//commands for the dev console are forward declared here and defined at the end of this file
+	bool null(std::vector<std::string>& args);
 	bool execute(std::vector<std::string>& args);
 	bool create(std::vector<std::string>& args);
 }
@@ -17,16 +18,19 @@ namespace command
 #define CONSOLEBUFFERSIZE 80
 #define HISTORYPOSITIONX 10
 #define HISTORYPOSITIONY 10
+#define SCROLLINCREMENT 10
 #define EDITLINEPOSITIONX 30
-#define EDITLINEPOSITIONY base::height-40
+#define EDITLINEPOSITIONY height-40
+#define CURSORBLINKTIME 500
 #define ERRORTIME 2000
 #define FONTWIDTH 11
 
 DevConsole::DevConsole()
 	: buffer(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0),
-	  error(false), errorEnd(0), historyIndex(0), visible(false),
-	  font(guienv->getFont("res/font/sans_mono.png"))
+	  error(false), errorEnd(0), historyIndex(0), scrollPosition(0),
+	  visible(false), font(guienv->getFont("res/font/sans_mono.png"))
 {
+	registerCommand("null", command::null);
 	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
 
@@ -34,9 +38,10 @@ DevConsole::DevConsole()
 	//add junk to history for testing
 	history.push_back("This is a command");
 	history.push_back("This is another command");
-	for (unsigned i = 0; i < 12; ++i) {
-		history.push_back("test test test APPLES");
+	for (unsigned i = 0; i < 22; ++i) {
+		history.push_back("test test test test test");
 	}
+	history.push_back("last command");
 	historyIndex=history.size();
 }
 
@@ -154,16 +159,20 @@ void DevConsole::run()
 		}
 		break;
 	}
+	scrollPosition += receiver->getMouseWheel()*SCROLLINCREMENT;
 
 	// draw shit
-	vdriver->draw2DRectangle(video::SColor(50,0,50,150), rect<s32>(0,0,base::width,base::height));
+	vdriver->draw2DRectangle(video::SColor(50,0,50,150), rect<s32>(0,0,width,height));
+	rect<s32> clip(0,HISTORYPOSITIONY,width,EDITLINEPOSITIONY-SCROLLINCREMENT);
 	for (unsigned i = 0; i < history.size(); ++i) {
-		font->draw(history[i].c_str(), rect<s32>(HISTORYPOSITIONX,HISTORYPOSITIONY+i*20,0,0), video::SColor(255,0,150,50));
+		font->draw(history[i].c_str(), rect<s32>(HISTORYPOSITIONX,HISTORYPOSITIONY+scrollPosition+i*20,0,0), video::SColor(255,0,150,50), false, false, &clip);
 	}
-	font->draw(">", rect<s32>(EDITLINEPOSITIONX-13,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
-	font->draw("_", rect<s32>(EDITLINEPOSITIONX+FONTWIDTH*index,EDITLINEPOSITIONY+2,0,0), video::SColor(255,0,150,50));
 	buffer[size] = '\0';
 	font->draw(buffer, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
+	font->draw(">", rect<s32>(EDITLINEPOSITIONX-13,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
+	if (timer->getTime()/CURSORBLINKTIME%2 == 0) {
+		font->draw("_", rect<s32>(EDITLINEPOSITIONX+FONTWIDTH*index,EDITLINEPOSITIONY+2,0,0), video::SColor(255,0,150,50));
+	}
 	if (error) {
 		vdriver->draw2DLine(vector2d<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY+20), vector2d<s32>(EDITLINEPOSITIONX+FONTWIDTH*size,EDITLINEPOSITIONY+20), video::SColor(150,255,0,0));
 		if (timer->getTime() > errorEnd) {
@@ -247,6 +256,11 @@ bool DevConsole::parse(std::string line)
 
 
 //definitions for dev console commands start here
+bool command::null(std::vector<std::string>& args)
+{
+	return true;
+}
+
 bool command::execute(std::vector<std::string>& args)
 {
 	bool success = !args.empty();

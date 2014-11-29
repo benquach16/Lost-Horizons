@@ -20,13 +20,11 @@ public:
 
 	PlayerCamera(const core::vector3df &position = core::vector3df(0.f,0.f,0.f));
 	~PlayerCamera();
-	void run(const core::vector3df &pos);
+	void run(const core::vector3df &targetPos);
 	void orbit(const core::vector3df &pos);
 	void rotateX(int x);
 	void rotateY(int y);
 	void zoom(int z);
-	//needed to keep cam smooth
-	void updateMousePosition(int x, int y);
 	
 private:
 	void control();
@@ -40,7 +38,6 @@ private:
 	f32 angle, angleY;
 
 	int mouseX, mouseY;
-	int oldMouseWheel;
 };
 
 #endif
