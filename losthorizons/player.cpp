@@ -80,7 +80,13 @@ bool Player::run()
 			video::SColor(255,255,255,255), true);
 	}
 	
-	if (shipTarget) {
+	if (shipTarget) 
+	{
+		if(!shipTarget->getActive())
+		{
+			shipTarget = 0;
+			return Ship::run();
+		}
 		//make the ship's target have a square around it
 		vdriver->draw2DImage(vdriver->getTexture("res/menu/target.png"), shipTarget->getScreenPosition() - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
 		//add cool lines

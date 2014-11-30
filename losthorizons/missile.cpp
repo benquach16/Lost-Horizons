@@ -36,6 +36,11 @@ bool Missile::run()
 	//but not liike too fast you know
 	if (target)
 	{
+		if(!target->getActive())
+		{
+			target = 0;
+			remove();
+		}
 		if(missileTimer < timer->getTime())
 		{
 		

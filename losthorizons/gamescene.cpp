@@ -123,9 +123,10 @@ void GameScene::run()
 			//need to make sure that all objects know that ths object is deleted first
 			//make sure we iterate over our list at least once before we can delete
 			//delete Object::allObjects[i];
-			if(Object::allObjects[i]->getIterations() > 2)
+			if(Object::allObjects[i]->getIterations() > 3)
 			{
 				delete Object::allObjects[i];
+				//i++;
 			}
 			else
 			{
