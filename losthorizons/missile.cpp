@@ -40,6 +40,7 @@ bool Missile::run()
 		{
 			target = 0;
 			remove();
+			return Projectile::run();
 		}
 		if(missileTimer < timer->getTime())
 		{
