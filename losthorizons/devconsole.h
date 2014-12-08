@@ -52,7 +52,7 @@ private:
 	unsigned errorEnd;
 	std::vector<std::string> history;
 	unsigned historyIndex;
-	unsigned scrollPosition;
+	int scrollPosition;
 
 	bool visible;
 	gui::IGUIFont *font;

@@ -10,17 +10,17 @@ using namespace base;
 namespace command
 {
 	//commands for the dev console are forward declared here and defined at the end of this file
-	bool null(std::vector<std::string>& args);
 	bool execute(std::vector<std::string>& args);
 	bool create(std::vector<std::string>& args);
+	bool move(std::vector<std::string>& args);
 }
 
 #define CONSOLEBUFFERSIZE 80
-#define HISTORYPOSITIONX 10
-#define HISTORYPOSITIONY 10
+#define HISTORYPOSITIONX 40
+#define HISTORYPOSITIONY 40
 #define SCROLLINCREMENT 10
 #define EDITLINEPOSITIONX 30
-#define EDITLINEPOSITIONY height-40
+#define EDITLINEPOSITIONY 10
 #define CURSORBLINKTIME 500
 #define ERRORTIME 2000
 #define FONTWIDTH 11
@@ -30,15 +30,15 @@ DevConsole::DevConsole()
 	  error(false), errorEnd(0), historyIndex(0), scrollPosition(0),
 	  visible(false), font(guienv->getFont("res/font/sans_mono.png"))
 {
-	registerCommand("null", command::null);
 	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
+	registerCommand("move", command::move);
 
 
 	//add junk to history for testing
 	history.push_back("This is a command");
 	history.push_back("This is another command");
-	for (unsigned i = 0; i < 22; ++i) {
+	for (unsigned i = 0; i < 23; ++i) {
 		history.push_back("test test test test test");
 	}
 	history.push_back("last command");
@@ -60,7 +60,7 @@ DevConsole::~DevConsole()
 
 void DevConsole::run()
 {
-	// check keys
+	// update
 	EKEY_CODE keyPressed = receiver->getKey();
 	switch (keyPressed)
 	{
@@ -94,6 +94,7 @@ void DevConsole::run()
 		break;
 	case KEY_RETURN:
 		if (size > 0) {
+			scrollPosition = 0;
 			if (parse()) {
 				history.push_back(buffer);
 				historyIndex = history.size();
@@ -116,18 +117,6 @@ void DevConsole::run()
 		}
 		break;
 	case KEY_UP:
-		if (historyIndex > 0) {
-			historyIndex--;
-			strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
-			index = size = history[historyIndex].size();
-		}
-		break;
-	case KEY_RIGHT:
-		if (index < size) {
-			index++;
-		}
-		break;
-	case KEY_DOWN:
 		if (historyIndex < history.size()) {
 				historyIndex++;
 			if (historyIndex < history.size()) {
@@ -136,6 +125,18 @@ void DevConsole::run()
 			} else {
 				index = size = 0;
 			}
+		}
+		break;
+	case KEY_RIGHT:
+		if (index < size) {
+			index++;
+		}
+		break;
+	case KEY_DOWN:
+		if (historyIndex > 0) {
+			historyIndex--;
+			strcpy_s(buffer, CONSOLEBUFFERSIZE, history[historyIndex].c_str());
+			index = size = history[historyIndex].size();
 		}
 		break;
 	case KEY_DELETE:
@@ -147,25 +148,35 @@ void DevConsole::run()
 		}
 		break;
 	default:
-		if (size < CONSOLEBUFFERSIZE) {
-			if (index < size) {
-				for (unsigned i = size; i < index; --i) {
-					buffer[i] = buffer[i - 1];
+		{
+			char c = receiver->getChar();
+			if (size < CONSOLEBUFFERSIZE && c >= ' ' && c < '~') {
+				if (index < size) {
+					for (unsigned i = size; i > index; --i) {
+						buffer[i] = buffer[i - 1];
+					}
 				}
+				buffer[index] = c;
+				index++;
+				size++;
 			}
-			buffer[index] = receiver->getChar();
-			index++;
-			size++;
 		}
 		break;
 	}
-	scrollPosition += receiver->getMouseWheel()*SCROLLINCREMENT;
+	if (history.size()*20 > height-EDITLINEPOSITIONY-HISTORYPOSITIONY) {
+		scrollPosition += receiver->getMouseWheel()*SCROLLINCREMENT;
+		if (scrollPosition < 0) {
+			scrollPosition = 0;
+		} else if (scrollPosition > HISTORYPOSITIONY+EDITLINEPOSITIONY-height+history.size()*20) {
+			scrollPosition = HISTORYPOSITIONY+EDITLINEPOSITIONY-height+history.size()*20;
+		}
+	}
 
-	// draw shit
+	// draw
 	vdriver->draw2DRectangle(video::SColor(50,0,50,150), rect<s32>(0,0,width,height));
-	rect<s32> clip(0,HISTORYPOSITIONY,width,EDITLINEPOSITIONY-SCROLLINCREMENT);
+	rect<s32> clip(0,HISTORYPOSITIONY,width,height-EDITLINEPOSITIONY);
 	for (unsigned i = 0; i < history.size(); ++i) {
-		font->draw(history[i].c_str(), rect<s32>(HISTORYPOSITIONX,HISTORYPOSITIONY+scrollPosition+i*20,0,0), video::SColor(255,0,150,50), false, false, &clip);
+		font->draw(history[i].c_str(), rect<s32>(HISTORYPOSITIONX,HISTORYPOSITIONY-scrollPosition+(history.size()-1-i)*20,0,0), video::SColor(255,0,150,50), false, false, &clip);
 	}
 	buffer[size] = '\0';
 	font->draw(buffer, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
@@ -179,11 +190,6 @@ void DevConsole::run()
 			error = false;
 		}
 	}
-	
-	//print stuff for testing
-	font->draw(core::stringw(L"history:") + core::stringw(historyIndex), rect<s32>(500,440,0,0), video::SColor(255,255,255,255));
-	font->draw(core::stringw(L"size:") + core::stringw(size), rect<s32>(500,460,0,0), video::SColor(255,255,255,255));
-	font->draw(core::stringw(L"index:") + core::stringw(index), rect<s32>(500,480,0,0), video::SColor(255,255,255,255));
 }
 
 void DevConsole::setVisible(bool show)
@@ -256,11 +262,6 @@ bool DevConsole::parse(std::string line)
 
 
 //definitions for dev console commands start here
-bool command::null(std::vector<std::string>& args)
-{
-	return true;
-}
-
 bool command::execute(std::vector<std::string>& args)
 {
 	bool success = !args.empty();
@@ -372,5 +373,11 @@ bool command::create(std::vector<std::string>& args)
 		return false;
 	}
 
+	return true;
+}
+
+bool command::move(std::vector<std::string>& args)
+{
+	//how should this be done?...
 	return true;
 }
