@@ -423,6 +423,11 @@ void Ship::setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slo
 		pdTurrets[slot]->assignTurret(turretType);
 }
 
+void Ship::setShieldDirection(const E_SHIELD_DIRECTIONS direction)
+{
+	info.shieldDirection = direction;
+}
+
 void Ship::repairShip()
 {
 	info.hull = info.maxHull;

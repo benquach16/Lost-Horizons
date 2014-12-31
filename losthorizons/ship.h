@@ -153,12 +153,14 @@ public:
 	void setMediumTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
 	void setLightTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
 	void setPDTurret(const ObjectManager::E_ITEM_LIST turretType, unsigned slot);
+	void setShieldDirection(const E_SHIELD_DIRECTIONS direction);
 
 	//forgot what this function did
 	void repairShip();
 
 	//some setters
 	void setFaction(E_GAME_FACTION currentFaction);
+	
 
 	//some accessors
 	const ShipInformation& getInfo() const;

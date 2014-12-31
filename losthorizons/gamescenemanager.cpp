@@ -52,7 +52,10 @@ PlayerCamera *GameSceneManager::createPlayerCam(const vector3df &position)
 Ship *GameSceneManager::createShip(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
 {
 	if (Ship::allShips.empty())
-		return new Player(faction, shipType, position, rotation);
+	{
+		Player *p = new Player(faction, shipType, position, rotation);
+		return p->getShip();
+	}
 	else
 		return new Ship(faction, shipType, position, rotation);
 }
@@ -60,7 +63,10 @@ Ship *GameSceneManager::createShip(const E_GAME_FACTION &faction, const ObjectMa
 Ship *GameSceneManager::createShip(u16 ID, const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
 {
 	if (Ship::allShips.empty())
-		return new Player(info, subsystems, position, rotation);
+	{
+		Player *p = new Player(info, subsystems, position, rotation);
+		return p->getShip();
+	}
 	else
 		return new Ship(ID, info, subsystems, position, rotation);
 }

@@ -6,19 +6,20 @@
 using namespace base;
 
 Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation)
-	: Ship(faction, shipType, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
+	: ship(new Ship(faction, shipType, position, rotation)), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
 	playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true), currentMode(MODE_TACTICAL)
 {
+
 	init();
-	hud->initializePlayerShipsInFleet(shipFleet);
+	hud->initializePlayerShipsInFleet(ship->getFleet());
 }
 
 Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
-	: Ship(0, info, subsystems, position, rotation), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
+	: ship(new Ship(0, info, subsystems, position, rotation)), hud(new HUD), intercom(new Intercom), turning(new TurningMarker), minimap(new Minimap),
 	  playerCam(0), gameMenu(0), stationMenu(0), shootReleased(true), currentMode(MODE_TACTICAL)
 {
 	init();
-	hud->initializePlayerShipsInFleet(shipFleet);
+	hud->initializePlayerShipsInFleet(ship->getFleet());
 }
 
 Player::~Player()
@@ -31,130 +32,135 @@ Player::~Player()
 	delete stationMenu;
 	grid->remove();
 }
-
-bool Player::run()
+void Player::run()
 {
 	// let's make the player invinvible until we can get some bugs sorted out
 	// until the console can enable godmode, it'll be done like this
-	if (info.armor < 1000) info.armor = 427912304;
-	// I'M FUXXING INVINCIBLE
-
-	if(currentMode == MODE_COMMAND)
+	if(ship)
 	{
-		//allow player ro command fleet
-		playerCommandFleet();
-		hud->setFleetVisible(true);
-		hud->updatePlayerShipsInFleet(this->shipFleet);
-		grid->setVisible(true);
-	}
-	else
-	{
-		grid->setVisible(false);
-		hud->setFleetVisible(false);
-	}
-	
-	control();
-	hud->run(this);
-	minimap->run();
-	if (info.shield < 10) 
-	{
-		intercom->postMessage(L"Sir, our shields are down");
-	}
-	
-	intercom->run();
-	turning->run(getPosition(), getRotation(), getTargetRotation());
-	playerCam->run(getPosition());
-	if (gameMenu->getVisible()) {
-		gameMenu->run();
-	}
-	if (stationMenu->getVisible() && shipTarget && shipTarget->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION) {
-		stationMenu->setTarget(shipTarget);
-		stationMenu->run();
-	}
-
-	for(unsigned i = 1; i < shipFleet->size(); i++)
-	{
-		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_friendly.png"),
-			shipFleet->getShipsInFleet()[i]->getScreenPosition() - vector2di(16),
-			rect<s32>(0,0,32,32), 0,
-			video::SColor(255,255,255,255), true);
-	}
-	
-	if (shipTarget) 
-	{
-		if(!shipTarget->getActive())
+		//if (ship->getInfo().armor < 1000) ship->i = 427912304;
+		// I'M FUXXING INVINCIBLE
+		vector3df position = ship->getPosition();
+		vector3df rotation = ship->getRotation();
+		vector3df scale = ship->getScale();
+		const TargetableObject *shipTarget = ship->getShipTarget();
+		if(currentMode == MODE_COMMAND)
 		{
-			shipTarget = 0;
-			return Ship::run();
+			//allow player ro command fleet
+			playerCommandFleet();
+			hud->setFleetVisible(true);
+			hud->updatePlayerShipsInFleet(ship->getFleet());
+			grid->setVisible(true);
 		}
-		//make the ship's target have a square around it
-		vdriver->draw2DImage(vdriver->getTexture("res/menu/target.png"), shipTarget->getScreenPosition() - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
-		//add cool lines
-
-		vdriver->draw2DLine(vector2d<s32>(shipTarget->getScreenPosition().X, 0), vector2d<s32>(shipTarget->getScreenPosition().X, height), video::SColor(128,128,128,140));
-		vdriver->draw2DLine(vector2d<s32>(0, shipTarget->getScreenPosition().Y), vector2d<s32>(width, shipTarget->getScreenPosition().Y), video::SColor(128,128,128,140));
-
-		//move turret aim lines to here so only player has them
-		for(unsigned i = 0; i < mediumTurrets.size(); i++)
+		else
 		{
+			grid->setVisible(false);
+			hud->setFleetVisible(false);
+		}
+
+		control();
+		hud->run(ship);
+
+		minimap->run();
+		if (ship->getInfo().shield < 10) 
+		{
+			intercom->postMessage(L"Sir, our shields are down");
+		}
+
+		intercom->run();
+		turning->run(position, rotation, ship->getTargetRotation());
+		playerCam->run(position);
+		if (gameMenu->getVisible()) 
+		{
+			gameMenu->run();
+		}
+		if (stationMenu->getVisible() && shipTarget && shipTarget->getTargetableObjectType() == TARGETABLEOBJECT_SPACESTATION) 
+		{
+			stationMenu->setTarget((TargetableObject*)shipTarget); //UGLY HACK TO GET AROUND CONST LOL
+			stationMenu->run();
+		}
+		//is this a good way of implementing it?
+		for(unsigned i = 1; i < ship->getFleet()->size(); i++)
+		{
+			vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_friendly.png"),
+				ship->getFleet()->getShipsInFleet()[i]->getScreenPosition() - vector2di(16),
+				rect<s32>(0,0,32,32), 0,
+				video::SColor(255,255,255,255), true);
+		}
+
+		if (shipTarget) 
+		{
+			if(!shipTarget->getActive())
+			{
+				shipTarget = 0;
+				return;
+			}
+			//make the ship's target have a square around it
+			vdriver->draw2DImage(vdriver->getTexture("res/menu/target.png"), shipTarget->getScreenPosition() - vector2di(32), rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
+			//add cool lines
+
+			vdriver->draw2DLine(vector2d<s32>(shipTarget->getScreenPosition().X, 0), vector2d<s32>(shipTarget->getScreenPosition().X, height), video::SColor(128,128,128,140));
+			vdriver->draw2DLine(vector2d<s32>(0, shipTarget->getScreenPosition().Y), vector2d<s32>(width, shipTarget->getScreenPosition().Y), video::SColor(128,128,128,140));
+			/*
+			//move turret aim lines to here so only player has them
+			for(unsigned i = 0; i < mediumTurrets.size(); i++)
+			{
 			//draw pretty lines here
 			if(mediumTurrets[i]->getCanFire())
 			{
-				/*
-				vdriver->setTransform(video::ETS_WORLD, core::matrix4());
-				vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
-					shipTarget->getPosition(), video::SColor(255,0,255,0));	
-					*/
-				//2d line is a temporary fix
-				//becaause with postprocessing enabled, 3d lines do not work!!!!!!
-				if(shipTarget->getScreenPosition().X > 1&& shipTarget->getScreenPosition().Y > 1)
-				{
-					
-					vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
-					vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getAlteredShipPosition());
-					
-				vdriver->draw2DLine(t, i, video::SColor(255,100,255,100));
-				}
+
+			//vdriver->setTransform(video::ETS_WORLD, core::matrix4());
+			//vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
+			//shipTarget->getPosition(), video::SColor(255,0,255,0));	
+
+			//2d line is a temporary fix
+			//becaause with postprocessing enabled, 3d lines do not work!!!!!!
+			if(shipTarget->getScreenPosition().X > 1&& shipTarget->getScreenPosition().Y > 1)
+			{
+
+			vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
+			vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getAlteredShipPosition());
+
+			vdriver->draw2DLine(t, i, video::SColor(255,100,255,100));
 			}
-		}
-		for(unsigned i = 0; i < lightTurrets.size(); i++)
-		{
+			}
+			}
+			for(unsigned i = 0; i < lightTurrets.size(); i++)
+			{
 			if(lightTurrets[i]->getCanFire())
 			{
-				/*
-				//draw pretty lines here
-				vdriver->setTransform(video::ETS_WORLD, core::matrix4());
-				vdriver->draw3DLine(lightTurrets[i]->getPosition(),
-					shipTarget->getPosition(), video::SColor(255,0,255,0));	
-					*/
+
+			}
+			}
+			}
+			*/
+			//allow ship commands to go here
+			if(receiver->isKeyDown(irr::KEY_F1))
+			{
+				currentMode = MODE_TACTICAL;
+			}
+			else if(receiver->isKeyDown(irr::KEY_F2))
+			{
+				currentMode = MODE_NAVIGATION;
+			}
+			else if(receiver->isKeyDown(irr::KEY_F3))
+			{
+				currentMode = MODE_COMMAND;
 			}
 		}
 	}
-
-	//allow ship commands to go here
-	if(receiver->isKeyDown(irr::KEY_F1))
-	{
-		currentMode = MODE_TACTICAL;
-	}
-	else if(receiver->isKeyDown(irr::KEY_F2))
-	{
-		currentMode = MODE_NAVIGATION;
-	}
-	else if(receiver->isKeyDown(irr::KEY_F3))
-	{
-		currentMode = MODE_COMMAND;
-	}
-	return Ship::run();
 }
 
-const E_TARGETABLEOBJECT_TYPE Player::getTargetableObjectType() const
-{
-	return TARGETABLEOBJECT_PLAYER;
-}
+
 
 const E_PLAYER_COMMAND_MODE Player::getCurrentMode() const
 {
 	return currentMode;
+}
+
+Ship* Player::getShip()
+{
+	return ship;
 }
 
 //private functions
@@ -162,10 +168,11 @@ void Player::init()
 {
 	game->setPointers(this, intercom);
 	playerCam = game->getGameSceneManager()->createPlayerCam(vector3df(500.f,500.f,500.f));
-	gameMenu = new GameMenu(this);
-	stationMenu = new StationMenu(this);
-	shipFleet = new Fleet;
-	shipFleet->addShipToFleet(this);
+	gameMenu = new GameMenu(ship);
+	stationMenu = new StationMenu(ship);
+	Fleet *shipFleet = new Fleet;
+	ship->addToFleet(shipFleet);
+	shipFleet->addShipToFleet(ship);
 
 	//need to initialize command grid
 	grid = scenemngr->addCubeSceneNode();
@@ -185,52 +192,62 @@ void Player::init()
 void Player::control()
 {
 	//all actions the player can do are stored here
-	if (receiver->isKeyPressed(KEY_LBUTTON) && !gameMenu->getVisible() && !stationMenu->getVisible()) {
+	if (receiver->isKeyPressed(KEY_LBUTTON) && !gameMenu->getVisible() && !stationMenu->getVisible()) 
+	{
 		//do target selection code here
-		setTarget(0);
+		ship->setTarget(0);
 		unsigned i = 0;
-		while (!getShipTarget() && i < TargetableObject::allTargets.size()) {
+		while (!ship->getShipTarget() && i < TargetableObject::allTargets.size()) 
+		{
 			//see if there's a square here
 			const int x = receiver->getMouseX() - TargetableObject::allTargets[i]->getScreenPosition().X;
 			const int y = receiver->getMouseY() - TargetableObject::allTargets[i]->getScreenPosition().Y;
-			if (TargetableObject::allTargets[i]->getTargetable() && (x*x + y*y) < 1024) {
-				setTarget(TargetableObject::allTargets[i]);
+			if (TargetableObject::allTargets[i]->getTargetable() && (x*x + y*y) < 1024) 
+			{
+				ship->setTarget(TargetableObject::allTargets[i]);
 			}
 			i++;
 		}
 	}
-	if (receiver->isKeyDown(irr::KEY_KEY_X) && !info.warping) {
-		//accelerate
-		increaseVelocity();
-	} else if (receiver->isKeyDown(irr::KEY_KEY_Z)&& !info.warping) {
-		//decelerate
-		decreaseVelocity();
-	}
-	if (receiver->isKeyDown(irr::KEY_KEY_A)&& !info.warping) {
-		//rotate left
-		setTargetRotation(getTargetRotation() - core::vector3df(0,35*frameDeltaTime,0));
-	}
-	if (receiver->isKeyDown(irr::KEY_KEY_D)&& !info.warping) {
-		//rotate right
-		vector3df rot = getTargetRotation();
-		rot.Y += 35*frameDeltaTime;
-		setTargetRotation(getTargetRotation() + core::vector3df(0,35*frameDeltaTime,0));
-	}
-	if (receiver->isKeyDown(irr::KEY_KEY_W)&& !info.warping) {
-		//rotate up
-		vector3df rot = getTargetRotation();
-		rot.X -= 35*frameDeltaTime;
-		setTargetRotation(getTargetRotation() - core::vector3df(35*frameDeltaTime,0,0));
-	}
-	if (receiver->isKeyDown(irr::KEY_KEY_S)&& !info.warping) {
-		//rotate down
-		vector3df rot = getTargetRotation();
-		rot.X += 35*frameDeltaTime;
-		setTargetRotation(getTargetRotation() + core::vector3df(35*frameDeltaTime,0,0));
-	}
-	if (receiver->isKeyDown(irr::KEY_SPACE) && shootReleased) 
+	if (receiver->isKeyDown(irr::KEY_KEY_X) && !ship->getInfo().warping) 
 	{
-		fireTurrets();
+		//accelerate
+		ship->increaseVelocity();
+	} 
+	else if (receiver->isKeyDown(irr::KEY_KEY_Z)&& !ship->getInfo().warping) 
+	{
+		//decelerate
+		ship->decreaseVelocity();
+	}
+	if (receiver->isKeyDown(irr::KEY_KEY_A)&& !ship->getInfo().warping) 
+	{
+		//rotate left
+		ship->setTargetRotation(ship->getTargetRotation() - core::vector3df(0,35*frameDeltaTime,0));
+	}
+	if (receiver->isKeyDown(irr::KEY_KEY_D)&& !ship->getInfo().warping) 
+	{
+		//rotate right
+		vector3df rot = ship->getTargetRotation();
+		rot.Y += 35*frameDeltaTime;
+		ship->setTargetRotation(ship->getTargetRotation() + core::vector3df(0,35*frameDeltaTime,0));
+	}
+	if (receiver->isKeyDown(irr::KEY_KEY_W)&& !ship->getInfo().warping) 
+	{
+		//rotate up
+		vector3df rot = ship->getTargetRotation();
+		rot.X -= 35*frameDeltaTime;
+		ship->setTargetRotation(ship->getTargetRotation() - core::vector3df(35*frameDeltaTime,0,0));
+	}
+	if (receiver->isKeyDown(irr::KEY_KEY_S)&& !ship->getInfo().warping) 
+	{
+		//rotate down
+		vector3df rot = ship->getTargetRotation();
+		rot.X += 35*frameDeltaTime;
+		ship->setTargetRotation(ship->getTargetRotation() + core::vector3df(35*frameDeltaTime,0,0));
+	}
+	if (receiver->isKeyReleased(irr::KEY_SPACE)) 
+	{
+		ship->fireTurrets();
 		intercom->postMessage(L"Firing all available batteries sir!");
 		shootReleased = false;
 	}
@@ -242,11 +259,11 @@ void Player::control()
 	//do docking
 	if (receiver->isKeyReleased(irr::KEY_KEY_V))
 	{
-		if(!info.docked)
+		if(!ship->getInfo().docked)
 		{
-			dockWithTarget();
+			ship->dockWithTarget();
 			//make sure the menu only shows up when the player is actually docked
-			if(info.docked)
+			if(ship->getInfo().docked)
 			{
 				stationMenu->setVisible(true);
 				intercom->postMessage(L"Yes sir, aligning ship to dock with station");
@@ -259,7 +276,7 @@ void Player::control()
 		}
 		else
 		{
-			undockWithTarget();
+			ship->undockWithTarget();
 			stationMenu->setVisible(false);
 		}
 	}
@@ -271,12 +288,12 @@ void Player::control()
 	//launch fighters
 	if (receiver->isKeyReleased(irr::KEY_KEY_N))
 	{
-		launchFighters();
+		ship->launchFighters();
 		intercom->postMessage(L"Launching available fighters, sir");
 	}
 	if (receiver->isKeyReleased(irr::KEY_KEY_J))
 	{
-		warpToTarget();
+		ship->warpToTarget();
 		intercom->postMessage(L"Yes sir, initiating warp sequence");
 	}
 	if(receiver->isKeyReleased(irr::KEY_MINUS))
@@ -293,19 +310,19 @@ void Player::control()
 	}
 	if(receiver->isKeyDown(irr::KEY_NUMPAD8))
 	{
-		info.shieldDirection = SHIELD_FORE;
+		ship->setShieldDirection(SHIELD_FORE);
 	}	
 	else if(receiver->isKeyDown(irr::KEY_NUMPAD4))
 	{
-		info.shieldDirection = SHIELD_PORT;
+		ship->setShieldDirection(SHIELD_PORT);
 	}
 	else if(receiver->isKeyDown(irr::KEY_NUMPAD6))
 	{
-		info.shieldDirection = SHIELD_STARBOARD;
+		ship->setShieldDirection(SHIELD_STARBOARD);
 	}
 	else if(receiver->isKeyDown(irr::KEY_NUMPAD5))
 	{
-		info.shieldDirection = SHIELD_NULL;
+		ship->setShieldDirection(SHIELD_NULL);
 	}
 
 
@@ -314,10 +331,11 @@ void Player::control()
 void Player::playerCommandFleet()
 {
 	//draw command sphere
-	grid->setPosition(getPosition());
+	grid->setPosition(ship->getPosition());
 	//this gets alittle tricky to do intuitively
 	//make sure we highlight all of the player's subordinate ships
 	//player should always be head of fleet
+	Fleet *shipFleet = ship->getFleet();
 	for(unsigned i = 1; i < shipFleet->getShipsInFleet().size(); i++)
 	{
 		//lets try to color our ships
@@ -344,7 +362,7 @@ void Player::playerCommandFleet()
 					
 			vdriver->draw2DLine(t, v, video::SColor(255,122,122,255));
 		}
-		if(shipFleet->getShipsInFleet()[i] == shipTarget)
+		if(shipFleet->getShipsInFleet()[i] == ship->getShipTarget())
 		{
 			//if player targeted it we're ready to give orders
 			vdriver->draw2DLine(vector2d<s32>(receiver->getMouseX(), 0), vector2d<s32>(receiver->getMouseX(), height), video::SColor(128,128,150,255));
@@ -391,6 +409,7 @@ void Player::playerCommandFleet()
 
 void Player::playerOrderShip(unsigned i, int order)
 {
+	Fleet *shipFleet = ship->getFleet();
 	switch(order)
 	{
 		case 0:
@@ -465,6 +484,6 @@ bool Player::getPickedPoint(vector3df& position)
 	core::line3df line = scenemngr->getSceneCollisionManager()->getRayFromScreenCoordinates(
 		vector2d<s32>(receiver->getMouseX(), receiver->getMouseY()),
 		scenemngr->getActiveCamera());
-	position.Y = getPosition().Y;
+	position.Y = ship->getPosition().Y;
 	return scenemngr->getSceneCollisionManager()->getCollisionPoint(line, grid->getTriangleSelector(), position, tri, node);
 }

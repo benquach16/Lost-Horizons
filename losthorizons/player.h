@@ -27,19 +27,19 @@ enum E_PLAYER_COMMAND_MODE
 // the player could simply be the camera
 // this method also has the added advantage of making it super easy to
 // swap out the player's ship
-class Player : public Ship
+class Player
 {
 public:
 	Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST shipType, const vector3df &position, const vector3df &rotation);
 	Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation);
 	virtual ~Player();
-	virtual bool run();
-	virtual const E_TARGETABLEOBJECT_TYPE getTargetableObjectType() const;
+	void run();
 	
 	const E_PLAYER_COMMAND_MODE getCurrentMode() const;
+	Ship* getShip();
 private:
 	E_PLAYER_COMMAND_MODE currentMode;
-
+	Ship *ship;
 	void init();
 	void control();
 	void playerCommandFleet();

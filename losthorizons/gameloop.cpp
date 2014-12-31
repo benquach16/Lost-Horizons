@@ -35,8 +35,10 @@ void Gameloop::init()
 void Gameloop::run()
 {
 	//run through all essential objects and functions
+	player->run();
 	gameSceneManager->run();
 	missionManager->run(intercom);
+	
 	visualsManager->run();
 }
 
@@ -51,7 +53,7 @@ void Gameloop::createNewGame()
 
 	//temporary for testing purposes only
 	Ship *p = gameSceneManager->createShip(FACTION_TERRAN, ObjectManager::E_SHIP_LIST::PRAE_CRUISER, vector3df(500,0,0));
-	player->getFleet()->addShipToFleet(p);
+	player->getShip()->getFleet()->addShipToFleet(p);
 	init();
 }
 
