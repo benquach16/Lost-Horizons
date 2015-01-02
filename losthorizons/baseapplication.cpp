@@ -110,6 +110,7 @@ void BaseApplication::run()
 
 void BaseApplication::buildGraphics()
 {
+	//eventual todo: remove windows calls so we can port to linux
 	//initialize graphics engine
 	if (gConfig.bFullScreen)
 		graphics = createDevice(video::EDT_DIRECT3D9,

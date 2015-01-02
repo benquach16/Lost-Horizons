@@ -42,9 +42,11 @@ void RearmMenu::run()
 
 	//this is gunna be a right bitch
 	//temporarily swap the cameras
+	//THIS MUST BE RUN BEFORE POSTPROCESSING CALLS
 	if(rt)
 	{
-
+		//how do we run this before the render calls?
+		/*
 		ICameraSceneNode *cam = scenemngr->getActiveCamera();
 		vdriver->setRenderTarget(rt, true, true, video::SColor(0,0,0,255));
 
@@ -53,12 +55,14 @@ void RearmMenu::run()
 
 		// draw whole scene into render buffer
 		scenemngr->drawAll();
-
+		
 		// set back old render target
 		// The buffer might have been distorted, so clear it
+
 		vdriver->setRenderTarget(0, true, true, 0);
+		
 		vdriver->draw2DImage(rt, rect<s32>(40,40,600,600), rect<s32>(0,0,512,512));
-		scenemngr->setActiveCamera(cam);
+		scenemngr->setActiveCamera(cam);*/
 	}
 }
 

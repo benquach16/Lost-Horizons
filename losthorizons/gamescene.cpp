@@ -96,7 +96,7 @@ GameScene::~GameScene()
 		delete Effect::allEffects[i];
 	Effect::allEffects.clear();
 	//delete all ships currently in the scene except for the player
-	while (Ship::allShips.size() > 1)
+	while (Ship::allShips.size() > 0)
 		delete Ship::allShips.back();
 	while (!SpaceStation::allStations.empty())
 		delete SpaceStation::allStations.back();

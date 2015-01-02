@@ -10,6 +10,7 @@
 #include "playercamera.h"
 #include "gamemenu.h"
 #include "stationmenu.h"
+#include "rearmmenu.h"
 #include "fleet.h"
 
 //allow the player to switch between 3 modes for different things
@@ -37,7 +38,9 @@ public:
 	
 	const E_PLAYER_COMMAND_MODE getCurrentMode() const;
 	Ship* getShip();
+	void setShip(Ship *ship);
 private:
+	RearmMenu *rearmMenu;
 	E_PLAYER_COMMAND_MODE currentMode;
 	Ship *ship;
 	void init();

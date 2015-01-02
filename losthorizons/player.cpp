@@ -12,6 +12,7 @@ Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST sh
 
 	init();
 	hud->initializePlayerShipsInFleet(ship->getFleet());
+	rearmMenu = new RearmMenu;
 }
 
 Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)
@@ -20,6 +21,7 @@ Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3d
 {
 	init();
 	hud->initializePlayerShipsInFleet(ship->getFleet());
+	rearmMenu = new RearmMenu;
 }
 
 Player::~Player()
@@ -36,6 +38,7 @@ void Player::run()
 {
 	// let's make the player invinvible until we can get some bugs sorted out
 	// until the console can enable godmode, it'll be done like this
+	rearmMenu->run();
 	if(ship)
 	{
 		//if (ship->getInfo().armor < 1000) ship->i = 427912304;
