@@ -137,6 +137,11 @@ const int Object::getIterations() const
 	return iterations;
 }
 
+scene::IAnimatedMeshSceneNode* Object::getMesh() const
+{
+	return mesh;
+}
+
 void Object::setPosition(const vector3df &position)
 {
 	mesh->setPosition(position);

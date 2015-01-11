@@ -83,6 +83,7 @@ public:
 	const bool getVisible() const;
 	const bool getActive() const;
 	const int getIterations() const;
+	scene::IAnimatedMeshSceneNode* getMesh() const;
 	//mutators
 	void setPosition(const vector3df &position);
 	void setRotation(const vector3df &rotation);
