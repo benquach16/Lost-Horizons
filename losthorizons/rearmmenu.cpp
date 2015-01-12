@@ -46,23 +46,23 @@ void RearmMenu::run()
 	if(rt)
 	{
 		//how do we run this before the render calls?
-		/*
+		
 		ICameraSceneNode *cam = scenemngr->getActiveCamera();
 		vdriver->setRenderTarget(rt, true, true, video::SColor(0,0,0,255));
 
 
 		scenemngr->setActiveCamera(shipCamera);
 
-		// draw whole scene into render buffer
-		scenemngr->drawAll();
+		//draaw what we want to draw here
 		
 		// set back old render target
 		// The buffer might have been distorted, so clear it
 
 		vdriver->setRenderTarget(0, true, true, 0);
-		
+		//could we draw the render here?
+
 		vdriver->draw2DImage(rt, rect<s32>(40,40,600,600), rect<s32>(0,0,512,512));
-		scenemngr->setActiveCamera(cam);*/
+		scenemngr->setActiveCamera(cam);
 	}
 }
 

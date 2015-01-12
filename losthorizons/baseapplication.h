@@ -25,7 +25,6 @@ public:
 private:
 	StartMenu *menu;
 	DataManager *data;
-	PostProcessEffect *effect;
 
 	void buildGraphics();
 	void getBits();

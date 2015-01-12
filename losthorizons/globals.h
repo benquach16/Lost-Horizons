@@ -1,10 +1,11 @@
+
 // include this file wherever these variables are needed
 
 #include "stdafx.h"
 #include "keylistener.h"
 #include "gameloop.h"
 #include "devconsole.h"
-
+#include "postprocess.h"
 namespace base
 {
 	extern KeyListener *receiver;
@@ -17,6 +18,8 @@ namespace base
 	extern irr::ITimer* timer;
 	extern Gameloop* game;
 	extern DevConsole* console;
+
+	extern PostProcessEffect *effect;
 
 	extern f32 frameDeltaTime;
 	extern u32 width, height;

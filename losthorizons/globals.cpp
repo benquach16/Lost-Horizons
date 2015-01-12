@@ -13,6 +13,7 @@ namespace base
 	irr::ITimer* timer = 0;
 	Gameloop* game = 0;
 	DevConsole* console = 0;
+	PostProcessEffect *effect = 0;
 
 	f32 frameDeltaTime = 0;
 	u32 width = 0, height = 0;

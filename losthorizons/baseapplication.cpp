@@ -13,7 +13,7 @@
 using namespace base;
 
 BaseApplication::BaseApplication()
-	: menu(0), data(new DataManager), effect(0), then(0), debugStatistics(0)
+	: menu(0), data(new DataManager), then(0), debugStatistics(0)
 {
 	gConfig.Load();
 	getBits();
