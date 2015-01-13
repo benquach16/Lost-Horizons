@@ -15,15 +15,15 @@ namespace command
 	bool move(std::vector<std::string>& args);
 }
 
-#define CONSOLEBUFFERSIZE 80
-#define HISTORYPOSITIONX 40
-#define HISTORYPOSITIONY 40
-#define SCROLLINCREMENT 10
-#define EDITLINEPOSITIONX 30
-#define EDITLINEPOSITIONY 10
-#define CURSORBLINKTIME 500
-#define ERRORTIME 2000
-#define FONTWIDTH 11
+const int CONSOLEBUFFERSIZE = 80;
+const int HISTORYPOSITIONX = 40;
+const int HISTORYPOSITIONY = 40;
+const int SCROLLINCREMENT = 10;
+const int EDITLINEPOSITIONX = 30;
+const int EDITLINEPOSITIONY = 10;
+const int CURSORBLINKTIME = 500;
+const int ERRORTIME = 2000;
+const int FONTWIDTH = 11;
 
 DevConsole::DevConsole()
 	: buffer(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0),
@@ -164,10 +164,10 @@ void DevConsole::run()
 		break;
 	}
 	if (history.size()*20 > height-EDITLINEPOSITIONY-HISTORYPOSITIONY) {
-		scrollPosition += receiver->getMouseWheel()*SCROLLINCREMENT;
+		scrollPosition -= receiver->getMouseWheel()*SCROLLINCREMENT;
 		if (scrollPosition < 0) {
 			scrollPosition = 0;
-		} else if (scrollPosition > HISTORYPOSITIONY+EDITLINEPOSITIONY-height+history.size()*20) {
+		} else if ((u32)scrollPosition > HISTORYPOSITIONY+EDITLINEPOSITIONY-height+history.size()*20) {
 			scrollPosition = HISTORYPOSITIONY+EDITLINEPOSITIONY-height+history.size()*20;
 		}
 	}
@@ -284,36 +284,7 @@ bool command::create(std::vector<std::string>& args)
 
 	//process the common stuff in the arguments
 	for (unsigned i = 1; i < args.size(); ++i) {
-		if (args[i] == "-abs") {
-			args[i].clear();
-			i++;
-			if (i >= args.size() || !TryParse(args[i], &posX)) {
-				return false;
-			}
-			args[i].clear();
-			i++;
-			if (i >= args.size() || !TryParse(args[i], &posY)) {
-				return false;
-			}
-			args[i].clear();
-			i++;
-			if (i >= args.size() || !TryParse(args[i], &posZ)) {
-				return false;
-			}
-			args[i].clear();
-		} else if (args[i] == "-rel") {
-			args[i].clear();
-			i++;
-
-			args[i].clear();
-			// TODO
-		} else if (args[i] == "-aim") {
-			args[i].clear();
-			i++;
-
-			args[i].clear();
-			// TODO
-		} else if (args[i] == "-faction") {
+		if (args[i] == "-faction") {
 			args[i].clear();
 			i++;
 			unsigned temp;
@@ -378,6 +349,43 @@ bool command::create(std::vector<std::string>& args)
 
 bool command::move(std::vector<std::string>& args)
 {
-	//how should this be done?...
+	if (TargetableObject::allTargets.empty()) {
+		return true;
+	}
+	unsigned ID = TargetableObject::allTargets.back()->getID();
+	vector3df pos;
+	for (unsigned i = 0; i < args.size(); ++i) {
+		if (args[i] == "id") {
+			if (args.size() <= i+1 || !TryParse(args[i+1], &ID)) {
+				return false;
+			}
+		} else if (args[i] == "absolute") {
+			if (args.size() <= i+3 ||
+				!TryParse(args[i+1], &pos.X) ||
+				!TryParse(args[i+2], &pos.Y) ||
+				!TryParse(args[i+3], &pos.Z)) {
+				return false;
+			}
+		} else if (args[i] == "relative") {
+			if (args.size() <= i+3 ||
+				!TryParse(args[i+1], &pos.X) ||
+				!TryParse(args[i+2], &pos.Y) ||
+				!TryParse(args[i+3], &pos.Z)) {
+				return false;
+			}
+			pos += vector3df(0);//should actually get the position
+		} else if (args[i] == "distance") {
+			f32 distance;
+			if (args.size() <= i+1 || !TryParse(args[i+1], &distance)) {
+				return false;
+			}
+			//calculate where the position should be
+		}
+	}
+	unsigned i = 0;
+	while (TargetableObject::allTargets[i]->getID() != ID) {
+		i++;
+	}
+	TargetableObject::allTargets[i]->setPosition(pos);
 	return true;
 }

@@ -90,6 +90,16 @@ bool TryParse(const std::string &str, double *const output)
 	}
 }
 
+bool TryParse(const std::string &str, float *const output)
+{
+	if (validNumber(str)) {
+		convert(str, output);
+		return true;
+	} else {
+		return false;
+	}
+}
+
 bool TryParse(const std::string &str, signed *const output)
 {
 	if (validNumber(str) && str.find('.') == -1) {
