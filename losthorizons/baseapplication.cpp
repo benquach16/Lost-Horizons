@@ -82,7 +82,7 @@ void BaseApplication::run()
 
 		vdriver->beginScene(true, true, video::SColor(255,0,0,0));
 
-		effect->render();
+		//effect->render();
 		//scenemngr->drawAll();
 		vdriver->runAllOcclusionQueries(false);
 		vdriver->updateAllOcclusionQueries(false);
