@@ -61,8 +61,10 @@ void RearmMenu::run()
 		vdriver->setRenderTarget(0, true, true, 0);
 		//could we draw the render here?
 
-		vdriver->draw2DImage(rt, rect<s32>(40,40,600,600), rect<s32>(0,0,512,512));
 		scenemngr->setActiveCamera(cam);
+		effect->render();
+		
+		vdriver->draw2DImage(rt, rect<s32>(40,40,600,600), rect<s32>(0,0,512,512));
 	}
 }
 

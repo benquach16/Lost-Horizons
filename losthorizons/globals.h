@@ -6,6 +6,8 @@
 #include "gameloop.h"
 #include "devconsole.h"
 #include "postprocess.h"
+
+class PostProcessEffect;
 namespace base
 {
 	extern KeyListener *receiver;
