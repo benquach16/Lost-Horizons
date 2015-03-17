@@ -97,8 +97,11 @@
     <Filter Include="Source Files\missions\objective">
       <UniqueIdentifier>{71600160-b61b-4324-9562-0ae1575142d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\objects\Object\Component">
+    <Filter Include="Header Files\objects\Components">
       <UniqueIdentifier>{c569482f-c133-4890-a352-f650f688f63f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\Components">
+      <UniqueIdentifier>{e3f690eb-97e2-43ec-a459-b1fa3eb4c5ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -351,12 +354,6 @@
     <ClInclude Include="destroyobjective.h">
       <Filter>Header Files\missions\objective</Filter>
     </ClInclude>
-    <ClInclude Include="component.h">
-      <Filter>Header Files\objects\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="healthcomponent.h">
-      <Filter>Header Files\objects\Object\Component</Filter>
-    </ClInclude>
     <ClInclude Include="dialoguetree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -368,6 +365,15 @@
     </ClInclude>
     <ClInclude Include="rearmmenu.h">
       <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="healthcomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -595,6 +601,9 @@
     </ClCompile>
     <ClCompile Include="rearmmenu.cpp">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

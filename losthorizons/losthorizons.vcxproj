@@ -164,6 +164,7 @@
     <ClInclude Include="devconsole.h" />
     <ClInclude Include="dialogueproperties.h" />
     <ClInclude Include="dialoguetree.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="fleet.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="dialogueproperties.cpp" />
     <ClCompile Include="dialoguetree.cpp" />
     <ClCompile Include="effect.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fighter.cpp" />
     <ClCompile Include="fighterproperties.cpp" />
