@@ -9,12 +9,10 @@ namespace Component {
 	{
 	public:
 		int hull;
-		int armor;
-		//int shield; // to be moved to shield component
-
 		int maxHull;
+
+		int armor;
 		int maxArmor;
-		//int maxShield;
 	};
 
 }

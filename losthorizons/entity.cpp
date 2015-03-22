@@ -9,10 +9,28 @@ Component::Component *Entity::EntityList::getComponent(unsigned component)
 {
 	switch (component)
 	{
+	case DESCRIPTION:
+		return description;
+	case VISIBLE:
+		return visible;
+	case POSITION:
+		return position;
+	case VELOCITY:
+		return velocity;
+	case FACTION:
+		return faction;
+	case DESTRUCTIBLE:
+		return 0;
 	case HEALTH:
 		return health;
+	case SHIELD:
+		return shield;
+	case TARGET:
+		return target;
+	case TARGETABLE:
+		return targetable;
 	default:
-		assert(true); // failed to return a valid component array
+		assert(false); // failed to return a valid component array
 		return 0;
 	}
 }
@@ -30,7 +48,7 @@ void Entity::destroyEntity(unsigned entity)
 	allEntities.entityCount--;
 	allEntities.mask[entity] = allEntities.mask[allEntities.entityCount];
 	for (unsigned i = 0; i < COMPONENT_COUNT; ++i) {
-		if (allEntities.mask[entity] & (1 << i)) {
+		if (allEntities.mask[entity] & (1 << i) && allEntities.getComponent(i)) {
 			allEntities.getComponent(i)[entity] = allEntities.getComponent(i)[allEntities.entityCount];
 		}
 	}

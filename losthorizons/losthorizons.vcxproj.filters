@@ -375,6 +375,33 @@
     <ClInclude Include="healthcomponent.h">
       <Filter>Header Files\objects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="positioncomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="velocitycomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="visiblecomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="factioncomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="shieldcomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="destructiblecomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="targetablecomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="targetcomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="descriptioncomponent.h">
+      <Filter>Header Files\objects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
