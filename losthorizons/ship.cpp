@@ -33,7 +33,7 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	//ID 0 is reserved for the player, and the player is created first and only once
 	if (nextID == 0)
 		nextID++;
-
+	
 	std::cout << '[' << ID << "]Ship object created" << std::endl;
 
 	//add it to the ships list
@@ -70,7 +70,7 @@ Ship::Ship(const E_GAME_FACTION &faction, const ObjectManager::E_SHIP_LIST shipT
 	/*
 	if(faction == FACTION_NEUTRAL)
 		info.currentAIState = AI_TRADING;*/
-
+	info.armor = 999999;
 	shield = scenemngr->addAnimatedMeshSceneNode(scenemngr->getMesh("res/models/misc/shield.x"), 0, -1, getPosition());
 	shield->setMaterialFlag(video::EMF_LIGHTING, false);
 	shield->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);

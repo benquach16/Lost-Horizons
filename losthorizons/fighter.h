@@ -14,6 +14,14 @@ enum E_FIGHTER_STANCE
 	FIGHTER_STANCE_ATTACK_IGNORE,
 };
 
+enum E_FIGHTER_AI_STATE
+{
+	FIGHTER_AI_PATROL,
+	FIGHTER_AI_ATTACKING,
+	FIGHTER_AT_ATTACKING_SHIP,
+	FIGHTER_AI_DEFENDING
+};
+
 //fighter info struct
 struct FighterInformation
 {
@@ -23,13 +31,15 @@ struct FighterInformation
 	unsigned maxFuel, fuel;
 	vector3df targetRotation;
 	E_FIGHTER_STANCE currentStance;
+	E_FIGHTER_AI_STATE currentState;
 	FighterInformation() {}
 	FighterInformation(ObjectManager::E_FIGHTER_LIST fighterType) 
 		: maxHull(ObjectManager::fighterList[fighterType]->getMaxHull()), hull(maxHull),
 		velocity(ObjectManager::fighterList[fighterType]->getMaxVelocity()),
 		maxTurn(ObjectManager::fighterList[fighterType]->getMaxTurn()),
 		maxFuel(ObjectManager::fighterList[fighterType]->getMaxFuel()), fuel(maxFuel),
-		currentStance(FIGHTER_STANCE_DEFEND)
+		currentStance(FIGHTER_STANCE_DEFEND),
+		currentState(FIGHTER_AI_PATROL)
 	{}
 };
 
@@ -62,6 +72,7 @@ private:
 	void searchForFighterTargets();
 	void searchForShipTargets();
 	void patrol();
+	void runAI();
 
 	//create timekeeping variables
 	u32 shootTimer;

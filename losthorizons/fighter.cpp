@@ -211,3 +211,64 @@ void Fighter::patrol()
 		info.targetRotation = angleVect;
 	}
 }
+
+
+void Fighter::runAI()
+{
+	//transitions
+	switch(info.currentState)
+	{
+	case FIGHTER_AI_PATROL:
+	{
+		//search for targets
+		if(fighterTarget)
+		{
+			info.currentState = FIGHTER_AI_ATTACKING;
+		}
+		if(shipTarget)
+		{
+			info.currentState = FIGHTER_AI_ATTACKING_SHIP;
+		}
+		break;
+	}
+	case FIGHTER_AI_ATTACKING:
+	{
+		if(!fighterTarget && shipTarget)
+		{
+			info.currentState = FIGHTER_AT_ATTACKING_SHIP;
+		}
+		break;
+	}
+	case FIGHTER_AI_ATTACKING_SHIP:
+	{
+		break;
+	}
+	case FIGHTER_AI_DEFENDING:
+	{
+		break;
+	}
+	
+	}
+
+	//on state
+	switch(info.currentState)
+	{
+	case FIGHTER_AI_PATROL:
+	{
+		break;
+	}
+	case FIGHTER_AI_ATTACKING:
+	{
+		break;
+	}
+	case FIGHTER_AI_ATTACKING_SHIP:
+	{
+		break;
+	}
+	case FIGHTER_AI_DEFENDING:
+	{
+		break;
+	}
+	
+	}
+}

@@ -54,7 +54,10 @@ void RearmMenu::run()
 		scenemngr->setActiveCamera(shipCamera);
 
 		//draaw what we want to draw here
+		//scenemngr->drawAll();
 		
+		Ship::allShips[0]->getMesh()->render();
+		scenemngr->getActiveCamera()->render();
 		// set back old render target
 		// The buffer might have been distorted, so clear it
 

@@ -41,7 +41,7 @@ void Player::run()
 	rearmMenu->run();
 	if(ship)
 	{
-		//if (ship->getInfo().armor < 1000) ship->i = 427912304;
+		//if (ship->getInfo().armor < 1000) ship->info.armor = 427912304;
 		// I'M FUXXING INVINCIBLE
 		vector3df position = ship->getPosition();
 		vector3df rotation = ship->getRotation();
@@ -234,6 +234,8 @@ void Player::control()
 		rot.Y += 35*frameDeltaTime;
 		ship->setTargetRotation(ship->getTargetRotation() + core::vector3df(0,35*frameDeltaTime,0));
 	}
+	//DISABLE ROTATE UP AND DOWN FOR NOW CAUSE ITS NOT INTUITIVE
+	/*
 	if (receiver->isKeyDown(irr::KEY_KEY_W)&& !ship->getInfo().warping) 
 	{
 		//rotate up
@@ -248,6 +250,7 @@ void Player::control()
 		rot.X += 35*frameDeltaTime;
 		ship->setTargetRotation(ship->getTargetRotation() + core::vector3df(35*frameDeltaTime,0,0));
 	}
+	*/
 	if (receiver->isKeyReleased(irr::KEY_SPACE)) 
 	{
 		ship->fireTurrets();
