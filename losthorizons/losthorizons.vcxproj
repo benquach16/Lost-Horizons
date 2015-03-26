@@ -160,10 +160,14 @@
     <ClInclude Include="component.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="datamanager.h" />
+    <ClInclude Include="descriptioncomponent.h" />
     <ClInclude Include="destroyobjective.h" />
+    <ClInclude Include="destructiblecomponent.h" />
     <ClInclude Include="devconsole.h" />
     <ClInclude Include="dialogueproperties.h" />
     <ClInclude Include="dialoguetree.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="factioncomponent.h" />
     <ClInclude Include="fighter.h" />
     <ClInclude Include="fighterproperties.h" />
     <ClInclude Include="fleet.h" />
@@ -188,7 +192,9 @@
     <ClInclude Include="objective.h" />
     <ClInclude Include="objectscene.h" />
     <ClInclude Include="officer.h" />
+    <ClInclude Include="positioncomponent.h" />
     <ClInclude Include="rearmmenu.h" />
+    <ClInclude Include="shieldcomponent.h" />
     <ClInclude Include="shiptab.h" />
     <ClInclude Include="smallexplosion.h" />
     <ClInclude Include="stationmenu.h" />
@@ -231,13 +237,17 @@
     <ClInclude Include="string_util.h" />
     <ClInclude Include="sun.h" />
     <ClInclude Include="sweepobjective.h" />
+    <ClInclude Include="targetablecomponent.h" />
     <ClInclude Include="targetableobject.h" />
+    <ClInclude Include="targetcomponent.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="trigger.h" />
     <ClInclude Include="turningmarker.h" />
     <ClInclude Include="turret.h" />
     <ClInclude Include="turretproperties.h" />
     <ClInclude Include="intercom.h" />
+    <ClInclude Include="velocitycomponent.h" />
+    <ClInclude Include="visiblecomponent.h" />
     <ClInclude Include="visualsmanager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +263,7 @@
     <ClCompile Include="dialogueproperties.cpp" />
     <ClCompile Include="dialoguetree.cpp" />
     <ClCompile Include="effect.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fighter.cpp" />
     <ClCompile Include="fighterproperties.cpp" />

@@ -3,19 +3,18 @@
 
 #include "component.h"
 
-class HealthComponent : public Component
-{
-public:
-	HealthComponent();
-	~HealthComponent();
-protected:
-	int hull;
-	int armor;
-	int shield;
+namespace Component {
 
-	int maxHull;
-	int maxArmor;
-	int maxShield;
-};
+	class Health : public Component
+	{
+	public:
+		int hull;
+		int maxHull;
+
+		int armor;
+		int maxArmor;
+	};
+
+}
 
 #endif
