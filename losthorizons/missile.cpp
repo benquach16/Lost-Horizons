@@ -20,6 +20,8 @@ Missile::Missile(const u16 ID, const TargetableObject *target, const TurretPrope
 	missileTimer = timer->getTime() + MISSILETIMER;
 	initMissile();
 	allMissiles.push_back(this);
+	//make the missiles go really fast for now
+
 }
 
 Missile::~Missile()

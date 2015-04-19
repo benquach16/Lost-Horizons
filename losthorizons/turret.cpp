@@ -155,6 +155,11 @@ const vector3df& TurretSlot::getPosition() const
 	return aimPoint->getPosition();
 }
 
+const vector3df& TurretSlot::getRelativePosition() const
+{
+	return joint->getPosition();
+}
+
 const ObjectManager::E_ITEM_LIST TurretSlot::getTurretType() const
 {
 	if (childTurret) {
@@ -259,3 +264,4 @@ const Ship* Turret::getParent() const
 {
 	return parentSlot->getParent();
 }
+

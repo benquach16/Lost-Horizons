@@ -476,6 +476,15 @@ std::vector<TurretSlot*>& Ship::getTurrets(E_TURRET_CLASS turretClass)
 		return pdTurrets;
 }
 
+vector2d<s32> Ship::getHeavyTurretEquipPosition()
+{
+	//this is going to be complete shit
+	TurretSlot* tSlot = heavyTurrets[0];
+	vector3df ret = tSlot->getRelativePosition();
+	//ignore y for this
+	return vector2d<s32>(ret.X, ret.Z);
+}
+
 bool Ship::isPlayer() const
 {
 	return ID == 0;

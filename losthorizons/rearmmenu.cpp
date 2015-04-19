@@ -39,14 +39,15 @@ void RearmMenu::loadFleet(const Fleet* fleet)
 void RearmMenu::run()
 {
 
-
+	Ship *player = Ship::allShips[0];
+	
 	//this is gunna be a right bitch
 	//temporarily swap the cameras
 	//THIS MUST BE RUN BEFORE POSTPROCESSING CALLS
 	if(rt)
 	{
 		//how do we run this before the render calls?
-		
+		/*
 		ICameraSceneNode *cam = scenemngr->getActiveCamera();
 		vdriver->setRenderTarget(rt, true, true, video::SColor(0,0,0,255));
 
@@ -68,6 +69,7 @@ void RearmMenu::run()
 		effect->render();
 		
 		vdriver->draw2DImage(rt, rect<s32>(40,40,600,600), rect<s32>(0,0,512,512));
+		*/
 	}
 }
 

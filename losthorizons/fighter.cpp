@@ -235,7 +235,7 @@ void Fighter::runAI()
 	{
 		if(!fighterTarget && shipTarget)
 		{
-			info.currentState = FIGHTER_AT_ATTACKING_SHIP;
+			info.currentState = FIGHTER_AI_ATTACKING_SHIP;
 		}
 		break;
 	}

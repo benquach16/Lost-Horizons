@@ -40,7 +40,7 @@ public:
 	Ship* getParent() const;
 	const core::vector3df& getCurrentAim() const;
 	const core::vector3df& getPosition() const;
-
+	const vector3df& getRelativePosition() const;
 	const ObjectManager::E_ITEM_LIST getTurretType() const;
 
 protected:
@@ -82,7 +82,6 @@ public:
 	void fire(const vector3df &rotation);
 
 	const Ship* getParent() const;
-
 	const ObjectManager::E_ITEM_LIST getTurretType() const
 	{
 		return turretType;
