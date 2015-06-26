@@ -16,12 +16,28 @@ public:
 	~DevConsole();
 	//take care of the first thing in the queue
 	void run();
-	bool execute(const std::string filename);
+	
 	//run a loop that allows you to add messages to the queue
 	//void postMessage();
 
 	void setVisible(bool show);
 	bool getVisible() const;
+
+	enum LOG_TYPE
+	{
+		LOG_STATUS,
+		LOG_WARNING,
+		LOG_ERROR,
+		LOG_FATAL,
+		LOG_COMMAND
+	};
+
+	void logPrint(const std::string& text); //log a regular message
+	void logWarn(const std::string& text); //log a warning
+	void logError(const std::string& text); //log an error
+	void logFatal(const std::string& text); //log a fatal error and dump the report
+
+	bool execute(const std::string& filename);
 
 private:
 	/*enum E_ACTION_TYPE
@@ -53,8 +69,9 @@ private:
 	std::vector<std::string> history;
 	unsigned historyIndex;
 	int scrollPosition;
-
 	bool visible;
+
+	std::vector< std::pair<std::string, LOG_TYPE> > log;
 	gui::IGUIFont *font;
 };
 
