@@ -2,8 +2,6 @@
 #include "baseapplication.h"
 #include "globals.h"
 #include "config.h"
-#include <iostream>
-#include <SExposedVideoData.h>
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -16,7 +14,6 @@ BaseApplication::BaseApplication()
 	: menu(0), data(new DataManager), then(0), debugStatistics(0)
 {
 	gConfig.Load();
-	getBits();
 	receiver = new KeyListener;
 	sound = irrklang::createIrrKlangDevice();
 	sound->setSoundVolume(gConfig.iSFX/10.f);
@@ -55,6 +52,7 @@ void BaseApplication::killDevice()
     graphics->drop();
 }
 
+// gotta eventually rewrite this whole function
 void BaseApplication::run()
 {
 	//graphics loop
@@ -115,7 +113,7 @@ void BaseApplication::buildGraphics()
 	if (gConfig.bFullScreen)
 		graphics = createDevice(video::EDT_DIRECT3D9,
 			dimension2d<u32>(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)),
-			gConfig.iBits,
+			32,
 			gConfig.bFullScreen,
 			false,
 			gConfig.bVsync,
@@ -123,7 +121,7 @@ void BaseApplication::buildGraphics()
 	else
 		graphics = createDevice(video::EDT_DIRECT3D9,
 			dimension2d<u32>(gConfig.iResolutionX, gConfig.iResolutionY),
-			gConfig.iBits,
+			32,
 			gConfig.bFullScreen,
 			false,
 			gConfig.bVsync,
@@ -140,13 +138,4 @@ void BaseApplication::buildGraphics()
 	height = vdriver->getScreenSize().Height;
 	
 	graphics->setWindowCaption(L"Lost Horizons");
-	if (gConfig.bTopMost && !gConfig.bFullScreen)//get rid of this, no need for it
-		SetWindowPos((HWND)vdriver->getExposedVideoData().D3D9.HWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-}
-
-void BaseApplication::getBits()
-{
-	HDC dc = GetDC(NULL);
-	gConfig.iBits = GetDeviceCaps(dc, BITSPIXEL);
-	ReleaseDC(NULL, dc);
 }

@@ -20,10 +20,8 @@ struct Config
 	// General
 	bool bAutoLoadLast;
 	bool bCheckIfSaved;
-	bool bTopMost;
 
 	// Video
-	unsigned iBits;
 	unsigned iResolutionX;
 	unsigned iResolutionY;
 	bool bFullScreen;
