@@ -92,7 +92,7 @@ void DevConsole::run()
 			scrollPosition = 0;
 			if (parse()) {
 				log.push_back(std::pair<std::string, LOG_TYPE>(buffer, LOG_COMMAND));
-				if (!history.empty() && buffer != history.back()) {
+				if (history.empty() || buffer != history.back()) {
 					history.push_back(buffer);
 				}
 				historyIndex = history.size();
