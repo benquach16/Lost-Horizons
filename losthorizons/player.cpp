@@ -22,6 +22,7 @@ Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3d
 	init();
 	hud->initializePlayerShipsInFleet(ship->getFleet());
 	rearmMenu = new RearmMenu;
+	rearmMenu->loadFleet(this->ship->getFleet());
 }
 
 Player::~Player()

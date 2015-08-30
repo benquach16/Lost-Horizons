@@ -16,8 +16,10 @@ public:
 protected:
 	irr::gui::IGUIWindow *window;
 	irr::gui::IGUIListBox *shipsInFleet;
+	irr::gui::IGUIImage *shipImage;
 	irr::video::ITexture *rt;
 	irr::scene::ICameraSceneNode *shipCamera;
+	
 	//irr::gui::IGUiTreeView *equipmentTree;
 	irr::gui::IGUIListBox *availableWeapons;
 };

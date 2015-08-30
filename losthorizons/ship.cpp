@@ -478,11 +478,13 @@ std::vector<TurretSlot*>& Ship::getTurrets(E_TURRET_CLASS turretClass)
 
 vector2d<s32> Ship::getHeavyTurretEquipPosition()
 {
-	//this is going to be complete shit
-	TurretSlot* tSlot = heavyTurrets[0];
-	vector3df ret = tSlot->getRelativePosition();
-	//ignore y for this
-	return vector2d<s32>(ret.X, ret.Z);
+	//slow blocking function
+	TurretSlot* tSlot = mediumTurrets[0];
+	vector3df position = tSlot->getPosition();
+	vector2d<s32> ret =  scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(position);
+	ret.X-=16;
+	ret.Y -=16;
+	return ret;
 }
 
 bool Ship::isPlayer() const
