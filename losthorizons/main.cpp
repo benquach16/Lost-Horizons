@@ -6,6 +6,7 @@
 
 void getCmdArgs(int argc, char *argv[])
 {
+	// just send these to the console when it's more complete
 	bool args = false;
 	for (int i = 1; i < argc; ++i) {
 		if (argv[i] == "-fullscreen") {
@@ -15,7 +16,6 @@ void getCmdArgs(int argc, char *argv[])
 		if (argv[i] == "-debug") {
 			gConfig.bFirstRun = false;
 			gConfig.bCheckIfSaved = false;
-			gConfig.bTopMost = false;
 			gConfig.bShowFPSCounter = true;
 			gConfig.bShowDebugStats = true;
 			args = true;

@@ -27,7 +27,6 @@ private:
 	DataManager *data;
 
 	void buildGraphics();
-	void getBits();
 
 	//for delta time calculation
 	u32 then;

@@ -16,14 +16,19 @@ namespace command
 }
 
 const int CONSOLEBUFFERSIZE = 80;
-const int HISTORYPOSITIONX = 40;
-const int HISTORYPOSITIONY = 40;
+const int LOGPOSITIONX = 51;
+const int LOGPOSITIONY = 40;
 const int SCROLLINCREMENT = 10;
-const int EDITLINEPOSITIONX = 30;
+const int EDITLINEPOSITIONX = 40;
 const int EDITLINEPOSITIONY = 10;
 const int CURSORBLINKTIME = 500;
 const int ERRORTIME = 2000;
 const int FONTWIDTH = 11;
+
+const video::SColor FONTCOLORSTATUS = video::SColor(255,180,180,180);
+const video::SColor FONTCOLORWARNING = video::SColor(255,255,255,60);
+const video::SColor FONTCOLORERROR = video::SColor(255,255,20,20);
+const video::SColor FONTCOLORCOMMAND = video::SColor(255,0,150,50);
 
 DevConsole::DevConsole()
 	: buffer(new char[CONSOLEBUFFERSIZE+1]), size(0), index(0),
@@ -33,16 +38,6 @@ DevConsole::DevConsole()
 	registerCommand("execute", command::execute);
 	registerCommand("create", command::create);
 	registerCommand("move", command::move);
-
-
-	//add junk to history for testing
-	history.push_back("This is a command");
-	history.push_back("This is another command");
-	for (unsigned i = 0; i < 23; ++i) {
-		history.push_back("test test test test test");
-	}
-	history.push_back("last command");
-	historyIndex=history.size();
 }
 
 DevConsole::~DevConsole()
@@ -96,7 +91,10 @@ void DevConsole::run()
 		if (size > 0) {
 			scrollPosition = 0;
 			if (parse()) {
-				history.push_back(buffer);
+				log.push_back(std::pair<std::string, LOG_TYPE>(buffer, LOG_COMMAND));
+				if (history.empty() || buffer != history.back()) {
+					history.push_back(buffer);
+				}
 				historyIndex = history.size();
 				index = size = 0;
 			} else {
@@ -163,29 +161,42 @@ void DevConsole::run()
 		}
 		break;
 	}
-	if (history.size()*20 > height-EDITLINEPOSITIONY-HISTORYPOSITIONY) {
+	if (log.size()*20 > height-EDITLINEPOSITIONY-LOGPOSITIONY) {
 		scrollPosition -= receiver->getMouseWheel()*SCROLLINCREMENT;
 		if (scrollPosition < 0) {
 			scrollPosition = 0;
-		} else if ((u32)scrollPosition > HISTORYPOSITIONY+EDITLINEPOSITIONY-height+history.size()*20) {
-			scrollPosition = HISTORYPOSITIONY+EDITLINEPOSITIONY-height+history.size()*20;
+		} else if ((u32)scrollPosition > LOGPOSITIONY+EDITLINEPOSITIONY-height+log.size()*20) {
+			scrollPosition = LOGPOSITIONY+EDITLINEPOSITIONY-height+log.size()*20;
 		}
 	}
 
 	// draw
 	vdriver->draw2DRectangle(video::SColor(50,0,50,150), rect<s32>(0,0,width,height));
-	rect<s32> clip(0,HISTORYPOSITIONY,width,height-EDITLINEPOSITIONY);
-	for (unsigned i = 0; i < history.size(); ++i) {
-		font->draw(history[i].c_str(), rect<s32>(HISTORYPOSITIONX,HISTORYPOSITIONY-scrollPosition+(history.size()-1-i)*20,0,0), video::SColor(255,0,150,50), false, false, &clip);
+	rect<s32> clip(0,LOGPOSITIONY,width,height-EDITLINEPOSITIONY);
+	for (unsigned i = 0; i < log.size(); ++i) {
+		switch (log[i].second) {
+		case LOG_WARNING:
+			font->draw(log[i].first.c_str(), rect<s32>(LOGPOSITIONX,LOGPOSITIONY-scrollPosition+(log.size()-1-i)*20,0,0), FONTCOLORWARNING, false, false, &clip);
+			break;
+		case LOG_ERROR:
+			font->draw(log[i].first.c_str(), rect<s32>(LOGPOSITIONX,LOGPOSITIONY-scrollPosition+(log.size()-1-i)*20,0,0), FONTCOLORERROR, false, false, &clip);
+			break;
+		case LOG_COMMAND:
+			font->draw(log[i].first.c_str(), rect<s32>(LOGPOSITIONX,LOGPOSITIONY-scrollPosition+(log.size()-1-i)*20,0,0), FONTCOLORCOMMAND, false, false, &clip);
+			break;
+		default:
+			font->draw(log[i].first.c_str(), rect<s32>(LOGPOSITIONX,LOGPOSITIONY-scrollPosition+(log.size()-1-i)*20,0,0), FONTCOLORSTATUS, false, false, &clip);
+			break;
+		}
 	}
 	buffer[size] = '\0';
-	font->draw(buffer, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
-	font->draw(">", rect<s32>(EDITLINEPOSITIONX-13,EDITLINEPOSITIONY,0,0), video::SColor(255,0,150,50));
+	font->draw(buffer, rect<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY,0,0), FONTCOLORCOMMAND);
+	font->draw(">", rect<s32>(EDITLINEPOSITIONX-13,EDITLINEPOSITIONY,0,0), FONTCOLORCOMMAND);
 	if (timer->getTime()/CURSORBLINKTIME%2 == 0) {
-		font->draw("_", rect<s32>(EDITLINEPOSITIONX+FONTWIDTH*index,EDITLINEPOSITIONY+2,0,0), video::SColor(255,0,150,50));
+		font->draw("_", rect<s32>(EDITLINEPOSITIONX+FONTWIDTH*index,EDITLINEPOSITIONY+2,0,0), FONTCOLORCOMMAND);
 	}
 	if (error) {
-		vdriver->draw2DLine(vector2d<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY+20), vector2d<s32>(EDITLINEPOSITIONX+FONTWIDTH*size,EDITLINEPOSITIONY+20), video::SColor(150,255,0,0));
+		vdriver->draw2DLine(vector2d<s32>(EDITLINEPOSITIONX,EDITLINEPOSITIONY+20), vector2d<s32>(EDITLINEPOSITIONX+FONTWIDTH*size,EDITLINEPOSITIONY+20), FONTCOLORERROR);
 		if (timer->getTime() > errorEnd) {
 			error = false;
 		}
@@ -202,7 +213,28 @@ bool DevConsole::getVisible() const
 	return visible;
 }
 
-bool DevConsole::execute(const std::string filename)
+void DevConsole::logPrint(const std::string& text)
+{
+	log.push_back(std::pair<std::string, LOG_TYPE>(text, LOG_STATUS));
+}
+
+void DevConsole::logWarn(const std::string& text)
+{
+	log.push_back(std::pair<std::string, LOG_TYPE>(text, LOG_WARNING));
+}
+
+void DevConsole::logError(const std::string& text)
+{
+	log.push_back(std::pair<std::string, LOG_TYPE>(text, LOG_ERROR));
+}
+
+void DevConsole::logFatal(const std::string& text)
+{
+	log.push_back(std::pair<std::string, LOG_TYPE>(text, LOG_FATAL));
+	//TODO: dump the log
+}
+
+bool DevConsole::execute(const std::string& filename)
 {
 	std::ifstream file(filename.c_str());
 	if (!file.is_open()) {
@@ -276,6 +308,7 @@ bool command::execute(std::vector<std::string>& args)
 //simplify this into multiple commands
 //create, move, destroy
 //other functions that will be needed: show IDs, godmode
+//call last ____, dump log, load scene, clear scene, camera
 bool command::create(std::vector<std::string>& args)
 {
 	//make some needed variables with default values

@@ -32,6 +32,7 @@ void Gameloop::init()
 	//missionManager->addMission(MissionProperties("missions/tutorial.xml"));
 }
 
+// http://gizmodo.com/5426453/the-physics-of-space-battles
 void Gameloop::run()
 {
 	//run through all essential objects and functions
