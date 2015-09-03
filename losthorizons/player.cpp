@@ -13,6 +13,7 @@ Player::Player(const E_GAME_FACTION faction, const ObjectManager::E_SHIP_LIST sh
 	init();
 	hud->initializePlayerShipsInFleet(ship->getFleet());
 	rearmMenu = new RearmMenu;
+	rearmMenu->loadFleet(this->ship->getFleet());
 }
 
 Player::Player(const ShipInformation &info, const s8 *subsystems, const vector3df &position, const vector3df &rotation)

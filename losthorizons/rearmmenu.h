@@ -22,6 +22,7 @@ protected:
 	
 	//irr::gui::IGUiTreeView *equipmentTree;
 	irr::gui::IGUIListBox *availableWeapons;
+	irr::gui::IGUIStaticText *description;
 };
 
 #endif
