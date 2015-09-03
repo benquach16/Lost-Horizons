@@ -107,37 +107,33 @@ void Player::run()
 			vdriver->draw2DLine(vector2d<s32>(0, shipTarget->getScreenPosition().Y), vector2d<s32>(width, shipTarget->getScreenPosition().Y), video::SColor(128,128,128,140));
 			/*
 			//move turret aim lines to here so only player has them
-			for(unsigned i = 0; i < mediumTurrets.size(); i++)
-			{
-			//draw pretty lines here
-			if(mediumTurrets[i]->getCanFire())
+			for(unsigned i = 0; i < ship->getTurrets(TURRET_MEDIUM).size(); i++)
 			{
 
-			//vdriver->setTransform(video::ETS_WORLD, core::matrix4());
-			//vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
-			//shipTarget->getPosition(), video::SColor(255,0,255,0));	
+				//draw pretty lines here
+				if(ship->getTurrets(TURRET_MEDIUM)[i]->getCanFire())
+				{
 
-			//2d line is a temporary fix
-			//becaause with postprocessing enabled, 3d lines do not work!!!!!!
-			if(shipTarget->getScreenPosition().X > 1&& shipTarget->getScreenPosition().Y > 1)
-			{
+					//vdriver->setTransform(video::ETS_WORLD, core::matrix4());
+					//vdriver->draw3DLine(mediumTurrets[i]->getPosition(),
+					//shipTarget->getPosition(), video::SColor(255,0,255,0));	
 
-			vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(mediumTurrets[i]->getPosition());
-			vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(getAlteredShipPosition());
+					//2d line is a temporary fix
+					//becaause with postprocessing enabled, 3d lines do not work!!!!!!
+					if(shipTarget->getScreenPosition().X > 1&& shipTarget->getScreenPosition().Y > 1)
+					{
+						vector3df temp = ship->getTurrets(TURRET_MEDIUM)[i]->getPosition();
+						vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(temp);
+						vdriver->draw2DImage(vdriver->getTexture("res/menu/target.png"), t, rect<s32>(0,0,64,64), 0, video::SColor(255,255,255,255), true);
+						vector2di i = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(vector3df(0,0,0));
 
-			vdriver->draw2DLine(t, i, video::SColor(255,100,255,100));
-			}
-			}
-			}
-			for(unsigned i = 0; i < lightTurrets.size(); i++)
-			{
-			if(lightTurrets[i]->getCanFire())
-			{
-
-			}
-			}
+						vdriver->draw2DLine(t, i, video::SColor(255,100,255,100));
+					}
+				}
 			}
 			*/
+		
+			
 			//allow ship commands to go here
 			if(receiver->isKeyDown(irr::KEY_F1))
 			{

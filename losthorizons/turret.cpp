@@ -14,6 +14,7 @@ TurretSlot::TurretSlot(const turretInformation &properties, IBoneSceneNode *join
 	offset = scenemngr->addEmptySceneNode(joint);
 	aimPoint = scenemngr->addEmptySceneNode();
 	offset->setRotation(rotationOffset);
+	aimPoint->setPosition(joint->getAbsolutePosition());
 }
 
 void TurretSlot::assignTurret(const ObjectManager::E_ITEM_LIST turretType)
@@ -134,6 +135,12 @@ void TurretSlot::resetAim()
 	}
 }
 
+void TurretSlot::renderPosition()
+{
+	aimPoint->render();
+	
+}
+
 TurretSlot::~TurretSlot()
 {
 	//make sure we clear up memory
@@ -158,6 +165,11 @@ const vector3df& TurretSlot::getPosition() const
 const vector3df& TurretSlot::getRelativePosition() const
 {
 	return joint->getPosition();
+}
+
+const vector3df& TurretSlot::getAbsolutePosition() const
+{
+	return offset->getAbsolutePosition();
 }
 
 const ObjectManager::E_ITEM_LIST TurretSlot::getTurretType() const

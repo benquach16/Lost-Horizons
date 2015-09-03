@@ -169,9 +169,10 @@ public:
 	s8 *getSubsystems();
 	Inventory& getInventory();
 	std::vector<TurretSlot*>& getTurrets(E_TURRET_CLASS turretClass);
-	vector2d<s32> getHeavyTurretEquipPosition();
-	vector2d<s32> getMediumTurretEquipPosition();
-	vector2d<s32> getLightTurretEquipPosition();
+	std::vector<vector2d<s32> > getHeavyTurretEquipPosition();
+	std::vector<vector2d<s32> > getMediumTurretEquipPosition();
+	std::vector<vector2d<s32> > getLightTurretEquipPosition();
+
 
 	//returns whether the ship is a player or AI
 	bool isPlayer() const;

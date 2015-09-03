@@ -476,14 +476,47 @@ std::vector<TurretSlot*>& Ship::getTurrets(E_TURRET_CLASS turretClass)
 		return pdTurrets;
 }
 
-vector2d<s32> Ship::getHeavyTurretEquipPosition()
+std::vector<vector2d<s32> > Ship::getHeavyTurretEquipPosition()
 {
 	//slow blocking function
-	TurretSlot* tSlot = mediumTurrets[0];
-	vector3df position = tSlot->getPosition();
-	vector2d<s32> ret =  scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(position);
-	ret.X-=16;
-	ret.Y -=16;
+	std::vector<vector2d<s32> > ret;
+	for(unsigned i = 0; i < heavyTurrets.size(); i++)
+	{
+		TurretSlot* tSlot = heavyTurrets[i];
+		vector3df position = tSlot->getPosition();
+		vector2d<s32> ret =  scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(position);
+		ret.X-=16;
+		ret.Y -=16;
+	}
+	return ret;
+}
+
+std::vector<vector2d<s32> > Ship::getMediumTurretEquipPosition()
+{
+	std::vector<vector2d<s32> > ret;
+	for(unsigned i = 0; i < mediumTurrets.size(); i++)
+	{
+		TurretSlot* tSlot = mediumTurrets[i];
+		vector3df position = tSlot->getPosition();
+		vector2d<s32> screenPos =  scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(position);
+		screenPos.X-=16;
+		screenPos.Y-=16;
+		ret.push_back(vector2d<s32>(position.X,position.Z));
+	}
+	return ret;
+}
+
+std::vector<vector2d<s32> > Ship::getLightTurretEquipPosition()
+{
+	std::vector<vector2d<s32> > ret;
+	for(unsigned i = 0; i < lightTurrets.size(); i++)
+	{
+		TurretSlot* tSlot = lightTurrets[i];
+		vector3df position = tSlot->getPosition();
+		vector2d<s32> ret =  scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(position);
+		ret.X-=16;
+		ret.Y-=16;
+	}
 	return ret;
 }
 

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "rearmmenu.h"
 #include "globals.h"
+
+#include <iostream>
 #pragma hdrstop
 
 using namespace base;
@@ -9,7 +11,7 @@ using namespace core;
 using namespace scene;
 
 const vector3df cameraPosition = vector3df(0,200,0);
-
+const video::SColor renderColor = video::SColor(0,64,120,160);
 
 RearmMenu::RearmMenu()
 {
@@ -56,7 +58,7 @@ void RearmMenu::run()
 		//how do we run this before the render calls?
 		
 		ICameraSceneNode *cam = scenemngr->getActiveCamera();
-		vdriver->setRenderTarget(rt, true, true, video::SColor(0,64,120,128));
+		vdriver->setRenderTarget(rt, true, true, renderColor);
 
 		
 		scenemngr->setActiveCamera(shipCamera);
@@ -70,12 +72,18 @@ void RearmMenu::run()
 		//draw boxes aroundthe ship turret slots
 		// set back old render target
 		// The buffer might have been distorted, so clear it
-		vector2di temp = player->getHeavyTurretEquipPosition();
+		//TODO: get rid of vector copying here
+		//std::vector<vector2d<s32> > medTurrets = player->getMediumTurretEquipPosition();
 		//offset the icon by the center of the picture
-		vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_friendly.png"),
-			temp,
-			rect<s32>(0,0,32,32),0,
-			video::SColor(255,255,255,255), true);
+			for(unsigned i = 0; i < player->getTurrets(TURRET_MEDIUM).size(); i++)
+			{
+				//player->getTurrets(TURRET_MEDIUM)[i]->renderPosition();
+				vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(player->getTurrets(TURRET_MEDIUM)[i]->getPosition());
+				t.X -= 16;
+				t.Y -= 16;
+				vdriver->draw2DImage(vdriver->getTexture("res/menu/target_array_friendly.png"), t, rect<s32>(0,0,32,32), 0, video::SColor(255,255,255,255), true);
+			}
+		
 		vdriver->setRenderTarget(0, true, true, 0);
 		//could we draw the render here?
 

@@ -34,6 +34,7 @@ public:
 	void aim(const core::vector3df &point);
 	//make turret stop aiming
 	void resetAim();
+	void renderPosition();
 	~TurretSlot();
 
 	//used for projectile generation
@@ -41,6 +42,7 @@ public:
 	const core::vector3df& getCurrentAim() const;
 	const core::vector3df& getPosition() const;
 	const vector3df& getRelativePosition() const;
+	const vector3df& getAbsolutePosition() const;
 	const ObjectManager::E_ITEM_LIST getTurretType() const;
 
 protected:
