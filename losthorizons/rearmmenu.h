@@ -9,10 +9,12 @@
 class WeaponSlot
 {
 public:
-	WeaponSlot(E_TURRET_CLASS type, irr::core::vector2di position);
+	WeaponSlot(E_TURRET_CLASS type, irr::core::vector2di position, int index);
 	void draw();
-	bool getWithinBoundingBox();
+	bool getWithinBoundingBox(int offsetx, int offsety);
+	const int getIndex() const;
 protected:
+	int index;
 	irr::core::stringc texture;
 	irr::core::vector2di position;
 	E_TURRET_CLASS type;
@@ -30,10 +32,13 @@ public:
 	void run();
 	void equipWeapons();
 protected:
+	Fleet* fleet;
 	int currentSelected;
+	int currentSelectedSlot;
 	irr::gui::IGUIWindow *window;
 	irr::gui::IGUIListBox *shipsInFleet;
 	irr::gui::IGUIImage *shipImage;
+	irr::gui::IGUIButton *closeButton;
 	irr::video::ITexture *rt;
 	irr::scene::ICameraSceneNode *shipCamera;
 	

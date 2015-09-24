@@ -13,8 +13,8 @@ using namespace scene;
 const vector3df cameraPosition = vector3df(0,200,0);
 const video::SColor renderColor = video::SColor(128,100,120,140);
 
-WeaponSlot::WeaponSlot(E_TURRET_CLASS type, irr::core::vector2di position) :
-	type(type), position(position)
+WeaponSlot::WeaponSlot(E_TURRET_CLASS type, irr::core::vector2di position, int index) :
+	type(type), position(position), index(index)
 {
 }
 
@@ -37,23 +37,29 @@ void WeaponSlot::draw()
 
 }
 
-bool WeaponSlot::getWithinBoundingBox()
+bool WeaponSlot::getWithinBoundingBox(int offsetx, int offsety)
 {
 	int x = receiver->getMouseX();
 	int y = receiver->getMouseY();
 	//make sure the mouse is within the slot
-	return ((x > position.X - 16 ) && (x < position.X + 16) && (y > position.Y - 16) && (y < position.Y + 16));
+	return ((x > position.X - 16 + offsetx ) && (x < position.X + 16 + offsetx) && (y > position.Y - 16 + offsety) && (y < position.Y + 16 + offsety));
+}
+
+const int WeaponSlot::getIndex() const
+{
+	return index;
 }
 
 
-RearmMenu::RearmMenu() : currentSelected(-1)
+RearmMenu::RearmMenu() : currentSelected(-1), currentSelectedSlot(-1)
 {
 	//make important stuff
 	//do render to texture
 	window = guienv->addWindow(rect<s32>(width/2-400,height/2-300,width/2+400,height/2+300), false, L"Rearm");
-	availableWeapons = guienv->addListBox(rect<s32>(10,410,100,600),window);
-	shipsInFleet = guienv->addListBox(rect<s32>(10,40,60,400),window);
-	shipImage = guienv->addImage(rect<s32>(70,20,600,400), window,-1,L"",false);
+	availableWeapons = guienv->addListBox(rect<s32>(10,410,400,600),window);
+	shipsInFleet = guienv->addListBox(rect<s32>(10,20,100,400),window);
+	shipImage = guienv->addImage(rect<s32>(110,20,700,400), window,-1,L"",false);
+	closeButton = guienv->addButton(rect<s32>(700,400,790,420), window, -1, L"Close");
 	//render to texture 
 	rt = vdriver->addRenderTargetTexture(core::dimension2d<u32>(base::width/2,base::height/2), "ShipRTT");
 	shipCamera = scenemngr->addCameraSceneNode(0,cameraPosition,vector3df(0,0,0),-1,false);
@@ -83,21 +89,27 @@ void RearmMenu::reloadShip(Ship *ship)
 		vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(ship->getTurrets(TURRET_MEDIUM)[i]->getPosition());
 		t.X -= 16;
 		t.Y -= 16;
-		weaponImages.push_back(WeaponSlot(TURRET_HEAVY,t));
+		weaponImages.push_back(WeaponSlot(TURRET_HEAVY,t, i));
 	}
 	for(unsigned i = 0; i < ship->getTurrets(TURRET_MEDIUM).size(); i++)
 	{
 		vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(ship->getTurrets(TURRET_MEDIUM)[i]->getPosition());
 		t.X -= 16;
 		t.Y -= 16;
-		weaponImages.push_back(WeaponSlot(TURRET_MEDIUM,t));
+		weaponImages.push_back(WeaponSlot(TURRET_MEDIUM,t, i));
 	}
 	for(unsigned i = 0; i < ship->getTurrets(TURRET_LIGHT).size(); i++)
 	{
 		vector2di t = scenemngr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(ship->getTurrets(TURRET_LIGHT)[i]->getPosition());
 		t.X -= 16;
 		t.Y -= 16;
-		weaponImages.push_back(WeaponSlot(TURRET_LIGHT,t));
+		weaponImages.push_back(WeaponSlot(TURRET_LIGHT,t, i));
+	}
+	
+	std::vector<ObjectManager::E_ITEM_LIST> weaponsList = ship->getInventory().getMediumWeapons();
+	for(unsigned i = 0, size = weaponsList.size(); i < size; i++)
+	{
+		availableWeapons->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
 	}
 }
 
@@ -109,8 +121,9 @@ void RearmMenu::run()
 	//this is gunna be a right bitch
 	//temporarily swap the cameras
 	//THIS MUST BE RUN BEFORE POSTPROCESSING CALLS
-	
-	if(rt && (shipsInFleet->getSelected() != -1))
+	if(closeButton->isPressed())
+		window->setVisible(false);
+	if(rt && (shipsInFleet->getSelected() != -1) && window->isVisible())
 	{
 		//how do we run this before the render calls?
 
@@ -138,16 +151,18 @@ void RearmMenu::run()
 		// The buffer might have been distorted, so clear it
 		for(int i = 0; i < weaponImages.size(); i++)
 		{
+			//ghetto way of handling mouse input is to send the position of the texture to the weaponslot then we can offset it
 			weaponImages[i].draw();
-			if(weaponImages[i].getWithinBoundingBox() && (receiver->isKeyPressed(irr::KEY_LBUTTON)))
+			if(weaponImages[i].getWithinBoundingBox(shipImage->getAbsolutePosition().UpperLeftCorner.X,shipImage->getAbsolutePosition().UpperLeftCorner.Y) && 
+				(receiver->isKeyPressed(irr::KEY_LBUTTON)))
 			{
 				//pressed a button
 				//load the weapon
-				std::cout << "Icon clicked!" << std::endl;
+				currentSelectedSlot = i;
+				std::cout << weaponImages[i].getIndex() << std::endl;
 			}
 		}
 
-		std::vector<ObjectManager::E_ITEM_LIST> weaponsList = player->getInventory().getMediumWeapons();
 		vdriver->setRenderTarget(0, true, true, 0);
 		//could we draw the render here?
 
@@ -156,6 +171,22 @@ void RearmMenu::run()
 		
 		//vdriver->draw2DImage(rt, rect<s32>(0,0,base::width/2,base::height/2), rect<s32>(0,0,512,512));
 		shipImage->setImage(rt);
+
+		//do weapon selection code here
+		equipWeapons();
 	}
 }
 
+void RearmMenu::equipWeapons()
+{
+	int selected = availableWeapons->getSelected();
+	if(currentSelectedSlot != -1)
+	{
+		//means the player has currently selected a slot
+		//if the player seelcts a weapon just switch it i guess
+		if(selected != -1)
+		{
+			Ship::allShips[0]->setMediumTurret(ObjectManager::PHOTONI,currentSelectedSlot);
+		}
+	}
+}
