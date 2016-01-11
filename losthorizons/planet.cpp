@@ -61,8 +61,8 @@ const E_TARGETABLEOBJECT_TYPE Planet::getTargetableObjectType() const
 void Planet::enablePlanetShader()
 {
 	PlanetCallback *bp = new PlanetCallback;
-	s32 shadermat1 = vdriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/planet.hlsl", "VertexShaderFunction", video::EVST_VS_3_0,
-		"shaders/planet.hlsl", "PixelShaderFunction", video::EPST_PS_3_0, bp, video::EMT_SOLID, (s32)mesh);
+	s32 shadermat1 = vdriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/fresnel.hlsl", "VertexShaderFunction", video::EVST_VS_3_0,
+		"shaders/fresnel.hlsl", "PixelShaderFunction", video::EPST_PS_3_0, bp, video::EMT_SOLID, (s32)mesh);
 	mesh->setMaterialType((video::E_MATERIAL_TYPE)shadermat1);
 
 	bp->drop();

@@ -187,6 +187,8 @@ void RearmMenu::equipWeapons()
 		if(selected != -1)
 		{
 			Ship::allShips[0]->setMediumTurret(ObjectManager::PHOTONI,currentSelectedSlot);
+			currentSelectedSlot = -1;
+			availableWeapons->clear();
 		}
 	}
 }

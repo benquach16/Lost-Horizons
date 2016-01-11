@@ -29,6 +29,7 @@ public:
 
 	void loadFleet(const Fleet* fleet);
 	void reloadShip(Ship *ship);
+	void reloadWeapons(Ship* ship);
 	void run();
 	void equipWeapons();
 protected:
