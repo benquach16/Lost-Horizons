@@ -4,6 +4,7 @@
 #include <irrlicht.h>
 #include "fleet.h"
 #include "turretproperties.h"
+#include "objectmanager.h"
 
 //we're going to use a slots system to let players choose what weapon goes in whichever slot
 class WeaponSlot
@@ -45,6 +46,7 @@ protected:
 	
 	//irr::gui::IGUiTreeView *equipmentTree;
 	irr::gui::IGUIListBox *availableWeapons;
+	std::vector<ObjectManager::E_ITEM_LIST> availableWeaponsPair; // in sync with the list box
 	irr::gui::IGUIStaticText *description;
 	std::vector<WeaponSlot> weaponImages;
 };

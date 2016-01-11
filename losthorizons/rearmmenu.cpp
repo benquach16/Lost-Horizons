@@ -107,9 +107,12 @@ void RearmMenu::reloadShip(Ship *ship)
 	}
 	
 	std::vector<ObjectManager::E_ITEM_LIST> weaponsList = ship->getInventory().getMediumWeapons();
+	availableWeapons->clear();
+	availableWeaponsPair.clear();
 	for(unsigned i = 0, size = weaponsList.size(); i < size; i++)
 	{
 		availableWeapons->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
+		availableWeaponsPair.push_back(weaponsList[i]);
 	}
 }
 
@@ -132,7 +135,7 @@ void RearmMenu::run()
 
 		
 		scenemngr->setActiveCamera(shipCamera);
-
+		shipCamera->setPosition(Ship::allShips[0]->getPosition() + vector3df(0,200,0));
 		//draaw what we want to draw here
 		//scenemngr->drawAll();
 		
@@ -186,9 +189,17 @@ void RearmMenu::equipWeapons()
 		//if the player seelcts a weapon just switch it i guess
 		if(selected != -1)
 		{
-			Ship::allShips[0]->setMediumTurret(ObjectManager::PHOTONI,currentSelectedSlot);
+			//get weapon from selected slot
+			//add previous weapon into inventory as well
+			
+			//icky!!!
+			ObjectManager::E_ITEM_LIST equippedTurret = Ship::allShips[0]->getTurrets(TURRET_MEDIUM)[currentSelectedSlot]->getTurretType();
+			Ship::allShips[0]->setMediumTurret(availableWeaponsPair[selected],currentSelectedSlot);
+			Ship::allShips[0]->getInventory().addItem(equippedTurret);
+			Ship::allShips[0]->getInventory().removeItem(availableWeaponsPair[selected]);
 			currentSelectedSlot = -1;
-			availableWeapons->clear();
+
+			currentSelected = -1;
 		}
 	}
 }
