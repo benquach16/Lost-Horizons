@@ -50,6 +50,11 @@ const int WeaponSlot::getIndex() const
 	return index;
 }
 
+E_TURRET_CLASS WeaponSlot::getType() const
+{
+	return type;
+}
+
 
 RearmMenu::RearmMenu() : currentSelected(-1), currentSelectedSlot(-1)
 {
@@ -60,11 +65,12 @@ RearmMenu::RearmMenu() : currentSelected(-1), currentSelectedSlot(-1)
 	shipsInFleet = guienv->addListBox(rect<s32>(10,20,100,400),window);
 	shipImage = guienv->addImage(rect<s32>(110,20,700,400), window,-1,L"",false);
 	closeButton = guienv->addButton(rect<s32>(700,400,790,420), window, -1, L"Close");
+	applyButton = guienv->addButton(rect<s32>(600, 400, 690, 420), window, -1, L"Accept");
 	//render to texture 
 	rt = vdriver->addRenderTargetTexture(core::dimension2d<u32>(base::width/2,base::height/2), "ShipRTT");
 	shipCamera = scenemngr->addCameraSceneNode(0,cameraPosition,vector3df(0,0,0),-1,false);
-
-	
+	weaponTitle = guienv->addStaticText(L"", rect<s32>(410, 430, 790, 450), true, true, window);
+	description = guienv->addStaticText(L"", rect<s32>(410,460, 790, 600),true, true, window);
 }
 
 RearmMenu::~RearmMenu()
@@ -106,14 +112,11 @@ void RearmMenu::reloadShip(Ship *ship)
 		weaponImages.push_back(WeaponSlot(TURRET_LIGHT,t, i));
 	}
 	
-	std::vector<ObjectManager::E_ITEM_LIST> weaponsList = ship->getInventory().getMediumWeapons();
 	availableWeapons->clear();
 	availableWeaponsPair.clear();
-	for(unsigned i = 0, size = weaponsList.size(); i < size; i++)
-	{
-		availableWeapons->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
-		availableWeaponsPair.push_back(weaponsList[i]);
-	}
+	weaponTitle->setText(L"");
+	description->setText(L"");
+
 }
 
 void RearmMenu::run()
@@ -156,12 +159,13 @@ void RearmMenu::run()
 		{
 			//ghetto way of handling mouse input is to send the position of the texture to the weaponslot then we can offset it
 			weaponImages[i].draw();
-			if(weaponImages[i].getWithinBoundingBox(shipImage->getAbsolutePosition().UpperLeftCorner.X,shipImage->getAbsolutePosition().UpperLeftCorner.Y) && 
+			if(weaponImages[i].getWithinBoundingBox(shipImage->getAbsolutePosition().UpperLeftCorner.X + 16,shipImage->getAbsolutePosition().UpperLeftCorner.Y +16) && 
 				(receiver->isKeyPressed(irr::KEY_LBUTTON)))
 			{
 				//pressed a button
 				//load the weapon
-				currentSelectedSlot = i;
+				currentSelectedSlot = weaponImages[i].getIndex();
+				selectedWeaponClass = weaponImages[i].getType();
 				std::cout << weaponImages[i].getIndex() << std::endl;
 			}
 		}
@@ -187,19 +191,54 @@ void RearmMenu::equipWeapons()
 	{
 		//means the player has currently selected a slot
 		//if the player seelcts a weapon just switch it i guess
-		if(selected != -1)
+		E_TURRET_CLASS currentWeaponClass = weaponImages[currentSelectedSlot].getType();
+		ObjectManager::E_ITEM_LIST equippedTurret = Ship::allShips[0]->getTurrets(currentWeaponClass)[currentSelectedSlot]->getTurretType();
+		
+
+		//if we have a selected slot display the weapon description in the slot
+		weaponTitle->setText(ObjectManager::itemList[equippedTurret]->getName());
+		description->setText(ObjectManager::itemList[equippedTurret]->getDesc());
+		//make sure we load the avilalbe weapons with the relevant weapons
+		if(!availableWeaponsPair.size())
+		{
+			std::vector<ObjectManager::E_ITEM_LIST> weaponsList = Ship::allShips[0]->getInventory().getMediumWeapons();
+			if(currentWeaponClass == TURRET_MEDIUM)
+			{
+				weaponsList = Ship::allShips[0]->getInventory().getMediumWeapons();
+			}
+			else if(currentWeaponClass == TURRET_LIGHT)
+			{
+				weaponsList = Ship::allShips[0]->getInventory().getLightWeapons();
+			}
+			for(unsigned i = 0, size = weaponsList.size(); i < size; i++)
+			{
+				availableWeapons->addItem(ObjectManager::itemList[weaponsList[i]]->getName());
+				availableWeaponsPair.push_back(weaponsList[i]);
+			}
+		}
+		//LOL
+		//this code
+		if(selected != -1 && applyButton->isPressed())
 		{
 			//get weapon from selected slot
 			//add previous weapon into inventory as well
 			
 			//icky!!!
-			ObjectManager::E_ITEM_LIST equippedTurret = Ship::allShips[0]->getTurrets(TURRET_MEDIUM)[currentSelectedSlot]->getTurretType();
-			Ship::allShips[0]->setMediumTurret(availableWeaponsPair[selected],currentSelectedSlot);
+			if(currentWeaponClass == TURRET_MEDIUM)
+			{
+				Ship::allShips[0]->setMediumTurret(availableWeaponsPair[selected],currentSelectedSlot);
+			}
+			else if(currentWeaponClass == TURRET_LIGHT)
+			{
+				Ship::allShips[0]->setLightTurret(availableWeaponsPair[selected],currentSelectedSlot);
+			}
 			Ship::allShips[0]->getInventory().addItem(equippedTurret);
 			Ship::allShips[0]->getInventory().removeItem(availableWeaponsPair[selected]);
 			currentSelectedSlot = -1;
 
 			currentSelected = -1;
+			
 		}
+
 	}
 }
