@@ -70,7 +70,7 @@ RearmMenu::RearmMenu() : currentSelected(-1), currentSelectedSlot(-1)
 	rt = vdriver->addRenderTargetTexture(core::dimension2d<u32>(base::width/2,base::height/2), "ShipRTT");
 	shipCamera = scenemngr->addCameraSceneNode(0,cameraPosition,vector3df(0,0,0),-1,false);
 	weaponTitle = guienv->addStaticText(L"", rect<s32>(410, 430, 790, 450), true, true, window);
-	description = guienv->addStaticText(L"", rect<s32>(410,460, 790, 600),true, true, window);
+	description = guienv->addStaticText(L"", rect<s32>(410,460, 790, 590),true, true, window);
 }
 
 RearmMenu::~RearmMenu()
@@ -191,7 +191,7 @@ void RearmMenu::equipWeapons()
 	{
 		//means the player has currently selected a slot
 		//if the player seelcts a weapon just switch it i guess
-		E_TURRET_CLASS currentWeaponClass = weaponImages[currentSelectedSlot].getType();
+		E_TURRET_CLASS currentWeaponClass = selectedWeaponClass;
 		ObjectManager::E_ITEM_LIST equippedTurret = Ship::allShips[0]->getTurrets(currentWeaponClass)[currentSelectedSlot]->getTurretType();
 		
 
