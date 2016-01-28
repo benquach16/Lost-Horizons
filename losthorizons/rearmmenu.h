@@ -37,9 +37,10 @@ public:
 	void run();
 	//this refreshes the weapon positions on the RTT
 	void equipWeapons();
+	void renderOneFrame();
 protected:
 	Ship* getSelectedShip();
-	Fleet* fleet;
+	const Fleet* fleet;
 	int currentSelected;
 	int currentSelectedSlot;
 	irr::gui::IGUIWindow *window;

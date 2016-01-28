@@ -81,9 +81,10 @@ RearmMenu::~RearmMenu()
 void RearmMenu::loadFleet(const Fleet* fleet)
 {
 	//load the ships
+	this->fleet = fleet;
 	for(unsigned i = 0; i < fleet->size(); i++)
 	{
-		shipsInFleet->addItem(L"1");
+		shipsInFleet->addItem(fleet->getShipsInFleet()[i]->getName());
 	}
 }
 
@@ -123,16 +124,35 @@ void RearmMenu::run()
 {
 	//make sure we stop running once the window is closed
 	
-	Ship *player = Ship::allShips[0];
 	//this is gunna be a right bitch
 	//temporarily swap the cameras
 	//THIS MUST BE RUN BEFORE POSTPROCESSING CALLS
 	if(closeButton->isPressed())
 		window->setVisible(false);
-	if(rt && (shipsInFleet->getSelected() != -1) && window->isVisible())
+	int selected = shipsInFleet->getSelected();
+	if(rt && (selected != -1) && window->isVisible())
+	{
+		
+		//draw boxes aroundthe ship turret slots
+		// set back old render target
+		// The buffer might have been distorted, so clear it
+		renderOneFrame();
+
+
+
+		//do weapon selection code here
+		equipWeapons();
+	}
+}
+
+void RearmMenu::renderOneFrame()
+{
+	//Render one image into texture so that we don't hog FPS with constant render to texture calls
+	int selected = shipsInFleet->getSelected();
+	if(rt && selected != -1)
 	{
 		//how do we run this before the render calls?
-
+		Ship* selectedShip = fleet->getShipsInFleet()[selected];
 		ICameraSceneNode *cam = scenemngr->getActiveCamera();
 		vdriver->setRenderTarget(rt, true, true, renderColor);
 
@@ -144,17 +164,14 @@ void RearmMenu::run()
 		
 		//Ship::allShips[0]->getMesh()->render();
 		scenemngr->getActiveCamera()->render();
-		Ship::allShips[0]->getMesh()->render();
+		selectedShip->getMesh()->render();
 
 		//swap code
 		if(currentSelected != shipsInFleet->getSelected())
 		{
 			currentSelected = shipsInFleet->getSelected();
-			reloadShip(Ship::allShips[0]);
+			reloadShip(selectedShip);
 		}
-		//draw boxes aroundthe ship turret slots
-		// set back old render target
-		// The buffer might have been distorted, so clear it
 		for(int i = 0; i < weaponImages.size(); i++)
 		{
 			//ghetto way of handling mouse input is to send the position of the texture to the weaponslot then we can offset it
@@ -170,6 +187,7 @@ void RearmMenu::run()
 			}
 		}
 
+
 		vdriver->setRenderTarget(0, true, true, 0);
 		//could we draw the render here?
 
@@ -178,9 +196,6 @@ void RearmMenu::run()
 		
 		//vdriver->draw2DImage(rt, rect<s32>(0,0,base::width/2,base::height/2), rect<s32>(0,0,512,512));
 		shipImage->setImage(rt);
-
-		//do weapon selection code here
-		equipWeapons();
 	}
 }
 
