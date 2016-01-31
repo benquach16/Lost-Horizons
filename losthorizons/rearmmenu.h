@@ -39,6 +39,7 @@ public:
 	void equipWeapons();
 	void renderOneFrame();
 protected:
+	bool renderFrame;
 	Ship* getSelectedShip();
 	const Fleet* fleet;
 	int currentSelected;

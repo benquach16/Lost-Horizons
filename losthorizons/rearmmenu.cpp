@@ -58,6 +58,7 @@ E_TURRET_CLASS WeaponSlot::getType() const
 
 RearmMenu::RearmMenu() : currentSelected(-1), currentSelectedSlot(-1)
 {
+	renderFrame = false;
 	//make important stuff
 	//do render to texture
 	window = guienv->addWindow(rect<s32>(width/2-400,height/2-300,width/2+400,height/2+300), false, L"Rearm");
@@ -119,7 +120,6 @@ void RearmMenu::reloadShip(Ship *ship)
 	description->setText(L"");
 
 }
-
 void RearmMenu::run()
 {
 	//make sure we stop running once the window is closed
@@ -132,14 +132,31 @@ void RearmMenu::run()
 	int selected = shipsInFleet->getSelected();
 	if(rt && (selected != -1) && window->isVisible())
 	{
-		
+
 		//draw boxes aroundthe ship turret slots
 		// set back old render target
 		// The buffer might have been distorted, so clear it
-		renderOneFrame();
+		if(!renderFrame)
+		{
+			renderOneFrame();
+			renderFrame = true;
+		}
+		//swap code
+		
 
-
-
+		for(int i = 0; i < weaponImages.size(); i++)
+		{
+			//ghetto way of handling mouse input is to send the position of the texture to the weaponslot then we can offset it
+			if(weaponImages[i].getWithinBoundingBox(shipImage->getAbsolutePosition().UpperLeftCorner.X + 16,shipImage->getAbsolutePosition().UpperLeftCorner.Y +16) && 
+				(receiver->isKeyPressed(irr::KEY_LBUTTON)))
+			{
+				//pressed a button
+				//load the weapon
+				currentSelectedSlot = weaponImages[i].getIndex();
+				selectedWeaponClass = weaponImages[i].getType();
+				std::cout << weaponImages[i].getIndex() << std::endl;
+			}
+		}
 		//do weapon selection code here
 		equipWeapons();
 	}
@@ -165,26 +182,16 @@ void RearmMenu::renderOneFrame()
 		//Ship::allShips[0]->getMesh()->render();
 		scenemngr->getActiveCamera()->render();
 		selectedShip->getMesh()->render();
-
-		//swap code
 		if(currentSelected != shipsInFleet->getSelected())
 		{
 			currentSelected = shipsInFleet->getSelected();
 			reloadShip(selectedShip);
 		}
+
 		for(int i = 0; i < weaponImages.size(); i++)
 		{
 			//ghetto way of handling mouse input is to send the position of the texture to the weaponslot then we can offset it
 			weaponImages[i].draw();
-			if(weaponImages[i].getWithinBoundingBox(shipImage->getAbsolutePosition().UpperLeftCorner.X + 16,shipImage->getAbsolutePosition().UpperLeftCorner.Y +16) && 
-				(receiver->isKeyPressed(irr::KEY_LBUTTON)))
-			{
-				//pressed a button
-				//load the weapon
-				currentSelectedSlot = weaponImages[i].getIndex();
-				selectedWeaponClass = weaponImages[i].getType();
-				std::cout << weaponImages[i].getIndex() << std::endl;
-			}
 		}
 
 
@@ -252,6 +259,7 @@ void RearmMenu::equipWeapons()
 			currentSelectedSlot = -1;
 
 			currentSelected = -1;
+			renderFrame = false;
 			
 		}
 
