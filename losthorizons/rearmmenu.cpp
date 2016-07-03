@@ -144,7 +144,7 @@ void RearmMenu::run()
 		//swap code
 		
 
-		for(int i = 0; i < weaponImages.size(); i++)
+		for(unsigned i = 0; i < weaponImages.size(); i++)
 		{
 			//ghetto way of handling mouse input is to send the position of the texture to the weaponslot then we can offset it
 			if(weaponImages[i].getWithinBoundingBox(shipImage->getAbsolutePosition().UpperLeftCorner.X + 16,shipImage->getAbsolutePosition().UpperLeftCorner.Y +16) && 
